@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fortline Global — Europe</title>
+<style>
+@font-face {
+  font-family: 'Inter';
+  src: url('fonts/InterVariable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('fonts/InterVariable-Italic.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:      #09141F;
+  --navy-mid:  #0F1E2E;
+  --blue:      #1A56C4;
+  --blue-dim:  rgba(26,86,196,0.28);
+  --blue-bg:   rgba(26,86,196,0.06);
+  --gold:      #C8A84B;
+  --gold-dim:  rgba(200,168,75,0.30);
+  --gold-bg:   rgba(200,168,75,0.06);
+  --white:     #FFFFFF;
+  --gray:      #7A92A8;
+  --gray-light:#B4C6D6;
+}
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #060E18;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 40px 20px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── A4 PAGE ── */
+.page {
+  width: 794px;
+  min-height: 1123px;
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+}
+.page::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(to right, var(--blue) 50%, var(--gold) 50%);
+  z-index: 2;
+}
+
+/* ── HEADER ── */
+.header {
+  padding: 26px 48px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: var(--navy-mid);
+  flex-shrink: 0;
+}
+.logo-row { display: flex; align-items: center; gap: 10px; }
+.logo-row img { height: 28px; width: auto; object-fit: contain; }
+.logo-name { font-size: 13px; font-weight: 700; color: var(--white); letter-spacing: 0.05em; text-transform: uppercase; }
+.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.recipient-label { font-size: 8px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--blue); }
+.recipient-name { font-size: 12.5px; font-weight: 700; color: var(--white); }
+.flag-group { display: flex; align-items: center; gap: 7px; }
+.flag-item { display: flex; align-items: center; gap: 4px; }
+.flag-item svg, .flag-item img { height: 13px; border: 1px solid rgba(255,255,255,0.15); display: block; }
+.flag-item span { font-size: 8px; font-weight: 600; color: var(--gray); letter-spacing: 0.05em; }
+.flag-divider { width: 1px; height: 13px; background: rgba(255,255,255,0.12); }
+
+/* ── HERO ── */
+.hero {
+  padding: 26px 48px 20px;
+  background: linear-gradient(135deg, #0C1E35 0%, #060E18 100%);
+  border-bottom: 2px solid var(--blue-dim);
+  flex-shrink: 0;
+  position: relative; overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute; top: -80px; right: -80px;
+  width: 320px; height: 320px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(26,86,196,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.eyebrow { font-size: 8px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.eyebrow::before { content: ''; width: 14px; height: 1.5px; background: var(--blue); flex-shrink: 0; }
+.hero h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; color: var(--white); margin-bottom: 10px; }
+.hero h1 .accent { color: var(--blue); }
+.hero-sub { font-size: 11px; color: var(--gray); line-height: 1.6; max-width: 590px; }
+
+/* ── URGENCY STRIP ── */
+.urgency-strip {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+.urgency-item { padding: 9px 16px; border-right: 1px solid rgba(255,255,255,0.06); display: flex; flex-direction: column; gap: 2px; }
+.urgency-item:last-child { border-right: none; }
+.urgency-value { font-size: 12px; font-weight: 900; color: var(--gold); letter-spacing: -0.02em; line-height: 1.1; }
+.urgency-label { font-size: 8px; color: var(--gray); line-height: 1.35; margin-top: 2px; }
+
+/* ── BODY GRID ── */
+.body-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  flex: 1;
+  min-height: 0;
+}
+.col-left { border-right: 1px solid rgba(255,255,255,0.06); display: flex; flex-direction: column; }
+.col-right { display: flex; flex-direction: column; }
+
+/* ── BLOCKS ── */
+.block { padding: 15px 22px 13px 48px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.block-right { padding: 15px 48px 13px 22px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.block:last-child, .block-right:last-child { border-bottom: none; }
+
+.block-title { font-size: 8px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--blue); margin-bottom: 9px; display: flex; align-items: center; gap: 7px; }
+.block-title::before { content: ''; width: 12px; height: 1.5px; background: var(--blue); flex-shrink: 0; }
+
+/* ── INSIGHT ── */
+.insight { font-size: 12px; font-weight: 700; color: var(--white); line-height: 1.45; padding-left: 13px; border-left: 2.5px solid var(--blue); }
+.insight-body { font-size: 9.5px; color: var(--gray); line-height: 1.55; margin-top: 9px; }
+
+/* ── OFFER LIST ── */
+.offer-list { display: flex; flex-direction: column; gap: 9px; }
+.offer-item { display: grid; grid-template-columns: 18px 1fr; gap: 9px; align-items: baseline; }
+.offer-num { font-size: 8px; font-weight: 800; color: var(--blue); letter-spacing: 0.06em; padding-top: 2px; }
+.offer-title { font-size: 10px; font-weight: 700; color: var(--white); line-height: 1.2; margin-bottom: 2px; }
+.offer-desc { font-size: 9px; color: var(--gray); line-height: 1.45; }
+
+/* ── POLYMER BOX ── */
+.polymer-box { margin-top: 3px; background: var(--blue-bg); border: 1px solid var(--blue-dim); padding: 7px 9px; }
+.polymer-label { font-size: 7px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blue); margin-bottom: 3px; }
+.polymer-text { font-size: 8.5px; color: var(--gray-light); line-height: 1.5; }
+
+/* ── SECTORS ── */
+.sectors-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.sector-chip { background: var(--navy-mid); border: 1px solid rgba(255,255,255,0.07); padding: 7px 8px; }
+.sector-chip.hi { border-color: var(--blue-dim); background: var(--blue-bg); }
+.sector-chip.hi-gold { border-color: var(--gold-dim); background: var(--gold-bg); }
+.sector-chip-label { font-size: 7px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 2px; }
+.sector-chip-label.gold { color: var(--gold); }
+.sector-chip-name { font-size: 9.5px; font-weight: 700; color: var(--white); line-height: 1.2; margin-bottom: 1px; }
+.sector-chip-items { font-size: 8px; color: var(--gray); line-height: 1.4; }
+
+/* ── PHASES ── */
+.phases-col { display: flex; flex-direction: column; }
+.phase-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.phase-row:last-child { border-bottom: none; }
+.phase-circle { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--blue-dim); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.phase-circle.active { background: var(--blue); border-color: var(--blue); }
+.phase-circle-num { font-size: 8px; font-weight: 800; color: var(--blue); }
+.phase-circle.active .phase-circle-num { color: var(--white); }
+.phase-name { font-size: 10px; font-weight: 800; color: var(--white); margin-bottom: 2px; }
+.phase-desc { font-size: 9px; color: var(--gray); line-height: 1.45; }
+
+/* ── DOCTRINE ── */
+.doctrine-list { display: flex; flex-direction: column; gap: 5px; margin-top: 9px; }
+.doctrine-row { display: flex; align-items: center; gap: 7px; font-size: 9px; color: var(--white); font-weight: 500; }
+.doctrine-dot { width: 4px; height: 4px; background: var(--blue); flex-shrink: 0; }
+
+/* ── CREDENTIALS ── */
+.cred-list { display: flex; flex-direction: column; gap: 5px; }
+.cred-row { display: flex; align-items: flex-start; gap: 8px; padding: 6px 9px; border: 1px solid rgba(255,255,255,0.07); background: var(--navy-mid); }
+.cred-row.hi { background: var(--blue-bg); border-color: var(--blue-dim); }
+.cred-tag { font-size: 7.5px; font-weight: 800; color: var(--blue); letter-spacing: 0.07em; min-width: 50px; padding-top: 1px; line-height: 1.3; }
+.cred-body { font-size: 9px; color: var(--gray); line-height: 1.4; }
+.cred-body.light { color: var(--gray-light); }
+
+/* ── STATS STRIP ── */
+.stats-strip { display: grid; grid-template-columns: repeat(4,1fr); border-top: 1px solid rgba(255,255,255,0.06); background: var(--navy-mid); flex-shrink: 0; }
+.stat-item { padding: 12px 14px; display: flex; flex-direction: column; gap: 3px; border-right: 1px solid rgba(255,255,255,0.06); }
+.stat-item:last-child { border-right: none; }
+.stat-value { font-size: 14px; font-weight: 900; color: var(--blue); letter-spacing: -0.03em; line-height: 1; }
+.stat-value.gold { color: var(--gold); }
+.stat-label { font-size: 8px; font-weight: 500; color: var(--gray); line-height: 1.3; }
+
+/* ── FOOTER ── */
+.footer { padding: 14px 48px; background: rgba(26,86,196,0.04); border-top: 1px solid var(--blue-dim); display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-shrink: 0; }
+.footer-cta { font-size: 10px; font-weight: 600; color: var(--white); line-height: 1.5; }
+.footer-cta span { color: var(--blue); }
+.footer-contact { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.footer-contact .web { font-size: 8.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); }
+.footer-contact span { font-size: 9px; color: var(--gray); }
+
+@media print {
+  body { background: none; padding: 0; }
+  .page { box-shadow: none; width: 100%; min-height: auto; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-row">
+      <img src="data:image/png;base64,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cmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6ZXhpZj0iaHR0cDovL25zLmFkb2JlLmNvbS9leGlmLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIj4KICAgICAgICAgPGV4aWY6Q29sb3JTcGFjZT4xPC9leGlmOkNvbG9yU3BhY2U+CiAgICAgICAgIDxleGlmOlBpeGVsWERpbWVuc2lvbj4xMDg8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpTY2VuZUNhcHR1cmVUeXBlPjA8L2V4aWY6U2NlbmVDYXB0dXJlVHlwZT4KICAgICAgICAgPGV4aWY6RXhpZlZlcnNpb24+MDIyMTwvZXhpZjpFeGlmVmVyc2lvbj4KICAgICAgICAgPGV4aWY6Rmxhc2hQaXhWZXJzaW9uPjAxMDA8L2V4aWY6Rmxhc2hQaXhWZXJzaW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFlEaW1lbnNpb24+MTE2PC9leGlmOlBpeGVsWURpbWVuc2lvbj4KICAgICAgICAgPGV4aWY6Q29tcG9uZW50c0NvbmZpZ3VyYXRpb24+CiAgICAgICAgICAgIDxyZGY6U2VxPgogICAgICAgICAgICAgICA8cmRmOmxpPjE8L3JkZjpsaT4KICAgICAgICAgICAgICAgPHJkZjpsaT4yPC9yZGY6bGk+CiAgICAgICAgICAgICAgIDxyZGY6bGk+MzwvcmRmOmxpPgogICAgICAgICAgICAgICA8cmRmOmxpPjA8L3JkZjpsaT4KICAgICAgICAgICAgPC9yZGY6U2VxPgogICAgICAgICA8L2V4aWY6Q29tcG9uZW50c0NvbmZpZ3VyYXRpb24+CiAgICAgICAgIDxleGlmOlVzZXJDb21tZW50PlNjcmVlbnNob3Q8L2V4aWY6VXNlckNvbW1lbnQ+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAgICAgIDx0aWZmOlhSZXNvbHV0aW9uPjE0NDwvdGlmZjpYUmVzb2x1dGlvbj4KICAgICAgICAgPHRpZmY6WVJlc29sdXRpb24+MTQ0PC90aWZmOllSZXNvbHV0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KTMa6igAAJodJREFUeAHtfQl8FFW296nqPXvCIltIQhISEkiQLUBIQtgRQVwAmVHU5zg6PrfxOW/8Od/7BmdGPx113jdvnBF1HB3GDdwRFELIvpCFwRCyE7JBCATI0t1Jd1dX1fvfThoDg0lX0sHgLxfyq+6uunXPPefec892zyUaLaMYGMXAKAZGMTCKgVEMjGJgFAOjGBjFwCgGRjEwioFRDIxiYBQDoxgYxcAoBgbGADfwI9fnEzmN8qRD6c1PNzQ20srkhS9sXcI1X589uRzqHxzBcmrlqelZ9a+XN5jW2MmDZFkmNXWTj6p9/4pF0Q9uXhnQeDkKrq9vPxiC5VXJkzMKTr1R2dB5k8mmJeJ1JPNqEkWRtCqeSLKSjrpobXL0Xq144aHNy8eevr5I1QPtdU+wTlkesy+t80+peTVbO6wG4rQBJEoc8WQljuyOXrI5Zpe0pAbdOHs7eWtMtHpJ5Adrl3k96sNxF64nwl23BDsny15pGabf7ckofVxQBZBEniRLalKRTLxkJoOqk+IWzHTMsG9KasjY7UES50EiB2LyIvGyGTPPSCsTZvxx7VLP/zOe40zXA+GuO4JhTdIeaaLHUtLrXqpqNJKR/MhiV5OO50gldpFGMtL04ABKWDR118Rx9ETUODpfcYFuzimwv5tTWOlp47xIAHO02EUy6Ii0cjtpxIu0ZtncX9yZ6Pk/HMfZRjLhrhuCgVCqw/V0x8GMs/8orz2vEXkgXsZ8UmkwoyzkpTZRyEQ9LVsSuh+E+knEWO6yNSpdltWTLtDW7CLrW5kFNRo2KwUQmrfbSauWyWbvIG+DTVgZH3b3nUu9PgbhxJFIuBFPMBCKK6ymJQdzqj+tbjSOtXFjQSiwNpkjNRCtIRMFTfSgpXE3HAkPoq2hvlxNf4iuqZF1+Q3dj1fWGV882dCOtc6LbCANr9eSaO8kT7DJ1Utjz0dOpdvmhFAOCCf3975rfW9EEwzrVPi+1K5PcorrZ7V3YSZpvMkmCMSEPl4WSM+ZKSlualPCYt/bInzpiBLkVrbK3oVHTb9Pz61+SOL9yGyRSGPwIrssgXBdZFDbaE1SVOnqJLod61u/g+BaEm1EEgyS39jyWnrz4OGGjcdrjSQCoYKoJpJF0qu6SS13UciUMebkhZM3LYuiAyCUNFiklZnkCbnZ1ncKCstWmwUt2dV+ZIPwosao4AWwSf4i3bxs9ucrk3Q/GQkS5YgiWJ0s68+doP9Kyz/7TEltC1k5A9YoHUY8CMXLEBXMFBboSUviQh9aHkVvgVA9cvtgqdWnXo1RjsrOafs0Lb8uQuD8yc7pmbyJQSJgjTSRt85CyxaGPb9kuddvQzjO0qfqNf04Igi2GwLF1HralJlTv7P8pFHTZccapWaKL3AhQfKDpWJ64FhKmD/5pTFjaPu8SVzXcGCJrZcHy2lZQxN9nJFf7sckSqZuq9TQ4yzt5Gew0E0J4YIHtW2zJtzw0ebvQTD5XgnGENRCNO9QNu1JyTg2oVuErqTyJKuAGaWRSCV1Al0XaXn8rD0L4/zvj/Dhzg8Hoa58ZzokyqYDF+/LLKx9o0PwgkDiT+aubqgB0PNEs0N1uHnF/JYVibRhDFGxkrXzyraUfv/eCHZelienZbftOpBVE2+0eoJQvrBGOKQJCBTd5KnupiVzw0tXxOtvH0jyU9ppV59vbpY99h4Tns8uKHvcJkFpU3mQXcTahiWTFzrJQ22km1fG5CbFe20Zy12uRrjahtLnrjnBmIWiup5ePpR1+sGq2gvUhVml0fmA9WFGgVAaaqeIaWMuzr9x6q2rZlH2tRy934W8snPyhMJi07s5xVXLuwiSqgziyWqYviBZ8jbixQ5auzR2x6po1S/Gjx9ei8k1IxjYn7q4ke7/KqN2R0XNedhmx0H/gZEWCzsnYWEXO2GhGCMlzJ9078pYeh+EGlmKK9h36TmadbhE2pOWdzxI4HygbAN+Tkt6CLBq8QJ5cG20YknEQ1uW+7tVIOo7kIadYGydgoUiKS2z8bPyE61+jPVJKj1Z7UyfkkgvW2jaFB9aGh/44rQZtD3ETRJYzQXZJ7/I9KIoSy1L1/i86K73oj/8+6nt68vq23fVNXfrrKIfjM1qMmg4Eq1t5AFpcvmS6PbIafzG+cGUhYHnVsV7WAl2VpZDUzOMnx3KqZzV0WUgnQdmFQQKIvbXDZ2qi1YsnLF31SLdfZPcJFAUy7LmfAk9lnfk9Mt1jefAaSUYeQUpcWHE3Z6r/Xe5S7Irg02z+JDtqbTc6ue67VABMNPUGi1ZrDA8a0XScZ2UvHhGyeplnrffwHG1fWfJUD4PC8HaZNmv6iT9JTX3zNZjJ9pI1vqDfTCdxg59ygopi+lTYyqSFky6LTmGqxxKB5x12UxOh0ieffjsFzWNrZ4Sr8UKwzscmLJkJ51KpinjvVoiAn1vvmed7z/dNfKPNcj+RyqNr2cXVmwyCwaCVRO6o55EWGQ8tbBTShdp3bLYDxbO0jwc4s+1O+Ed7NWtBGOjzlRLT2Tm1754/EQ7dcs+sFL4QEyXyKCHGorFedokD2NyfNDGVVGU7i6klV2Upx4ptn2ennXsRoEp2zzWRQgwixfPceClsLCUTN2AQadz6HQJi2YcnBOrvyt2AndusIi7sh4Ek7CcI12f5nxTN8sETU2QPMHy1RicJhiYL5Cf3gxWOeuXm5N8/xv9Fq6s7+p3txCM8fWCBlqTmnH64/K6swYBlnSbpIcUpYWhwE6eGoEiQzxoQewNP9XNpreT3WShqINlpLSUfn/4SPOjp+o7SbJjUKgwe4N8KWHutHfDp6memOxNHZjkW7KKLG9n5VdoJNET6oMddsNuWjQ/5NnEVQHPR7vJpcJm+fuHWpa22Qxf5B0972226EiCx1sP/Y0w9zQwkCTHR3f7qK13bE7U7QfhFJvUhkywM7IcnZbX8UVqam1ol82bZJ0nrOngfoBFDbOOt1oE8sL+uGY1PTOJc4+FYvt2mU+6jTbkFFfvrjpt1NihI2lEFQVPHkOLFo7Pnx5OW8I8uKa+o7ZGlnU5KV1P19aZtze1tMHsBckU4EQF+3dPGeu58Z61Ew+6a8anQyKuOtD1k7yik6/JvCdZBPi+JRUcpyp4vUEjSwvduiqqdmWSxy1jOK6sL5wDfR40wZiB9mC69e97Mo/f1GX3ROe9IeJiJIFQIkR0Tw8LLZwXdjDxRs9t0eOZQcM9pbJdDikolPal5lbPwDzBrDKRh1aA2SryfEK81/owHyroD/FNHXJASq7x7fS84xtkSKw2m8bhyExcGFKSvEC9ITSAa3QPpERgk17ZRRdeyiuofkjkmBqjhxajwettCFroxHpupBUJs75av8zzHhiWXbLiKCYYpr027wT9Oj+3/pmKEx1klMcgckIHpHGgVRdJtg6aMf2G2hvnjr91XQxX6q7OM/ZX+w29cvifdQ/XNnWQhbE2u41iIsfT/JhxD6wGqwWhXNbdyi7I0blF9GVWXl2IjMACNaQ6TmqDZDfzT4lr/P8zxE3qBes/VIwpWcXyhxk5pfGS2hvrmxrrrApqgIn8tFZ4vY2UlBDzfMxyr2cHYs+KCfbBobOLswoaco0mSEK8L4kqA2aVDSyplSKD/M1L5gfdkRlDKdsHwZ+vRly2LqQfo/XZR858fKLxnEbmYBqSrRQ6xZeSloS/Oy6AfoYZPKh4DLyb/9tXrXc0Nnd/UNvYgRcjiAdqU3jwDULIRPXm2nyPPdu3K19nvqsf1Z00L7vIsictu2yCyMMKSVAHLN0IbxCgenRRdKhH3JP3RBRerb7zN7YaKiq19e28yQa+DBaoVuuBPBOFBvpQ4oLZj42ZSTvmDUECuhKQ0tNy4M6U7i8P5ZbE2iHIEKeBENNByQkxNUsXeq4bqo0RM5It+rubZPnLlBTx5Yycsoetoo4qa1s09Y3mzxYvCKtoaJdvDvLjTl4Jm9LvvWy6aPduecqahIhN5XXGnfVNRg0zLAuiBPWDpy5BNeBrFc+w3/ytKam03p4hqfyAvE5au3gy3PMq3/Ax4CluKkw9aCih3xSUnP1l+clzpELchko0Unign7R0UfidSVH0SS+y3dRiz2vquuXgjExhb1p2SbSA2abWgm0J8BYkzn59dpTHk+5069TVyfrUSsur+7JO36/S+cOO2kZR03Rx2+8JdO8Mg7lTJYH/WiQZ1mqJwqaqKCwAwUtuKIz9HSy1J36+s3pfVX27JzOy8pyKgib70bK4yDejounxQI7rdkNTV31FiIGrBwyz1HzU+somI1hwi0bGzM7Ir3ywod7ngZ0pF+68e2WAWwZLSAhnOdkhv3GokLu/G65SZlN1pShmiaTiIJiCk8ADTBA3HBdXWhrgGbAe/x1fmz7KKapdLoiYUUCUDqEAK5ZMr0qab1g31c995p3+QOllXXvqZNknJ8Pw0oG0kkeI/Km6wc7Xnz6322jzrinvkNdFDRDs018bzntQTxFLaYFlBNYRaK2uFMUEQ1AtjDyMWBDImFDmWjvfCQtb+FNL6f6/flz7Rt2pdgR6eoEFyrCI+EjJC6K2LI+hT4eD/X0nQL03QnqkxEcr2uRX8otob2p2RbQNYXF5RdXhR7+xVr/1dds78270ewTWEvNA7+rvPkzGvbfZ+jUwOQZ+4orWeNjaWSM9DcmIfbjiAQVf04/Kwb/e0ZTafM4UarVbEfgCQk1WU/yC0DejZg0v+3MVzBn+PWxSJU3ZcKql+6Oak82ari6OMg833HuyoXPbzv0dd9+92ufDQQ0qppIx9xKLr5TZF8cP/YKmmGCSyAgmgWCYxGyiDaKwWfXuwc5fvfd5wW8EyRuKNqwiKoES46KqVizyvGbsz1XQe9nkF4xNZn7t+1LW4WOPMA/0qRYj39zc+p4gR/2u+ry8bvpYrsLVdzqf4yAdsr9hW8N4NWxAIBaPQE40xfij4vL7d2rfP1Zr3iIizFrDmyhsmp+UNH/mlqXfE/tztQNONglp8pWDh0x7cwvLo22SgXIK60Jy8y6Up5fK7yXP4u5y9X0OCzBmFwdcwjKOEPKBxXrXRJM+ENgl5hvHDEMjPX99brrwMa9MDoCes0VWe1Jg8BT68ea5b95/f6hXcizHwqOZXuSWglms+vOu8j//6cPStgOFFwLd8tLelzBpsrnYK2ZZwsyNQcETBYtdIqtooMZm248Vt+NgU6zb7G9gI75iloj3O4jsmMqOvSLKQDQLFKXR6qkLLoekJaHn10RyP1X2BteeziijTUfKWh7GIKAJE4MeQ61fuFbTtad6LSAONrn9d7XdHFikwzfrWvVvn2J7L2CIlh1WtYHZleIZBpMzDGFOSaOnAee3b6H47k+QMiMEEWZbhLEBRkSzDE8Bp9kqq2C3c8ThG1YOTytEDjYJ0dyOPhF0RqVFZjMLs4DJBK4UxQTDqgWo8B81mQsFLSkqMAVOY6CBZbO3eCqqrORhjuax8AAJCj68CGFKqip91sFtQCywYaVVmRQAXaxnedG4INYrJpgssmHUW20wSw5Hk2Q2opjQ0steFffShQrAHayrsMOrsKWIG8aBAVgcy5Bj5ConWM+IB8FcHPmKCQYsK173LsOvTOMv/36Jv17281C/wHqmYyPe8TfUl42g+soJBpVpKPCDJfr3rT+YMdm3/nd9ZpyQDQX2fuylGNYyGFY4WICUI59nbuUrioLYO2y/gp9k+Itj3oJ7c4yD4/8Ppfwr8gfoGaSZIXUfUraHs4leeYVd3D7RWJi+w7MLKwKbYJgFkPB7Vhtn+9fjVTHBwGeU1+mDGVCGxWe7XIqrOsd2mg3b0GwCLFgRkFHHQebxxtZkDaLZeLDYHtaHF1/Sg2CSa2jGcq6Bzw4S2NmLRF+WkLT/mGNcmDFCWrC8nVPjFhwOFyCUnEWMTLMoUyM+11s76NS6JdQ+EgmsHPnYWuwytq/+4JW6V+9Eu/rDx8qbS/5ZUj3JCku5RudN3RZsPsB+LR7UYmsHS5zCKKbCfjIRuhCEQtBA7QjoFNiOEzCEb46dpNJ/XnTEnGg0Kk/UCZXsYqhOizA8UJ7HxJNBKRELH3OWssDTlHSp/YUdBUuffiiu5OqQffsrCPvtl2H+pBj5EMhVDECm3/S4WRRDqHYs0t8ywX57q1dzsUEhk7Zhx3+CXVZFdFmFcVCvvFUqHjGGdl7GtNNpYWXAznIOuyYZwSwihzA2D2ppNZEdMXe+fv7ko/NFUhUQupehs12dPIjUEzYOFz3PWcE0jTynadWq1VUeWsrltdbTrvaO9YkNIqWF1eMccLhWUzHBsIYN7APop22g6Mpe9UuwH62PYOFff+j96+fNl9/aVy7Luz45Bo+FhrB1ie5LvobT4HJQ+v2mdHYqJ9gQ1zAGPQMSA8tZ+iWY8yGlVw8MK9mGnbUYX7phaUEpRO55XjHBgOchSYkA21HfQTR8qa//lxnnlp4JsKmq1cxc5KoNwS3NDvtLrmRPAzY4VJaIBi6psWzgq4NdtMkMCNnlDyAijqwQHuxYabHL9QdTFHcFrOxKKU8xMhxCR28tzdnhmWFsHVfDscDml+JOKu7RtauguC8w3A5J6HB2zUm0duwRcP7m1it8gTyzT0E5Q4ajH0xRjCzIC5fWMIYHSbnFXuKYxIF6rL5mmAimwerMPAIaplcNM8EktiMFvRmUbKMQtkEQDBhg4AELzB8mqpQlo2FxjExRZakTWA+RdFIxDKz9gQpztkswg1ihGA8lsmugdth9AbtKVaw/SK2kpDBEMiI7cOniqFIsJTqFjh79ASsEsw0pK+gZrBTsH6BlKZ36q/5+evPY+pqmbciRkcBxmgiOl8fpdcgSJtk1BoOOl/ECGRZlFQaBWg0UqLTwMhuoqKSLBE5Hem8DHa9upd++0yiznTUatMaUZ0ESHdYNpuzCwiHBzycgytiIveWtsmSt0ki2bB8v1c4HfzSP6YH9FhamxsNmyTMD5iCLq/qYYoIBz5fqMFyrWNIuBYVxAEnGzhcgmC0xlq5vWezVXtN93lJy5ox5ksVudqTcA8Fg2dCTzSI4CGTFDk8mvsMuiPsiRFDkPkR8n6wdQ2a7hoxWO3VZ2yEpmQCrBTOacXRssINJiwOx7chmwKtBNp4H9WWdaBPGyqJ1hr+XZiN2OP0HHp58Nbj6/qZBthwVzGAqbCNSUrANGtAi9kyBTq+sBUAD880locPhNWbsW0FxEIwpzr0cf6AZFhsTEhsYErINgzcJQl84OMcNME15YoLoUBedBUwMBryYfWamaSuujZgXWXn1uMFTbPRUmjGVyAO0Ys+yP1aF0Y7VYV/xTkTCELaTUCteWwXKZ+P2Tjw2YGGzy1EwCBUVB0/sretiRcUEA/+5zNqO/ioqMJ4j+gZaLYMTlbGGsSH/nWVehGNnoiLT1HYEqi6qITEXuapE7HueMm4qbZzLSDM8ReYtoC+Mx1jLlBaGDiVFGXnZm7F/t28DCseUY1455heGORuQmCX9EqxvW65+3o74RrBICLAQBhiDHDZS9UDEQtRERBWJDmnRVSh76zrYg+t1FBMM/PYSS2RjgwkOSgqWIKlngYblvIeNKYbBlfawPtaqNNDxYb4f7hABiDxYk5Ejn3m3FRQnIp06qStVlSOL62GJzkYcBGMGOxcLe5DpYc4KWPMvm7EuvmbAx7DG1dqZrwtSINanYS6MscFu6eDzg2vKic+BaismGBChZS9nko1jwcYsUcQW0TdeJUJCtDrqwYSkbFgO1KPe+1o1nWC6kShYsH/YxUqDfEzDjMxs26vCkcF0RbaQ9+DSOYT7B0IxwfD+y2aEa818CwT6hcw43aSCiYNxEKRpuux93z45xE8SVbKpBYmdrZPKpQEFzQtQLVQYeUy9GO6inGBXxGQolWTZCqjWa6Az8cg/BT2M+fOHoWDdOsIxrzg+2K3SsB7XwauR3BnsV6nEN5huKycYy0fUWxixlM4wrFmiBBc+DBWOuthsNiwEU5+lb7x0InnrmTRqOeyE2d3XvCbZAAUbhxVgEDJNWEFxCh0Kqgxilexj6XDw354FzGW6IZ8/xGwPxFd40kcfllFuTvstWBOVD5wBepmczFnCA/VREdO8PvD1EZ8Z4HHFt1n6pINH5Vv2f93eIQrItwFuoYFmr7S4jLjeFytv4QqW2CtwuN6uQG/JduN2LdKbM+Eyu6Div0gTcxcS/6+NHMdVKe1wf8//fNtctiPyR/09M5h7R8/IwQcO1O/d/fkF7HvGIozhpuaxLsvG95S+T5HAhpcPhmCXHJhsU0OvvdNlgmGH4rPfnJf/eqSw/bO8oqr5ZsmL9uc2hKTlWCrf3md9Z/VN2n93VxIxpcgb6Pk68L70g9aX/vB68SNdmFVajRckUCSWmepbt3HjonWzFG6ZZQzUdYWoBzrFBIOVQs30KEYspuGzv/p6FlwGb7yLZTYOsgEbjFu4OC457bC8p6Co0lO06TDbKu/Nze/c9s6+C1vvuSnArTsyXQTtqo8BVpbPfv3f367/uKa+FTkpDEipp6LJE7yl5fER25D78QOI5oPS9iSclSCx47FcrK2YYLwk4uQn6GEqWEuh49hxTolXsDdbPxWdloAOMm6QBmT4+6jGPZOWdXy7SD7wLfnzKbl1u0S1T01pu7x21jXKz3FVSuFHxv6e3Xl2b3X9xWi2Z08HVq6RO2jJvOnvrJ077pEJQ0z7YMVpFyJyTenYVHNBZlFMMGwu0PKwKbFT8HRaA5ISe9PFC90+6NugsuGAcAzMZ08Y5dfSs82784+cgFXeg9Jyj4fnFQgn/n7A+OayVV7DmgHnasRi7C8ntfulV/96FOwPEcLQ71nK8+ApXjV3bopxS2IV1q5O74FU8CpIzcz5ObDcqJhgMMFobFCgOI0e+g1Ecxje/XhDMFo7jb9BlzBvDint5eSFcbGL8opM+7ILTvp1WL3p65wzDxzMNt/71tedW5oKvL9wV3a17wLUwf6qaP2ON1o/bjrVjuhiPU6pEJA+SS0lx8e4Nc8VI4/dAg6LAwx4CYcADQfBmHdX4zhMkjneDHSiUabJ47l/R9u534UEV3/vZZN5QNo45Ht6PCO3/GUkoIVn2FuTWVj1ady8kAokuFwX6cfVufpOJc9VIDnYr/9Rvbe6rj2a58fCZYI9vTo7Lbwx5PWb53k/OcmNZ76wRJuVDfRrDe9NXSYL0uwySAfmiS5Ld86O/w6u9pIa8F1kc2MueQ7ZR3VIVxg/J/Qh//Uef3VXmnHWHutUar7xPaTfWyMh95QGMfSSYKKEBbN2rF2rf9JdicIcR3Z8Y3rl8NGah4w2ZjKDBxtJnkMDfSvuvi385uluSL/nxB87cO6khZ7OzD+zvf60CUnWvEiPfqksF2nmdK+4X94zsd9sbooJ9kGa8UJa3okAM8RaK7KtSZjOwCL54KyU+DlhFw3UduddNwUcGqzU5OzYpSsktIoOmpOZL3yVV1A2nqUJEQQr+Xhy0vzZwVsfGII0iZnMH6qgzVl5De+dbLzIWzHAtdDsp0z2E5IWT95cuJvcmeCSTy+hjVnFde/XnunWme0sIZiGtJASecGIIyG7aWVieNzm5b7uJRg6qdqV1nFfeu7RN02wVlj4CUgqgoaREkeHBU2NdKiJcTMa4uapbp81ltyWH561+4+vzj2QXVj9mlXCcVUYKDIs/iuXzKy7caZq/eyJCpIdYxCwYzk+3Ve/t+aUOZARSg/RWqey0JIFka8mrfb5RYibUsgCbq68lWZnFwlfFBw5EWhBtnErPFTdENoMOpkM9rM4AqSTVibN3bMpyXsrBnq/R20pnmHOkd8syx45Odbn96SWPi6pEfCCIwm1OgTXiMhhi7xROgiNiQtnFCxL8LyTZY5x1hvqlR3RkVtse+tQ7rE7WEJ/GbNbi/TiSxdG7l2+2P/eKT79n8sMaXR8bk7HzoyCytUsyylieWClkJBde2zp7Rsnro/y5xqGCqOzfr1Znnggw/hB8bFTSe1mWPJx1JYAaVCNwBEOorwaSS3XJc2oWrbIcOsknWt5qgZNMCdQrQAq+4j1H18eOrLcggNkHKfq4VQGyKlIsi+QBtFOK+Jjdy1bzP8MqVjbnPWGei1vkWcWl1q+2p9dESjCNqlCxJQW5qGkhdOfX7ra+19O0WMD7Fgp/Tb78LknG890IF4RRlHeTtOn+lgXzZ5yx6o5tK9X6BkqaMTaOl5GL2YXnn+k4kQrJGocuABfkiMWEwej6jGYZ0eMNyfEB92+IJhSlLQ7ZIKx3rFp3ypQbEqe7fOUnLIgk02PgAovZGgzQMmEH5adtYVTLBbPC3l2aUzACyHIxjlkrPS0y791UPhxTmH1zi4Lgu6YTQ8C0NJFUThrxfNhzpfegd7CdbfSgx/trfn/J08ZEfKmI53OgGXXSMsWR/9heaT6V+6CJz0dC2wA3Zt7tPHNijojNhayNLTIVofBJIsmDCgTzQwbhwPsJv9cHUx/Hkx+ZLcQzIl8EI7/JOPchsqT5g+rmwQdy2dvRayeTgtdAynS1VIHZkCEEDlNva3lOH20eTPsWm4oLD/84RLLn7Pyy7ZZ2BFRcNwYcMDBgnmxjrw9h3GUhxmxbzw8mQaNjQIneBzdduv0W8LGXH4YwWBBYQM2vZQScwqbPq9t6PCzIpBVcOwG1cAShBP9OCPy+XrR2uRp78yfSo9hRg3KyMDgcyvBnB1GB7S70+mprzNLnrNBz7Ag2FQFJx8nYsHAyPbQWihhceS5hXM8NkSNoUIlLMHZxtWuSO0annWY9mXnlYXjuBcQyKHckN1mIx3WjeCpAd1L5k64dU2sMjZ0tbacv8F8Flp0pOuT9KyyWIuAAxdwSq0V23Q9DCCWrY28dN20LCGyaF2SfpM/N/T18VuCOeNiWAyamwo75ehAtnlHSlbJlk4rpDok69JocEAAdtshzTM2KkBYiI8pWDSbNke76UQGNst3pnTclnG4epdNBpVQNJwVJ8RG/b+7V3lvx+CAbWbopa5N9qs9RTsyipq31CBqVcI6ykOoEOGclREC4YEDvKNCvM6vWTrtltlBlO+uQXmJYA/Lm7x0nZ1as0+Q8Q3uDUwF95V2nCO2J1v4ZH96SawFJ8gyJZi51SSRjXyoAjiRYU3SrL/FzdI/AZ/YoNlFX4ib4Ak+cNz08pmWlrmbbg67De9t7nt/sJ9ZivYzx+k/covPPF/T0AbFF7oo4h54Zm5HHKQG0l/ktPHS6vjx98aFuP+kwUsEe9y04QbeLnqqLMLZlyekDCnx8NWQwfj8R9nnE7ukMZ+mZlUEmO1+YMgQy6FL6dSQJnFs0+J503HmlumJ6AC/v8ybN/gjm/q2z9p1x+hmMze7lNanHm7YVQfFt0v2woYKLTZh4KA3xPiopPMUFepLNy2f8vLcKfR/0eawpGu/RLC+nRzOz+i4ale2cN++gyVv2nG2mB2j0w7XAos30kDrVxNOflg8y7xwrvbWGQGU6g5kD6U/jOB17RSTc7jji8yC6iAjNj5IGn+QCIGwsDZq7cxK0UVrkmMOLp1Ld9/gxZ0dSnsD1b3mBHMCBER4fJrZ+sJH6SWPkm4CWSw4FgQzju1U0GLLpBqn+OHEoorEBfzGGeO4ame9a3lliu9XaR3vFZc0JJtwChLLLy/AFaKCrVEUcXQx30a3JAbV3ZIccAtk0+PXYnB9bwRzIr5Vlifuy7G8dyj9WHI3k7K0Y2ErBFjQXfRqrHHQtePnh34ct8j7pzFuVLyd7V/tytSE+rP04uEjpx4+fc5OrW0s+44BIQEIGHWI6RaKCJlgXZE4bnN8CO0FoVz0F1+tNWW/fe8EY+AytoPDIWP353R9vudAZZBdNR5nJUMkx0jmIU3qsCtEDeUb5qenFwUZ/js62j2S3pWoKi6WNWf19NOcgnOv1p5qA8PDPjT4/jz0bO8XJFscCRkd5oczv0KemRtMr4BQbpE4r4Sjv+8jgmBOAEE4/pPsrg1Hq9o+rG/Bwg5Pr8gkMKiLWujYTJpMjp/WHRrocUfWDNoPGd0tI5u1m15Baw7lle+uabB5yuqxMF2p4T5iuyrNkGdNUHyZhWLCrshQegj61JAPH3X2Wel1RBHMCTwQqP3wUNtTqdlVz1mRvK0b3gDYuXDbBpZkJB8PmeLmRNQkxus3Rntz5c56Sq9sZpe30+ysIutnh4sqgrrg/eW1fjDQQn3DUNBBf9PI52nDmjmlCYv5W915vK9SWJ3Pj0iCOYGD/ua/N1V8LT2vbIsFvjeRh84DeVKEUVmlglcAdsPlCyK/Sojxvi9M4YmxtTiZtuEcvZ+S3xRfB0eiYIWIjvc7sisiS7Ynsn4HT/JuX798yq2zgynzWggUzn73dx3RBHMCzhTvrw4Jnx1IPzZLgKe7C8kNOcTn2xG1pcfaAuWRkhZH/nFtjOFXA0UxOVzzTfRqbtG5rVUNF6gbG9cJf9B3MZusZODZOhUAc1LQQ3OC6S0QyuXwPSe8w3m9LgjGEMDY12fp9kSTrP78YE6lnxlGZYkZWOEMVAHRWiwrCXHhmBmmn8cFj30tPBz8rE9hkl/LWfp1dkHtUzWNRmQa8IfFBf47xFGoQBMNgmBmho6HQ3TMX+ZPo/8EodxuPOgDzqA/XjcEc/YwHVt2z2Z03Xsws+RNi+iLYwg9sBsG7nYZoje8NsgbgNkWLSyaq/6ZPoDe9TxDqnY9PZqRb3mh8Js6MoH1ifD6Otgf6pCtlcZ445TaRdOzVy3z2TqW40472xqJ1+uOYE4kMidhbia9kJJT+qjJEV8C2ySchEw24SDZsRiJBXNnwkuAM78KSiC4eMGiAvc8LOneBsys7nawPyPdtvrG5sULaMNYjfvCGZwwDsf1uiWYExlM8U7JNL63P6sy2WzHWdJqX/igEIoHNsd2YNqxg5BlbpfZCbJMZJHNiN/opNgwH2H54tC75oTQiAkJd/apv+t1TzDWOba+gY/FZubSni8PlgZKOFAbmyLh7uhxZrKocCRLARFxMnqoPxTfCb9dFETPYZ26bJ3rD1Ej5Z7iyN+RAnhfOHpF7m9AuGC1MGlDZX3nh1WNZp1FhNMUgroGlpKIYC9at3zGnohA+jecSj6sOzL7wubuzz+IGXYlUkA47fuZtqdSMgqfY1kEVi5dULU0Tr0RkUmVVz47+n0EYYAp3iUnhQTGMkcQWKOgjGJgFAOjGBjFwCgGRjEwioGRj4H/BRpg1SHhdjmiAAAAAElFTkSuQmCC" alt="Fortline Global">
+      <span class="logo-name">Fortline Global</span>
+    </div>
+    <div class="header-right">
+      <div class="recipient-label">Strategic Overview</div>
+      <div class="recipient-name">Europe — Defense &amp; Infrastructure Resilience</div>
+      <div class="flag-group">
+        <div class="flag-item">
+          <!-- EU Flag -->
+          <svg width="22" height="13" viewBox="0 0 22 13" xmlns="http://www.w3.org/2000/svg" style="border:1px solid rgba(255,255,255,0.15);">
+            <rect width="22" height="13" fill="#003399"/>
+            <g fill="#FFCC00">
+              <polygon points="11,2.5 11.35,3.55 12.4,3.55 11.55,4.18 11.9,5.23 11,4.6 10.1,5.23 10.45,4.18 9.6,3.55 10.65,3.55" transform="scale(0.55) translate(9.5,-0.5)"/>
+              <polygon points="11,2.5 11.35,3.55 12.4,3.55 11.55,4.18 11.9,5.23 11,4.6 10.1,5.23 10.45,4.18 9.6,3.55 10.65,3.55" transform="rotate(30,11,6.5) scale(0.55) translate(9.5,-0.5)"/>
+              <polygon points="11,2.5 11.35,3.55 12.4,3.55 11.55,4.18 11.9,5.23 11,4.6 10.1,5.23 10.45,4.18 9.6,3.55 10.65,3.55" transform="rotate(60,11,6.5) scale(0.55) translate(9.5,-0.5)"/>
+              <polygon points="11,2.5 11.35,3.55 12.4,3.55 11.55,4.18 11.9,5.23 11,4.6 10.1,5.23 10.45,4.18 9.6,3.55 10.65,3.55" transform="rotate(90,11,6.5) scale(0.55) translate(9.5,-0.5)"/>
+              <polygon points="11,2.5 11.35,3.55 12.4,3.55 11.55,4.18 11.9,5.23 11,4.6 10.1,5.23 10.45,4.18 9.6,3.55 10.65,3.55" transform="rotate(120,11,6.5) scale(0.55) translate(9.5,-0.5)"/>
+              <polygon points="11,2.5 11.35,3.55 12.4,3.55 11.55,4.18 11.9,5.23 11,4.6 10.1,5.23 10.45,4.18 9.6,3.55 10.65,3.55" transform="rotate(150,11,6.5) scale(0.55) translate(9.5,-0.5)"/>
+              <polygon points="11,2.5 11.35,3.55 12.4,3.55 11.55,4.18 11.9,5.23 11,4.6 10.1,5.23 10.45,4.18 9.6,3.55 10.65,3.55" transform="rotate(180,11,6.5) scale(0.55) translate(9.5,-0.5)"/>
+              <polygon points="11,2.5 11.35,3.55 12.4,3.55 11.55,4.18 11.9,5.23 11,4.6 10.1,5.23 10.45,4.18 9.6,3.55 10.65,3.55" transform="rotate(210,11,6.5) scale(0.55) translate(9.5,-0.5)"/>
+              <polygon points="11,2.5 11.35,3.55 12.4,3.55 11.55,4.18 11.9,5.23 11,4.6 10.1,5.23 10.45,4.18 9.6,3.55 10.65,3.55" transform="rotate(240,11,6.5) scale(0.55) translate(9.5,-0.5)"/>
+              <polygon points="11,2.5 11.35,3.55 12.4,3.55 11.55,4.18 11.9,5.23 11,4.6 10.1,5.23 10.45,4.18 9.6,3.55 10.65,3.55" transform="rotate(270,11,6.5) scale(0.55) translate(9.5,-0.5)"/>
+              <polygon points="11,2.5 11.35,3.55 12.4,3.55 11.55,4.18 11.9,5.23 11,4.6 10.1,5.23 10.45,4.18 9.6,3.55 10.65,3.55" transform="rotate(300,11,6.5) scale(0.55) translate(9.5,-0.5)"/>
+              <polygon points="11,2.5 11.35,3.55 12.4,3.55 11.55,4.18 11.9,5.23 11,4.6 10.1,5.23 10.45,4.18 9.6,3.55 10.65,3.55" transform="rotate(330,11,6.5) scale(0.55) translate(9.5,-0.5)"/>
+            </g>
+          </svg>
+          <span>EU</span>
+        </div>
+        <div class="flag-divider"></div>
+        <div class="flag-item">
+          <svg width="22" height="14" viewBox="0 0 22 14" xmlns="http://www.w3.org/2000/svg" style="border:1px solid rgba(255,255,255,0.15);display:block;vertical-align:middle;">
+            <rect width="22" height="14" fill="#003189"/>
+            <line x1="11" y1="2" x2="11" y2="12" stroke="white" stroke-width="1.1"/>
+            <line x1="5" y1="7" x2="17" y2="7" stroke="white" stroke-width="1.1"/>
+            <line x1="6.9" y1="2.9" x2="15.1" y2="11.1" stroke="white" stroke-width="0.8"/>
+            <line x1="15.1" y1="2.9" x2="6.9" y2="11.1" stroke="white" stroke-width="0.8"/>
+            <circle cx="11" cy="7" r="2.8" fill="none" stroke="white" stroke-width="0.9"/>
+            <circle cx="11" cy="7" r="1.1" fill="white"/>
+          </svg>
+          <span>NATO</span>
+        </div>
+        <div class="flag-divider"></div>
+        <div class="flag-item">
+          <!-- Israel Flag -->
+          <svg width="22" height="13" viewBox="0 0 22 13" xmlns="http://www.w3.org/2000/svg" style="border:1px solid rgba(255,255,255,0.15);">
+            <rect width="22" height="13" fill="white"/>
+            <rect y="1.5" width="22" height="2" fill="#0038B8"/>
+            <rect y="9.5" width="22" height="2" fill="#0038B8"/>
+            <polygon points="11,4.5 13.2,8.2 8.8,8.2" fill="none" stroke="#0038B8" stroke-width="0.8"/>
+            <polygon points="11,8.5 8.8,4.8 13.2,4.8" fill="none" stroke="#0038B8" stroke-width="0.8"/>
+          </svg>
+          <span>IL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow">Passive Defense · Critical Infrastructure · National Resilience · NATO Alignment</div>
+    <h1>Europe Is Rearming.<br>The <span class="accent">Passive Defense Layer</span> Is Still Missing.</h1>
+    <p class="hero-sub">Europe is accelerating active defense readiness at unprecedented pace. But active defense without passive defense leaves buildings, infrastructure, and civilian populations physically exposed. Fortline delivers structural hardening of new and existing buildings against missile and drone strikes, blast, and unconventional threats - backed by 35+ years of live operational experience in Israel.</p>
+  </div>
+
+  <!-- URGENCY STRIP -->
+  <div class="urgency-strip">
+    <div class="urgency-item">
+      <div class="urgency-value">2% - 5%</div>
+      <div class="urgency-label">NATO defense spending surge - fastest rearmament since Cold War, but passive defense lags behind</div>
+    </div>
+    <div class="urgency-item">
+      <div class="urgency-value">Missiles + Drones</div>
+      <div class="urgency-label">Ballistic missiles, cruise missiles and drone swarms now demonstrated threats on European soil</div>
+    </div>
+    <div class="urgency-item">
+      <div class="urgency-value">0 Buildings</div>
+      <div class="urgency-label">Most European government, critical infrastructure and public buildings have no physical blast or impact protection</div>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body-grid">
+
+    <!-- LEFT -->
+    <div class="col-left">
+
+      <div class="block">
+        <div class="block-title">The Gap Europe Must Close</div>
+        <p class="insight">Active defense intercepts threats in the air. Passive defense is what protects the building when the system fails - or is overwhelmed.</p>
+        <p class="insight-body">Missile and drone strikes are no longer a distant risk for Europe. Government buildings, power facilities, hospitals, data centers, and civilian infrastructure have no physical protection against direct impact, blast overpressure, or structural collapse. Fortline hardens these buildings from within - new construction and existing structures alike - without demolition, without permits, deployed in days.</p>
+      </div>
+
+      <div class="block">
+        <div class="block-title">What We Deliver</div>
+        <div class="offer-list">
+          <div class="offer-item">
+            <div class="offer-num">01</div>
+            <div>
+              <div class="offer-title">Protection Assessment &amp; Advisory</div>
+              <div class="offer-desc">On-site engineering surveys, missile and drone threat mapping, structural vulnerability analysis - classified Protection Vulnerability Report under NDA.</div>
+            </div>
+          </div>
+          <div class="offer-item">
+            <div class="offer-num">02</div>
+            <div>
+              <div class="offer-title">Physical Building Hardening - New &amp; Existing Structures</div>
+              <div class="polymer-box">
+                <div class="polymer-label">Patented Technology</div>
+                <div class="polymer-text">A patented super-polymer creating a dense nanometric network, bonding with and reinforcing walls from within. Protects against missile impact, blast overpressure, drone strikes, and chemical threats. Applied at design stage or retrofitted - no demolition, no permits, deployed in days.</div>
+              </div>
+            </div>
+          </div>
+          <div class="offer-item">
+            <div class="offer-num">03</div>
+            <div>
+              <div class="offer-title">Population Preparedness (GEM)</div>
+              <div class="offer-desc">Crisis communication, staff training, community drills, and inter-agency coordination - building human resilience at every level.</div>
+            </div>
+          </div>
+          <div class="offer-item">
+            <div class="offer-num">04</div>
+            <div>
+              <div class="offer-title">National Regulatory Framework</div>
+              <div class="offer-desc">Civil defense legislation advisory, building code adaptation, and a 6-pillar resilience strategy modelled on Israeli Standard 4422/4577.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTORS -->
+      <div class="block" style="flex:1;">
+        <div class="block-title">Priority Sectors - Europe</div>
+        <div class="sectors-grid">
+          <div class="sector-chip hi">
+            <div class="sector-chip-label">Government</div>
+            <div class="sector-chip-name">Public &amp; Defense Infrastructure</div>
+            <div class="sector-chip-items">Ministries · NATO facilities · Command centers · Border infrastructure</div>
+          </div>
+          <div class="sector-chip hi">
+            <div class="sector-chip-label">Critical</div>
+            <div class="sector-chip-name">Energy, Telecom &amp; Water</div>
+            <div class="sector-chip-items">Power grids · Gas pipelines · Data centers · Water treatment</div>
+          </div>
+          <div class="sector-chip hi-gold">
+            <div class="sector-chip-label gold">Eastern Flank</div>
+            <div class="sector-chip-name">Priority Nations</div>
+            <div class="sector-chip-items">Poland · Estonia · Latvia · Lithuania · Finland · Romania</div>
+          </div>
+          <div class="sector-chip">
+            <div class="sector-chip-label">Public</div>
+            <div class="sector-chip-name">Hospitals &amp; Essential Services</div>
+            <div class="sector-chip-items">Hospitals · Schools · Transport hubs · Emergency services</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="col-right">
+
+      <div class="block-right">
+        <div class="block-title">Our Methodology</div>
+        <div class="phases-col">
+          <div class="phase-row">
+            <div class="phase-circle"><div class="phase-circle-num">01</div></div>
+            <div>
+              <div class="phase-name">Assess</div>
+              <div class="phase-desc">On-site engineering surveys and threat-environment mapping - establishing a full baseline before any recommendation is made.</div>
+            </div>
+          </div>
+          <div class="phase-row">
+            <div class="phase-circle active"><div class="phase-circle-num">02</div></div>
+            <div>
+              <div class="phase-name">Recommend</div>
+              <div class="phase-desc">Facility-by-facility hardening plan, preparedness program design, and a national regulatory roadmap - scoped and costed.</div>
+            </div>
+          </div>
+          <div class="phase-row">
+            <div class="phase-circle"><div class="phase-circle-num">03</div></div>
+            <div>
+              <div class="phase-name">Implement</div>
+              <div class="phase-desc">Physical hardening under Israeli engineering supervision with local contractor knowledge transfer - building permanent sovereign capability.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="block-right">
+        <div class="block-title">Why Israeli Doctrine</div>
+        <p style="font-size:9px;color:var(--gray);line-height:1.6;">No nation has built civilian resilience under a more sustained, complex, multi-vector threat environment. Israel's doctrine was forged under operational conditions and is directly transferable to Europe's current security reality.</p>
+        <div class="doctrine-list">
+          <div class="doctrine-row"><div class="doctrine-dot"></div>1991 - Scud doctrine encoded into national law</div>
+          <div class="doctrine-row"><div class="doctrine-dot"></div>2006-2023 - 8,000+ rockets, multi-front campaigns</div>
+          <div class="doctrine-row"><div class="doctrine-dot"></div>2023 - Simultaneous threats: Iran, Lebanon, Gaza, Yemen</div>
+          <div class="doctrine-row"><div class="doctrine-dot"></div>Directly applicable to NATO's eastern flank threat model</div>
+        </div>
+      </div>
+
+      <div class="block-right" style="flex:1;">
+        <div class="block-title">Credentials</div>
+        <div class="cred-list">
+          <div class="cred-row hi">
+            <div class="cred-tag">MOD / IDF</div>
+            <div class="cred-body light">Israeli Ministry of Defense approved. IDF Home Front Command certified. The most rigorous civilian protection standard in the world.</div>
+          </div>
+          <div class="cred-row">
+            <div class="cred-tag">PATENT</div>
+            <div class="cred-body">International patent on the super-polymer spray technology - nanometric bonding, no demolition, conventional and CBRN-rated protection.</div>
+          </div>
+          <div class="cred-row">
+            <div class="cred-tag">PROVEN</div>
+            <div class="cred-body">Deployed in IDF bases, national telecom (Bezeq), hospitals, data centers, and government compounds under live conflict conditions.</div>
+          </div>
+          <div class="cred-row">
+            <div class="cred-tag">TRACK</div>
+            <div class="cred-body">Bezeq National Telecom, Laniado Hospital, Tashan Energy, IDF facilities, and government compounds nationwide.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- STATS STRIP -->
+  <div class="stats-strip">
+    <div class="stat-item"><div class="stat-value">35+</div><div class="stat-label">Years Active Threat Experience</div></div>
+    <div class="stat-item"><div class="stat-value gold">MOD</div><div class="stat-label">Ministry of Defense Approved</div></div>
+    <div class="stat-item"><div class="stat-value">IDF</div><div class="stat-label">Home Front Command Certified</div></div>
+    <div class="stat-item"><div class="stat-value">CBRN</div><div class="stat-label">Chemical Threat Protection Rated</div></div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-cta">
+      First step: a <span>confidential protection assessment</span> of priority facilities - no commitment required.<br>
+      We survey, map threats, and deliver a classified strategy under NDA. Available across Europe.
+    </div>
+    <div class="footer-contact">
+      <span class="web">fortlineglobal.com</span>
+      <span>Israel · Europe · Available for on-site meetings</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
