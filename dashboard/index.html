@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fortline Outreach Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #0d1117;
+      --surface:    #161b22;
+      --surface2:   #1f2937;
+      --border:     #30363d;
+      --text:       #e6edf3;
+      --muted:      #8b949e;
+      --accent:     #c8973a;       /* Fortline gold */
+      --accent2:    #a07828;
+      --green:      #3fb950;
+      --yellow:     #d29922;
+      --red:        #f85149;
+      --blue:       #58a6ff;
+      --pill-bg:    #21262d;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ---- Header ---- */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; }
+    .logo-mark {
+      width: 28px; height: 28px; background: var(--accent);
+      border-radius: 4px; display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px; color: #000;
+    }
+    .logo-text { font-weight: 600; font-size: 15px; }
+    .logo-sub { color: var(--muted); font-size: 12px; margin-left: 4px; }
+    header .spacer { flex: 1; }
+    .stat-pill {
+      background: var(--pill-bg); border: 1px solid var(--border);
+      border-radius: 20px; padding: 4px 12px; font-size: 12px; color: var(--muted);
+    }
+    .stat-pill b { color: var(--text); }
+
+    /* ---- Layout ---- */
+    .container { max-width: 1120px; margin: 0 auto; padding: 24px 24px 60px; }
+
+    /* ---- Filters ---- */
+    .filters {
+      display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; align-items: center;
+    }
+    .filter-btn {
+      background: var(--pill-bg); border: 1px solid var(--border); color: var(--muted);
+      padding: 5px 14px; border-radius: 20px; font-size: 13px; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      border-color: var(--accent); color: var(--accent); background: rgba(200,151,58,0.08);
+    }
+    .filter-btn.active { font-weight: 600; }
+    .filters .spacer { flex: 1; }
+    .refresh-btn {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+      padding: 5px 14px; border-radius: 6px; font-size: 13px; cursor: pointer;
+    }
+    .refresh-btn:hover { border-color: var(--blue); color: var(--blue); }
+
+    /* ---- Draft card ---- */
+    .draft-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; margin-bottom: 16px; overflow: hidden;
+      transition: border-color 0.15s;
+    }
+    .draft-card:hover { border-color: #444c56; }
+    .draft-card.killed { opacity: 0.45; }
+    .draft-card.sent { border-left: 3px solid var(--green); }
+    .draft-card.approved { border-left: 3px solid var(--blue); }
+
+    .card-header {
+      padding: 14px 18px; display: flex; align-items: flex-start;
+      gap: 12px; cursor: pointer; user-select: none;
+    }
+    .card-header:hover { background: rgba(255,255,255,0.02); }
+    .card-expand { color: var(--muted); font-size: 11px; margin-top: 2px; flex-shrink: 0; }
+
+    .contact-block { flex: 1; min-width: 0; }
+    .contact-name { font-weight: 600; font-size: 15px; }
+    .contact-meta { color: var(--muted); font-size: 13px; margin-top: 2px; }
+    .contact-meta .sep { margin: 0 6px; }
+
+    .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+    .badge {
+      padding: 2px 9px; border-radius: 12px; font-size: 11px; font-weight: 600;
+      border: 1px solid transparent;
+    }
+    .badge-vertical { background: rgba(88,166,255,0.12); border-color: rgba(88,166,255,0.3); color: var(--blue); }
+    .badge-geo { background: rgba(200,151,58,0.12); border-color: rgba(200,151,58,0.3); color: var(--accent); }
+    .badge-template {
+      background: rgba(63,185,80,0.1); border-color: rgba(63,185,80,0.3); color: var(--green);
+    }
+    .badge-status-queued { background: rgba(139,148,158,0.1); border-color: var(--border); color: var(--muted); }
+    .badge-status-sent { background: rgba(63,185,80,0.1); border-color: rgba(63,185,80,0.3); color: var(--green); }
+    .badge-status-approved { background: rgba(88,166,255,0.1); border-color: rgba(88,166,255,0.3); color: var(--blue); }
+    .badge-status-killed { background: rgba(248,81,73,0.1); border-color: rgba(248,81,73,0.3); color: var(--red); }
+
+    /* ---- Card body (collapsible) ---- */
+    .card-body { display: none; border-top: 1px solid var(--border); }
+    .card-body.open { display: block; }
+
+    /* ICP + hooks section */
+    .card-section {
+      padding: 14px 18px; border-bottom: 1px solid var(--border);
+    }
+    .section-label {
+      font-size: 11px; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--muted); margin-bottom: 8px;
+    }
+    .icp-reason { font-size: 13px; color: var(--text); line-height: 1.5; }
+    .template-reason { font-size: 12px; color: var(--muted); margin-top: 6px; font-style: italic; }
+
+    .hook-list { display: flex; flex-direction: column; gap: 8px; }
+    .hook-item {
+      background: var(--surface2); border-radius: 6px; padding: 10px 12px;
+      border: 1px solid var(--border);
+    }
+    .hook-text { font-size: 13px; line-height: 1.5; }
+    .hook-source { margin-top: 6px; display: flex; align-items: center; gap: 8px; }
+    .hook-source a {
+      font-size: 12px; color: var(--blue); text-decoration: none;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 400px;
+    }
+    .hook-source a:hover { text-decoration: underline; }
+    .trust-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .trust-dot.trusted { background: var(--green); }
+    .trust-dot.unknown { background: var(--yellow); }
+    .trust-dot.untrusted { background: var(--red); }
+    .trust-label { font-size: 11px; color: var(--muted); }
+
+    /* ---- Draft tabs ---- */
+    .draft-tabs { padding: 0 18px; padding-top: 14px; border-bottom: 1px solid var(--border); }
+    .tab-list { display: flex; gap: 0; }
+    .tab-btn {
+      padding: 6px 16px; font-size: 13px; cursor: pointer; border: none;
+      background: none; color: var(--muted); border-bottom: 2px solid transparent;
+      transition: all 0.15s; white-space: nowrap;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    .draft-panels { padding: 14px 18px; }
+    .draft-panel { display: none; }
+    .draft-panel.active { display: block; }
+
+    .draft-subject {
+      font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 8px;
+    }
+    .draft-subject span { color: var(--text); }
+
+    .draft-body-text {
+      font-size: 13px; line-height: 1.65; white-space: pre-wrap;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 6px; padding: 14px; color: var(--text);
+      font-family: inherit; resize: vertical; width: 100%; min-height: 120px;
+    }
+
+    /* ---- Reasoning trace ---- */
+    .trace-toggle {
+      font-size: 12px; color: var(--muted); cursor: pointer; padding: 10px 18px;
+      border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 6px;
+    }
+    .trace-toggle:hover { color: var(--text); }
+    .trace-body {
+      display: none; padding: 14px 18px; font-size: 12px; color: var(--muted);
+      font-family: monospace; white-space: pre-wrap; border-bottom: 1px solid var(--border);
+      background: var(--bg); line-height: 1.6; max-height: 300px; overflow-y: auto;
+    }
+    .trace-body.open { display: block; }
+
+    /* ---- Action bar ---- */
+    .action-bar {
+      padding: 12px 18px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    }
+
+    .btn {
+      padding: 7px 16px; border-radius: 6px; font-size: 13px; font-weight: 500;
+      cursor: pointer; border: 1px solid transparent; transition: all 0.15s; white-space: nowrap;
+    }
+    .btn-approve {
+      background: var(--green); color: #000; border-color: var(--green);
+    }
+    .btn-approve:hover { background: #2da040; }
+
+    .btn-kill {
+      background: rgba(248,81,73,0.12); color: var(--red); border-color: var(--red);
+    }
+    .btn-kill:hover { background: rgba(248,81,73,0.22); }
+
+    .btn-snooze {
+      background: none; color: var(--muted); border-color: var(--border);
+    }
+    .btn-snooze:hover { border-color: var(--muted); color: var(--text); }
+
+    .btn-dm {
+      background: rgba(88,166,255,0.1); color: var(--blue); border-color: rgba(88,166,255,0.4);
+    }
+    .btn-dm:hover { background: rgba(88,166,255,0.2); }
+
+    .action-bar .spacer { flex: 1; }
+    .sent-label { font-size: 12px; color: var(--green); }
+    .killed-label { font-size: 12px; color: var(--red); }
+
+    /* ---- Send modal ---- */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.7); z-index: 200;
+      align-items: center; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; width: 480px; max-width: 95vw; padding: 24px;
+    }
+    .modal h3 { font-size: 16px; margin-bottom: 4px; }
+    .modal-sub { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+    .modal-channels { display: flex; gap: 10px; margin-bottom: 20px; }
+    .channel-opt {
+      flex: 1; padding: 14px; border: 1px solid var(--border); border-radius: 8px;
+      cursor: pointer; text-align: center; transition: all 0.15s;
+    }
+    .channel-opt:hover, .channel-opt.selected {
+      border-color: var(--accent); background: rgba(200,151,58,0.06);
+    }
+    .channel-opt h4 { font-size: 14px; margin-bottom: 4px; }
+    .channel-opt p { font-size: 12px; color: var(--muted); }
+    .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+    .btn-cancel {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+    }
+    .btn-cancel:hover { color: var(--text); }
+    .btn-send-confirm {
+      background: var(--green); color: #000; border-color: var(--green);
+    }
+    .btn-send-confirm:disabled {
+      opacity: 0.4; cursor: not-allowed;
+    }
+
+    /* ---- Kill modal ---- */
+    .kill-modal { width: 420px; }
+    .kill-modal textarea {
+      width: 100%; background: var(--surface2); border: 1px solid var(--border);
+      color: var(--text); border-radius: 6px; padding: 10px; font-size: 13px;
+      font-family: inherit; resize: vertical; min-height: 80px; margin-top: 6px;
+    }
+    .kill-modal textarea:focus { outline: none; border-color: var(--accent); }
+    .kill-modal label { font-size: 13px; color: var(--muted); }
+
+    /* ---- Snooze modal ---- */
+    .snooze-options { display: flex; gap: 10px; margin: 14px 0 20px; }
+    .snooze-opt {
+      flex: 1; padding: 10px; border: 1px solid var(--border); border-radius: 6px;
+      cursor: pointer; text-align: center; font-size: 13px;
+      transition: all 0.15s; color: var(--muted);
+    }
+    .snooze-opt:hover, .snooze-opt.selected {
+      border-color: var(--accent); color: var(--text);
+    }
+
+    /* ---- Empty state ---- */
+    .empty-state {
+      text-align: center; padding: 80px 20px; color: var(--muted);
+    }
+    .empty-state h3 { font-size: 16px; color: var(--text); margin-bottom: 8px; }
+
+    /* ---- Loading ---- */
+    .loading { text-align: center; padding: 60px; color: var(--muted); font-size: 14px; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">F</div>
+    <span class="logo-text">Fortline Global</span>
+    <span class="logo-sub">Outreach Dashboard</span>
+  </div>
+  <div class="spacer"></div>
+  <div class="stat-pill" id="stat-queued"><b id="n-queued">–</b> queued</div>
+  <div class="stat-pill" id="stat-sent"><b id="n-sent">–</b> sent this week</div>
+  <div class="stat-pill" id="stat-replies"><b id="n-replies">–</b> replies</div>
+</header>
+
+<div class="container">
+  <div class="filters">
+    <button class="filter-btn active" data-filter="queued">Queued</button>
+    <button class="filter-btn" data-filter="approved">Approved</button>
+    <button class="filter-btn" data-filter="sent">Sent</button>
+    <button class="filter-btn" data-filter="killed">Killed</button>
+    <button class="filter-btn" data-filter="all">All</button>
+    <div class="spacer"></div>
+    <button class="refresh-btn" onclick="loadDrafts()">Refresh</button>
+  </div>
+
+  <div id="drafts-container">
+    <div class="loading">Loading drafts...</div>
+  </div>
+</div>
+
+<!-- Send modal -->
+<div class="modal-overlay" id="send-modal">
+  <div class="modal">
+    <h3>Send outreach</h3>
+    <div class="modal-sub" id="send-modal-contact">–</div>
+    <div class="modal-channels">
+      <div class="channel-opt" id="ch-email" onclick="selectChannel('email')">
+        <h4>Email</h4>
+        <p>Send via SMTP<br>to eddie@fortlineglobal.com</p>
+      </div>
+      <div class="channel-opt" id="ch-linkedin" onclick="selectChannel('linkedin')">
+        <h4>LinkedIn (copy)</h4>
+        <p>Copy DM to clipboard,<br>send manually</p>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-cancel" onclick="closeModal('send-modal')">Cancel</button>
+      <button class="btn btn-send-confirm" id="btn-send-confirm" disabled onclick="confirmSend()">Send</button>
+    </div>
+  </div>
+</div>
+
+<!-- Kill modal -->
+<div class="modal-overlay" id="kill-modal">
+  <div class="modal kill-modal">
+    <h3>Kill draft</h3>
+    <div style="margin-top:14px">
+      <label for="kill-reason-input">Reason (optional):</label>
+      <textarea id="kill-reason-input" placeholder="e.g. Wrong template version, weak source, wrong role..."></textarea>
+    </div>
+    <div class="modal-actions" style="margin-top:14px">
+      <button class="btn btn-cancel" onclick="closeModal('kill-modal')">Cancel</button>
+      <button class="btn btn-kill" onclick="confirmKill()">Kill draft</button>
+    </div>
+  </div>
+</div>
+
+<!-- Snooze modal -->
+<div class="modal-overlay" id="snooze-modal">
+  <div class="modal">
+    <h3>Snooze draft</h3>
+    <div class="modal-sub">Draft will return to the queue after the snooze period.</div>
+    <div class="snooze-options">
+      <div class="snooze-opt" data-hours="24" onclick="selectSnooze(this)">24 hours</div>
+      <div class="snooze-opt" data-hours="168" onclick="selectSnooze(this)">7 days</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-cancel" onclick="closeModal('snooze-modal')">Cancel</button>
+      <button class="btn btn-approve" id="btn-snooze-confirm" disabled onclick="confirmSnooze()">Snooze</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ---------------------------------------------------------------------------
+// Config — replace with your actual backend URLs
+// ---------------------------------------------------------------------------
+const STATE_MCP_URL   = window.FORTLINE_STATE_URL   || '/api/state';
+const EMAIL_BACKEND_URL = window.FORTI_EMAIL_URL    || '/api/email';
+const API_KEY         = window.FORTLINE_API_KEY     || '';
+
+// ---------------------------------------------------------------------------
+// State
+// ---------------------------------------------------------------------------
+let drafts = [];
+let currentFilter = 'queued';
+let activeDraftId = null;
+let sendChannel = null;
+let snoozeHours = null;
+
+const tabLabels = {
+  email_cold:         'Email',
+  dm_long:            'DM Long',
+  dm_short_reminder:  'DM Short (Reminder)',
+  dm_short_standalone:'DM Short (Standalone)',
+};
+
+// ---------------------------------------------------------------------------
+// Fetch drafts from State MCP
+// ---------------------------------------------------------------------------
+async function loadDrafts() {
+  document.getElementById('drafts-container').innerHTML = '<div class="loading">Loading drafts...</div>';
+  try {
+    const url = `${STATE_MCP_URL}/drafts` + (currentFilter !== 'all' ? `?status=${currentFilter}` : '');
+    const res = await fetch(url, { headers: { 'X-API-Key': API_KEY } });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    drafts = await res.json();
+    renderDrafts();
+    updateStats();
+  } catch (e) {
+    // For demo purposes, load mock data if backend unavailable
+    drafts = getMockDrafts();
+    renderDrafts();
+    updateStats();
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Render
+// ---------------------------------------------------------------------------
+function renderDrafts() {
+  const container = document.getElementById('drafts-container');
+  const visible = currentFilter === 'all' ? drafts : drafts.filter(d => d.status === currentFilter);
+
+  if (visible.length === 0) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <h3>No drafts</h3>
+        <p>No ${currentFilter === 'all' ? '' : currentFilter} drafts at this time.</p>
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = visible.map(d => renderCard(d)).join('');
+}
+
+function renderCard(d) {
+  const statusClass = ['killed','sent','approved'].includes(d.status) ? d.status : '';
+  const templateBadge = d.template_version ? `<span class="badge badge-template">${d.template_version}</span>` : '';
+  const verticalBadge = d.vertical ? `<span class="badge badge-vertical">${d.vertical.replace(/_/g,' ')}</span>` : '';
+  const geoBadge = d.geography ? `<span class="badge badge-geo">${d.geography}</span>` : '';
+  const statusBadge = `<span class="badge badge-status-${d.status}">${d.status}</span>`;
+
+  const hooksHtml = (d.hooks || []).map(h => `
+    <div class="hook-item">
+      <div class="hook-text">${escHtml(h.hook)}</div>
+      <div class="hook-source">
+        <div class="trust-dot ${h.domain_trust || 'unknown'}" title="${h.domain_trust || 'unknown'}"></div>
+        <span class="trust-label">${h.domain_trust || 'unknown'}</span>
+        <a href="${escHtml(h.source_url)}" target="_blank" rel="noopener">${escHtml(h.source_url)}</a>
+      </div>
+    </div>`).join('');
+
+  // Build draft versions from the drafts object
+  const draftVersions = d.drafts || {};
+  const tabKeys = Object.keys(draftVersions);
+  const tabsHtml = tabKeys.map((k, i) => `
+    <button class="tab-btn ${i === 0 ? 'active' : ''}"
+            onclick="switchTab('${d.id}','${k}')"
+            data-card="${d.id}" data-tab="${k}">
+      ${tabLabels[k] || k}
+    </button>`).join('');
+
+  const panelsHtml = tabKeys.map((k, i) => {
+    const v = draftVersions[k];
+    const subjectLine = v.subject ? `<div class="draft-subject">Subject: <span>${escHtml(v.subject)}</span></div>` : '';
+    return `
+      <div class="draft-panel ${i === 0 ? 'active' : ''}" data-card="${d.id}" data-panel="${k}">
+        ${subjectLine}
+        <textarea class="draft-body-text" id="body-${d.id}-${k}"
+                  data-original="${escHtml(v.body || '')}">${escHtml(v.body || '')}</textarea>
+      </div>`;
+  }).join('');
+
+  const traceHtml = d.reasoning_trace ? `
+    <div class="trace-toggle" onclick="toggleTrace('${d.id}')">
+      <span id="trace-icon-${d.id}">▶</span> Reasoning trace
+    </div>
+    <div class="trace-body" id="trace-${d.id}">${escHtml(d.reasoning_trace)}</div>` : '';
+
+  const actionBar = renderActionBar(d);
+
+  return `
+    <div class="draft-card ${statusClass}" id="card-${d.id}">
+      <div class="card-header" onclick="toggleCard('${d.id}')">
+        <span class="card-expand" id="expand-${d.id}">▶</span>
+        <div class="contact-block">
+          <div class="contact-name">${escHtml(d.full_name || '—')}</div>
+          <div class="contact-meta">
+            ${escHtml(d.role || '')}
+            ${d.role && d.org_name ? '<span class="sep">·</span>' : ''}
+            ${escHtml(d.org_name || '')}
+            ${d.email ? `<span class="sep">·</span><a href="mailto:${escHtml(d.email)}" style="color:var(--blue)">${escHtml(d.email)}</a>` : ''}
+          </div>
+          <div class="badges">
+            ${verticalBadge}${geoBadge}${templateBadge}${statusBadge}
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);white-space:nowrap;margin-top:2px">
+          ${formatDate(d.created_at)}
+        </div>
+      </div>
+
+      <div class="card-body" id="body-${d.id}">
+        <div class="card-section">
+          <div class="section-label">ICP Fit Reasoning</div>
+          <div class="icp-reason">${escHtml(d.icp_fit_reasoning || '—')}</div>
+          ${d.template_reason ? `<div class="template-reason">Template: ${escHtml(d.template_reason)}</div>` : ''}
+        </div>
+
+        ${(d.hooks || []).length ? `
+        <div class="card-section">
+          <div class="section-label">Hooks &amp; Sources</div>
+          <div class="hook-list">${hooksHtml}</div>
+        </div>` : ''}
+
+        ${tabKeys.length ? `
+        <div class="draft-tabs">
+          <div class="tab-list">${tabsHtml}</div>
+        </div>
+        <div class="draft-panels">${panelsHtml}</div>` : ''}
+
+        ${traceHtml}
+        ${actionBar}
+      </div>
+    </div>`;
+}
+
+function renderActionBar(d) {
+  if (d.status === 'killed') {
+    return `<div class="action-bar"><span class="killed-label">Killed${d.kill_reason ? ': ' + escHtml(d.kill_reason) : ''}</span></div>`;
+  }
+  if (d.status === 'sent') {
+    return `<div class="action-bar"><span class="sent-label">Sent ${formatDate(d.sent_at)}</span>
+      <button class="btn btn-dm" onclick="markDmSent('${d.id}')">Mark DM sent</button>
+    </div>`;
+  }
+  return `
+    <div class="action-bar">
+      <button class="btn btn-approve" onclick="openSendModal('${d.id}')">Approve &amp; Send</button>
+      <button class="btn btn-kill"   onclick="openKillModal('${d.id}')">Kill</button>
+      <button class="btn btn-snooze" onclick="openSnoozeModal('${d.id}')">Snooze</button>
+      <div class="spacer"></div>
+      <button class="btn btn-dm"    onclick="markDmSent('${d.id}')">Mark DM sent</button>
+    </div>`;
+}
+
+// ---------------------------------------------------------------------------
+// Card interactions
+// ---------------------------------------------------------------------------
+function toggleCard(id) {
+  const body = document.getElementById('body-' + id);
+  const icon = document.getElementById('expand-' + id);
+  if (body.classList.contains('open')) {
+    body.classList.remove('open');
+    icon.textContent = '▶';
+  } else {
+    body.classList.add('open');
+    icon.textContent = '▼';
+  }
+}
+
+function switchTab(cardId, tabKey) {
+  document.querySelectorAll(`.tab-btn[data-card="${cardId}"]`).forEach(b => b.classList.remove('active'));
+  document.querySelectorAll(`.draft-panel[data-card="${cardId}"]`).forEach(p => p.classList.remove('active'));
+  document.querySelector(`.tab-btn[data-card="${cardId}"][data-tab="${tabKey}"]`).classList.add('active');
+  document.querySelector(`.draft-panel[data-card="${cardId}"][data-panel="${tabKey}"]`).classList.add('active');
+}
+
+function toggleTrace(id) {
+  const el = document.getElementById('trace-' + id);
+  const icon = document.getElementById('trace-icon-' + id);
+  el.classList.toggle('open');
+  icon.textContent = el.classList.contains('open') ? '▼' : '▶';
+}
+
+// ---------------------------------------------------------------------------
+// Send modal
+// ---------------------------------------------------------------------------
+function openSendModal(draftId) {
+  activeDraftId = draftId;
+  sendChannel = null;
+  document.getElementById('btn-send-confirm').disabled = true;
+  document.getElementById('ch-email').classList.remove('selected');
+  document.getElementById('ch-linkedin').classList.remove('selected');
+
+  const d = drafts.find(x => x.id === draftId);
+  document.getElementById('send-modal-contact').textContent =
+    `${d?.full_name || '—'} · ${d?.org_name || '—'} · ${d?.email || 'LinkedIn only'}`;
+  document.getElementById('send-modal').classList.add('open');
+}
+
+function selectChannel(ch) {
+  sendChannel = ch;
+  document.getElementById('ch-email').classList.toggle('selected', ch === 'email');
+  document.getElementById('ch-linkedin').classList.toggle('selected', ch === 'linkedin');
+  document.getElementById('btn-send-confirm').disabled = false;
+}
+
+async function confirmSend() {
+  if (!activeDraftId || !sendChannel) return;
+  closeModal('send-modal');
+
+  const d = drafts.find(x => x.id === activeDraftId);
+  if (!d) return;
+
+  if (sendChannel === 'linkedin') {
+    // Copy DM Long to clipboard
+    const dmBody = d.drafts?.dm_long?.body || d.drafts?.dm_short_standalone?.body || '';
+    try { await navigator.clipboard.writeText(dmBody); } catch(e) {}
+    await updateStatus(activeDraftId, 'sent');
+    return;
+  }
+
+  // Email: call forti-email backend
+  try {
+    const res = await fetch(`${EMAIL_BACKEND_URL}/send`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY },
+      body: JSON.stringify({
+        to: d.email,
+        subject: d.drafts?.email_cold?.subject || '',
+        body:    d.drafts?.email_cold?.body    || '',
+        draft_id: d.id,
+      }),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    await updateStatus(activeDraftId, 'sent', { sent_at: data.sent_at });
+  } catch(e) {
+    alert(`Send failed: ${e.message}`);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Kill modal
+// ---------------------------------------------------------------------------
+function openKillModal(draftId) {
+  activeDraftId = draftId;
+  document.getElementById('kill-reason-input').value = '';
+  document.getElementById('kill-modal').classList.add('open');
+}
+
+async function confirmKill() {
+  const reason = document.getElementById('kill-reason-input').value.trim();
+  closeModal('kill-modal');
+  await updateStatus(activeDraftId, 'killed', { kill_reason: reason || null });
+}
+
+// ---------------------------------------------------------------------------
+// Snooze modal
+// ---------------------------------------------------------------------------
+function openSnoozeModal(draftId) {
+  activeDraftId = draftId;
+  snoozeHours = null;
+  document.getElementById('btn-snooze-confirm').disabled = true;
+  document.querySelectorAll('.snooze-opt').forEach(o => o.classList.remove('selected'));
+  document.getElementById('snooze-modal').classList.add('open');
+}
+
+function selectSnooze(el) {
+  document.querySelectorAll('.snooze-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  snoozeHours = parseInt(el.dataset.hours, 10);
+  document.getElementById('btn-snooze-confirm').disabled = false;
+}
+
+async function confirmSnooze() {
+  closeModal('snooze-modal');
+  // Snooze = keep status queued but record snooze_until (not in schema yet; defer to backend)
+  console.log(`Snooze ${activeDraftId} for ${snoozeHours}h`);
+}
+
+// ---------------------------------------------------------------------------
+// Mark DM sent
+// ---------------------------------------------------------------------------
+async function markDmSent(draftId) {
+  try {
+    await fetch(`${STATE_MCP_URL}/drafts/${draftId}/mark-dm-sent`, {
+      method: 'POST',
+      headers: { 'X-API-Key': API_KEY },
+    });
+  } catch(e) {}
+  const d = drafts.find(x => x.id === draftId);
+  if (d) d.status = 'sent';
+  renderDrafts();
+}
+
+// ---------------------------------------------------------------------------
+// Status update (calls State MCP)
+// ---------------------------------------------------------------------------
+async function updateStatus(draftId, status, extra = {}) {
+  try {
+    await fetch(`${STATE_MCP_URL}/drafts/${draftId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY },
+      body: JSON.stringify({ status, ...extra }),
+    });
+  } catch(e) { console.warn('State update failed', e); }
+  const d = drafts.find(x => x.id === draftId);
+  if (d) Object.assign(d, { status, ...extra });
+  renderDrafts();
+}
+
+// ---------------------------------------------------------------------------
+// Filters
+// ---------------------------------------------------------------------------
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderDrafts();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Stats
+// ---------------------------------------------------------------------------
+function updateStats() {
+  document.getElementById('n-queued').textContent  = drafts.filter(d => d.status === 'queued').length;
+  document.getElementById('n-sent').textContent    = drafts.filter(d => d.status === 'sent').length;
+  document.getElementById('n-replies').textContent = drafts.filter(d => d.status === 'replied').length;
+}
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function escHtml(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function formatDate(iso) {
+  if (!iso) return '';
+  try {
+    return new Date(iso).toLocaleDateString('en-GB', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
+  } catch(e) { return iso; }
+}
+
+// ---------------------------------------------------------------------------
+// Mock data (rendered when backend is unavailable)
+// ---------------------------------------------------------------------------
+function getMockDrafts() {
+  return [{
+    id: 'mock-001',
+    full_name: 'Ahmed Al-Rashid',
+    role: 'General Manager',
+    org_name: 'Jumeirah Yas Island Hotel',
+    email: 'a.alrashid@jumeirah.com',
+    vertical: 'uae_hospitality',
+    geography: 'UAE',
+    status: 'queued',
+    template_version: 'v2.2',
+    created_at: new Date().toISOString(),
+    icp_fit_reasoning: 'Newly opened Jumeirah property on Yas Island (Jan 2025). GM joined 6 months ago. ICP Brief 1 match: UAE Tier 1 Hospitality, 200+ rooms, post-2018 opening.',
+    template_reason: 'UAE hospitality — soft advisory tone required. Israeli angle: OFF.',
+    hooks: [
+      {
+        hook: "Jumeirah Group announced the opening of their Yas Island property in January 2025, the group's sixth UAE property.",
+        source_url: 'https://www.hotelnewsme.com/jumeirah-yas-island-opening-2025',
+        domain_trust: 'trusted',
+      }
+    ],
+    drafts: {
+      email_cold: {
+        subject: "Jumeirah Yas Island opening, January 2025",
+        body: "Ahmed,\n\nSaw that Jumeirah opened its Yas Island property in January — congratulations on the launch.\n\nAs the group scales into new Abu Dhabi properties, the security architecture decisions made in the first 12 months tend to set the baseline for the next decade. I work with hospitality groups at exactly this stage.\n\nWorth a 20-minute conversation?\n\nEddie Nudel | Strategic Advisor | Fortline Global"
+      },
+      dm_long: {
+        body: "Ahmed — noticed Jumeirah opened its Yas Island property in January, the group's sixth UAE location. As you settle into the new property, the security infrastructure decisions made in year one tend to define the baseline for years ahead. I advise hospitality groups navigating this stage. Worth a brief exchange?"
+      },
+      dm_short_reminder: {
+        body: "Sent an email yesterday about Jumeirah's Yas Island opening. Happy to use LinkedIn if that's easier."
+      },
+      dm_short_standalone: {
+        body: "Noticed Jumeirah opened its Yas Island property — impressive project. I advise hospitality groups on security architecture at the expansion stage. Would a brief exchange be useful?"
+      }
+    },
+    reasoning_trace: "ICP Brief 1 match: UAE Tier 1 Hospitality. Org: Jumeirah Yas Island Hotel. Decision-maker: GM (priority tier 1). Hook: verified opening announcement via hotelnewsme.com (trusted domain, HTTP 200). Template: v2.2 — UAE hospitality, soft advisory, Israeli angle OFF. All guardrails passed."
+  }];
+}
+
+// ---------------------------------------------------------------------------
+// Init
+// ---------------------------------------------------------------------------
+loadDrafts();
+// Auto-refresh every 5 minutes
+setInterval(loadDrafts, 5 * 60 * 1000);
+</script>
+</body>
+</html>
