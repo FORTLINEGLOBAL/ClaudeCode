@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fortline Global — New AE Brief</title>
+<style>
+@font-face {
+  font-family: 'Inter';
+  src: url('fonts/InterVariable.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('fonts/InterVariable-Italic.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:      #09141F;
+  --navy-mid:  #0F1E2E;
+  --blue:      #1A56C4;
+  --blue-dim:  rgba(26,86,196,0.28);
+  --blue-bg:   rgba(26,86,196,0.06);
+  --gold:      #C8A84B;
+  --gold-dim:  rgba(200,168,75,0.30);
+  --gold-bg:   rgba(200,168,75,0.06);
+  --white:     #FFFFFF;
+  --gray:      #7A92A8;
+  --gray-light:#B4C6D6;
+  --green:     #22C55E;
+  --green-bg:  rgba(34,197,94,0.07);
+  --green-dim: rgba(34,197,94,0.25);
+}
+
+body {
+  font-family: 'Inter', Arial, sans-serif;
+  background: #060E18;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 40px 20px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  width: 860px;
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.7);
+}
+.page::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(to right, var(--blue) 50%, var(--gold) 50%);
+  z-index: 2;
+}
+
+/* HEADER */
+.header {
+  padding: 26px 48px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background: var(--navy-mid);
+}
+.logo-row { display: flex; align-items: center; gap: 10px; }
+.logo-row img { height: 28px; width: auto; object-fit: contain; }
+.logo-name { font-size: 13px; font-weight: 700; color: var(--white); letter-spacing: 0.05em; text-transform: uppercase; }
+.header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.doc-label { font-size: 8px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--blue); }
+.doc-title { font-size: 12.5px; font-weight: 700; color: var(--white); }
+.doc-sub { font-size: 9px; color: var(--gray); }
+
+/* HERO */
+.hero {
+  padding: 26px 48px 20px;
+  background: linear-gradient(135deg, #0C1E35 0%, #060E18 100%);
+  border-bottom: 2px solid var(--blue-dim);
+}
+.eyebrow { font-size: 8px; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: var(--blue); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+.eyebrow::before { content: ''; width: 14px; height: 1.5px; background: var(--blue); flex-shrink: 0; }
+.hero h1 { font-size: 24px; font-weight: 900; letter-spacing: -0.03em; line-height: 1.15; color: var(--white); margin-bottom: 8px; }
+.hero h1 .accent { color: var(--blue); }
+.hero-sub { font-size: 10.5px; color: var(--gray); line-height: 1.6; max-width: 640px; }
+
+/* SECTION WRAPPER */
+.section {
+  padding: 20px 48px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.section:last-child { border-bottom: none; }
+
+.section-title {
+  font-size: 8px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--blue); margin-bottom: 14px; display: flex; align-items: center; gap: 7px;
+}
+.section-title::before { content: ''; width: 12px; height: 1.5px; background: var(--blue); flex-shrink: 0; }
+.section-title.gold { color: var(--gold); }
+.section-title.gold::before { background: var(--gold); }
+.section-title.green { color: var(--green); }
+.section-title.green::before { background: var(--green); }
+
+/* ICP GRID */
+.icp-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+.icp-card {
+  background: var(--navy-mid);
+  border: 1px solid rgba(255,255,255,0.07);
+  padding: 11px 12px;
+}
+.icp-card.hi { background: var(--blue-bg); border-color: var(--blue-dim); }
+.icp-card-label { font-size: 7px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--blue); margin-bottom: 4px; }
+.icp-card-label.gold { color: var(--gold); }
+.icp-card-name { font-size: 10px; font-weight: 700; color: var(--white); margin-bottom: 3px; line-height: 1.2; }
+.icp-card-body { font-size: 8.5px; color: var(--gray); line-height: 1.5; }
+
+/* TRIGGER BOX */
+.trigger-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+.trigger-box {
+  background: var(--gold-bg);
+  border: 1px solid var(--gold-dim);
+  padding: 9px 11px;
+}
+.trigger-label { font-size: 7px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
+.trigger-text { font-size: 8.5px; color: var(--gray-light); line-height: 1.5; }
+
+/* PROSPECT TABLE */
+.prospect-list { display: flex; flex-direction: column; gap: 6px; }
+.prospect-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 180px 90px;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 10px;
+  background: var(--navy-mid);
+  border: 1px solid rgba(255,255,255,0.07);
+}
+.prospect-row.hi { background: var(--blue-bg); border-color: var(--blue-dim); }
+.prospect-num { font-size: 9px; font-weight: 800; color: var(--blue); }
+.prospect-name { font-size: 10px; font-weight: 700; color: var(--white); line-height: 1.2; }
+.prospect-role { font-size: 8.5px; color: var(--gray); line-height: 1.35; margin-top: 1px; }
+.prospect-company { font-size: 8.5px; color: var(--gray-light); line-height: 1.4; }
+.prospect-tag {
+  font-size: 7.5px; font-weight: 700; letter-spacing: 0.08em;
+  padding: 3px 7px;
+  background: rgba(26,86,196,0.15);
+  border: 1px solid var(--blue-dim);
+  color: var(--blue);
+  text-align: center;
+}
+.prospect-tag.red { background: rgba(239,68,68,0.10); border-color: rgba(239,68,68,0.3); color: #F87171; }
+.prospect-tag.amber { background: rgba(251,191,36,0.10); border-color: rgba(251,191,36,0.3); color: #FBB24B; }
+
+/* COUNTRY GRID */
+.country-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.country-card {
+  padding: 10px 12px;
+  border: 1px solid rgba(255,255,255,0.07);
+  background: var(--navy-mid);
+}
+.country-card.priority { background: var(--gold-bg); border-color: var(--gold-dim); }
+.country-card.active { background: var(--blue-bg); border-color: var(--blue-dim); }
+.country-tag { font-size: 7px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gray); margin-bottom: 3px; }
+.country-tag.gold { color: var(--gold); }
+.country-tag.blue { color: var(--blue); }
+.country-name { font-size: 11px; font-weight: 800; color: var(--white); margin-bottom: 2px; }
+.country-why { font-size: 8.5px; color: var(--gray); line-height: 1.45; }
+
+/* OUTREACH SECTION */
+.outreach-block { margin-bottom: 16px; }
+.outreach-block:last-child { margin-bottom: 0; }
+.outreach-meta {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 7px;
+}
+.outreach-type {
+  font-size: 7px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+  padding: 3px 8px; background: var(--blue-bg); border: 1px solid var(--blue-dim); color: var(--blue);
+}
+.outreach-type.green-tag { background: var(--green-bg); border-color: var(--green-dim); color: var(--green); }
+.outreach-type.gold-tag { background: var(--gold-bg); border-color: var(--gold-dim); color: var(--gold); }
+.outreach-target { font-size: 9px; font-weight: 600; color: var(--gray-light); }
+.email-box {
+  background: #060E18;
+  border: 1px solid rgba(255,255,255,0.10);
+  padding: 12px 14px;
+}
+.email-subject { font-size: 9.5px; font-weight: 700; color: var(--blue); margin-bottom: 8px; }
+.email-body { font-size: 9px; color: var(--gray); line-height: 1.65; white-space: pre-wrap; }
+.email-note {
+  margin-top: 6px;
+  font-size: 8px;
+  color: var(--gold);
+  font-style: italic;
+}
+
+/* WHAT WORKS */
+.rule-list { display: flex; flex-direction: column; gap: 5px; }
+.rule-row { display: flex; align-items: flex-start; gap: 9px; padding: 7px 10px; background: var(--navy-mid); border: 1px solid rgba(255,255,255,0.07); }
+.rule-row.hi { background: var(--green-bg); border-color: var(--green-dim); }
+.rule-dot { width: 5px; height: 5px; background: var(--blue); flex-shrink: 0; margin-top: 4px; }
+.rule-dot.green { background: var(--green); }
+.rule-text { font-size: 9px; color: var(--gray-light); line-height: 1.5; }
+.rule-text strong { color: var(--white); font-weight: 700; }
+
+/* CHANNEL TABLE */
+.channel-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-top: 10px; }
+.channel-card { padding: 10px 11px; border: 1px solid rgba(255,255,255,0.07); background: var(--navy-mid); }
+.channel-label { font-size: 7px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); margin-bottom: 4px; }
+.channel-name { font-size: 10px; font-weight: 700; color: var(--white); margin-bottom: 2px; }
+.channel-desc { font-size: 8.5px; color: var(--gray); line-height: 1.45; }
+
+/* STATS STRIP */
+.stats-strip { display: grid; grid-template-columns: repeat(4,1fr); border-top: 1px solid rgba(255,255,255,0.06); background: var(--navy-mid); }
+.stat-item { padding: 12px 14px; display: flex; flex-direction: column; gap: 3px; border-right: 1px solid rgba(255,255,255,0.06); }
+.stat-item:last-child { border-right: none; }
+.stat-value { font-size: 14px; font-weight: 900; color: var(--blue); letter-spacing: -0.03em; line-height: 1; }
+.stat-value.gold { color: var(--gold); }
+.stat-label { font-size: 8px; font-weight: 500; color: var(--gray); line-height: 1.3; }
+
+/* FOOTER */
+.footer {
+  padding: 14px 48px; background: rgba(26,86,196,0.04); border-top: 1px solid var(--blue-dim);
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+}
+.footer-cta { font-size: 10px; font-weight: 600; color: var(--white); line-height: 1.5; }
+.footer-cta span { color: var(--blue); }
+.footer-contact { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+.footer-contact .web { font-size: 8.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); }
+.footer-contact span { font-size: 9px; color: var(--gray); }
+
+@media print {
+  body { background: none; padding: 0; }
+  .page { box-shadow: none; width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-row">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGwAAAB0CAYAAABg49c7AAAMTGlDQ1BJQ0MgUHJvZmlsZQAASImVVwdYU8kWnltSIQQIREBK6E0QkRJASggtgPQiiEpIAoQSY0JQsSPLruDaRQQrugqi2AERG3ZlUex9saCirIvrYlfehAC67Cvfm++bO//958w/55w7994ZAOgdfKk0B9UEIFeSJ4sJ9mdNSEpmkV4ADBgCNeABmHyBXMqJigoHsAy2fy9vbwBE2V51UGr9s/+/Fi2hSC4AAImCOE0oF+RCfAA7olpgQRYKIwSQKGIWPg1yCS3IJUMlqZC0SMXiTNJEjcXEaElaT5WLJEIBgD0VSm0CMrFzgD0IgDGIwCGIiRNh88AqBEDAB4SIk7gRNQ3CyGEhATZCOWq4ADQFiKNBYSJIOkSq9GQBGO7cQ7jXsv0OOKAFgAIjHxTggAfFiVgAAApJJREFUeNrt3L1u01AUAOCTeGg3wMQO4gdQxm5mYCQbqxIkFglUCDVBZW6poqSJm" alt="Fortline Global">
+      <span class="logo-name">Fortline Global</span>
+    </div>
+    <div class="header-right">
+      <div class="doc-label">Internal — New AE Onboarding</div>
+      <div class="doc-title">Account Executive Brief</div>
+      <div class="doc-sub">Europe Defense &amp; Infrastructure · May 2026</div>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow">Who We Sell To · Who Signs · What Works · Where We Focus</div>
+    <h1>Everything You Need to<br><span class="accent">Start Selling Immediately.</span></h1>
+    <p class="hero-sub">Fortline Global delivers Israeli-proven structural hardening technology to governments, defense organizations, and critical infrastructure operators across Europe. This brief covers our Ideal Customer Profile, real prospect examples from active campaigns, target countries, and the exact outreach formats that have generated engagement.</p>
+  </div>
+
+  <!-- SECTION 1: ICP -->
+  <div class="section">
+    <div class="section-title">1 — Ideal Customer Profile (ICP)</div>
+    <div class="icp-grid">
+      <div class="icp-card hi">
+        <div class="icp-card-label">Organization Type</div>
+        <div class="icp-card-name">State Defense Conglomerates</div>
+        <div class="icp-card-body">State-owned defense industrial groups managing programs, facilities, and command infrastructure at national scale. E.g. Polska Grupa Zbrojeniowa (PGZ).</div>
+      </div>
+      <div class="icp-card hi">
+        <div class="icp-card-label">Organization Type</div>
+        <div class="icp-card-name">Government Ministries &amp; Procurement Agencies</div>
+        <div class="icp-card-body">Defense ministries, armament agencies, and national security bodies responsible for procurement, infrastructure protection, and civil defense frameworks.</div>
+      </div>
+      <div class="icp-card hi">
+        <div class="icp-card-label">Organization Type</div>
+        <div class="icp-card-name">Critical Infrastructure Operators</div>
+        <div class="icp-card-body">Energy grids, national telecom providers, water utilities, data centers, and transport hubs — any operator whose facilities cannot afford downtime under threat.</div>
+      </div>
+      <div class="icp-card">
+        <div class="icp-card-label">Decision-Maker Profile</div>
+        <div class="icp-card-name">C-Suite &amp; Board Level</div>
+        <div class="icp-card-body">CEO, VP Board, COO — strategic sign-off. These contacts approve budgets and can mandate facility protection programs across subsidiaries.</div>
+      </div>
+      <div class="icp-card">
+        <div class="icp-card-label">Decision-Maker Profile</div>
+        <div class="icp-card-name">Program Directors &amp; Heads of Procurement</div>
+        <div class="icp-card-body">Program office directors, heads of purchasing, facility/security managers — the people who evaluate vendors and run the process. Essential second track.</div>
+      </div>
+      <div class="icp-card">
+        <div class="icp-card-label">Decision-Maker Profile</div>
+        <div class="icp-card-name">Military &amp; Government Officials</div>
+        <div class="icp-card-body">Senior military officers (Brigadier General+), civil defense heads, and ministry officials responsible for national resilience strategy and civilian protection law.</div>
+      </div>
+    </div>
+
+    <div class="trigger-row">
+      <div class="trigger-box">
+        <div class="trigger-label">Buying Trigger #1 — NATO Rearmament</div>
+        <div class="trigger-text">Countries hitting 2–5% GDP defense spend are building active defense fast. But active defense without passive structural protection leaves every facility exposed when interception fails or is overwhelmed. The gap is the opening.</div>
+      </div>
+      <div class="trigger-box">
+        <div class="trigger-label">Buying Trigger #2 — Proximity to Active Threat</div>
+        <div class="trigger-text">Eastern flank nations (Poland, Baltics, Finland, Romania) face credible, demonstrated missile and drone threats. Decision-makers in these countries have personal urgency. Use it. Reference the Ukraine conflict and NATO's eastern exposure directly.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: TARGET PROSPECTS -->
+  <div class="section">
+    <div class="section-title gold">2 — Real Prospect Examples (Active Poland Campaign)</div>
+    <div class="prospect-list">
+
+      <div class="prospect-row hi">
+        <div class="prospect-num">01</div>
+        <div>
+          <div class="prospect-name">Adam Leszkiewicz</div>
+          <div class="prospect-role">CEO — President of the Management Board</div>
+        </div>
+        <div class="prospect-company">Polska Grupa Zbrojeniowa (PGZ)<br>Poland's state defense conglomerate. 50+ subsidiaries, ~18,000 employees, $1.4B revenue. Prime contractor: NAREW, Miecznik, Borsuk.</div>
+        <div class="prospect-tag red">Immediate Priority</div>
+      </div>
+
+      <div class="prospect-row hi">
+        <div class="prospect-num">02</div>
+        <div>
+          <div class="prospect-name">Jan J. Grabowski</div>
+          <div class="prospect-role">Vice President of the Board</div>
+        </div>
+        <div class="prospect-company">Polska Grupa Zbrojeniowa (PGZ)<br>Board-level budget authority. Parallel track to CEO.</div>
+        <div class="prospect-tag red">Immediate Priority</div>
+      </div>
+
+      <div class="prospect-row">
+        <div class="prospect-num">03</div>
+        <div>
+          <div class="prospect-name">Alina Zarzycka</div>
+          <div class="prospect-role">Director — NAREW Program Office / GBAD Systems</div>
+        </div>
+        <div class="prospect-company">Polska Grupa Zbrojeniowa (PGZ)<br>Owns one of Poland's highest-profile active defense programs. Infrastructure protection directly relevant.</div>
+        <div class="prospect-tag red">Immediate Priority</div>
+      </div>
+
+      <div class="prospect-row">
+        <div class="prospect-num">04</div>
+        <div>
+          <div class="prospect-name">Brig. Gen. Michał Marciniak, PhD</div>
+          <div class="prospect-role">Deputy Head of Armament Agency</div>
+        </div>
+        <div class="prospect-company">Agencja Uzbrojenia (Polish Arms Agency)<br>Controls Poland's defense procurement framework. LinkedIn DM only — no direct email.</div>
+        <div class="prospect-tag amber">High Priority</div>
+      </div>
+
+      <div class="prospect-row">
+        <div class="prospect-num">05</div>
+        <div>
+          <div class="prospect-name">Mateusz Roszkiewicz, EMBA</div>
+          <div class="prospect-role">Director of Strategy &amp; Operational Planning</div>
+        </div>
+        <div class="prospect-company">Polska Grupa Zbrojeniowa (PGZ)<br>Shapes PGZ's long-term positioning. Entry point for national regulatory framework advisory.</div>
+        <div class="prospect-tag amber">High Priority</div>
+      </div>
+
+      <div class="prospect-row">
+        <div class="prospect-num">06</div>
+        <div>
+          <div class="prospect-name">Ewelina Kierdelewicz</div>
+          <div class="prospect-role">Head of Purchasing</div>
+        </div>
+        <div class="prospect-company">Polska Grupa Zbrojeniowa (PGZ)<br>Vendor pipeline owner. Important parallel track — controls who gets evaluated.</div>
+        <div class="prospect-tag amber">High Priority</div>
+      </div>
+
+      <div class="prospect-row">
+        <div class="prospect-num">07</div>
+        <div>
+          <div class="prospect-name">James Katzen</div>
+          <div class="prospect-role">International BD — Missiles &amp; Fire Control</div>
+        </div>
+        <div class="prospect-company">Lockheed Martin<br>Tier-1 prime contractor with major Poland exposure. Partnership / co-sell opportunity, not direct sale.</div>
+        <div class="prospect-tag">Partnership Track</div>
+      </div>
+
+      <div class="prospect-row">
+        <div class="prospect-num">08</div>
+        <div>
+          <div class="prospect-name">Piotr Jaszczura</div>
+          <div class="prospect-role">Program Director — Miecznik Program</div>
+        </div>
+        <div class="prospect-company">Polska Grupa Zbrojeniowa (PGZ)<br>Leads Poland's naval frigate program. High-value asset protection angle.</div>
+        <div class="prospect-tag amber">High Priority</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 3: COUNTRIES -->
+  <div class="section">
+    <div class="section-title">3 — Target Countries</div>
+    <div class="country-grid">
+      <div class="country-card active">
+        <div class="country-tag blue">Active Campaign</div>
+        <div class="country-name">Poland</div>
+        <div class="country-why">4.7% GDP defense spend — fastest rearmament in Europe. NAREW, Miecznik, Borsuk programs. Largest eastern flank country. Our deepest campaign to date. Multiple warm contacts via Israeli Trade Commission Warsaw.</div>
+      </div>
+      <div class="country-card active">
+        <div class="country-tag blue">Active Campaign</div>
+        <div class="country-name">Romania</div>
+        <div class="country-why">Direct engagement via TradeIL Bucharest (Adrian Gvinda). NATO's Black Sea anchor. Growing defense budget. First call completed May 2026 — warm channel established.</div>
+      </div>
+      <div class="country-card priority">
+        <div class="country-tag gold">Priority — Open</div>
+        <div class="country-name">Estonia</div>
+        <div class="country-why">Smallest but most threat-aware NATO member. Shares border with Russia. Extremely high urgency per capita. Government buildings and infrastructure have zero passive protection. Decision-makers are accessible.</div>
+      </div>
+      <div class="country-card priority">
+        <div class="country-tag gold">Priority — Open</div>
+        <div class="country-name">Latvia &amp; Lithuania</div>
+        <div class="country-why">Baltic states share Poland's threat profile. Active NATO deployments. Defense budgets surging. Ministry and critical infrastructure contacts are the entry point.</div>
+      </div>
+      <div class="country-card priority">
+        <div class="country-tag gold">Priority — Open</div>
+        <div class="country-name">Finland</div>
+        <div class="country-why">Recent NATO accession. Longest NATO-Russia land border. Culture of civil defense (bunker infrastructure already exists). Highest baseline receptivity to passive defense messaging in Europe.</div>
+      </div>
+      <div class="country-card">
+        <div class="country-tag">Secondary</div>
+        <div class="country-name">Germany · Sweden · Czech Republic</div>
+        <div class="country-why">Large budgets but slower procurement cycles and more bureaucratic entry. Secondary priority — worth building pipeline but don't expect quick closes. Israel Trade Commission offices in each country are the fastest entry.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4: OUTREACH EXAMPLES -->
+  <div class="section">
+    <div class="section-title green">4 — Effective Outreach Examples</div>
+
+    <!-- Example 1: Best Performing Cold Email (V3/Best) -->
+    <div class="outreach-block">
+      <div class="outreach-meta">
+        <div class="outreach-type green-tag">Best Performing — Cold Email</div>
+        <div class="outreach-target">To: Adam Leszkiewicz, CEO — Polska Grupa Zbrojeniowa</div>
+      </div>
+      <div class="email-box">
+        <div class="email-subject">Subject: PGZ facility hardening</div>
+        <div class="email-body">Hi Adam,
+
+I'm part of Fortline's founding team. I did some homework before reaching out, so hopefully this lands.
+
+Our technology is IDF Home Front Command certified and has been deployed under live multi-vector threat conditions in Israel for 35 years. Poland is building for a threat environment that looks a lot like the one we have been hardening against.
+
+If protecting PGZ's command centers, operations rooms, and program facilities against blast, drone strike, and CBRN exposure is something your security planning covers, that is exactly the methodology we have built.
+
+Worth a call to walk through what a confidential protection assessment would look like for your priority facilities?
+
+Thanks, Eddie</div>
+        <div class="email-note">Why it works: Short (5 sentences), opens with credibility (IDF cert), mirrors their threat reality (Poland ↔ Israel), single CTA — "confidential protection assessment." No pitch deck, no brochure.</div>
+      </div>
+    </div>
+
+    <!-- Example 2: Program-Specific Hook -->
+    <div class="outreach-block">
+      <div class="outreach-meta">
+        <div class="outreach-type">Program-Specific Hook</div>
+        <div class="outreach-target">To: Alina Zarzycka, NAREW Program Director — PGZ</div>
+      </div>
+      <div class="email-box">
+        <div class="email-subject">Subject: NAREW Program Resilience – Fortline Global</div>
+        <div class="email-body">Dear Alina,
+
+I followed PGZ's announcement on the NAREW Program center opening in Gdynia — congratulations on that milestone.
+
+Fortline Global delivers Israeli defense-grade protection for GBAD and ground-based air defense infrastructure. Given the operational urgency around NAREW, I believe there's a timely conversation to be had.
+
+Would a 20-minute call work this month?
+
+Best, Eddie | Fortline Global</div>
+        <div class="email-note">Why it works: Reference to a public announcement (hook = research signal). Ties Fortline's offering directly to her specific program. Short ask — 20 minutes, not a full pitch.</div>
+      </div>
+    </div>
+
+    <!-- Example 3: Vendor Introduction (Procurement Track) -->
+    <div class="outreach-block">
+      <div class="outreach-meta">
+        <div class="outreach-type gold-tag">Procurement Track</div>
+        <div class="outreach-target">To: Ewelina Kierdelewicz, Head of Purchasing — PGZ</div>
+      </div>
+      <div class="email-box">
+        <div class="email-subject">Subject: Fortline Global vendor introduction for PGZ</div>
+        <div class="email-body">Hi Ewelina,
+
+I'm Eddie Nudel, Strategic Advisor and part of the founding team at Fortline Global, a civilian defense company from Israel. As Head of Purchasing at PGZ you oversee the vendor pipeline for one of Poland's most critical defense organizations.
+
+Fortline brings 40 years of Israeli operational experience in passive defense — structural hardening of buildings and facilities against missile, drone, and CBRN threats. Our technology is IDF Home Front Command certified and internationally patented.
+
+I would love to introduce Fortline as a potential vendor for PGZ's facility protection requirements.
+
+Best regards, Eddie</div>
+        <div class="email-note">Why it works: Roles the procurement contact in their own language ("vendor introduction"). Establishes credibility fast. Opens a parallel track to C-suite without waiting on top-down response.</div>
+      </div>
+    </div>
+
+    <!-- Example 4: LinkedIn DM -->
+    <div class="outreach-block">
+      <div class="outreach-meta">
+        <div class="outreach-type">LinkedIn DM</div>
+        <div class="outreach-target">To: Brig. Gen. Michał Marciniak — Agencja Uzbrojenia</div>
+      </div>
+      <div class="email-box">
+        <div class="email-subject">LinkedIn Direct Message</div>
+        <div class="email-body">Hi General Marciniak, your role at Agencja Uzbrojenia — overseeing Poland's procurement framework — is directly relevant to what Fortline Global delivers. We bring Israeli defense-grade protection technology to programs that cannot afford capability gaps. Would you be open to a brief conversation?</div>
+        <div class="email-note">Why it works: Acknowledges their specific authority. Single sentence value prop. Zero friction ask. Under 50 words — respects their time.</div>
+      </div>
+    </div>
+
+    <!-- What Works box -->
+    <div style="margin-top: 14px;">
+      <div style="font-size: 8px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green); margin-bottom: 8px;">Outreach Principles That Work For Fortline</div>
+      <div class="rule-list">
+        <div class="rule-row hi">
+          <div class="rule-dot green"></div>
+          <div class="rule-text"><strong>Lead with IDF credentials, not the product.</strong> "IDF Home Front Command certified. 35 years under live threat conditions." opens every door faster than any feature description.</div>
+        </div>
+        <div class="rule-row hi">
+          <div class="rule-dot green"></div>
+          <div class="rule-text"><strong>Mirror their threat reality.</strong> "Poland is building for a threat environment that looks a lot like the one we have been hardening against." — make the connection explicit, don't leave it implied.</div>
+        </div>
+        <div class="rule-row hi">
+          <div class="rule-dot green"></div>
+          <div class="rule-text"><strong>Always CTA = "confidential protection assessment."</strong> Not a demo, not a deck, not a call. A classified survey under NDA. It sounds like something they already need to do — and they're right.</div>
+        </div>
+        <div class="rule-row">
+          <div class="rule-dot"></div>
+          <div class="rule-text"><strong>Use Israeli Trade Commission as a warm channel.</strong> TradeIL offices in Warsaw, Bucharest, Brussels, Stockholm. These officers can make introductions, validate Fortline's credibility, and open doors that cold email cannot. Always worth an intro call first.</div>
+        </div>
+        <div class="rule-row">
+          <div class="rule-dot"></div>
+          <div class="rule-text"><strong>Run parallel tracks.</strong> C-suite (CEO/VP Board) + Program Director + Head of Procurement — hit all three. One of them will respond, and internal pressure from multiple angles accelerates everything.</div>
+        </div>
+        <div class="rule-row">
+          <div class="rule-dot"></div>
+          <div class="rule-text"><strong>Keep cold emails under 120 words.</strong> Every winning email above is 5 sentences or fewer. The shorter the email, the more senior the reader assumes the sender to be. Long emails lose the room before the second paragraph.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="stat-item"><div class="stat-value">35+</div><div class="stat-label">Years IDF Operational Experience</div></div>
+    <div class="stat-item"><div class="stat-value gold">MOD</div><div class="stat-label">Israeli Ministry of Defense Approved</div></div>
+    <div class="stat-item"><div class="stat-value">CBRN</div><div class="stat-label">Chemical Threat Protection Rated</div></div>
+    <div class="stat-item"><div class="stat-value">0</div><div class="stat-label">Days Demo Needed — Start with Assessment</div></div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-cta">
+      First step with any prospect: a <span>confidential protection assessment.</span><br>
+      Survey, map threats, deliver a classified strategy under NDA. No commitment required.
+    </div>
+    <div class="footer-contact">
+      <span class="web">fortlineglobal.com</span>
+      <span>Eddie Nudel · eddie@fortlineglobal.com · +972 (54) 320-3976</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
