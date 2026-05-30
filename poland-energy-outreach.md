@@ -8,18 +8,18 @@
 
 ## Prospect Tracking
 
-| # | Name | Title | Company | Email | Email Status | Sent Date | Response |
-|---|------|-------|---------|-------|--------------|-----------|----------|
-| 1 | Paweł Wojtunik | Member of the Board — Security & Risk | ORLEN S.A. | pawel.wojtunik@orlen.pl ⚠️ | Draft ready | — | — |
-| 2 | Marcin Wasilewski | Member of the Board — Technology | ORLEN S.A. | marcin.wasilewski@orlen.pl ⚠️ | Draft ready | — | — |
-| 3 | Dariusz Lubera | President / CEO | PGE Polska Grupa Energetyczna | dariusz.lubera@gkpge.pl ⚠️ | Draft ready | — | — |
-| 4 | Szymon Ferens | VP, PGE Systemy (CISO/OT Security) | PGE Systemy S.A. | szymon.ferens@pgesystemy.pl ⚠️ | Draft ready | — | — |
-| 5 | Grzegorz Lot | President / CEO | Tauron Polska Energia | grzegorz.lot@tauron.pl ⚠️ | Draft ready | — | — |
-| 6 | [Name unknown] | Head of Cybersecurity (CISO equiv.) | Tauron Polska Energia | — | No contact — use ISSA Polska or media.tauron.pl referral | — | — |
-| 7 | Przemysław Baszak | Member of the Board — Safety | Enea S.A. | przemyslaw.baszak@enea.pl ⚠️ | Draft ready | — | — |
-| 8 | Grzegorz Kinelski | President / CEO | Enea S.A. | grzegorz.kinelski@enea.pl ⚠️ | Draft ready | — | — |
-| 9 | Zbigniew Muszyński | Director | Rządowe Centrum Bezpieczeństwa (RCB) | sekretariat@rcb.gov.pl 📋 | Draft ready (via secretariat) | — | — |
-| 10 | Krzysztof Gawkowski | Deputy Prime Minister, Minister of Digital Affairs | Ministry of Digital Affairs | sekretariat@mc.gov.pl 📋 | Draft ready (via secretariat) | — | — |
+| # | Name | Title | Company | LinkedIn | Email | Email Status | Sent Date | Response |
+|---|------|-------|---------|----------|-------|--------------|-----------|----------|
+| 1 | Paweł Wojtunik | Member of the Board — Security & Risk | ORLEN S.A. | [Profile](https://www.linkedin.com/in/pawel-wojtunik-082156182/) | pawel.wojtunik@orlen.pl ⚠️ | Draft ready | — | — |
+| 2 | Marcin Wasilewski | Member of the Board — Technology | ORLEN S.A. | [Profile](https://www.linkedin.com/in/marcin-wasilewski-1a787794/) | marcin.wasilewski@orlen.pl ⚠️ | Draft ready | — | — |
+| 3 | Dariusz Lubera | President / CEO | PGE Polska Grupa Energetyczna | [Company page](https://pl.linkedin.com/company/grupapge) | dariusz.lubera@gkpge.pl ⚠️ | Draft ready | — | — |
+| 4 | Szymon Ferens | VP, PGE Systemy (CISO/OT Security) | PGE Systemy S.A. | [Company page](https://www.linkedin.com/company/pge-systemy-s-a) | szymon.ferens@pgesystemy.pl ⚠️ | Draft ready | — | — |
+| 5 | Grzegorz Lot | President / CEO | Tauron Polska Energia | [Profile](https://pl.linkedin.com/in/grzegorz-lot-mba-1610143a) | grzegorz.lot@tauron.pl ⚠️ | Draft ready | — | — |
+| 6 | [Name unknown] | Head of Cybersecurity (CISO equiv.) | Tauron Polska Energia | — | — | No contact — use ISSA Polska or media.tauron.pl referral | — | — |
+| 7 | Przemysław Baszak | Member of the Board — Safety | Enea S.A. | Not found — search via [Grupa Enea](https://pl.linkedin.com/company/grupa-enea) | przemyslaw.baszak@enea.pl ⚠️ | Draft ready | — | — |
+| 8 | Grzegorz Kinelski | President / CEO | Enea S.A. | [Profile](https://www.linkedin.com/in/kinelski/) | grzegorz.kinelski@enea.pl ⚠️ | Draft ready | — | — |
+| 9 | Zbigniew Muszyński | Director | Rządowe Centrum Bezpieczeństwa (RCB) | [Profile](https://www.linkedin.com/in/zbigniew-muszy%C5%84ski-78a33112a/) | sekretariat@rcb.gov.pl 📋 | Draft ready (via secretariat) | — | — |
+| 10 | Krzysztof Gawkowski | Deputy Prime Minister, Minister of Digital Affairs | Ministry of Digital Affairs | [Ministry page](https://pl.linkedin.com/company/ministerstwo-cyfryzacji) | sekretariat@mc.gov.pl 📋 | Draft ready (via secretariat) | — | — |
 
 **⚠️** = inferred email pattern (firstname.lastname@domain) — verify before sending  
 **📋** = institutional/secretariat channel — personal email not publicly available
