@@ -79,3 +79,17 @@ resilience, security, or capital projects.
 - Avoid anything that reads as exploitative fear-mongering.
 - Don't target individuals' personal data; B2B/B2G public business contacts only.
 - If a target is in active crisis, lead with help/assessment framing, not sales.
+
+## Ownership preference (added 2026-06-01, per user)
+
+- **Prefer partly-government-owned operators** (listed companies where the State
+  Treasury is *a* shareholder but not the sole owner — e.g. ORLEN ~49%, PGE
+  Group ~60%) and **privately / foreign-owned operators** (e.g. Orange Polska,
+  controlled from France; Atman, private). These typically have faster, more
+  commercial decision-making.
+- **Deprioritize 100%-State-Treasury / pure-government entities** (e.g. PERN,
+  GAZ-SYSTEM, PSE, PKP PLK, and the state/regional Rzeszów-Jasionka airport) for
+  net-new contact prospecting. Existing briefings/drafts for these stay on file
+  but are not the focus for new contacts.
+- The **Rzeszów-Jasionka government / NATO co-decision track is on hold** per
+  user preference (do not pursue the shared state/NATO buying angle for now).

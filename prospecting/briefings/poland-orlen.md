@@ -59,3 +59,13 @@ Pillar 1 + Pillar 2, addressed to the Security & Risk board office. Frame: refin
 - https://www.nik.gov.pl/en/news/poland-s-fuel-safety-in-the-shadow-of-the-merger-of-oil-giants.html
 - https://www.orlen.pl/pl/o-firmie/o-spolce/organy-i-struktura-spolki/zarzad-spolki
 - https://www.globaldata.com/company-profile/polski-koncern-naftowy-orlen-sa/executives/
+
+## Additional contacts
+*Added 2026-06-01 — risk-first contact pass (in-scope: partly-state-owned, listed).*
+
+| Name | Title | Why relevant | Email | Source |
+|------|-------|--------------|-------|--------|
+| Paweł Wojtunik | Member of the Management Board for Security & Risk (Członek Zarządu ds. Bezpieczeństwa i Ryzyka) | Now the **named** holder of the security & risk board portfolio (previously a vacant/in-flux slot). Former head of CBA; directly owns ORLEN's physical-security and risk mandate — the natural buyer for a confidential Protection Assessment of refinery process/control buildings. | `[UNVERIFIED]` — no public direct email; likely route via ORLEN corporate/press contact or investor-relations office | [Bankier](https://www.bankier.pl/wiadomosc/Pawel-Wojtunik-wejdzie-do-zarzadu-Orlenu-9089140.html), [wirtualnemedia](https://www.wirtualnemedia.pl/orlen-zarzad-pawel-wojtunik-byly-szef-cba-jako-czlonek-zarzadu-ds-bezpieczenstwa-i-ryzyka,7258289467636096a), [ORLEN current report 3/2026](https://www.orlen.pl/pl/relacje-inwestorskie/raporty-i-publikacje/raporty-biezace/2026/01/Raport-biezacy-nr-3-2026) |
+
+- **Risk-or-ops:** Risk (most-senior risk role at the org).
+- **Fit note:** Strongest possible entry point at ORLEN — replaces the earlier `[UNVERIFIED]` generic "Member for Security & Risk" salutation with a real, named, board-level owner of exactly the mandate Fortline sells into. Appointed 25 Feb 2026; per the company's report his term runs from the day after the current term ends (after the AGM approving 2025 results), so confirm he is formally seated before outreach. Email unverified — do not guess.

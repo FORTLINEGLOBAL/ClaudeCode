@@ -59,3 +59,23 @@ Pillar 1 + Pillar 4. The Oct 2025 drill addresses detection/response; passive ha
 - https://new.abb.com/news/detail/79148/abb-technology-enables-safe-and-smart-operations-at-the-polish-section-of-the-yamal-europe-gas-pipeline
 - https://www.gaz-system.pl/en/for-media/press-releases/2025/december/11-12-2025-strategic-project-for-real-independence-10-years-of-the-lng-terminal-in-swinoujscie.html
 - https://www.gaz-system.pl/pl/dla-mediow/komunikaty-prasowe/2024/luty/12-02-2024-slawomir-hinc-powolany-na-prezesa-zarzadu-gaz-system-sa.html
+
+## Drafted outreach — Polish (PL)
+*Added 2026-06-01 — faithful, localized Polish version of the English email above. Same single CTA (poufny briefing/Ocena Ochrony pod NDA). Recipient email still `[UNVERIFIED]` — human to fill `to:`.*
+
+```
+Temat: Po ćwiczeniach w Świnoujściu — wzmocnienie samych konstrukcji
+
+Szanowny Panie Prezesie,
+
+Październikowe, międzyresortowe ćwiczenia w Świnoujściu, prowadzone pod kątem scenariuszy dronowych i sabotażowych, udoskonaliły wykrywanie i reagowanie. Pozostaje jednak luka po stronie samej konstrukcji: gdy aktywna obrona zostaje nasycona albo dron przedrze się przez nią, to hale regazyfikacji, pomieszczenia sterownicze i budynki tłoczni przyjmują na siebie skutki wybuchu — a większość z nich nie ma dziś żadnej ochrony konstrukcyjnej.
+
+Fortline Global zapewnia właśnie tę pasywną warstwę ochrony. Nasz opatentowany superpolimer wzmacnia ściany od wewnątrz — bez wyburzeń, bez pozwoleń, z wdrożeniem w ciągu kilku dni — na obiektach nowych i istniejących, w oparciu o ponad 35 lat operacyjnego doświadczenia w Izraelu.
+
+Czy moglibyśmy umówić poufny briefing pod NDA, dotyczący Oceny Ochrony terminala oraz jednej tłoczni na wschodzie kraju?
+
+Z poważaniem,
+Eddie
+Fortline Global
+eddie@fortlineglobal.com
+```

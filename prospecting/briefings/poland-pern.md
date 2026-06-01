@@ -58,3 +58,23 @@ Lead with Pillar 1 (passive-defense gap) tied to the Adamowo/eastern-pipeline ex
 - https://www.pern.pl/en/2025/12/12/prezes-pern-na-ecif-2025-bezpieczenstwo-logistyki-paliwowej-to-wyzwanie-na-tu-i-teraz/
 - https://tvn24.pl/biznes/najnowsze/nowy-prezes-pern-wybrany-kim-jest-daniel-swietochowski-st7945821
 - https://www.pern.pl/en/about-us/board/management-board/
+
+## Drafted outreach — Polish (PL)
+*Added 2026-06-01 — faithful, localized Polish version of the English email above. Same single CTA (poufny briefing/Ocena Ochrony pod NDA). Recipient email still `[UNVERIFIED]` — human to fill `to:`.*
+
+```
+Temat: Ochrona Adamowa i wschodniego łańcucha paliwowego, gdy przechwycenie zawiedzie
+
+Szanowny Panie Prezesie,
+
+Pańskie wystąpienie na ECIF 2025 — że bezpieczeństwo logistyki paliwowej to „wyzwanie na tu i teraz" — trafnie opisuje obszar, którym się zajmujemy. Baza paliw Adamowo oraz wschodnia nitka rurociągu „Przyjaźń" znajdują się w zasięgu dronów i ataków dalekiego zasięgu od granicy z Białorusią, gdzie aktywna obrona powietrzna może zostać nasycona lub po prostu nie zadziałać.
+
+Fortline Global zapewnia obronę pasywną: konstrukcyjne wzmocnienie, które chroni budynek wtedy, gdy przechwycenie zawiedzie. Nasz opatentowany superpolimer wzmacnia od wewnątrz konstrukcje baz zbiornikowych, hale pompowni i pomieszczenia sterownicze — bez wyburzeń, bez pozwoleń, z wdrożeniem w ciągu kilku dni, na obiektach nowych i istniejących. To efekt ponad 35 lat operacyjnego doświadczenia w Izraelu.
+
+Czy moglibyśmy umówić poufne, 20-minutowe spotkanie pod NDA, dotyczące Oceny Ochrony jednego priorytetowego obiektu na wschodzie?
+
+Z poważaniem,
+Eddie
+Fortline Global
+eddie@fortlineglobal.com
+```

@@ -57,3 +57,10 @@ Pillar 1, addressed to the Networks/Technology board member. Frame: harden the h
 - https://www.globenewswire.com/news-release/2025/06/17/3100897/28124/en/poland-telecom-operators-intelligence-report-2025-featuring-uke-orange-t-mobile-play-p4-polkomtel-plus-and-cyfrowy-polsat.html
 - https://biznes.pap.pl/wiadomosci/firmy/orange-polska-sa-62026-liudmila-climoc-jacek-kowalski-jacek-kunicki-oraz-maciej
 - https://www.bankier.pl/wiadomosc/ORANGEPL-Jolanta-Dudek-Bozena-Lesniewska-Piotr-Jaworski-oraz-Witold-Drozdz-powolani-na-kolejne-kadencje-do-Zarzadu-Orange-Polska-8715847.html
+
+## Additional contacts
+*Added 2026-06-01 — risk/operations contact pass (in-scope: controlled by Orange S.A. / France, not government).*
+
+**No new verifiable contact added.** Searches for a senior **risk** or **operations** owner with a physical-resilience remit surfaced only cybersecurity roles — e.g. Przemysław Dęba (cybersecurity director) and CERT Orange's Robert Grabowski — which are information-security, not structural/physical hardening, and are sourced largely to personal LinkedIn profiles. There is no publicly named "Chief Risk Officer" or board-level physical-security role. The most relevant board-level operations owner remains **Piotr Jaworski (Management Board Member, Networks/Technology)**, already logged in the primary contacts table above. Recommendation: keep Jaworski as the entry point; do not add an unverified risk/ops name here.
+
+- Source: [CRN — Orange board appointments](https://crn.pl/aktualnosci/zarzad-orange-powolany-na-nowa-kadencje/); cybersecurity-role context via [gsmonline](https://gsmonline.pl/artykuly/orange-stosuje-wlasne-rozwiazania-do-walki-z-cyberzagrozeniami-i-to-daje-przewage).

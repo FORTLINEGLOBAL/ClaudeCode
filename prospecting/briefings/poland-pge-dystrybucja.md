@@ -58,3 +58,13 @@ Pillar 1, with the VP for Network Infrastructure (Podkański) as the natural tec
 - https://www.wnp.pl/kto-jest-kim/jacek-drozd,1596.html
 - https://pgedystrybucja.pl/o-spolce/wladze
 - https://pgedystrybucja.pl/o-spolce/aktualnosci/nowi-czlonkowie-zarzadu-pge-dystrybucja
+
+## Additional contacts
+*Added 2026-06-01 — operations contact pass at PGE Group parent (in-scope: PGE Group ~60% State Treasury, listed). Note: this person sits at the **parent PGE S.A.** level, relevant where hardening capex is held above the DSO subsidiary.*
+
+| Name | Title | Why relevant | Email | Source |
+|------|-------|--------------|-------|--------|
+| Katarzyna Rozenfeld | Vice-President of the Management Board for Operations, PGE S.A. (Wiceprezes Zarządu ds. operacyjnych) | Most-senior operations executive across PGE Group. Owns group-wide operational/asset agenda — the right level if resilience/hardening capex for distribution and generation assets is decided at parent rather than DSO. Complements the DSO-level VP (Podkański) already logged. | `[UNVERIFIED]` — no public direct email; route via PGE S.A. corporate/press or investor-relations | [PGE press release](https://www.gkpge.pl/grupa-pge/dla-mediow/komunikaty-prasowe/korporacyjne/dariusz-lubera-i-katarzyna-rozenfeld-w-zarzadzie-pge), [Inwestycje.pl](https://inwestycje.pl/biznes/d-lubera-powolany-na-prezesa-zarzadu-pge-k-rozenfeld-na-wiceprezes-ds-operacyjnych/) |
+
+- **Risk-or-ops:** Operations (most-senior operations role in the group).
+- **Fit note:** Appointed VP for Operations 19 Jan 2026 (President Dariusz Lubera appointed 15 Jan 2026). Useful as a parent-level operations sponsor to pair with the DSO technical entry (Podkański) — resolves the open question of whether hardening budget sits with PGE Dystrybucja or PGE S.A. by giving a senior parent-level contact. Email unverified — do not guess.

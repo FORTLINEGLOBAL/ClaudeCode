@@ -57,3 +57,13 @@ Pillar 1 + Pillar 3, design-in framing on WAW-3. Private buyer — emphasize upt
 - https://atman.pl/en/about-us/atman/
 - https://www.globenewswire.com/news-release/2026/05/14/3294817/28124/en/poland-data-center-market-investment-analysis-report-2026-2031-featuring-atman-beyond-pl-data4-equinix-netia-orange-business-polcom-t-mobile-vantage-data-centers-and-3s-group.html
 - https://www.datacenters.com/providers/atman
+
+## Additional contacts
+*Added 2026-06-01 — operations contact pass (in-scope: private operator).*
+
+| Name | Title | Why relevant | Email | Source |
+|------|-------|--------------|-------|--------|
+| Radosław Potera | CTO/COO and Member of the Management Board (Członek Zarządu) | Owns all operational and technological areas — IT infrastructure, data-center build and operations. The hands-on technical/operations decision-maker for the WAW-3 build-out and the physical envelope of the data halls; complements CEO Koszołko as the working-level entry. Prior CEO of Atman (2017–2019), 20+ yrs telecom/DC infrastructure. | `[UNVERIFIED]` — no public direct email; route via atman.pl contact | [The Org](https://theorg.com/org/atman-1/org-chart/radoslaw-potera), [Atman](https://atman.pl/en/about-us/atman/) |
+
+- **Risk-or-ops:** Operations (COO; no dedicated risk-officer role identified at this private firm).
+- **Fit note:** Best working-level entry for a design-in/retrofit conversation on WAW-3 — operations and technology sit with him, so he is the person who would actually scope a Protection Assessment for a data hall. Private buyer = faster decisions. Email unverified — do not guess.

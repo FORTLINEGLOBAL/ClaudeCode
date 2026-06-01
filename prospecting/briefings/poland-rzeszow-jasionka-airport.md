@@ -60,3 +60,23 @@ Pillar 1 + Pillar 3 (passive gap + the fact that the air-defense ring already de
 - https://rzeszow-news.pl/niemieckie-wojska-koncza-misje-na-podkarpaciu-kto-bedzie-chronil-lotnisko-w-jasionce/
 - https://www.wnp.pl/kto-jest-kim/adam-hamryszczak,1221.html
 - https://bip.rzeszowairport.pl/2/organy-spolki
+
+## Drafted outreach — Polish (PL)
+*Added 2026-06-01 — faithful, localized Polish version of the English email above. Same single CTA (poufna 20-min rozmowa + mapowanie podatności pod NDA). Recipient email still `[UNVERIFIED]` — human to fill `to:`.*
+
+```
+Temat: Budynki za pierścieniem Patriotów w Jasionce
+
+Szanowny Panie Prezesie,
+
+Baterie Patriot i NASAMS otaczają dziś Jasionkę, ponieważ zagrożenie dla portu jest realne. Aktywna obrona przechwytuje w powietrzu — ale gdy zostaje nasycona lub chybi, to budynki terminala, magazyny cargo i obiekty operacyjne przyjmują na siebie skutki wybuchu. Dziś większość tych konstrukcji nie ma żadnej ochrony fizycznej.
+
+Fortline Global wypełnia tę lukę. Nasz opatentowany superpolimer wzmacnia ściany od wewnątrz — bez wyburzeń, bez pozwoleń, z wdrożeniem w ciągu kilku dni, na istniejących budynkach. Rozwiązanie wywodzi się z ponad 35 lat operacyjnego doświadczenia w ochronie obiektów w Izraelu.
+
+Biorąc pod uwagę rolę Jasionki jako głównej arterii pomocy NATO, czy moglibyśmy umówić poufną, 20-minutową rozmowę oraz zaproponować niezobowiązujące mapowanie podatności Państwa priorytetowych obiektów pod NDA?
+
+Z poważaniem,
+Eddie
+Fortline Global
+eddie@fortlineglobal.com
+```
