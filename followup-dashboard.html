@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fortline — Outreach &amp; Follow-up Dashboard</title>
+<style>
+  :root{
+    --bg:#0f1419; --panel:#171d26; --panel2:#1e2632; --line:#2a3441;
+    --txt:#e6edf3; --mut:#8b97a7; --acc:#4f9cf9; --acc2:#2563eb;
+    --good:#3fb950; --warn:#d29922; --bad:#f85149; --chip:#243041;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+       background:var(--bg);color:var(--txt);font-size:14px;line-height:1.45}
+  header{padding:20px 26px;border-bottom:1px solid var(--line);background:var(--panel);position:sticky;top:0;z-index:30}
+  h1{margin:0;font-size:18px;font-weight:650}
+  .sub{color:var(--mut);font-size:12.5px;margin-top:3px}
+  .wrap{padding:20px 26px;max-width:1500px;margin:0 auto}
+  /* cards */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .card .num{font-size:26px;font-weight:700}
+  .card .lbl{color:var(--mut);font-size:12px;margin-top:2px}
+  .card.good .num{color:var(--good)} .card.warn .num{color:var(--warn)} .card.bad .num{color:var(--bad)} .card.acc .num{color:var(--acc)}
+  /* layout */
+  .grid{display:grid;grid-template-columns:1fr 340px;gap:18px;align-items:start}
+  @media(max-width:1050px){.grid{grid-template-columns:1fr}}
+  .toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;align-items:center}
+  input[type=text],select{background:var(--panel2);border:1px solid var(--line);color:var(--txt);
+       padding:8px 10px;border-radius:8px;font-size:13px;outline:none}
+  input[type=text]{min-width:230px}
+  input[type=text]:focus,select:focus{border-color:var(--acc)}
+  .btn{background:var(--panel2);border:1px solid var(--line);color:var(--txt);padding:8px 12px;border-radius:8px;
+       cursor:pointer;font-size:13px;transition:.12s}
+  .btn:hover{border-color:var(--acc)}
+  .btn.primary{background:var(--acc2);border-color:var(--acc2);font-weight:600}
+  .btn.primary:hover{background:var(--acc)}
+  .btn.ghost{background:transparent}
+  /* table */
+  .tablebox{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .scroll{overflow:auto;max-height:64vh}
+  table{border-collapse:collapse;width:100%;font-size:13px}
+  th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+  th{position:sticky;top:0;background:var(--panel2);cursor:pointer;user-select:none;font-weight:600;z-index:5}
+  th.sortable:hover{color:var(--acc)}
+  td.sub-cell{white-space:normal;max-width:280px;color:var(--mut)}
+  tr:hover td{background:rgba(79,156,249,.05)}
+  tr.sel td{background:rgba(79,156,249,.13)}
+  .pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:11.5px;font-weight:600}
+  .p-no{background:rgba(248,81,73,.16);color:#ff7b72}
+  .p-yes{background:rgba(63,185,80,.16);color:#56d364}
+  .p-bounce{background:rgba(210,153,34,.16);color:#e3b341}
+  .fu{display:inline-block;min-width:20px;text-align:center;padding:1px 8px;border-radius:6px;background:var(--chip);font-weight:600}
+  .muted{color:var(--mut)}
+  .co-chip{font-size:11px;color:var(--mut)}
+  .days-hot{color:#ff7b72;font-weight:600}
+  /* side panel */
+  .side{position:sticky;top:92px}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:14px}
+  .panel h3{margin:0 0 10px;font-size:14px}
+  .selcount{font-size:30px;font-weight:700;color:var(--acc)}
+  textarea{width:100%;background:var(--panel2);border:1px solid var(--line);color:var(--txt);border-radius:8px;
+       padding:10px;font-size:12.5px;font-family:inherit;resize:vertical;min-height:150px;outline:none}
+  textarea:focus{border-color:var(--acc)}
+  .hint{color:var(--mut);font-size:11.5px;margin:6px 0}
+  .stack{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+  .row{display:flex;gap:8px}
+  .row .btn{flex:1}
+  code{background:var(--panel2);padding:1px 5px;border-radius:4px;font-size:12px}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--good);color:#06210d;
+       padding:10px 18px;border-radius:8px;font-weight:600;opacity:0;transition:.25s;pointer-events:none;z-index:50}
+  .toast.show{opacity:1}
+  .legend{font-size:11.5px;color:var(--mut);margin-top:8px;line-height:1.7}
+  details summary{cursor:pointer;color:var(--acc);font-size:12.5px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Fortline Global — Outreach &amp; Follow-up Dashboard</h1>
+  <div class="sub">Sent mail, last 30 days (≈ May 2 – Jun 1, 2026) · eddie@fortlineglobal.com · maps replies, follow-ups, and recipients · select unresponsive contacts to mass-follow-up</div>
+</header>
+
+<div class="wrap">
+  <div class="cards" id="cards"></div>
+
+  <div class="grid">
+    <div>
+      <div class="toolbar">
+        <input type="text" id="search" placeholder="Search name, email, company, subject…">
+        <select id="fStatus">
+          <option value="">All statuses</option>
+          <option value="no">No reply</option>
+          <option value="yes">Replied</option>
+          <option value="bounce">Bounced</option>
+        </select>
+        <select id="fCompany"></select>
+        <select id="fRegion"></select>
+        <select id="fFu">
+          <option value="">Any follow-ups</option>
+          <option value="0">0 follow-ups</option>
+          <option value="1">1+ follow-ups</option>
+          <option value="2">2+ follow-ups</option>
+        </select>
+        <button class="btn ghost" id="reset">Reset</button>
+      </div>
+
+      <div class="tablebox">
+        <div class="scroll">
+          <table id="tbl">
+            <thead>
+              <tr>
+                <th style="cursor:default"><input type="checkbox" id="checkAll" title="Select all visible no-reply"></th>
+                <th class="sortable" data-k="n">Contact ▾</th>
+                <th class="sortable" data-k="co">Company</th>
+                <th class="sortable" data-k="r">Region</th>
+                <th class="sortable sub-cell" data-k="s">Subject / pitch</th>
+                <th class="sortable" data-k="sent">First sent</th>
+                <th class="sortable" data-k="last">Last sent</th>
+                <th class="sortable" data-k="fu">Follow-ups</th>
+                <th class="sortable" data-k="days">Idle (days)</th>
+                <th class="sortable" data-k="st">Reply</th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="hint" id="count"></div>
+    </div>
+
+    <div class="side">
+      <div class="panel">
+        <h3>Mass follow-up cart</h3>
+        <div><span class="selcount" id="selN">0</span> <span class="muted">contacts selected</span></div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="selAllNo">+ All no-reply (filtered)</button>
+          <button class="btn ghost" id="clearSel">Clear</button>
+        </div>
+        <div class="hint" style="margin-top:10px">Template — <code>{first}</code> &amp; <code>{company}</code> are auto-filled per contact.</div>
+        <textarea id="tpl">Hi {first},
+
+Just floating this back to the top of your inbox. I'd still love to find 15 minutes to show how Fortline Global can help {company} protect its facilities and people against missile, drone and blast threats — hardening existing structures from within, no concrete or steel required.
+
+Would early next week work for a short intro call?
+
+Thanks,
+Eddie
+
+Eddie Nudel | Fortline Global
+IL +972 (54) 320-3976 · US +1 (646) 338-3012</textarea>
+        <div class="stack">
+          <button class="btn primary" id="copyBrief">Copy follow-up brief (hand to Claude)</button>
+          <div class="row">
+            <button class="btn" id="copyEmails">Copy emails</button>
+            <button class="btn" id="exportJson">Export JSON</button>
+          </div>
+        </div>
+        <div class="legend">
+          <b>How to send:</b> pick your unresponsive contacts → <b>Copy follow-up brief</b> → paste back to Claude in chat with “send these”. Claude drafts/sends each one individually via Gmail (no mass BCC, so each lands personal).
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Selected preview</h3>
+        <div id="selList" class="hint">Nothing selected yet.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ---- DATA: derived from sent mail, last 30 days. st: no=no reply, yes=replied, bounce=undeliverable ---- */
+const TODAY = new Date('2026-06-01T12:00:00Z');
+const D = [
+ // ===== REPLIED / WARM (excluded from no-reply selection by default) =====
+ {n:'Sammy Barda',e:'ceo@incagroup.ch',co:'Inca Group',r:'Switzerland',s:'Inca Group / Fortline Global',sent:'2026-05-30',last:'2026-06-01',fu:0,fud:'',st:'yes',note:'Active — reviewing material internally.'},
+ {n:'Klaudia Stachera',e:'Klaudia.Stachera@israeltrade.gov.il',co:'Israel Trade (Poland)',r:'Israel',s:'Follow-up — Fortline Global (civilian defense)',sent:'2026-05-11',last:'2026-05-27',fu:2,fud:'May 14',st:'yes',note:'Replied 5/27 after 2 nudges; sourcing Polish partners.'},
+ {n:'Tomer Heyvi',e:'Tomer.Heyvi@economy.gov.il',co:'Israeli Min. of Economy',r:'Israel',s:'Call with Fortline Global / Trade Policy',sent:'2026-05-10',last:'2026-05-27',fu:0,fud:'',st:'yes',note:'Very active — connected Poland/Sweden/Romania desks.'},
+ {n:'Manuel De Lauwer',e:'Manuel.DeLauwer@israeltrade.gov.il',co:'Israel Trade (UAE)',r:'Israel',s:'Economic & Trade Mission to the UAE',sent:'2026-05-01',last:'2026-05-26',fu:0,fud:'',st:'yes',note:'Active — contractor feedback pending, Big 5 advice.'},
+ {n:'Peggy Lee',e:'Peggy.Lee@israeltrade.gov.il',co:'Israel Trade (Taiwan)',r:'Taiwan',s:'Fortline Global — Taiwan target list / CTCI',sent:'2026-05-04',last:'2026-06-01',fu:0,fud:'',st:'yes',note:'Very active — running Taiwan target list, CTCI intro.'},
+ {n:'Marta Kowalczyk',e:'martkowalczyk@mon.gov.pl',co:'Polish Min. of Defence',r:'Poland',s:'Israeli defense protection technology — MON',sent:'2026-05-18',last:'2026-05-19',fu:0,fud:'',st:'yes',note:'Out of her remit; pointed to kontakt-przemysl.wp.mil.pl form.'},
+ {n:'Roberth Friedman',e:'roberth.friedman@israeltrade.gov.il',co:'Israel Trade (Sweden)',r:'Israel',s:'Minutes of meeting / Sweden ERM',sent:'2026-05-12',last:'2026-05-28',fu:1,fud:'May 28',st:'yes',note:'Had call; 5/28 follow-up on action items still unanswered.'},
+ {n:'Marcin Kloczko',e:'marcin.kloczko@pgzsa.pl',co:'PGZ',r:'Poland',s:"Protecting facilities behind Poland's rearmament",sent:'2026-05-14',last:'2026-05-19',fu:1,fud:'May 19',st:'yes',note:'Replied — asked for documents/portfolio.'},
+ {n:'Mateusz Roszkiewicz',e:'mateusz.roszkiewicz@pgzsa.pl',co:'PGZ',r:'Poland',s:"Protecting facilities behind Poland's rearmament",sent:'2026-05-14',last:'2026-05-19',fu:1,fud:'May 19',st:'yes',note:"Didn't get original — asked Eddie to resend w/ attachment."},
+ {n:'Tomasz Klosowicz',e:'tomasz.klosowicz@pwc.com',co:'PwC',r:'Poland',s:"Israeli defense tech for PwC's defense clients",sent:'2026-05-14',last:'2026-05-15',fu:0,fud:'',st:'yes',note:'Independent advisor — suggested EDA C-UAS mapping. Closed.'},
+ {n:'Adrian Gvinda',e:'AdrianPetrisor.Gvinda@israeltrade.gov.il',co:'Israel Trade (Romania)',r:'Israel',s:'Initial call set up — TradeIL Romania',sent:'2026-05-08',last:'2026-05-28',fu:1,fud:'May 28',st:'yes',note:'Had call; 5/28 status-check follow-up unanswered.'},
+ {n:'Tiffany (Geneva office)',e:'geneva@israeltrade.gov.il',co:'Israel Trade (Geneva/WTO)',r:'Israel',s:'Intro call with Fortline Global IL',sent:'2026-05-07',last:'2026-05-08',fu:0,fud:'',st:'yes',note:'WTO-only office — not a fit. Closed.'},
+ {n:'Nir Bodker',e:'nirb@rotemmagen.com',co:'Rotem Magen',r:'Israel',s:'Slide design help',sent:'2026-05-07',last:'2026-05-07',fu:0,fud:'',st:'yes',note:'Existing partner — design help.'},
+ {n:'Nili',e:'nili@rotemmagen.com',co:'Rotem Magen',r:'Israel',s:'Raw video footage / Zoom background',sent:'2026-05-07',last:'2026-05-07',fu:0,fud:'',st:'yes',note:'Existing partner — video assets.'},
+ {n:'Vladimir Vlahovic',e:'vladimir.vlahovic@solventry.com',co:'Solventry',r:'Europe',s:'Vladimir / Eddie — intro',sent:'2026-04-29',last:'2026-05-07',fu:0,fud:'',st:'yes',note:'Had intro call; sent EU one-pager.'},
+ {n:'Lee Seymour',e:'lee.seymour@kerzner.com',co:'Kerzner',r:'UAE',s:'Connecting with Daniel',sent:'2026-04-30',last:'2026-05-08',fu:2,fud:'May 2, May 7',st:'yes',note:'Replied 5/8 — brokering intro to James.'},
+ {n:'Richard Gomes',e:'richardgomes@dmgevents.com',co:'DMG Events (Big 5 Global)',r:'UAE',s:'Big 5 Global 2026',sent:'2026-04-29',last:'2026-05-07',fu:1,fud:'May 7',st:'yes',note:'Replied earlier; quiet since 5/4. Call booked Jun 3.'},
+
+ // ===== NO REPLY — FOLLOW-UP CANDIDATES =====
+ // Estonia / data centers (fresh, 0 fu)
+ {n:'Lukasz Ozimek',e:'lukasz.ozimek@exea.pl',co:'Exea',r:'Poland',s:"Defense tech to secure Exea's risk & differentiation",sent:'2026-05-31',last:'2026-05-31',fu:0,fud:'',st:'no'},
+ {n:'Tarvo Peterson',e:'Tarvo.Peterson@enefit.ee',co:'Eesti Energia / Enefit',r:'Estonia',s:"Defense tech to secure Eesti Energia's risk",sent:'2026-05-31',last:'2026-05-31',fu:0,fud:'',st:'no'},
+ {n:'Veeli Oeselg',e:'Veeli.Oeselg@enefit.ee',co:'Eesti Energia / Enefit',r:'Estonia',s:'Defense tech to protect Eesti Energia',sent:'2026-05-31',last:'2026-05-31',fu:0,fud:'',st:'no'},
+ {n:'Paul Tarand',e:'paul.tarand@enefit.ee',co:'Eesti Energia / Enefit',r:'Estonia',s:'Defense tech to protect Eesti Energia',sent:'2026-05-31',last:'2026-05-31',fu:0,fud:'',st:'no'},
+ {n:'Martin Rungi',e:'martin.rungi@greenergydatacenters.com',co:'Greenergy Data Centers',r:'Estonia',s:'Adding USP to enterprise sales in Estonian data centers',sent:'2026-05-30',last:'2026-05-30',fu:0,fud:'',st:'no'},
+ {n:'Toomas Kell',e:'Toomas.Kell@greenergydatacenters.com',co:'Greenergy Data Centers',r:'Estonia',s:'Protect data centers from missile & drone explosions',sent:'2026-05-30',last:'2026-05-30',fu:0,fud:'',st:'no'},
+ {n:'Kert Evert',e:'kert.evert@greenergydatacenters.com',co:'Greenergy Data Centers',r:'Estonia',s:'Protect buildings & people from missile & drone explosions',sent:'2026-05-30',last:'2026-05-30',fu:0,fud:'',st:'no'},
+ // Adrian news item (warm contact but this ask unanswered) -> keep as follow-up note under replied Adrian; skip duplicate
+
+ // Poland mega-batch 5/26 (0 fu)
+ {n:'Bartek Rodawski',e:'rodawskib@adamed.com',co:'Adamed Pharma',r:'Poland',s:'Keeping Adamed operations running through any threat',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Anna Jozefczyk',e:'a.jozefczyk@amw.gdynia.pl',co:'AMW (Mil. Property Agency)',r:'Poland',s:'Israeli Defense Protection Technology',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Rafał Namiotko',e:'r.namiotko@amw.gdynia.pl',co:'AMW (Mil. Property Agency)',r:'Poland',s:'Israeli Defense Protection Technology',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Tomasz Pajak',e:'Tomasz.Pajak@porr.pl',co:'PORR Polska',r:'Poland',s:'Blast & Drone Protection to PORR Polska projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Mikołaj Wasniewski',e:'mikolaj.wasniewski@budimex.pl',co:'Budimex',r:'Poland',s:'Blast & Drone Protection to Budimex projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Tomasz Grzeda',e:'tomasz.grzeda@budimex.pl',co:'Budimex',r:'Poland',s:'Blast & Drone Protection to Budimex projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Tomasz Sopel',e:'tomasz.sopel@budimex.pl',co:'Budimex',r:'Poland',s:'Blast & Drone Protection to Budimex projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Jakub Dlugoszek',e:'jakub.dlugoszek@budimex.pl',co:'Budimex',r:'Poland',s:'Blast & Drone Protection to Budimex projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Mateusz Franczak',e:'mateusz.franczak@budimex.pl',co:'Budimex',r:'Poland',s:'Blast & Drone Protection to Budimex projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Cezary Lysenko',e:'cezary.lysenko@budimex.pl',co:'Budimex',r:'Poland',s:'Blast & Drone Protection to Budimex projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Joanna Szatanek',e:'joanna.szatanek@budimex.pl',co:'Budimex',r:'Poland',s:'Blast & Drone Protection to Budimex projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Wojciech Karolczak',e:'wojciech.karolczak@budimex.pl',co:'Budimex',r:'Poland',s:'Blast & Drone Protection — Budimex data centers',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Janusz Czarnecki',e:'janusz.czarnecki@budimex.pl',co:'Budimex',r:'Poland',s:'Blast & Drone Protection — Budimex data centers',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Michał Gorka',e:'michal.gorka@porr.pl',co:'PORR Polska',r:'Poland',s:'Blast & Drone Protection to PORR projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Marcin Ardzinski',e:'marcin.ardzinski@porr.pl',co:'PORR Polska',r:'Poland',s:'Blast & Drone Protection to PORR projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Michał Wojcik',e:'michal.wojcik@porr.pl',co:'PORR Polska',r:'Poland',s:'Blast & Drone Protection to PORR projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Katarzyna Siejka',e:'katarzyna.siejka@porr.pl',co:'PORR Polska',r:'Poland',s:'Blast & Drone Protection to PORR projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Marcin Kaufman',e:'marcin.kaufman@porr.pl',co:'PORR Polska',r:'Poland',s:'Blast & Drone Protection to PORR projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Wojciech Madej',e:'wojciech.madej@porr.pl',co:'PORR Polska',r:'Poland',s:'Blast & Drone Protection to PORR projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Grzegorz Banasiak',e:'grzegorz.banasiak@porr.pl',co:'PORR Polska',r:'Poland',s:'Blast & Drone Protection to PORR projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Leszek Gawel',e:'leszek.gawel@porr.pl',co:'PORR Polska',r:'Poland',s:'Blast & Drone Protection to PORR projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Maciej Nowicki',e:'maciej.nowicki@porr.pl',co:'PORR Polska',r:'Poland',s:'Blast & Drone Protection to PORR projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Arkadiusz Miller',e:'arkadiusz.miller@porr.pl',co:'PORR Polska',r:'Poland',s:'Blast & Drone Protection — PORR rail systems',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Michal Koscielniak',e:'michal.koscielniak@porr.pl',co:'PORR Polska',r:'Poland',s:'Blast & Drone Protection — PORR rail systems',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Michal Wrzesinski',e:'michal.wrzesinski@porr.pl',co:'PORR Polska',r:'Poland',s:'Blast & Drone Protection — PORR data centers',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Rafał Likus',e:'r.likus@mostostal.waw.pl',co:'Mostostal Warszawa',r:'Poland',s:'Blast & Drone Protection to Mostostal projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Piotr Krawczyk',e:'p.krawczyk@mostostal.waw.pl',co:'Mostostal Warszawa',r:'Poland',s:'Blast & Drone Protection to Mostostal projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Sławomir Barczak',e:'s.barczak@mostostal.waw.pl',co:'Mostostal Warszawa',r:'Poland',s:'Blast & Drone Protection to Mostostal projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Piotr Dymarski',e:'p.dymarski@mostostal.waw.pl',co:'Mostostal Warszawa',r:'Poland',s:'Blast & Drone Protection to Mostostal projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Dawid Nitecki',e:'dawid.nitecki@pekabex.com',co:'Pekabex',r:'Poland',s:'Blast & Drone Protection to Pekabex projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Marta Sattlberger',e:'marta.sattlberger@pekabex.com',co:'Pekabex',r:'Poland',s:'Blast & Drone Protection to Pekabex projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Tomasz Szymczyk',e:'tomasz.szymczyk@pekabex.com',co:'Pekabex',r:'Poland',s:'Blast & Drone Protection to Pekabex projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Leszek Legat',e:'leszek.legat@pekabex.com',co:'Pekabex',r:'Poland',s:'Blast & Drone Protection to Pekabex projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Tomasz Seremet',e:'tomasz.seremet@pekabex.com',co:'Pekabex',r:'Poland',s:'Blast & Drone Protection to Pekabex projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Kamil Galka',e:'kamil.galka@pekabex.com',co:'Pekabex',r:'Poland',s:'Blast & Drone Protection to Pekabex projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Natalia Rajewska',e:'natalia.rajewska@pekabex.com',co:'Pekabex',r:'Poland',s:'Blast & Drone Protection to Pekabex projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Monika Gwiazda',e:'mgwiazda@unibep.pl',co:'Grupa Unibep',r:'Poland',s:'Blast & Drone Protection to Unibep projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Rafał Kampczyk',e:'rkampczyk@unibep.pl',co:'Grupa Unibep',r:'Poland',s:'Blast & Drone Protection to Unibep projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Leszek Golabiecki',e:'lgolabiecki@unibep.pl',co:'Grupa Unibep',r:'Poland',s:'Blast & Drone Protection to Unibep projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Bartosz Celinski-Myslaw',e:'bcelinskimyslaw@unibep.pl',co:'Grupa Unibep',r:'Poland',s:'Blast & Drone Protection to Unibep projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Jarosław Pacholec',e:'jpacholec@unibep.pl',co:'Grupa Unibep',r:'Poland',s:'Blast & Drone Protection to Unibep projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Piotr Lipinski',e:'plipinski@unibep.pl',co:'Grupa Unibep',r:'Poland',s:'Blast & Drone Protection to Unibep projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Zbigniew Zielinski',e:'zzielinski@unibep.pl',co:'Grupa Unibep',r:'Poland',s:'Blast & Drone Protection to Unibep projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Karolina Szymczak',e:'kszymczak@unibep.pl',co:'Grupa Unibep',r:'Poland',s:'Blast & Drone Protection to Unibep projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Przemysław Jaszek',e:'pjaszek@unibep.pl',co:'Grupa Unibep',r:'Poland',s:'Blast & Drone Protection to Unibep projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Czesław Fila',e:'cfila@unibep.pl',co:'Grupa Unibep',r:'Poland',s:'Blast & Drone Protection to Unibep projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'bounce',note:'Undeliverable — org blocks external senders. Need new contact.'},
+ {n:'Józef Szawara',e:'jszawara@unibep.pl',co:'Grupa Unibep',r:'Poland',s:'Blast & Drone Protection to Unibep projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'bounce',note:'Undeliverable — org blocks external senders. Need new contact.'},
+ {n:'Cezary Kisiel',e:'cezary.kisiel@pitradwar.com',co:'PIT-RADWAR',r:'Poland',s:'Blast & Drone Protection to PIT-RADWAR projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Sylwester Kozak',e:'sylwester.kozak@pitradwar.com',co:'PIT-RADWAR',r:'Poland',s:'Blast & Drone Protection to PIT-RADWAR projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Michal Grabowski',e:'michal.grabowski@pitradwar.com',co:'PIT-RADWAR',r:'Poland',s:'Blast & Drone Protection to PIT-RADWAR projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Ilona Bernhagen',e:'ilona.bernhagen@polpharma.com',co:'Polpharma',r:'Poland',s:'Blast & Drone Protection to Polpharma projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Anna Salomon',e:'annasalomon1@o2.pl',co:'Min. of National Defence (PL)',r:'Poland',s:'Blast & Drone Protection — Min. of Defence projects',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no'},
+ {n:'Sekretariat BZK',e:'sekretariatbzk@mi.gov.pl',co:'Min. of Infrastructure (PL)',r:'Poland',s:'Civilian defense tech — via Szymon Grygiel',sent:'2026-05-26',last:'2026-05-26',fu:0,fud:'',st:'no',note:'Referred by Szymon Grygiel.'},
+ // 5/21 batch
+ {n:'Witold Milczarek',e:'witold.milczarek@gmail.com',co:'(individual)',r:'Poland',s:'Protecting Polish facilities from missile & drone threats',sent:'2026-05-21',last:'2026-05-21',fu:0,fud:'',st:'no'},
+ {n:'Artur Jakubczyk',e:'jakubczyk.artur@hq.nato.int',co:'NATO',r:'NATO',s:"Expand PBN Invest offering — anti-missile/drone materials",sent:'2026-05-21',last:'2026-05-21',fu:0,fud:'',st:'no'},
+ {n:'Aleksander Olech',e:'a.olech@defence24.pl',co:'Defence24',r:'Poland',s:'Protecting Defence24 infrastructure from missiles/drones',sent:'2026-05-21',last:'2026-05-21',fu:0,fud:'',st:'no',note:'Also reached at akolech@wp.pl.'},
+ {n:'Bartozs Grodecki',e:'bpgrodecki@gmail.com',co:'(individual)',r:'Poland',s:'Protecting Polish infrastructure against missiles/drones',sent:'2026-05-21',last:'2026-05-21',fu:0,fud:'',st:'no'},
+ {n:'Roy Gutman',e:'RoyGutman79@gmail.com',co:'(individual)',r:'Israel',s:'חומר על Fortline Global',sent:'2026-05-21',last:'2026-05-21',fu:0,fud:'',st:'no',note:'Sent company material (Hebrew).'},
+ // 5/18 MSZ (reminder set, 0 real fu)
+ {n:'Col. Adam Godlewski',e:'Adam.Godlewski@msz.gov.pl',co:'Polish MFA (MSZ)',r:'Poland',s:'Israeli defense protection tech for the Polish market',sent:'2026-05-18',last:'2026-05-18',fu:0,fud:'',st:'no',note:'Also to telaviv.amb.sekretariat@msz.gov.pl. Reminder set 5/26.'},
+ {n:'Agata Czaplinska & Aneta Niedzielska',e:'Agata.Czaplinska@msz.gov.pl',co:'Polish MFA (MSZ)',r:'Poland',s:'Israeli defense protection tech for the Polish market',sent:'2026-05-18',last:'2026-05-18',fu:0,fud:'',st:'no',note:'Also Aneta.Niedzielska@msz.gov.pl. Reminder set 5/26.'},
+ // 5/15
+ {n:'EDA — C-UAS desk',e:'uasresolve@eda.europa.eu',co:'European Defence Agency',r:'EU',s:'Airspace Monitoring & C-UAS solution',sent:'2026-05-15',last:'2026-05-15',fu:0,fud:'',st:'no'},
+ // 5/14
+ {n:'Aleksander Buczkowski',e:'aleksander.buczkowski@pwc.com',co:'PwC',r:'Poland',s:"Poland's rearmament / cooperation with PwC",sent:'2026-05-14',last:'2026-05-14',fu:0,fud:'',st:'no'},
+ {n:'Adam Leszkiewicz',e:'adam.leszkiewicz@pgzsa.pl',co:'PGZ',r:'Poland',s:"Protecting facilities behind Poland's rearmament",sent:'2026-05-14',last:'2026-05-19',fu:1,fud:'May 19',st:'no',note:'Reminder set 5/26.'},
+ {n:'Alina Zarzycka',e:'alina.zarzycka@pgzsa.pl',co:'PGZ',r:'Poland',s:'Protecting the command infrastructure behind NAREW',sent:'2026-05-14',last:'2026-05-14',fu:0,fud:'',st:'no'},
+ {n:'James Katzen',e:'james.katzen@lmco.com',co:'Lockheed Martin',r:'US / Poland',s:"Israeli defense tech for Lockheed's Poland programs",sent:'2026-05-14',last:'2026-05-14',fu:0,fud:'',st:'no'},
+ {n:'Piotr Jaszczura',e:'piotr.jaszczura@pgzsa.pl',co:'PGZ',r:'Poland',s:'Protecting infrastructure behind the Miecznik program',sent:'2026-05-14',last:'2026-05-19',fu:1,fud:'May 19',st:'no',note:'Reminder set 5/26.'},
+ {n:'Ewelina Kierdelewicz',e:'ewelina.kierdelewicz@pgzsa.pl',co:'PGZ',r:'Poland',s:'Fortline Global vendor introduction for PGZ',sent:'2026-05-14',last:'2026-05-19',fu:1,fud:'May 19',st:'no'},
+ {n:'Jan Grabowski',e:'jan.grabowski@pgzsa.pl',co:'PGZ',r:'Poland',s:"Protecting facilities behind Poland's rearmament",sent:'2026-05-14',last:'2026-05-20',fu:1,fud:'May 20',st:'no',note:'Reminder set 5/27.'},
+ {n:'Dariusz Loska',e:'dariusz.loska@orlen.pl',co:'ORLEN',r:'Poland',s:"Protecting ORLEN's critical facility infrastructure",sent:'2026-05-14',last:'2026-05-14',fu:0,fud:'',st:'no'},
+ {n:'Aleksandra Zukowska',e:'aleksandra.zukowska@orlen.pl',co:'ORLEN',r:'Poland',s:"Protecting ORLEN's downstream facility infrastructure",sent:'2026-05-14',last:'2026-05-14',fu:0,fud:'',st:'no'},
+ {n:'Konrad Markowski',e:'k.markowski@pitradwar.com',co:'PIT-RADWAR',r:'Poland',s:'Protecting missile systems laboratories & facilities',sent:'2026-05-14',last:'2026-05-14',fu:0,fud:'',st:'no'},
+ {n:'Kevin Price',e:'pricekc@state.gov',co:'US State Dept',r:'US',s:'Intro via Andrey Anastassov',sent:'2026-05-14',last:'2026-05-19',fu:1,fud:'May 19',st:'no',note:'Intro by Andrey; follow-ups routed via introducer. Reminder 5/26.'},
+ // 5/8
+ {n:'PGZ — biuro',e:'biuro@pgzsa.pl',co:'PGZ',r:'Poland',s:'Cooperation with an Israeli civilian defense firm',sent:'2026-05-08',last:'2026-05-19',fu:1,fud:'May 19',st:'no',note:'Reminder set 5/26.'},
+ {n:'Agnieszka Puchalska',e:'puchalska.agnieszka@targikielce.pl',co:'Targi Kielce',r:'Poland',s:'Exhibition of an Israeli civilian defense firm',sent:'2026-05-08',last:'2026-05-08',fu:0,fud:'',st:'no'},
+ {n:'Aleksandra / Aurelia',e:'aleksandra@logis-mil.com',co:'Logis-Mil',r:'Poland',s:'Cooperation with an Israeli civilian defense firm',sent:'2026-05-08',last:'2026-05-19',fu:1,fud:'May 19',st:'no',note:'Also aurelia@logis-mil.com. Reminder set 5/26.'},
+ {n:'JJB Defence',e:'contact@jjb-defence.com',co:'JJB Defence',r:'Poland',s:'Cooperation with an Israeli civilian defense firm',sent:'2026-05-08',last:'2026-05-19',fu:1,fud:'May 19',st:'no',note:'Reminder set 5/26.'},
+ // 5/7 Israel trade desks (Hebrew)
+ {n:'Israel Trade — OECD desk',e:'oecd@israeltrade.gov.il',co:'Israel Trade (OECD)',r:'Israel',s:'Intro call with Fortline Global IL',sent:'2026-05-07',last:'2026-05-07',fu:0,fud:'',st:'no'},
+ {n:'Israel Trade — EU desk',e:'EU@israeltrade.gov.il',co:'Israel Trade (EU)',r:'Israel',s:'Intro call with Fortline Global IL',sent:'2026-05-07',last:'2026-05-07',fu:0,fud:'',st:'no'},
+ {n:'Shai (Export Institute)',e:'shaie@export.gov.il',co:'Israel Export Institute',r:'Israel',s:'בדיקה לפני הצטרפות למכון הייצוא',sent:'2026-05-07',last:'2026-05-07',fu:0,fud:'',st:'no'},
+ // UAE older w/ multiple fu
+ {n:'Harry Dawson',e:'harry.dawson@edgegroup.ae',co:'EDGE Group',r:'UAE',s:'Intro via Darren Elliot / Defense tech in UAE',sent:'2026-04-28',last:'2026-05-19',fu:3,fud:'May 1, May 7, May 19',st:'no',note:'3 follow-ups, no reply. Intro via Darren Elliot.'},
+ {n:'Cleber S.',e:'cleber.s@erinfra.ae',co:'Etihad Rail',r:'UAE',s:"Fortified spaces for Etihad Rail — LinkedIn follow-up",sent:'2026-04-13',last:'2026-05-19',fu:3,fud:'Apr 27, May 2, May 19',st:'no',note:'LinkedIn lead; 3 follow-ups, no reply.'},
+ {n:'Tushar',e:'tushar@bnw.ae',co:'BNW',r:'UAE',s:'Fortified safe rooms for BNW developments',sent:'2026-04-04',last:'2026-05-29',fu:1,fud:'May 29',st:'no',note:'LinkedIn connection; 1 follow-up, no reply.'}
+];
+
+/* ---------- helpers ---------- */
+function firstName(rec){
+  if(rec.co==='(individual)'||/^[A-Z]/.test(rec.n)===false) {}
+  const generic = /^(PGZ|JJB|Israel Trade|EDA|Sekretariat|Shai|Agata)/.test(rec.n);
+  let f = rec.n.split(/[ &—-]/)[0];
+  if(f.length<2 || generic && /desk|biuro|Sekretariat/i.test(rec.n)) f='there';
+  if(rec.e.startsWith('contact@')||rec.e.startsWith('biuro@')||rec.e.startsWith('sekretariat')||rec.e.startsWith('oecd@')||rec.e.startsWith('EU@')||rec.e.startsWith('uasresolve@')||rec.e.startsWith('geneva@')) f='there';
+  return f;
+}
+function daysIdle(rec){ return Math.round((TODAY - new Date(rec.last+'T12:00:00Z'))/86400000); }
+const fmt = d => new Date(d+'T12:00:00Z').toLocaleDateString('en-US',{month:'short',day:'numeric'});
+
+D.forEach(r=>{ r.days=daysIdle(r); r.first=firstName(r); r.id=r.e; });
+
+/* ---------- state ---------- */
+let sortKey='days', sortDir=-1;
+const selected = new Set();
+
+/* ---------- filters population ---------- */
+function uniq(k){return [...new Set(D.map(r=>r[k]))].sort();}
+function fillSelect(id,label,vals){
+  const el=document.getElementById(id);
+  el.innerHTML=`<option value="">${label}</option>`+vals.map(v=>`<option>${v}</option>`).join('');
+}
+fillSelect('fCompany','All companies',uniq('co'));
+fillSelect('fRegion','All regions',uniq('r'));
+
+/* ---------- cards ---------- */
+function renderCards(){
+  const total=D.length, no=D.filter(r=>r.st==='no').length, yes=D.filter(r=>r.st==='yes').length,
+        bounce=D.filter(r=>r.st==='bounce').length,
+        fud=D.filter(r=>r.fu>0).length, fuTotal=D.reduce((a,r)=>a+r.fu,0),
+        cold=D.filter(r=>r.st==='no'&&r.fu===0).length;
+  const cards=[
+    ['acc',total,'Contacts mailed'],
+    ['bad',no,'No reply'],
+    ['good',yes,'Replied'],
+    ['warn',bounce,'Bounced'],
+    ['acc',fuTotal,'Follow-ups sent'],
+    ['warn',cold,'No reply · 0 follow-ups']
+  ];
+  document.getElementById('cards').innerHTML=cards.map(c=>
+    `<div class="card ${c[0]}"><div class="num">${c[1]}</div><div class="lbl">${c[2]}</div></div>`).join('');
+}
+
+/* ---------- table ---------- */
+function getFiltered(){
+  const q=document.getElementById('search').value.toLowerCase().trim();
+  const st=document.getElementById('fStatus').value;
+  const co=document.getElementById('fCompany').value;
+  const rg=document.getElementById('fRegion').value;
+  const fu=document.getElementById('fFu').value;
+  return D.filter(r=>{
+    if(st && r.st!==st) return false;
+    if(co && r.co!==co) return false;
+    if(rg && r.r!==rg) return false;
+    if(fu==='0' && r.fu!==0) return false;
+    if(fu==='1' && r.fu<1) return false;
+    if(fu==='2' && r.fu<2) return false;
+    if(q){
+      const hay=(r.n+' '+r.e+' '+r.co+' '+r.s+' '+r.r).toLowerCase();
+      if(!hay.includes(q)) return false;
+    }
+    return true;
+  }).sort((a,b)=>{
+    let x=a[sortKey], y=b[sortKey];
+    if(typeof x==='string'){x=x.toLowerCase();y=y.toLowerCase();}
+    return (x<y?-1:x>y?1:0)*sortDir;
+  });
+}
+const stPill={no:'<span class="pill p-no">No reply</span>',yes:'<span class="pill p-yes">Replied</span>',bounce:'<span class="pill p-bounce">Bounced</span>'};
+function render(){
+  renderCards();
+  const list=getFiltered();
+  const rows=document.getElementById('rows');
+  rows.innerHTML=list.map(r=>{
+    const checked=selected.has(r.id)?'checked':'';
+    const selectable=(r.st==='no');
+    const daysCls=r.days>=10?'days-hot':'muted';
+    const note=r.note?`<div class="co-chip">${r.note}</div>`:'';
+    return `<tr class="${selected.has(r.id)?'sel':''}">
+      <td>${selectable?`<input type="checkbox" class="rowchk" data-id="${r.id}" ${checked}>`:'<span class="muted" title="excluded — replied/bounced">·</span>'}</td>
+      <td><b>${r.n}</b><div class="co-chip">${r.e}</div></td>
+      <td>${r.co}</td>
+      <td>${r.r}</td>
+      <td class="sub-cell">${r.s}${note}</td>
+      <td class="muted">${fmt(r.sent)}</td>
+      <td class="muted">${fmt(r.last)}</td>
+      <td><span class="fu">${r.fu}</span>${r.fud?`<div class="co-chip">${r.fud}</div>`:''}</td>
+      <td class="${daysCls}">${r.days}</td>
+      <td>${stPill[r.st]}</td>
+    </tr>`;
+  }).join('');
+  document.getElementById('count').textContent=`Showing ${list.length} of ${D.length} contacts`;
+  document.querySelectorAll('.rowchk').forEach(c=>c.onchange=()=>{
+    c.checked?selected.add(c.dataset.id):selected.delete(c.dataset.id);
+    renderSel();
+  });
+  renderSel();
+}
+function renderSel(){
+  document.getElementById('selN').textContent=selected.size;
+  const recs=[...selected].map(id=>D.find(r=>r.id===id));
+  document.getElementById('selList').innerHTML = recs.length
+    ? recs.map(r=>`<div>• ${r.n} <span class="muted">— ${r.co}</span></div>`).join('')
+    : 'Nothing selected yet.';
+}
+
+/* sorting */
+document.querySelectorAll('th.sortable').forEach(th=>th.onclick=()=>{
+  const k=th.dataset.k;
+  if(sortKey===k) sortDir*=-1; else {sortKey=k; sortDir = (k==='days'||k==='fu')?-1:1;}
+  document.querySelectorAll('th.sortable').forEach(t=>t.textContent=t.textContent.replace(/[▾▴]/g,'').trim());
+  th.textContent=th.textContent.trim()+(sortDir<0?' ▾':' ▴');
+  render();
+});
+
+/* filters */
+['search','fStatus','fCompany','fRegion','fFu'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',render);
+});
+document.getElementById('reset').onclick=()=>{
+  ['search','fStatus','fCompany','fRegion','fFu'].forEach(id=>document.getElementById(id).value='');
+  render();
+};
+
+/* select-all */
+document.getElementById('checkAll').onchange=e=>{
+  getFiltered().filter(r=>r.st==='no').forEach(r=> e.target.checked?selected.add(r.id):selected.delete(r.id));
+  render();
+};
+document.getElementById('selAllNo').onclick=()=>{
+  getFiltered().filter(r=>r.st==='no').forEach(r=>selected.add(r.id));
+  render();
+};
+document.getElementById('clearSel').onclick=()=>{selected.clear();render();};
+
+/* exports */
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600);}
+function copy(txt,msg){navigator.clipboard.writeText(txt).then(()=>toast(msg)).catch(()=>{
+  const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast(msg);
+});}
+document.getElementById('copyEmails').onclick=()=>{
+  if(!selected.size)return toast('Select contacts first');
+  copy([...selected].join(', '),'Emails copied');
+};
+document.getElementById('copyBrief').onclick=()=>{
+  if(!selected.size)return toast('Select contacts first');
+  const tpl=document.getElementById('tpl').value;
+  const recs=[...selected].map(id=>D.find(r=>r.id===id));
+  let out=`Please send individual follow-up emails (in-reply-to my original thread where one exists) to the ${recs.length} contacts below. Personalise {first} and {company} from each line. Keep it short and human.\n\n--- TEMPLATE ---\n${tpl}\n\n--- RECIPIENTS (${recs.length}) ---\n`;
+  out+=recs.map(r=>`- ${r.n} <${r.e}> | company: ${r.co} | first: ${r.first} | orig subject: "${r.s}"`).join('\n');
+  copy(out,'Brief copied — paste to Claude');
+};
+document.getElementById('exportJson').onclick=()=>{
+  if(!selected.size)return toast('Select contacts first');
+  const recs=[...selected].map(id=>D.find(r=>r.id===id)).map(r=>({name:r.n,email:r.e,company:r.co,first:r.first,subject:r.s}));
+  copy(JSON.stringify(recs,null,2),'JSON copied');
+};
+
+/* init */
+render();
+</script>
+</body>
+</html>
