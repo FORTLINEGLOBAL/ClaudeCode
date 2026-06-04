@@ -34,7 +34,7 @@ If sending to a list, gather these for each row, but still only build the first 
 **Subject:**
 
 ```
-Protecting buildings against potential threats like missiles and drones attacks
+Protecting buildings against missiles and drones attacks
 ```
 
 **Body:**
@@ -97,7 +97,7 @@ Append the signature below "Thanks, Eddie" in the HTML body.
 
 ## Example (non-construction)
 
-> Subject: Protecting buildings against potential threats like missiles and drones attacks
+> Subject: Protecting buildings against missiles and drones attacks
 >
 > Hi Sarah,
 >
