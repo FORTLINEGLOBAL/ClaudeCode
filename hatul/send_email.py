@@ -33,6 +33,8 @@ import sys
 from email.message import EmailMessage
 from pathlib import Path
 
+import signature as signature_mod
+
 # --- Hatul mailbox configuration (moneyplan.co.il, NOT Fortline) -------------
 SMTP_HOST = "mail.moneyplan.co.il"
 SMTP_PORT = 465  # implicit SSL/TLS
@@ -57,6 +59,9 @@ def build_message(args: argparse.Namespace) -> EmailMessage:
     msg["Subject"] = args.subject
     if args.reply_to:
         msg["Reply-To"] = args.reply_to
+
+    if not args.no_signature:
+        body = signature_mod.append(body, html=args.html)
 
     if args.html:
         msg.set_content("This message requires an HTML-capable email client.")
@@ -98,6 +103,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--attach", action="append", default=[],
                    help="File to attach (repeatable).")
     p.add_argument("--reply-to", help="Reply-To address.")
+    p.add_argument("--no-signature", action="store_true",
+                   help="Do not append the Eddie Nudel signature.")
     p.add_argument("--dry-run", action="store_true",
                    help="Build and print the message without sending.")
     return p.parse_args(argv)
