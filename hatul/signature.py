@@ -14,7 +14,6 @@ NAME = "Eddie Nudel"
 TITLE = "VP Marketing"
 COMPANY = "חתול פיננסי"  # Hatul Financy
 MOBILE = "054-3203976"
-EMAIL = "cat@fincat.co.il"
 WEBSITES = [
     ("www.moneyplan.co.il", "https://www.moneyplan.co.il"),
     ("www.fincat.co.il", "https://www.fincat.co.il"),
@@ -36,7 +35,6 @@ def _text_signature() -> str:
         f"{NAME}\n"
         f"{TITLE} | {COMPANY}\n"
         f"M: {MOBILE}\n"
-        f"E: {EMAIL}\n"
         f"W: {sites}\n"
         f"F: {FACEBOOK_URL}\n"
     )
@@ -74,7 +72,6 @@ def _html_signature(logo_cid: str | None = None) -> str:
       <div style="font-size:18px;font-weight:bold;color:{NAME_COLOR};">{NAME}</div>
       <div style="color:{TITLE_COLOR};padding-bottom:10px;">{TITLE}</div>
       <div><strong>M:</strong> {MOBILE}</div>
-      <div><strong>E:</strong> <a href="mailto:{EMAIL}" {a}>{EMAIL}</a></div>
       <div><strong>W:</strong> {sites_html}</div>
       <div><strong>F:</strong> <a href="{FACEBOOK_URL}" {a}>{FACEBOOK_LABEL}</a></div>
     </td>
