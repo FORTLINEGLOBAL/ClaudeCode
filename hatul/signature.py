@@ -1,8 +1,11 @@
 """Email signature for the Hatul mailbox (Eddie Nudel).
 
-Exposes a plain-text and an HTML signature plus helpers that append the
-appropriate one to a message body. Edit the fields below to update the
-signature everywhere.
+Reproduces the brand signature card layout: the "חתול פיננסי" cat-logo lockup
+on the left, a gold vertical divider, then name / title and the contact block.
+
+The logo is embedded inline from ``assets/logo.png`` (see send_email.py). When
+that file is absent the layout falls back to the brand name as text so the rest
+of the signature still renders.
 """
 from __future__ import annotations
 
@@ -16,10 +19,14 @@ WEBSITES = [
     ("www.moneyplan.co.il", "https://www.moneyplan.co.il"),
     ("www.fincat.co.il", "https://www.fincat.co.il"),
 ]
-FACEBOOK = "https://www.facebook.com/groups/hatulfinancy/"
+FACEBOOK_LABEL = "facebook.com/groups/hatulfinancy"
+FACEBOOK_URL = "https://www.facebook.com/groups/hatulfinancy/"
 
-# Accent colour taken from the brand mark (the yellow divider / logo accent).
-ACCENT = "#F2B705"
+# Brand accent — the gold of the logo mark and the divider bar.
+ACCENT = "#F5B301"
+NAME_COLOR = "#262626"
+TITLE_COLOR = "#8c8c8c"
+LINK_COLOR = "#262626"
 
 
 def _text_signature() -> str:
@@ -31,32 +38,45 @@ def _text_signature() -> str:
         f"M: {MOBILE}\n"
         f"E: {EMAIL}\n"
         f"W: {sites}\n"
-        f"F: {FACEBOOK}\n"
+        f"F: {FACEBOOK_URL}\n"
     )
 
 
-def _html_signature() -> str:
+def _logo_cell(logo_cid: str | None) -> str:
+    """Left cell: the cat-logo lockup, or a text fallback when absent."""
+    if logo_cid:
+        return (
+            f'<img src="cid:{logo_cid}" width="120" '
+            f'alt="{COMPANY}" style="display:block;border:0;">'
+        )
+    return (
+        f'<div style="font-size:20px;font-weight:bold;color:{NAME_COLOR};'
+        f'direction:rtl;">חתו<span style="color:{ACCENT};">ל</span> '
+        f'פיננסי</div>'
+    )
+
+
+def _html_signature(logo_cid: str | None = None) -> str:
     sites_html = ", ".join(
-        f'<a href="{url}" style="color:#1a1a1a;">{label}</a>'
+        f'<a href="{url}" style="color:{LINK_COLOR};text-decoration:underline;">'
+        f'{label}</a>'
         for label, url in WEBSITES
     )
-    # NOTE: to include the real cat logo, host the image and drop an
-    # <img src="https://.../logo.png" width="64" alt="{COMPANY}"> into the
-    # left cell below (the CSP-safe placeholder is the accent bar for now).
-    return f"""
+    a = 'style="color:{c};text-decoration:underline;"'.format(c=LINK_COLOR)
+    return f"""\
 <br>
-<table cellpadding="0" cellspacing="0" style="font-family:Arial,Helvetica,sans-serif;font-size:13px;color:#1a1a1a;border-collapse:collapse;">
+<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;">
   <tr>
-    <td style="padding-right:14px;border-right:3px solid {ACCENT};vertical-align:top;">
-      <div style="font-weight:bold;font-size:15px;">{NAME}</div>
-      <div style="color:#666;">{TITLE}</div>
+    <td style="padding-right:22px;vertical-align:middle;text-align:center;">
+      {_logo_cell(logo_cid)}
     </td>
-    <td style="padding-left:14px;vertical-align:top;line-height:1.6;">
+    <td style="padding-left:22px;border-left:3px solid {ACCENT};vertical-align:middle;font-size:14px;color:{NAME_COLOR};line-height:1.5;">
+      <div style="font-size:18px;font-weight:bold;color:{NAME_COLOR};">{NAME}</div>
+      <div style="color:{TITLE_COLOR};padding-bottom:10px;">{TITLE}</div>
       <div><strong>M:</strong> {MOBILE}</div>
-      <div><strong>E:</strong> <a href="mailto:{EMAIL}" style="color:#1a1a1a;">{EMAIL}</a></div>
+      <div><strong>E:</strong> <a href="mailto:{EMAIL}" {a}>{EMAIL}</a></div>
       <div><strong>W:</strong> {sites_html}</div>
-      <div><strong>F:</strong> <a href="{FACEBOOK}" style="color:#1a1a1a;">facebook.com/groups/hatulfinancy</a></div>
-      <div style="margin-top:6px;color:{ACCENT};font-weight:bold;direction:rtl;">{COMPANY}</div>
+      <div><strong>F:</strong> <a href="{FACEBOOK_URL}" {a}>{FACEBOOK_LABEL}</a></div>
     </td>
   </tr>
 </table>
@@ -64,9 +84,15 @@ def _html_signature() -> str:
 
 
 TEXT_SIGNATURE = _text_signature()
-HTML_SIGNATURE = _html_signature()
 
 
-def append(body: str, *, html: bool) -> str:
+def html_signature(logo_cid: str | None = None) -> str:
+    """HTML signature; pass the inline logo's Content-ID to embed the image."""
+    return _html_signature(logo_cid)
+
+
+def append(body: str, *, html: bool, logo_cid: str | None = None) -> str:
     """Return body with the signature appended."""
-    return body + (HTML_SIGNATURE if html else TEXT_SIGNATURE)
+    if html:
+        return body + html_signature(logo_cid)
+    return body + TEXT_SIGNATURE

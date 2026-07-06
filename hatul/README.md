@@ -18,6 +18,16 @@ Recipients see the sender as `Hatul <eddie@moneyplan.co.il>`.
 > Incoming mail (IMAP `993` / POP `995`) is for *reading* mail and is handled by
 > your mail client, not this sender.
 
+## Signature
+
+Every email is sent as `multipart/alternative` (plain text + HTML) with the
+Eddie Nudel signature appended automatically — bold name, VP Marketing title,
+gold divider, and the M/E/W/F contact block. Edit `signature.py` to change any
+field. Pass `--no-signature` to omit it.
+
+The cat logo is embedded inline from `assets/logo.png` when that file exists
+(see `assets/README.md`); otherwise the brand name shows as text.
+
 ## Setup
 
 The password is **never stored in this repo**. It's read from the

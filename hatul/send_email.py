@@ -25,6 +25,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import html
 import mimetypes
 import os
 import smtplib
@@ -41,6 +42,11 @@ SMTP_PORT = 465  # implicit SSL/TLS
 FROM_ADDRESS = "eddie@moneyplan.co.il"
 FROM_NAME = "Hatul"  # recipients see "Hatul <eddie@moneyplan.co.il>"
 PASSWORD_ENV_VAR = "HATUL_SMTP_PASSWORD"
+
+# Inline logo for the HTML signature. If this file exists it is embedded in the
+# message and referenced from the signature by this Content-ID.
+LOGO_PATH = Path(__file__).resolve().parent / "assets" / "logo.png"
+LOGO_CID = "hatul-logo"
 
 
 def build_message(args: argparse.Namespace) -> EmailMessage:
@@ -60,14 +66,26 @@ def build_message(args: argparse.Namespace) -> EmailMessage:
     if args.reply_to:
         msg["Reply-To"] = args.reply_to
 
-    if not args.no_signature:
-        body = signature_mod.append(body, html=args.html)
+    # Every message is multipart/alternative: a plain-text part for clients
+    # that can't render HTML, and an HTML part carrying the styled signature.
+    embed_logo = not args.no_signature and LOGO_PATH.is_file()
+    logo_cid = LOGO_CID if embed_logo else None
 
+    # HTML body: use as-is when --html, otherwise escape the plain text.
     if args.html:
-        msg.set_content("This message requires an HTML-capable email client.")
-        msg.add_alternative(body, subtype="html")
+        html_body = body
     else:
-        msg.set_content(body)
+        html_body = html.escape(body).replace("\n", "<br>\n")
+
+    text_part = body if args.no_signature else body + signature_mod.TEXT_SIGNATURE
+    html_part_body = (html_body if args.no_signature
+                      else html_body + signature_mod.html_signature(logo_cid))
+
+    msg.set_content(text_part)
+    msg.add_alternative(html_part_body, subtype="html")
+    if embed_logo:
+        msg.get_payload()[-1].add_related(
+            LOGO_PATH.read_bytes(), "image", "png", cid=f"<{LOGO_CID}>")
 
     for path_str in args.attach:
         path = Path(path_str)
@@ -99,7 +117,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     body_group.add_argument("--body", help="Message body text.")
     body_group.add_argument("--body-file", help="Read body from this file.")
     p.add_argument("--html", action="store_true",
-                   help="Treat the body as HTML.")
+                   help="Body is already HTML (skip escaping). The signature "
+                        "is always sent as HTML regardless.")
     p.add_argument("--attach", action="append", default=[],
                    help="File to attach (repeatable).")
     p.add_argument("--reply-to", help="Reply-To address.")
