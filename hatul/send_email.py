@@ -6,8 +6,11 @@ Fortline Global. Server/port/from-address are fixed below; the password is
 read from the HATUL_SMTP_PASSWORD environment variable and is never stored in
 this repository.
 
+Setup once: put the password in hatul/.env (see .env.example) as
+    HATUL_SMTP_PASSWORD=your-password
+It is loaded automatically; an exported env var of the same name still wins.
+
 Usage:
-    export HATUL_SMTP_PASSWORD='...'        # do NOT commit this
     python3 send_email.py \
         --to someone@example.com \
         --subject "Hello from Hatul" \
@@ -42,11 +45,33 @@ SMTP_PORT = 465  # implicit SSL/TLS
 FROM_ADDRESS = "eddie@moneyplan.co.il"
 FROM_NAME = "Hatul"  # recipients see "Hatul <eddie@moneyplan.co.il>"
 PASSWORD_ENV_VAR = "HATUL_SMTP_PASSWORD"
+CONNECT_TIMEOUT = 30  # seconds
+
+HERE = Path(__file__).resolve().parent
 
 # Inline logo for the HTML signature. If this file exists it is embedded in the
 # message and referenced from the signature by this Content-ID.
-LOGO_PATH = Path(__file__).resolve().parent / "assets" / "logo.png"
+LOGO_PATH = HERE / "assets" / "logo.png"
 LOGO_CID = "hatul-logo"
+
+
+def load_env_file(path: Path) -> None:
+    """Load simple KEY=VALUE lines from a .env file into os.environ.
+
+    Existing environment variables take precedence, so an explicit `export`
+    still wins. Missing file is a no-op.
+    """
+    if not path.is_file():
+        return
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        key = key.strip()
+        value = value.strip().strip('"').strip("'")
+        if key and key not in os.environ:
+            os.environ[key] = value
 
 
 def build_message(args: argparse.Namespace) -> EmailMessage:
@@ -124,20 +149,57 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--reply-to", help="Reply-To address.")
     p.add_argument("--no-signature", action="store_true",
                    help="Do not append the Eddie Nudel signature.")
+    p.add_argument("--port", type=int, default=SMTP_PORT,
+                   help=f"SMTP port (default {SMTP_PORT}). 465=SSL, "
+                        f"587=STARTTLS; the method is chosen from the port "
+                        f"unless overridden.")
+    tls = p.add_mutually_exclusive_group()
+    tls.add_argument("--ssl", dest="method", action="store_const", const="ssl",
+                     help="Force implicit SSL/TLS (typical for port 465).")
+    tls.add_argument("--starttls", dest="method", action="store_const",
+                     const="starttls",
+                     help="Force STARTTLS (typical for port 587).")
     p.add_argument("--dry-run", action="store_true",
                    help="Build and print the message without sending.")
+    p.set_defaults(method=None)
     return p.parse_args(argv)
+
+
+def send(msg: EmailMessage, recipients: list[str], password: str,
+         host: str, port: int, method: str | None) -> None:
+    """Deliver msg over SSL or STARTTLS depending on port/method."""
+    if method is None:
+        method = "starttls" if port == 587 else "ssl"
+    context = ssl.create_default_context()
+    if method == "ssl":
+        with smtplib.SMTP_SSL(host, port, timeout=CONNECT_TIMEOUT,
+                              context=context) as server:
+            server.login(FROM_ADDRESS, password)
+            server.send_message(msg, from_addr=FROM_ADDRESS,
+                                to_addrs=recipients)
+    else:
+        with smtplib.SMTP(host, port, timeout=CONNECT_TIMEOUT) as server:
+            server.ehlo()
+            server.starttls(context=context)
+            server.ehlo()
+            server.login(FROM_ADDRESS, password)
+            server.send_message(msg, from_addr=FROM_ADDRESS,
+                                to_addrs=recipients)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
 
+    # Auto-load the password from hatul/.env so no manual `export` is needed.
+    load_env_file(HERE / ".env")
+
+    method = args.method or ("starttls" if args.port == 587 else "ssl")
     all_recipients = list(args.to) + list(args.cc)
     msg = build_message(args)
 
     if args.dry_run:
         print("--- DRY RUN (not sent) ---")
-        print(f"SMTP:       {SMTP_HOST}:{SMTP_PORT} (SSL)")
+        print(f"SMTP:       {SMTP_HOST}:{args.port} ({method.upper()})")
         print(f"From:       {msg['From']}")
         print(f"To:         {msg['To']}")
         if msg["Cc"]:
@@ -151,28 +213,34 @@ def main(argv: list[str] | None = None) -> int:
     password = os.environ.get(PASSWORD_ENV_VAR)
     if not password:
         sys.stderr.write(
-            f"ERROR: set the {PASSWORD_ENV_VAR} environment variable with the "
-            f"{FROM_ADDRESS} mailbox password before sending.\n"
+            f"ERROR: no password found. Put it in {HERE / '.env'} as\n"
+            f"    {PASSWORD_ENV_VAR}=your-password\n"
+            f"or export {PASSWORD_ENV_VAR} before running.\n"
         )
         return 2
 
-    context = ssl.create_default_context()
     try:
-        with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=context) as server:
-            server.login(FROM_ADDRESS, password)
-            server.send_message(msg, from_addr=FROM_ADDRESS,
-                                to_addrs=all_recipients)
+        send(msg, all_recipients, password, SMTP_HOST, args.port, args.method)
     except smtplib.SMTPAuthenticationError:
         sys.stderr.write(
-            "ERROR: authentication failed. Check the mailbox password in "
-            f"{PASSWORD_ENV_VAR}.\n"
+            "ERROR: authentication failed (wrong username/password, or the "
+            "mailbox blocks this login). Check the password.\n"
         )
         return 3
-    except (smtplib.SMTPException, OSError) as exc:
+    except (TimeoutError, ConnectionError, OSError) as exc:
+        sys.stderr.write(
+            f"ERROR: could not reach {SMTP_HOST}:{args.port} ({exc}).\n"
+            f"  - Check you are on a network that can reach the mail server.\n"
+            f"  - If port {args.port} is blocked, try the other one: "
+            f"--port {'587' if args.port == 465 else '465'}\n"
+        )
+        return 4
+    except smtplib.SMTPException as exc:
         sys.stderr.write(f"ERROR sending mail: {exc}\n")
         return 4
 
-    print(f"Sent as {msg['From']} to {', '.join(all_recipients)}")
+    print(f"Sent as {msg['From']} to {', '.join(all_recipients)} "
+          f"via {SMTP_HOST}:{args.port} ({method.upper()})")
     return 0
 
 

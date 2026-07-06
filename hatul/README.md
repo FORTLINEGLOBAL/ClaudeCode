@@ -28,23 +28,30 @@ field. Pass `--no-signature` to omit it.
 The cat logo is embedded inline from `assets/logo.png` when that file exists
 (see `assets/README.md`); otherwise the brand name shows as text.
 
-## Setup
+## Setup (once)
 
-The password is **never stored in this repo**. It's read from the
-`HATUL_SMTP_PASSWORD` environment variable.
+The password is **never stored in this repo**. Put it in a local `.env` file,
+which the script loads automatically:
 
 ```bash
 cp .env.example .env      # then edit .env and paste the mailbox password
-set -a; source .env; set +a
 ```
+
+`.env` is gitignored. That's it — no `export` needed on every run. (An exported
+`HATUL_SMTP_PASSWORD` still takes precedence if you set one.)
 
 ⚠️ If the password was ever shared in plaintext (chat, email, ticket), rotate
 it in your mail host's control panel first.
 
+### Ports
+
+Defaults to `465` (implicit SSL). If your network or host prefers STARTTLS,
+add `--port 587`. Force a method explicitly with `--ssl` or `--starttls`.
+
 ## Usage
 
 ```bash
-# Simple message
+# Simple message (password comes from .env automatically)
 python3 send_email.py \
     --to someone@example.com \
     --subject "Hello from Hatul" \
@@ -77,6 +84,8 @@ python3 send_email.py --to a@example.com --subject Hi --body Hi --dry-run
 | `--html`     | Treat the body as HTML                          |
 | `--attach`   | Attach a file (repeat for multiple)            |
 | `--reply-to` | Set a Reply-To address                         |
+| `--port`     | SMTP port (default `465`; `587` = STARTTLS)    |
+| `--ssl` / `--starttls` | Force the TLS method                 |
 | `--dry-run`  | Build and print the message without sending    |
 
-Exit codes: `0` success · `2` missing password · `3` auth failed · `4` send error.
+Exit codes: `0` success · `2` missing password · `3` auth failed · `4` connection/send error.
