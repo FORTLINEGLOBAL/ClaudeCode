@@ -1,0 +1,19 @@
+/*
+Theme Name: Fortline Global
+Theme URI: https://fortlineglobal.com
+Description: Defense-grade protection technology theme
+Version: 2.0
+Author: Fortline Global
+Author URI: https://fortlineglobal.com
+License: GPL v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: fortline
+Domain Path: /languages
+*/
+
+/* Theme styles are inlined in individual page templates for pixel-perfect matching */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}
