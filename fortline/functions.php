@@ -1,6 +1,6 @@
 <?php
 /**
- * Fortline Global Theme - Functions and Definitions
+ * ARI Engineering Theme - Functions and Definitions
  */
 
 if (!defined('FORTLINE_THEME_VERSION')) {
@@ -102,10 +102,6 @@ function fortline_activate() {
         'about' => array(
             'title'    => 'About',
             'template' => 'page-about.php',
-        ),
-        'unique-technology' => array(
-            'title'    => 'Unique Technology',
-            'template' => 'page-shield6000.php',
         ),
         'customers' => array(
             'title'    => 'Who We Serve',
@@ -242,7 +238,7 @@ function fortline_activation_notice() {
         $home_page = get_page_by_path('home');
         if ($home_page) {
             echo '<div class="notice notice-success is-dismissible"><p>';
-            echo '<strong>Fortline Global theme activated!</strong> All pages have been created automatically. ';
+            echo '<strong>ARI Engineering theme activated!</strong> All pages have been created automatically. ';
             echo '<a href="' . esc_url(home_url('/')) . '">View your site &rarr;</a>';
             echo '</p></div>';
         }

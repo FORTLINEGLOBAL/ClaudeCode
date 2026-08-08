@@ -813,15 +813,13 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <div class="nav-inner">
 <a href="<?php echo home_url('/'); ?>" class="nav-logo">
 <svg viewBox="0 0 40 40" fill="none"><path d="M20 2L36 11V29L20 38L4 29V11L20 2Z" stroke="#3b82f6" stroke-width="1.5" fill="rgba(37,99,235,0.1)"/><path d="M20 8L30 14V26L20 32L10 26V14L20 8Z" stroke="#3b82f6" stroke-width="1" fill="none"/><line x1="20" y1="14" x2="20" y2="26" stroke="#3b82f6" stroke-width="1"/><line x1="14" y1="18" x2="26" y2="18" stroke="#3b82f6" stroke-width="0.8"/><line x1="14" y1="22" x2="26" y2="22" stroke="#3b82f6" stroke-width="0.8"/></svg>
-<div class="nav-logo-text">Fort<span>line</span></div>
+<div class="nav-logo-text">ARI<span> Engineering</span></div>
 </a>
 <div class="nav-links">
 <a href="<?php echo home_url('/'); ?>#pillars">Solutions</a>
 <a href="<?php echo home_url('/facility-assessment/'); ?>">Protection Advisory</a>
 <a href="<?php echo home_url('/execution/'); ?>">Execution</a>
 <a href="<?php echo home_url('/national-planning/'); ?>">National Regulation</a>
-<a href="<?php echo home_url('/unique-technology/'); ?>">Unique Tech</a>
-<a href="<?php echo home_url('/'); ?>#technology">Technology</a>
 <a href="<?php echo home_url('/customers/'); ?>">Who We Serve</a>
 <a href="<?php echo home_url('/about/'); ?>">About</a>
 <a href="<?php echo home_url('/articles/'); ?>">Articles</a>
@@ -840,7 +838,6 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <a href="<?php echo home_url('/facility-assessment/'); ?>" onclick="this.parentElement.classList.remove('open')">Protection Advisory</a>
 <a href="<?php echo home_url('/execution/'); ?>" onclick="this.parentElement.classList.remove('open')">Execution</a>
 <a href="<?php echo home_url('/national-planning/'); ?>" onclick="this.parentElement.classList.remove('open')">National Regulation</a>
-<a href="<?php echo home_url('/unique-technology/'); ?>" onclick="this.parentElement.classList.remove('open')">Unique Tech</a>
 <a href="<?php echo home_url('/'); ?>#technology" onclick="this.parentElement.classList.remove('open')">Technology</a>
 <a href="<?php echo home_url('/customers/'); ?>" onclick="this.parentElement.classList.remove('open')">Who We Serve</a>
 <a href="<?php echo home_url('/about/'); ?>" onclick="this.parentElement.classList.remove('open')">About</a>
@@ -860,31 +857,31 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <div class="hero-left fade-in fade-in-delay-2">
 <div class="defense-badges">
 <div class="defense-badge gold-badge">
-<span class="defense-badge-text">Tested in Warzones</span>
+<span class="defense-badge-text" data-i18n="hero.badge1">25 Years HFC Experience</span>
 </div>
 <div class="defense-badge">
-<span class="defense-badge-text">Ministry of Defense Approved</span>
+<span class="defense-badge-text" data-i18n="hero.badge2">Home Front Command Licensing</span>
 </div>
 <div class="defense-badge">
-<span class="defense-badge-text">Military Certified</span>
+<span class="defense-badge-text" data-i18n="hero.badge3">MAMAD &amp; Safe-Room Specialists</span>
 </div>
 <div class="defense-badge">
-<span class="defense-badge-text">Patent Protected</span>
+<span class="defense-badge-text" data-i18n="hero.badge4">Nationwide Delivery</span>
 </div>
 </div>
 </div>
 
 <!-- Right column -main text -->
 <div class="hero-right">
-<h1 class="fade-in">
-Fortline<br>Global<span class="red-dot">.</span>
+<h1 class="fade-in" data-i18n="hero.headline">
+Leaders in Civil<br>Protection &amp; Engineering<span class="red-dot">.</span>
 </h1>
-<p class="hero-sub fade-in fade-in-delay-1">
-World-Class Civilian Defense Technology<br>for Any Private, Commercial or Government Facility
+<p class="hero-sub fade-in fade-in-delay-1" data-i18n="hero.sub">
+Protection and engineering solutions for the private, public and municipal sectors  -  from concept through permit and on-site execution.
 </p>
 <div class="hero-btns fade-in fade-in-delay-3">
-<a href="#contact" class="btn-gold">Contact Us</a>
-<a href="#pillars" class="btn-white">Our Solutions &rarr;</a>
+<a href="#contact" class="btn-gold" data-i18n="hero.cta1">Schedule a Consultation</a>
+<a href="#services" class="btn-white" data-i18n="hero.cta2">Our Services &rarr;</a>
 </div>
 </div>
 </div>
@@ -893,19 +890,19 @@ World-Class Civilian Defense Technology<br>for Any Private, Commercial or Govern
 <div class="hero-stats fade-in fade-in-delay-3">
 <div class="hero-stat">
 <div class="hero-stat-num" data-count="25" data-suffix="+">0</div>
-<div class="hero-stat-label">Years Military<br>Experience</div>
+<div class="hero-stat-label" data-i18n="stat.years">Years of<br>Experience</div>
 </div>
 <div class="hero-stat">
-<div class="hero-stat-num" data-count="15" data-suffix=",000+">0</div>
-<div class="hero-stat-label">Protected Spaces<br>Delivered</div>
+<div class="hero-stat-num" data-count="12" data-suffix=",000+">0</div>
+<div class="hero-stat-label" data-i18n="stat.mamads">Safe Rooms<br>(MAMADs) Built</div>
 </div>
 <div class="hero-stat">
-<div class="hero-stat-num">&lt;5 Days</div>
-<div class="hero-stat-label">To Fortify Any<br>Existing Room</div>
+<div class="hero-stat-num" data-count="3" data-suffix=",000+">0</div>
+<div class="hero-stat-label" data-i18n="stat.border">Northern-Border<br>MAMADs</div>
 </div>
 <div class="hero-stat">
 <div class="hero-stat-num" data-count="300" data-suffix="+">0</div>
-<div class="hero-stat-label">Strategic<br>Advisories</div>
+<div class="hero-stat-label" data-i18n="stat.institutional">Institutional<br>Protected Spaces</div>
 </div>
 </div>
 
@@ -920,9 +917,9 @@ World-Class Civilian Defense Technology<br>for Any Private, Commercial or Govern
 <section style="padding:5rem 0;background:var(--bg-dark);position:relative;overflow:hidden" id="why">
 <div style="position:absolute;top:0;left:0;right:0;bottom:0;opacity:0.06;background:url('threat-image.jpg') center/cover no-repeat"></div>
 <div class="container" style="position:relative;z-index:1">
-<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)">The Need</div>
-<div class="section-title fade-in" style="text-align:center;color:#fff">Why Passive Civilian Protection Is Needed More Than Ever</div>
-<p class="fade-in" style="color:rgba(255,255,255,0.65);max-width:800px;margin:0.5rem auto 3rem;font-size:0.95rem;text-align:center;line-height:1.8">Recent conflicts have demonstrated the evolving nature of modern warfare. Ballistic missiles, cruise missiles, precision-guided weapons, and long-range unmanned aerial systems (UAS) are increasingly used against civilian populations and critical infrastructure. Countries face a particularly acute threat environment  -  with drone warfare rapidly evolving, critical energy infrastructure exposed to asymmetric attacks, and the strategic imperative to protect high-value economic zones.</p>
+<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="who.label">Who We Are</div>
+<div class="section-title fade-in" style="text-align:center;color:#fff" data-i18n="who.title">Two Decades Inside Israel's Home Front Command</div>
+<p class="fade-in" style="color:rgba(255,255,255,0.65);max-width:800px;margin:0.5rem auto 3rem;font-size:0.95rem;text-align:center;line-height:1.8" data-i18n="who.intro">ARI Faberman Engineering Solutions plans, licenses and delivers civil-protection projects across the residential, public and municipal sectors. We combine hands-on regulatory experience inside the Home Front Command with end-to-end engineering  -  from concept and permitting to on-site construction.</p>
 
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center">
   <div>
@@ -930,42 +927,42 @@ World-Class Civilian Defense Technology<br>for Any Private, Commercial or Govern
       <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.8rem">
         <div style="min-width:4px;width:4px;align-self:stretch;background:rgba(220,38,38,0.6);border-radius:4px;flex-shrink:0"></div>
         <div>
-          <h3 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:0.4rem">Active Defense Has Limits</h3>
-          <p style="font-size:0.88rem;color:rgba(255,255,255,0.65);line-height:1.7">Even the most advanced missile interception systems cannot guarantee full protection. During large-scale coordinated attacks, active defense alone cannot completely prevent damage to civilian areas.</p>
+          <h3 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:0.4rem" data-i18n="who.b1_title">Operational Leadership</h3>
+          <p style="font-size:0.88rem;color:rgba(255,255,255,0.65);line-height:1.7" data-i18n="who.b1_desc">Led by Lt. Col. (res.) Yigal Faberman  -  holder of degrees in architecture and in economics &amp; management, with 25 years in the IDF, including as head of the protection-projects branch.</p>
         </div>
       </div>
       <div style="display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.8rem">
         <div style="min-width:4px;width:4px;align-self:stretch;background:rgba(37,99,235,0.6);border-radius:4px;flex-shrink:0"></div>
         <div>
-          <h3 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:0.4rem">The Proven Doctrine</h3>
-          <p style="font-size:0.88rem;color:rgba(255,255,255,0.65);line-height:1.7">Battle-tested experience has produced a comprehensive civil defense doctrine that combines active defense with extensive passive protection infrastructure  -  mandatory protective construction standards, municipal preparedness systems, and national civil defense management.</p>
+          <h3 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:0.4rem" data-i18n="who.b2_title">Home Front Command Regulation</h3>
+          <p style="font-size:0.88rem;color:rgba(255,255,255,0.65);line-height:1.7" data-i18n="who.b2_desc">From 2012 to 2019, served as Dan District engineer and head of the Home Front Command's regulatory division for MAMAD licensing within building permits  -  providing planning and licensing for tens of thousands of protection units alongside municipal engineers and planning committees.</p>
         </div>
       </div>
       <div style="display:flex;align-items:flex-start;gap:1rem">
         <div style="min-width:4px;width:4px;align-self:stretch;background:rgba(22,163,74,0.6);border-radius:4px;flex-shrink:0"></div>
         <div>
-          <h3 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:0.4rem">Energy &amp; Infrastructure at Stake</h3>
-          <p style="font-size:0.88rem;color:rgba(255,255,255,0.65);line-height:1.7">Energy facilities, desalination plants, hospitals, and transportation networks are high-value targets. Nations investing in economic growth cannot afford to leave critical infrastructure unprotected. Traditional protection methods are heavy, consume critical space, lack proper sealing, block communication signals, and disrupt operational continuity. A new generation of protection technology is required.</p>
+          <h3 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:0.4rem" data-i18n="who.b3_title">Proven at National Scale</h3>
+          <p style="font-size:0.88rem;color:rgba(255,255,255,0.65);line-height:1.7" data-i18n="who.b3_desc">Delivery record includes 12,000 MAMADs in Sderot and the Gaza-envelope communities, 150 protected kindergartens, and roughly 300 institutional protected spaces for the Ministries of Education, Health and Welfare  -  plus a program of some 3,000 MAMADs along the northern border.</p>
         </div>
       </div>
     </div>
   </div>
   <div class="fade-in" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:2.5rem">
-    <div style="font-family:var(--font-heading);font-size:0.72rem;text-transform:uppercase;letter-spacing:2px;color:var(--gold-bright);font-weight:600;margin-bottom:1.5rem">The Protection Gap</div>
+    <div style="font-family:var(--font-heading);font-size:0.72rem;text-transform:uppercase;letter-spacing:2px;color:var(--gold-bright);font-weight:600;margin-bottom:1.5rem" data-i18n="who.card_label">By the Numbers</div>
     <div style="display:flex;flex-direction:column;gap:1.2rem">
       <div style="display:flex;align-items:center;gap:1rem">
-        <div style="font-family:var(--font-heading);font-size:2rem;font-weight:800;color:rgba(220,38,38,0.8);min-width:60px">Zero</div>
-        <div style="font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.5">equivalent to comprehensive blast-resistant protected space building codes internationally</div>
+        <div style="font-family:var(--font-heading);font-size:2rem;font-weight:800;color:rgba(37,99,235,0.85);min-width:80px">25</div>
+        <div style="font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.5" data-i18n="who.card1">years of engineering and Home Front Command experience</div>
       </div>
       <div style="height:1px;background:rgba(255,255,255,0.06)"></div>
       <div style="display:flex;align-items:center;gap:1rem">
-        <div style="font-family:var(--font-heading);font-size:2rem;font-weight:800;color:rgba(37,99,235,0.8);min-width:60px">30+</div>
-        <div style="font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.5">years of battle-tested passive protection engineering behind our methodology</div>
+        <div style="font-family:var(--font-heading);font-size:2rem;font-weight:800;color:rgba(37,99,235,0.85);min-width:80px">12,000</div>
+        <div style="font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.5" data-i18n="who.card2">MAMADs built across Sderot and the Gaza-envelope communities</div>
       </div>
       <div style="height:1px;background:rgba(255,255,255,0.06)"></div>
       <div style="display:flex;align-items:center;gap:1rem">
-        <div style="font-family:var(--font-heading);font-size:2rem;font-weight:800;color:rgba(22,163,74,0.8);min-width:60px">&lt;5d</div>
-        <div style="font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.5">to convert any existing room into a certified protected space using Shield 6000</div>
+        <div style="font-family:var(--font-heading);font-size:2rem;font-weight:800;color:rgba(22,163,74,0.85);min-width:80px">150</div>
+        <div style="font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.5" data-i18n="who.card3">protected kindergartens delivered for public institutions</div>
       </div>
     </div>
   </div>
@@ -1013,9 +1010,9 @@ World-Class Civilian Defense Technology<br>for Any Private, Commercial or Govern
 <div class="svc-body">
 <span class="svc-badge dark">EXECUTION</span>
 <h3>Execution &amp; Physical Protection</h3>
-<p>Shield 6000 (MG6000) spray-applied systems, structural reinforcement, safe room construction, and full project management.</p>
+<p>Approved protective technologies, structural reinforcement, safe-room (MAMAD) construction, and full project management  -  end to end.</p>
 <ul>
-<li>Shield 6000 (no demolition required)</li>
+<li>Room upgrades with no demolition required</li>
 <li>Structural reinforcement &amp; blast protection</li>
 <li>Safe room construction &amp; certification</li>
 <li>Project management &amp; QA</li>
@@ -1263,7 +1260,7 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 </div>
 <div class="threat-right">
 <div class="threat-image fade-in">
-<img src="<?php echo get_template_directory_uri(); ?>/images/threat-image.jpg" alt="Shield 6000 fortified room under construction" loading="lazy">
+<img src="<?php echo get_template_directory_uri(); ?>/images/threat-image.jpg" alt="Protected room under construction" loading="lazy">
 </div>
 </div>
 </div>
@@ -1278,7 +1275,7 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 <div class="container">
 <div class="section-label fade-in">Why Us</div>
 <div class="section-title fade-in">Battle-Tested Credentials By Militaries and Ministries of Defense</div>
-<p class="fade-in" style="color:var(--text-light);max-width:700px;margin:0.5rem auto 2rem;font-size:0.95rem;text-align:center">Fortline Global combines the most advanced leading protection technology and advisory companies  -  bringing decades of military-grade engineering, regulatory expertise, and active operational experience to every project. Backed by continuous R&amp;D investment from a privately-held, self-funded technology partner with over 18 years of innovation in protection and sealing solutions.</p>
+<p class="fade-in" style="color:var(--text-light);max-width:700px;margin:0.5rem auto 2rem;font-size:0.95rem;text-align:center">ARI Engineering combines the most advanced leading protection technology and advisory companies  -  bringing decades of military-grade engineering, regulatory expertise, and active operational experience to every project. Backed by continuous R&amp;D investment from a privately-held, self-funded technology partner with over 18 years of innovation in protection and sealing solutions.</p>
 <div class="cred-grid">
 <div class="cred-cards">
 <div class="cred-card fade-in">
@@ -1296,7 +1293,7 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 </div>
 <div class="cred-card fade-in fade-in-delay-2">
 <h3>Exclusive Patented Technology</h3>
-<p>Rotem Shield Protection Technologies holds the international patent for Shield 6000  -  a patented super-polymer known as MG6000. Combined with our engineering advisory partner's Home Front Command licensing expertise, we offer a complete protection ecosystem  -  from rapid-deploy spray systems to full structural fortification.</p>
+<p>We work with the leading approved protective technologies on the market  -  selecting the right solution for each room and each budget  -  and pair them with deep Home Front Command licensing expertise to deliver a complete, code-compliant protection package from planning through construction.</p>
 </div>
 </div>
 <div class="cred-right">
@@ -1362,127 +1359,6 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 </div>
 </section>
 
-<!-- ===== THE TECHNOLOGY ===== -->
-<section style="padding:5rem 0;background:var(--bg-dark);position:relative;border-top:1px solid rgba(255,255,255,0.06)" id="technology">
-<div class="container">
-<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)">The Technology</div>
-<div class="section-title fade-in" style="text-align:center;color:#fff">Breakthrough Protection Solutions</div>
-<p class="fade-in" style="color:rgba(255,255,255,0.6);max-width:700px;margin:0.5rem auto 3rem;font-size:0.95rem;text-align:center;line-height:1.8">Powered by Rotem Magen Protective Technologies  -  pioneers in protection and sealing with over 18 years of engineering patented solutions for defense, industrial, and civilian applications.</p>
-
-<!-- Product Portfolio -->
-<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-bottom:4rem;max-width:900px;margin-left:auto;margin-right:auto" class="fade-in">
-<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:2rem;text-align:center">
-<div style="font-family:var(--font-heading);font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:0.6rem">E-Panel</div>
-<div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold-bright);margin-bottom:1rem;font-weight:600">Modular Composite</div>
-<p style="font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.6">Blast- and ballistic-resistant modular composite protection panel. Rapid installation for perimeter and structural hardening.</p>
-</div>
-<div style="background:rgba(37,99,235,0.08);border:2px solid rgba(37,99,235,0.25);border-radius:16px;padding:2rem;text-align:center;position:relative">
-<div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--gold-bright);color:#fff;font-size:0.65rem;font-weight:700;padding:0.2rem 0.8rem;border-radius:20px;letter-spacing:1px;text-transform:uppercase">Flagship</div>
-<div style="font-family:var(--font-heading);font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:0.6rem">Magen 6000 <span style="font-size:0.75rem;color:var(--gold-bright)">(MG6000)</span></div>
-<div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold-bright);margin-bottom:1rem;font-weight:600">Shield 6000 Spray System</div>
-<p style="font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.6">Converts standard spaces and facilities into highly protected zones. A patented super-polymer that creates a dense nanometric network, bonding with walls from within.</p>
-</div>
-</div>
-
-<!-- Concrete Thickness Multiplier -->
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;margin-bottom:4rem" class="fade-in">
-<div>
-<div style="font-family:var(--font-heading);font-size:0.72rem;text-transform:uppercase;letter-spacing:2px;color:var(--gold-bright);font-weight:600;margin-bottom:1rem">Concrete Thickness Multiplier</div>
-<h3 style="font-family:var(--font-heading);font-size:1.6rem;font-weight:700;color:#fff;margin-bottom:1rem;line-height:1.3">8-10mm That Doubles Your Wall Strength</h3>
-<p style="font-size:0.92rem;color:rgba(255,255,255,0.65);line-height:1.7;margin-bottom:1.5rem">Validated through official tests by the IDF Corps of Engineers and the Home Front Command. A thin application layer of MG6000 transforms standard construction into military-grade protection.</p>
-<div style="display:flex;flex-direction:column;gap:0.8rem">
-<div style="display:flex;align-items:center;gap:0.8rem">
-<div style="width:8px;height:8px;background:#3b82f6;border-radius:50%;flex-shrink:0"></div>
-<span style="font-size:0.85rem;color:rgba(255,255,255,0.7)">8-10mm Magen 6000 layer upgrades a 20cm wall to 40cm concrete equivalent</span>
-</div>
-<div style="display:flex;align-items:center;gap:0.8rem">
-<div style="width:8px;height:8px;background:#dc2626;border-radius:50%;flex-shrink:0"></div>
-<span style="font-size:0.85rem;color:rgba(255,255,255,0.7)">Withstood direct 120mm mortar impact  -  zero penetration, no spalling</span>
-</div>
-<div style="display:flex;align-items:center;gap:0.8rem">
-<div style="width:8px;height:8px;background:#16a34a;border-radius:50%;flex-shrink:0"></div>
-<span style="font-size:0.85rem;color:rgba(255,255,255,0.7)">IDF Corps of Engineers approved as a concrete thickness multiplier</span>
-</div>
-<div style="display:flex;align-items:center;gap:0.8rem">
-<div style="width:8px;height:8px;background:var(--gold-bright);border-radius:50%;flex-shrink:0"></div>
-<span style="font-size:0.85rem;color:rgba(255,255,255,0.7)">Home Front Command certified for enhanced frontline protection standard</span>
-</div>
-</div>
-</div>
-<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:1.5rem;text-align:center">
-<img src="<?php echo get_template_directory_uri(); ?>/images/mg6000-multiplier.png" alt="MG6000 Concrete Thickness Multiplier - 8-10mm layer equals 40cm concrete" loading="lazy" style="max-width:100%;border-radius:8px">
-<p style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:0.8rem">Validated by IDF Corps of Engineers &amp; Home Front Command</p>
-</div>
-</div>
-
-<!-- Key Properties Grid -->
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:4rem" class="fade-in">
-<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1.2rem;display:flex;align-items:flex-start;gap:0.8rem">
-<div style="min-width:36px;height:36px;background:rgba(37,99,235,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem">&#128170;</div>
-<div>
-<div style="font-family:var(--font-heading);font-size:0.82rem;font-weight:600;color:#fff;margin-bottom:0.2rem">Exceptional Strength</div>
-<p style="font-size:0.75rem;color:rgba(255,255,255,0.5);line-height:1.5">Patented super-polymer creates a dense nanometric network bonding with the structure</p>
-</div>
-</div>
-<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1.2rem;display:flex;align-items:flex-start;gap:0.8rem">
-<div style="min-width:36px;height:36px;background:rgba(22,163,74,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem">&#128225;</div>
-<div>
-<div style="font-family:var(--font-heading);font-size:0.82rem;font-weight:600;color:#fff;margin-bottom:0.2rem">Full Communication Continuity</div>
-<p style="font-size:0.75rem;color:rgba(255,255,255,0.5);line-height:1.5">Signals pass through  -  critical for command centers, data centers, and operational facilities</p>
-</div>
-</div>
-<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1.2rem;display:flex;align-items:flex-start;gap:0.8rem">
-<div style="min-width:36px;height:36px;background:rgba(220,38,38,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem">&#9879;</div>
-<div>
-<div style="font-family:var(--font-heading);font-size:0.82rem;font-weight:600;color:#fff;margin-bottom:0.2rem">Chemical &amp; Unconventional Protection</div>
-<p style="font-size:0.75rem;color:rgba(255,255,255,0.5);line-height:1.5">Seals and reinforces against both conventional threats and chemical exposure</p>
-</div>
-</div>
-<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1.2rem;display:flex;align-items:flex-start;gap:0.8rem">
-<div style="min-width:36px;height:36px;background:rgba(37,99,235,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem">&#127793;</div>
-<div>
-<div style="font-family:var(--font-heading);font-size:0.82rem;font-weight:600;color:#fff;margin-bottom:0.2rem">Non-Toxic Material</div>
-<p style="font-size:0.75rem;color:rgba(255,255,255,0.5);line-height:1.5">Safe for hospitals, hotels, schools, and residential applications</p>
-</div>
-</div>
-<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1.2rem;display:flex;align-items:flex-start;gap:0.8rem">
-<div style="min-width:36px;height:36px;background:rgba(22,163,74,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem">&#9889;</div>
-<div>
-<div style="font-family:var(--font-heading);font-size:0.82rem;font-weight:600;color:#fff;margin-bottom:0.2rem">Dual Solution</div>
-<p style="font-size:0.75rem;color:rgba(255,255,255,0.5);line-height:1.5">Protection AND sealing in a single system  -  reducing work stages and overall cost</p>
-</div>
-</div>
-<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:1.2rem;display:flex;align-items:flex-start;gap:0.8rem">
-<div style="min-width:36px;height:36px;background:rgba(220,38,38,0.12);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem">&#128176;</div>
-<div>
-<div style="font-family:var(--font-heading);font-size:0.82rem;font-weight:600;color:#fff;margin-bottom:0.2rem">Significant CAPEX Reduction</div>
-<p style="font-size:0.75rem;color:rgba(255,255,255,0.5);line-height:1.5">Reduces concrete and steel requirements, enabling faster and more cost-effective construction</p>
-</div>
-</div>
-</div>
-
-<!-- Economic Value Bar -->
-<div style="background:linear-gradient(135deg,rgba(37,99,235,0.08),rgba(37,99,235,0.02));border:1px solid rgba(37,99,235,0.15);border-radius:16px;padding:2rem 2.5rem;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center" class="fade-in">
-<div>
-<div style="font-family:var(--font-heading);font-size:1.5rem;font-weight:800;color:var(--gold-bright);margin-bottom:0.3rem">&#8595; CAPEX</div>
-<p style="font-size:0.78rem;color:rgba(255,255,255,0.5)">Less concrete &amp; steel needed</p>
-</div>
-<div>
-<div style="font-family:var(--font-heading);font-size:1.5rem;font-weight:800;color:var(--gold-bright);margin-bottom:0.3rem">&#8593; Space</div>
-<p style="font-size:0.78rem;color:rgba(255,255,255,0.5)">Thin layer preserves interior</p>
-</div>
-<div>
-<div style="font-family:var(--font-heading);font-size:1.5rem;font-weight:800;color:var(--gold-bright);margin-bottom:0.3rem">&#8595; Time</div>
-<p style="font-size:0.78rem;color:rgba(255,255,255,0.5)">Fast implementation, fewer stages</p>
-</div>
-<div>
-<div style="font-family:var(--font-heading);font-size:1.5rem;font-weight:800;color:var(--gold-bright);margin-bottom:0.3rem">&#8593; Lifespan</div>
-<p style="font-size:0.78rem;color:rgba(255,255,255,0.5)">Protects concrete, extends asset life</p>
-</div>
-</div>
-</div>
-</section>
-
 <!-- ===== STRATEGIC BENEFITS ===== -->
 <section style="padding:5rem 0;background:var(--bg-dark);position:relative" id="benefits">
 <div class="container">
@@ -1544,7 +1420,7 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 <div class="tl-img"><img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80" alt="Solution delivery" loading="lazy"></div>
 <div class="tl-num">3</div>
 <h3>Solution Delivery</h3>
-<p>Consulting, regulatory framework, or Shield 6000 installation on accelerated timelines.</p>
+<p>Consulting, licensing, or protected-space construction on accelerated timelines.</p>
 </div>
 <div class="tl-step fade-in fade-in-delay-3">
 <div class="tl-img"><img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&q=80" alt="Certification handshake" loading="lazy"></div>
@@ -1575,7 +1451,7 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 <div class="form-row">
 <div class="form-group">
 <label>Type of Inquiry</label>
-<select name="inquiry_type"><option value="">Select type</option><option>Shield 6000 Installation</option><option>Protection Advisory</option><option>National Regulation</option><option>Government / Regulatory</option><option>Other</option></select>
+<select name="inquiry_type"><option value="">Select type</option><option>Safe Room (MAMAD) Construction</option><option>Security Room Upgrade</option><option>Public Shelter Rehabilitation</option><option>Protection Consulting / Permit</option><option>Other</option></select>
 </div>
 <div class="form-group">
 <label>Facility Type</label>
@@ -1616,7 +1492,6 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 </div>
 <div class="footer-col">
 <h4>Solutions</h4>
-<a href="<?php echo home_url('/unique-technology/'); ?>">Unique Tech</a>
 <a href="<?php echo home_url('/facility-assessment/'); ?>">Protection Advisory</a>
 <a href="<?php echo home_url('/execution/'); ?>">Execution</a>
 <a href="<?php echo home_url('/national-planning/'); ?>">National Regulation</a>
@@ -1633,7 +1508,7 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 </div>
 </div>
 <div class="footer-bar">
-<p>&copy; 2026 Fortline Global. All rights reserved.</p>
+<p>&copy; 2026 ARI Engineering. All rights reserved.</p>
 </div>
 </footer>
 
@@ -1722,7 +1597,7 @@ phone:data.phone||'Not provided',
 inquiry_type:data.inquiry_type||'Not specified',
 facility_type:data.facility_type||'Not specified',
 message:data.message||'No message provided',
-subject:'New Fortline Global Inquiry from '+data.name
+subject:'New ARI Engineering Inquiry from '+data.name
 }).then(function(){
 btn.textContent='Inquiry Submitted Successfully';
 btn.style.background='#16a34a';btn.style.color='#fff';

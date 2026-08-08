@@ -73,7 +73,38 @@ window.HOME_ADDITIONS_TRANSLATIONS = {
     // ── Trusted By / clients ──
     'clients.label': 'הלקוחות שלנו',
     'clients.title': 'ארגונים מובילים בוחרים בנו',
-    'clients.subtitle': 'רשויות, מוניציפליות, יזמים, מוסדות ציבור ולקוחות פרטיים סומכים עלינו לתכנון וביצוע מיגון אזרחי.'
+    'clients.subtitle': 'רשויות, מוניציפליות, יזמים, מוסדות ציבור ולקוחות פרטיים סומכים עלינו לתכנון וביצוע מיגון אזרחי.',
+
+    // ── Hero ──
+    'hero.badge1': '25 שנות ניסיון בפיקוד העורף',
+    'hero.badge2': 'רישוי מול פיקוד העורף',
+    'hero.badge3': 'מומחים בממ"ד ומרחבים מוגנים',
+    'hero.badge4': 'פריסה ארצית',
+    'hero.headline': 'מובילים בתחום המיגון וההנדסה בישראל',
+    'hero.sub': 'פתרונות תכנון ומיגון למגזר הפרטי, הציבורי והמוניציפלי – משלב הרעיון ועד לקבלת היתר וליווי הביצוע.',
+    'hero.cta1': 'לקביעת פגישת ייעוץ',
+    'hero.cta2': 'השירותים שלנו',
+
+    // ── Hero stats ──
+    'stat.years': 'שנות ניסיון',
+    'stat.mamads': 'ממ"דים שנבנו',
+    'stat.border': 'ממ"דים בגבול הצפון',
+    'stat.institutional': 'מרחבים מוגנים מוסדיים',
+
+    // ── Who We Are ──
+    'who.label': 'מי אנחנו',
+    'who.title': 'שני עשורים בליבת פיקוד העורף',
+    'who.intro': 'ער"י פברמן פתרונות הנדסה מתכננת, מרשה ומבצעת פרויקטי מיגון אזרחי במגזר הפרטי, הציבורי והמוניציפלי. אנו משלבים ניסיון רגולטורי מעשי מתוך פיקוד העורף עם הנדסה מקצה לקצה – מרעיון ורישוי ועד ביצוע בשטח.',
+    'who.b1_title': 'ניהול מבצעי',
+    'who.b1_desc': 'בראש החברה עומד סא״ל (מיל׳) יגאל פברמן – בעל תואר באדריכלות ותואר בכלכלה וניהול, עם 25 שנות שירות בצה״ל, בין היתר כראש ענף פרויקטי מיגון.',
+    'who.b2_title': 'רגולציה בפיקוד העורף',
+    'who.b2_desc': 'בין השנים 2012–2019 כיהן כמהנדס מחוז דן וראש מערך הרגולציה של פיקוד העורף לרישוי ממ"דים במסגרת היתרי בנייה – ונתן מענה תכנוני ורישויי לעשרות אלפי יחידות מיגון בשיתוף מהנדסי רשויות וועדות התכנון.',
+    'who.b3_title': 'מוכח בקנה מידה לאומי',
+    'who.b3_desc': 'בין הפרויקטים: 12,000 ממ"דים בשדרות ובעוטף עזה, 150 גני ילדים ממוגנים, וכ-300 מרחבים מוגנים מוסדיים עבור משרדי החינוך, הבריאות והרווחה – לצד תוכנית של כ-3,000 ממ"דים בגבול הצפון.',
+    'who.card_label': 'במספרים',
+    'who.card1': 'שנות ניסיון בהנדסה וברגולציה של פיקוד העורף',
+    'who.card2': 'ממ"דים שנבנו בשדרות ובעוטף עזה',
+    'who.card3': 'גני ילדים ממוגנים למוסדות ציבור',
   },
 
   en: {
@@ -139,6 +170,37 @@ window.HOME_ADDITIONS_TRANSLATIONS = {
     // ── Trusted By / clients ──
     'clients.label': 'Our Clients',
     'clients.title': 'Trusted By Leading Organizations',
-    'clients.subtitle': 'Authorities, municipalities, developers, public institutions and private clients rely on us for civil-protection planning and construction.'
+    'clients.subtitle': 'Authorities, municipalities, developers, public institutions and private clients rely on us for civil-protection planning and construction.',
+
+    // ── Hero ──
+    'hero.badge1': '25 Years HFC Experience',
+    'hero.badge2': 'Home Front Command Licensing',
+    'hero.badge3': 'MAMAD & Safe-Room Specialists',
+    'hero.badge4': 'Nationwide Delivery',
+    'hero.headline': 'Leaders in Civil Protection & Engineering',
+    'hero.sub': 'Protection and engineering solutions for the private, public and municipal sectors  -  from concept through permit and on-site execution.',
+    'hero.cta1': 'Schedule a Consultation',
+    'hero.cta2': 'Our Services',
+
+    // ── Hero stats ──
+    'stat.years': 'Years of Experience',
+    'stat.mamads': 'Safe Rooms (MAMADs) Built',
+    'stat.border': 'Northern-Border MAMADs',
+    'stat.institutional': 'Institutional Protected Spaces',
+
+    // ── Who We Are ──
+    'who.label': 'Who We Are',
+    'who.title': "Two Decades Inside Israel's Home Front Command",
+    'who.intro': 'ARI Faberman Engineering Solutions plans, licenses and delivers civil-protection projects across the residential, public and municipal sectors.',
+    'who.b1_title': 'Operational Leadership',
+    'who.b1_desc': 'Led by Lt. Col. (res.) Yigal Faberman  -  degrees in architecture and in economics & management, with 25 years in the IDF, including as head of the protection-projects branch.',
+    'who.b2_title': 'Home Front Command Regulation',
+    'who.b2_desc': "From 2012 to 2019, Dan District engineer and head of the Home Front Command's MAMAD-licensing regulation within building permits.",
+    'who.b3_title': 'Proven at National Scale',
+    'who.b3_desc': '12,000 MAMADs in Sderot and the Gaza envelope, 150 protected kindergartens, and roughly 300 institutional protected spaces.',
+    'who.card_label': 'By the Numbers',
+    'who.card1': 'years of engineering and Home Front Command experience',
+    'who.card2': 'MAMADs built across Sderot and the Gaza-envelope communities',
+    'who.card3': 'protected kindergartens delivered for public institutions'
   }
 };

@@ -402,7 +402,6 @@ get_header(); ?>
             <li><a href="<?php echo home_url('/facility-assessment/'); ?>">Protection Advisory</a></li>
             <li><a href="<?php echo home_url('/execution/'); ?>">Execution</a></li>
             <li><a href="<?php echo home_url('/national-planning/'); ?>">National Regulation</a></li>
-            <li><a href="<?php echo home_url('/unique-technology/'); ?>">Unique Tech</a></li>
             <li><a href="shield6000.html#mg6000">Technology</a></li>
             <li><a href="<?php echo home_url('/customers/'); ?>">Who We Serve</a></li>
             <li><a href="<?php echo home_url('/about/'); ?>">About</a></li>
@@ -561,7 +560,7 @@ get_header(); ?>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Fortline Global. All rights reserved.</p>
+            <p>&copy; 2026 ARI Engineering. All rights reserved.</p>
         </div>
     </footer>
 

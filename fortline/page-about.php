@@ -628,14 +628,13 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <div class="nav-inner">
 <a href="<?php echo home_url('/'); ?>" class="nav-logo">
 <svg viewBox="0 0 40 40" fill="none"><path d="M20 2L36 11V29L20 38L4 29V11L20 2Z" stroke="#3b82f6" stroke-width="1.5" fill="rgba(37,99,235,0.1)"/><path d="M20 8L30 14V26L20 32L10 26V14L20 8Z" stroke="#3b82f6" stroke-width="1" fill="none"/><line x1="20" y1="14" x2="20" y2="26" stroke="#3b82f6" stroke-width="1"/><line x1="14" y1="18" x2="26" y2="18" stroke="#3b82f6" stroke-width="0.8"/><line x1="14" y1="22" x2="26" y2="22" stroke="#3b82f6" stroke-width="0.8"/></svg>
-<div class="nav-logo-text">Fort<span>line</span></div>
+<div class="nav-logo-text">ARI<span> Engineering</span></div>
 </a>
 <div class="nav-links">
 <a href="<?php echo home_url('/'); ?>#pillars">Solutions</a>
 <a href="<?php echo home_url('/facility-assessment/'); ?>">Protection Advisory</a>
 <a href="<?php echo home_url('/execution/'); ?>">Execution</a>
 <a href="<?php echo home_url('/national-planning/'); ?>">National Regulation</a>
-<a href="<?php echo home_url('/unique-technology/'); ?>">Unique Tech</a>
 <a href="<?php echo home_url('/customers/'); ?>">Who We Serve</a>
 <a href="<?php echo home_url('/about/'); ?>">About</a>
 <a href="<?php echo home_url('/articles/'); ?>">Articles</a>
@@ -654,7 +653,6 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <a href="<?php echo home_url('/facility-assessment/'); ?>" onclick="this.parentElement.classList.remove('open')">Protection Advisory</a>
 <a href="<?php echo home_url('/execution/'); ?>" onclick="this.parentElement.classList.remove('open')">Execution</a>
 <a href="<?php echo home_url('/national-planning/'); ?>" onclick="this.parentElement.classList.remove('open')">National Regulation</a>
-<a href="<?php echo home_url('/unique-technology/'); ?>" onclick="this.parentElement.classList.remove('open')">Unique Tech</a>
 <a href="<?php echo home_url('/customers/'); ?>" onclick="this.parentElement.classList.remove('open')">Who We Serve</a>
 <a href="<?php echo home_url('/about/'); ?>" onclick="this.parentElement.classList.remove('open')">About</a>
 <a href="<?php echo home_url('/articles/'); ?>" onclick="this.parentElement.classList.remove('open')">Articles</a>
@@ -667,7 +665,7 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
       <div class="breadcrumb fade-in">
         <a href="<?php echo home_url('/'); ?>">Home</a> > About
       </div>
-      <h1 class="fade-in">About Fortline Global</h1>
+      <h1 class="fade-in">About ARI Engineering</h1>
       <p class="fade-in">Combining Israel's leading protection technology and advisory companies to deliver defense-grade civilian protection worldwide.</p>
     </div>
   </section>
@@ -679,7 +677,7 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
       <h2 class="section-title">The Best of Israeli Defense Innovation</h2>
       <div class="partnership-content">
         <div class="partnership-text">
-          <p>Fortline Global brings together Israel's top protection technology and engineering advisory companies into a single, integrated offering. We combine patented rapid-deploy fortification systems with decades of military-grade engineering, regulatory expertise, and hands-on experience protecting critical national infrastructure.</p>
+          <p>ARI Engineering brings together Israel's top protection technology and engineering advisory companies into a single, integrated offering. We combine patented rapid-deploy fortification systems with decades of military-grade engineering, regulatory expertise, and hands-on experience protecting critical national infrastructure.</p>
           <p>Our team includes retired senior military officers, licensed engineers specializing in protective construction, and regulatory experts with deep experience in Home Front Command certification processes. From a single room to an entire nation  -  we deliver the full spectrum of civilian protection consulting and technology.</p>
         </div>
         <div class="partnership-image">
@@ -856,7 +854,6 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 </div>
 <div class="footer-col">
 <h4>Solutions</h4>
-<a href="<?php echo home_url('/unique-technology/'); ?>">Unique Tech</a>
 <a href="<?php echo home_url('/facility-assessment/'); ?>">Protection Advisory</a>
 <a href="<?php echo home_url('/execution/'); ?>">Execution</a>
 <a href="<?php echo home_url('/national-planning/'); ?>">National Regulation</a>
@@ -873,7 +870,7 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 </div>
 </div>
 <div class="footer-bar">
-<p>&copy; 2026 Fortline Global. All rights reserved.</p>
+<p>&copy; 2026 ARI Engineering. All rights reserved.</p>
 </div>
 </footer>
 
