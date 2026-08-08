@@ -9,7 +9,7 @@
    Replace the number with the real WhatsApp number in international format:
    country code + number, digits only (no +, spaces or dashes).
    Example: Israel 050-123-4567  ->  972501234567 */
-$fortline_whatsapp = '972500000000'; // TODO: replace with the real WhatsApp number
+$fortline_whatsapp = '972544757201'; // +972 54-475-7201
 $fortline_wa_msg   = rawurlencode('Hello, I would like to ask about protection solutions.');
 ?>
 <a href="https://wa.me/<?php echo preg_replace('/\D/', '', $fortline_whatsapp); ?>?text=<?php echo $fortline_wa_msg; ?>"
