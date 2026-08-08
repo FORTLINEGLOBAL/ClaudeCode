@@ -1048,90 +1048,189 @@ World-Class Civilian Defense Technology<br>for Any Private, Commercial or Govern
 </section>
 
 
+<!-- ===== OUR SERVICES (detailed) ===== -->
+<section style="padding:5rem 0;background:#fff;border-top:1px solid var(--border)" id="services">
+<div class="container">
+<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)">What We Do</div>
+<div class="section-title fade-in" style="text-align:center">Our Services</div>
+<p class="fade-in" style="color:var(--text-light);max-width:720px;margin:0.5rem auto 2.5rem;font-size:0.95rem;text-align:center;line-height:1.7">End-to-end civil protection  -  from Home Front Command licensing and protected-space construction to upgrades, public-shelter rehabilitation, and statutory consulting.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem" class="fade-in services-grid">
+
+<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+<div style="width:56px;height:56px;background:rgba(37,99,235,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem">&#128737;</div>
+<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem">Protective Rooms &amp; Structures Supply</h4>
+<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6">Supply of protective rooms and fortified structures, including Home Front Command licensing for model approval and registration in the official HFC (Pikud HaOref) database.</p>
+</div>
+
+<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+<div style="width:56px;height:56px;background:rgba(22,163,74,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem">&#127968;</div>
+<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem">Protected Space Construction</h4>
+<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6">End-to-end design and construction of protected spaces (safe rooms / MAMAD) for private clients, kibbutzim, moshavim and more  -  full-service coverage for individuals and organizations.</p>
+</div>
+
+<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+<div style="width:56px;height:56px;background:rgba(200,168,75,0.10);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem">&#128295;</div>
+<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem">Security &amp; Existing Room Upgrades</h4>
+<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6">Upgrading security rooms and existing rooms to protective standard using Home Front Command&ndash;approved technologies  -  no demolition required.</p>
+</div>
+
+<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+<div style="width:56px;height:56px;background:rgba(220,38,38,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem">&#127963;</div>
+<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem">Public Shelter Rehabilitation</h4>
+<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6">Rehabilitation and restoration of public shelters for municipal authorities  -  bringing communal protection back to operational, code-compliant condition.</p>
+</div>
+
+<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+<div style="width:56px;height:56px;background:rgba(139,92,246,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem">&#128203;</div>
+<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem">Protection Consulting &amp; Permitting</h4>
+<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6">Protection consulting throughout statutory processes and building-permit procedures  -  including Home Front Command approvals and exceptions committees.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+
 <!-- ===== WHO WE SERVE ===== -->
 <section style="padding:5rem 0;background:#fff" id="customers">
 <div class="container">
 <div class="section-label fade-in" style="text-align:center">Who We Serve</div>
 <div class="section-title fade-in" style="text-align:center">Every Organization That Must Operate During Emergencies</div>
-<p class="fade-in" style="color:var(--text-light);max-width:700px;margin:0.5rem auto 2.5rem;font-size:0.95rem;text-align:center">From government ministries to private estates  -  we deliver the best cilivian defense consulting and protection technology across three core markets.</p>
+<p class="fade-in" style="color:var(--text-light);max-width:700px;margin:0.5rem auto 2.5rem;font-size:0.95rem;text-align:center">From private homeowners to municipalities and developers  -  we deliver civil-protection consulting, planning and construction across three core audiences.</p>
 
 <div class="wws-tabs">
-  <button class="wws-tab active" onclick="wwsShow(event,'priv')">Private Sector</button>
-  <button class="wws-tab" onclick="wwsShow(event,'ess')">Essential Services</button>
-  <button class="wws-tab" onclick="wwsShow(event,'gov')">Government</button>
+  <button class="wws-tab active" onclick="wwsShow(event,'priv')">Private Clients</button>
+  <button class="wws-tab" onclick="wwsShow(event,'ess')">Public &amp; Municipal</button>
+  <button class="wws-tab" onclick="wwsShow(event,'gov')">Developers &amp; Companies</button>
 </div>
 
 <!-- Private Sector Panel -->
 <div class="wws-panel active" id="wws-priv">
   <div class="wws-content">
-    <h3>Private Sector &amp; High-Value Assets</h3>
-    <p>Private estates, luxury assets, and high-net-worth individuals. When protection is about preserving legacy, wealth, and way of life.</p>
+    <h3>Private Clients</h3>
+    <p>Homeowners and private clients protecting their families and property  -  from safe-room design and construction to building permits and home additions.</p>
     <div class="wws-tags">
-      <span class="wws-tag">Private Estates</span><span class="wws-tag">Office Towers</span>
-      <span class="wws-tag">Data Centers</span><span class="wws-tag">Aircraft Hangars</span>
+      <span class="wws-tag">Private Homes</span><span class="wws-tag">Safe Rooms (MAMAD)</span>
+      <span class="wws-tag">Building Permits</span><span class="wws-tag">Home Additions</span>
     </div>
     <ul class="wws-features">
-      <li>Discreet, NDA-protected engagements</li>
-      <li>Bespoke residential safe room design</li>
-      <li>Shield 6000 integration into luxury interiors</li>
-      <li>Full turnkey protection with zero disruption</li>
+      <li>Safe room (MAMAD) design &amp; construction</li>
+      <li>Building permits &amp; home additions</li>
+      <li>Home Front Command&ndash;compliant protection</li>
+      <li>Full turnkey delivery with minimal disruption</li>
     </ul>
     <a href="<?php echo home_url('/customers/'); ?>#private" class="wws-cta">Request Private Consultation &rarr;</a>
   </div>
   <div class="wws-visual">
-    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80" alt="Luxury private estate" loading="lazy">
-    <div class="wws-badge">Private Sector</div>
+    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80" alt="Private residence safe room" loading="lazy">
+    <div class="wws-badge">Private Clients</div>
   </div>
 </div>
 
 <!-- Essential Services Panel -->
 <div class="wws-panel" id="wws-ess">
   <div class="wws-content">
-    <h3>Essential Services &amp; Civilian Infrastructure</h3>
-    <p>Healthcare, hospitality, and civilian infrastructure that cannot shut down during crises. Continuity of operations is non-negotiable.</p>
+    <h3>Public &amp; Municipal Sector</h3>
+    <p>Local authorities, kibbutzim, moshavim and public institutions  -  protection programs, public-shelter rehabilitation and community-wide preparedness.</p>
     <div class="wws-tags">
-      <span class="wws-tag green">Hospitals</span><span class="wws-tag green">Hotel Chains</span>
-      <span class="wws-tag green">Airports</span><span class="wws-tag green">Clinics</span>
+      <span class="wws-tag green">Local Authorities</span><span class="wws-tag green">Kibbutzim &amp; Moshavim</span>
+      <span class="wws-tag green">Public Institutions</span><span class="wws-tag green">Public Shelters</span>
     </div>
     <ul class="wws-features green">
-      <li>Facility protection assessment &amp; gap analysis</li>
-      <li>Emergency continuity planning</li>
-      <li>Safe room design for operational buildings</li>
-      <li>Staff emergency protocol training</li>
+      <li>Public shelter rehabilitation &amp; restoration</li>
+      <li>Municipal protection &amp; preparedness programs</li>
+      <li>Protected spaces for public institutions</li>
+      <li>End-to-end support for communities &amp; organizations</li>
     </ul>
-    <a href="<?php echo home_url('/customers/'); ?>#services" class="wws-cta green">Explore Facility Solutions &rarr;</a>
+    <a href="<?php echo home_url('/customers/'); ?>#services" class="wws-cta green">Explore Public-Sector Solutions &rarr;</a>
   </div>
   <div class="wws-visual">
-    <img src="<?php echo get_template_directory_uri(); ?>/images/hospital-blueprint.jpg" alt="Hospital blueprint">
-    <div class="wws-badge green">Essential Services</div>
+    <img src="<?php echo get_template_directory_uri(); ?>/images/hospital-blueprint.jpg" alt="Municipal protection planning">
+    <div class="wws-badge green">Public &amp; Municipal</div>
   </div>
 </div>
 
 <!-- Government Panel -->
 <div class="wws-panel" id="wws-gov">
   <div class="wws-content">
-    <h3>Government &amp; Municipal</h3>
-    <p>National and local government bodies responsible for critical public infrastructure and continuity of essential services during emergencies.</p>
+    <h3>Developers &amp; Companies</h3>
+    <p>Real-estate developers, construction firms and organizations  -  engineering consulting, regulatory compliance, project management and protection-solution design.</p>
     <div class="wws-tags">
-      <span class="wws-tag">Government Ministries</span><span class="wws-tag">Municipal Authorities</span>
-      <span class="wws-tag">Education</span><span class="wws-tag">Public Utilities</span>
+      <span class="wws-tag">Developers</span><span class="wws-tag">Construction Firms</span>
+      <span class="wws-tag">Engineering</span><span class="wws-tag">Organizations</span>
     </div>
     <ul class="wws-features">
-      <li>National protection regulation development</li>
-      <li>Municipal emergency preparedness planning</li>
-      <li>Public building protection surveys</li>
-      <li>Underground domain utilization</li>
+      <li>Engineering consulting &amp; protection design</li>
+      <li>Regulatory compliance &amp; statutory processes</li>
+      <li>Project management from planning to permit</li>
+      <li>Protection solutions tailored to each project</li>
     </ul>
-    <a href="<?php echo home_url('/customers/'); ?>#gov" class="wws-cta">Explore Government Solutions &rarr;</a>
+    <a href="<?php echo home_url('/customers/'); ?>#gov" class="wws-cta">Explore Developer Solutions &rarr;</a>
   </div>
   <div class="wws-visual">
-    <img src="<?php echo get_template_directory_uri(); ?>/images/national-thumb.jpg" alt="Government facilities">
-    <div class="wws-badge">Government</div>
+    <img src="<?php echo get_template_directory_uri(); ?>/images/national-thumb.jpg" alt="Developments and construction projects">
+    <div class="wws-badge">Developers &amp; Companies</div>
   </div>
 </div>
 
 <div class="fade-in" style="text-align:center;margin-top:2.5rem">
 <a href="<?php echo home_url('/customers/'); ?>" style="display:inline-block;padding:0.7rem 2rem;background:var(--gold);color:#fff;border-radius:8px;font-size:0.88rem;font-weight:600;transition:all 0.3s" onmouseover="this.style.background='var(--gold-light)'" onmouseout="this.style.background='var(--gold)'">See All Customer Solutions &rarr;</a>
+</div>
+</div>
+</section>
+
+<!-- ===== TRUSTED BY / CLIENT LOGO WALL =====
+     To add a client: drop a logo file into images/clients/ and add a line to the
+     $fortline_clients array below (name + file). If the file is missing, the client
+     name is shown as a text tile automatically, so the wall always looks complete. -->
+<?php
+$fortline_clients = array(
+    array('name' => 'Elite Safety Engineering',      'file' => 'elite.png'),
+    array('name' => 'Eldar',                          'file' => 'eldar.png'),
+    array('name' => 'Afi Capital',                    'file' => 'afi-capital.png'),
+    array('name' => 'Electra Living',                 'file' => 'electra-living.png'),
+    array('name' => 'Eckstein',                       'file' => 'eckstein.png'),
+    array('name' => 'H.L.M – Business Licensing',     'file' => 'hlm.png'),
+    array('name' => 'am:pm City Market',              'file' => 'ampm.png'),
+    array('name' => 'State Comptroller of Israel',    'file' => 'state-comptroller.png'),
+    array('name' => 'Mefarem (est. 1962)',            'file' => 'mefarem.png'),
+    array('name' => 'Ashdod Port',                    'file' => 'ashdod-port.png'),
+    array('name' => 'Harish',                         'file' => 'harish.png'),
+    array('name' => 'Rami Sarfati Construction',      'file' => 'rami-sarfati.png'),
+    array('name' => 'Shaviro Engineering & Construction', 'file' => 'shaviro.png'),
+    array('name' => 'Shidor',                         'file' => 'shidor.png'),
+    array('name' => 'Tnuva',                          'file' => 'tnuva.png'),
+);
+$fortline_clients_dir = get_template_directory() . '/images/clients/';
+$fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
+?>
+<style>
+.fl-clients{padding:4.5rem 0;background:var(--bg-light);border-top:1px solid var(--border)}
+.fl-clients-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1rem;margin-top:2rem}
+.fl-client-tile{background:#fff;border:1px solid var(--border);border-radius:12px;height:104px;display:flex;align-items:center;justify-content:center;padding:1rem;transition:all 0.3s}
+.fl-client-tile:hover{border-color:rgba(37,99,235,0.3);box-shadow:0 8px 24px rgba(0,0,0,0.07)}
+.fl-client-tile img{max-width:100%;max-height:64px;object-fit:contain;filter:grayscale(100%);opacity:.7;transition:all 0.3s}
+.fl-client-tile:hover img{filter:grayscale(0);opacity:1}
+.fl-client-name{font-family:var(--font-heading);font-size:0.9rem;font-weight:600;color:var(--text-mid);text-align:center;line-height:1.35}
+@media(max-width:1024px){.fl-clients-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:640px){.fl-clients-grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+<section class="fl-clients" id="clients">
+<div class="container">
+<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)">Our Clients</div>
+<div class="section-title fade-in" style="text-align:center">Trusted By Leading Organizations</div>
+<p class="fade-in" style="color:var(--text-light);max-width:680px;margin:0.5rem auto 0;font-size:0.95rem;text-align:center;line-height:1.7">Authorities, municipalities, developers, public institutions and private clients rely on us for civil-protection planning and construction.</p>
+<div class="fl-clients-grid fade-in">
+<?php foreach ($fortline_clients as $c):
+    $has = !empty($c['file']) && file_exists($fortline_clients_dir . $c['file']); ?>
+  <div class="fl-client-tile">
+    <?php if ($has): ?>
+      <img src="<?php echo esc_url($fortline_clients_uri . $c['file']); ?>" alt="<?php echo esc_attr($c['name']); ?>" loading="lazy">
+    <?php else: ?>
+      <span class="fl-client-name"><?php echo esc_html($c['name']); ?></span>
+    <?php endif; ?>
+  </div>
+<?php endforeach; ?>
 </div>
 </div>
 </section>
