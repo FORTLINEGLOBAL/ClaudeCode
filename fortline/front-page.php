@@ -60,7 +60,7 @@ box-shadow:var(--shadow);
 .nav.scrolled .nav-links a:hover{color:var(--gold)}
 .nav-inner{max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
 .nav-logo{display:flex;align-items:center;gap:0.6rem}
-.nav-logo svg{width:36px;height:36px}
+.nav-logo svg{width:40px;height:38px;color:#fff}.nav.scrolled .nav-logo svg{color:var(--bg-dark)}
 .nav-logo-text{font-family:var(--font-heading);font-size:1.25rem;font-weight:700;color:#fff;transition:color 0.4s}
 .nav-logo-text span{color:var(--gold-bright)}
 .nav-links{display:flex;gap:1.2rem;align-items:center}
@@ -812,8 +812,8 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <nav class="nav" id="nav">
 <div class="nav-inner">
 <a href="<?php echo home_url('/'); ?>" class="nav-logo">
-<svg viewBox="0 0 40 40" fill="none"><path d="M20 2L36 11V29L20 38L4 29V11L20 2Z" stroke="#3b82f6" stroke-width="1.5" fill="rgba(37,99,235,0.1)"/><path d="M20 8L30 14V26L20 32L10 26V14L20 8Z" stroke="#3b82f6" stroke-width="1" fill="none"/><line x1="20" y1="14" x2="20" y2="26" stroke="#3b82f6" stroke-width="1"/><line x1="14" y1="18" x2="26" y2="18" stroke="#3b82f6" stroke-width="0.8"/><line x1="14" y1="22" x2="26" y2="22" stroke="#3b82f6" stroke-width="0.8"/></svg>
-<div class="nav-logo-text">ARI<span> Engineering</span></div>
+<svg viewBox="0 0 44 40" fill="none" aria-hidden="true"><rect x="2" y="24" width="7" height="16" rx="1" fill="currentColor" opacity="0.5"/><rect x="11" y="18" width="7" height="22" rx="1" fill="currentColor" opacity="0.7"/><rect x="20" y="11" width="7" height="29" rx="1" fill="currentColor" opacity="0.92"/><polygon points="30,8 37,2 37,40 30,40" fill="#C8A84B"/></svg>
+<div class="nav-logo-text">A.R.I.<span> Faberman</span></div>
 </a>
 <div class="nav-links">
 <a href="<?php echo home_url('/'); ?>#pillars">Solutions</a>
@@ -1359,6 +1359,44 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 </div>
 </section>
 
+<!-- ===== SELECTED PROJECTS ===== -->
+<style>
+.fl-proj{padding:5rem 0;background:var(--bg-light);border-top:1px solid var(--border)}
+.fl-proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:2rem}
+.fl-proj-card{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:4/3;box-shadow:0 6px 20px rgba(10,22,40,0.08)}
+.fl-proj-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.fl-proj-card:hover img{transform:scale(1.06)}
+.fl-proj-cap{position:absolute;left:0;right:0;bottom:0;padding:1.4rem 1.1rem 1rem;background:linear-gradient(to top,rgba(9,20,31,0.88),rgba(9,20,31,0));color:#fff}
+.fl-proj-cap h4{font-family:var(--font-heading);font-size:1rem;font-weight:700;margin:0}
+@media(max-width:900px){.fl-proj-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.fl-proj-grid{grid-template-columns:1fr}}
+</style>
+<section class="fl-proj" id="projects">
+<div class="container">
+<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="proj.label">Our Work</div>
+<div class="section-title fade-in" style="text-align:center" data-i18n="proj.title">Selected Projects</div>
+<p class="fade-in" style="color:var(--text-light);max-width:700px;margin:0.5rem auto 0;font-size:0.95rem;text-align:center;line-height:1.7" data-i18n="proj.subtitle">From private safe rooms to institutional protected spaces and community-scale programs  -  planned, licensed and built end to end.</p>
+<div class="fl-proj-grid fade-in">
+<?php
+$fortline_projects = array(
+    array('img' => 'proj03.jpg', 'cap' => 'Residential-Tower MAMADs'),
+    array('img' => 'proj01.jpg', 'cap' => 'Mobile Protected Structures'),
+    array('img' => 'proj09.jpg', 'cap' => 'Safe-Room Reinforcement'),
+    array('img' => 'proj08.jpg', 'cap' => 'Cast-Concrete Safe Rooms'),
+    array('img' => 'proj05.jpg', 'cap' => 'Completed Safe Rooms'),
+    array('img' => 'proj07.jpg', 'cap' => 'Institutional Protected Spaces'),
+);
+$proj_i = 0;
+foreach ($fortline_projects as $pr): $proj_i++; ?>
+  <div class="fl-proj-card">
+    <img src="<?php echo get_template_directory_uri(); ?>/images/projects/<?php echo $pr['img']; ?>" alt="<?php echo esc_attr($pr['cap']); ?>" loading="lazy">
+    <div class="fl-proj-cap"><h4 data-i18n="proj.cap<?php echo $proj_i; ?>"><?php echo esc_html($pr['cap']); ?></h4></div>
+  </div>
+<?php endforeach; ?>
+</div>
+</div>
+</section>
+
 <!-- ===== STRATEGIC BENEFITS ===== -->
 <section style="padding:5rem 0;background:var(--bg-dark);position:relative" id="benefits">
 <div class="container">
@@ -1485,7 +1523,7 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 <div class="footer-inner">
 <div class="footer-brand">
 <div class="footer-logo">
-<svg viewBox="0 0 40 40" fill="none"><path d="M20 2L36 11V29L20 38L4 29V11L20 2Z" stroke="#3b82f6" stroke-width="1.5" fill="rgba(37,99,235,0.15)"/><path d="M20 8L30 14V26L20 32L10 26V14L20 8Z" stroke="#3b82f6" stroke-width="1" fill="none"/><line x1="20" y1="14" x2="20" y2="26" stroke="#3b82f6" stroke-width="1"/><line x1="14" y1="18" x2="26" y2="18" stroke="#3b82f6" stroke-width="0.8"/><line x1="14" y1="22" x2="26" y2="22" stroke="#3b82f6" stroke-width="0.8"/></svg>
+<svg viewBox="0 0 44 40" fill="none" aria-hidden="true"><rect x="2" y="24" width="7" height="16" rx="1" fill="currentColor" opacity="0.5"/><rect x="11" y="18" width="7" height="22" rx="1" fill="currentColor" opacity="0.7"/><rect x="20" y="11" width="7" height="29" rx="1" fill="currentColor" opacity="0.92"/><polygon points="30,8 37,2 37,40 30,40" fill="#C8A84B"/></svg>
 <div class="footer-logo-text">Fort<span>line</span></div>
 </div>
 <p class="footer-tagline">Warzone defense-grade protection technology for critical infrastructure worldwide.</p>

@@ -62,7 +62,7 @@ box-shadow:var(--shadow);
 .nav.scrolled .nav-links a:hover{color:var(--gold)}
 .nav-inner{max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
 .nav-logo{display:flex;align-items:center;gap:0.6rem}
-.nav-logo svg{width:36px;height:36px}
+.nav-logo svg{width:40px;height:38px;color:#fff}.nav.scrolled .nav-logo svg{color:var(--bg-dark)}
 .nav-logo-text{font-family:var(--font-heading);font-size:1.25rem;font-weight:700;color:#fff;transition:color 0.4s}
 .nav-logo-text span{color:var(--gold-bright)}
 .nav-links{display:flex;gap:1.2rem;align-items:center}
@@ -864,8 +864,8 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <nav class="nav" id="nav">
 <div class="nav-inner">
 <a href="<?php echo home_url('/'); ?>" class="nav-logo">
-<svg viewBox="0 0 40 40" fill="none"><path d="M20 2L36 11V29L20 38L4 29V11L20 2Z" stroke="#3b82f6" stroke-width="1.5" fill="rgba(37,99,235,0.1)"/><path d="M20 8L30 14V26L20 32L10 26V14L20 8Z" stroke="#3b82f6" stroke-width="1" fill="none"/><line x1="20" y1="14" x2="20" y2="26" stroke="#3b82f6" stroke-width="1"/><line x1="14" y1="18" x2="26" y2="18" stroke="#3b82f6" stroke-width="0.8"/><line x1="14" y1="22" x2="26" y2="22" stroke="#3b82f6" stroke-width="0.8"/></svg>
-<div class="nav-logo-text">ARI<span> Engineering</span></div>
+<svg viewBox="0 0 44 40" fill="none" aria-hidden="true"><rect x="2" y="24" width="7" height="16" rx="1" fill="currentColor" opacity="0.5"/><rect x="11" y="18" width="7" height="22" rx="1" fill="currentColor" opacity="0.7"/><rect x="20" y="11" width="7" height="29" rx="1" fill="currentColor" opacity="0.92"/><polygon points="30,8 37,2 37,40 30,40" fill="#C8A84B"/></svg>
+<div class="nav-logo-text">A.R.I.<span> Faberman</span></div>
 </a>
 <div class="nav-links">
 <a href="<?php echo home_url('/'); ?>#pillars">Solutions</a>
@@ -1108,7 +1108,7 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <div class="footer-inner">
 <div class="footer-brand">
 <div class="footer-logo">
-<svg viewBox="0 0 40 40" fill="none"><path d="M20 2L36 11V29L20 38L4 29V11L20 2Z" stroke="#3b82f6" stroke-width="1.5" fill="rgba(37,99,235,0.15)"/><path d="M20 8L30 14V26L20 32L10 26V14L20 8Z" stroke="#3b82f6" stroke-width="1" fill="none"/><line x1="20" y1="14" x2="20" y2="26" stroke="#3b82f6" stroke-width="1"/><line x1="14" y1="18" x2="26" y2="18" stroke="#3b82f6" stroke-width="0.8"/><line x1="14" y1="22" x2="26" y2="22" stroke="#3b82f6" stroke-width="0.8"/></svg>
+<svg viewBox="0 0 44 40" fill="none" aria-hidden="true"><rect x="2" y="24" width="7" height="16" rx="1" fill="currentColor" opacity="0.5"/><rect x="11" y="18" width="7" height="22" rx="1" fill="currentColor" opacity="0.7"/><rect x="20" y="11" width="7" height="29" rx="1" fill="currentColor" opacity="0.92"/><polygon points="30,8 37,2 37,40 30,40" fill="#C8A84B"/></svg>
 <div class="footer-logo-text">Fort<span>line</span></div>
 </div>
 <p class="footer-tagline">Israeli defense-grade protection technology for critical infrastructure worldwide.</p>

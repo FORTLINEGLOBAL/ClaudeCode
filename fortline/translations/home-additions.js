@@ -105,6 +105,17 @@ window.HOME_ADDITIONS_TRANSLATIONS = {
     'who.card1': 'שנות ניסיון בהנדסה וברגולציה של פיקוד העורף',
     'who.card2': 'ממ"דים שנבנו בשדרות ובעוטף עזה',
     'who.card3': 'גני ילדים ממוגנים למוסדות ציבור',
+
+    // ── Selected Projects ──
+    'proj.label': 'העבודות שלנו',
+    'proj.title': 'פרויקטים נבחרים',
+    'proj.subtitle': 'מממ"דים פרטיים ועד מרחבים מוגנים מוסדיים ותוכניות בהיקף יישובי – בתכנון, רישוי וביצוע מקצה לקצה.',
+    'proj.cap1': 'ממ"דים במגדלי מגורים',
+    'proj.cap2': 'מבנים מוגנים יבילים',
+    'proj.cap3': 'ביצוע זיון לממ"ד',
+    'proj.cap4': 'יציקת ממ"ד בטון',
+    'proj.cap5': 'ממ"דים גמורים',
+    'proj.cap6': 'מרחבים מוגנים מוסדיים',
   },
 
   en: {
@@ -201,6 +212,17 @@ window.HOME_ADDITIONS_TRANSLATIONS = {
     'who.card_label': 'By the Numbers',
     'who.card1': 'years of engineering and Home Front Command experience',
     'who.card2': 'MAMADs built across Sderot and the Gaza-envelope communities',
-    'who.card3': 'protected kindergartens delivered for public institutions'
+    'who.card3': 'protected kindergartens delivered for public institutions',
+
+    // ── Selected Projects ──
+    'proj.label': 'Our Work',
+    'proj.title': 'Selected Projects',
+    'proj.subtitle': 'From private safe rooms to institutional protected spaces and community-scale programs  -  planned, licensed and built end to end.',
+    'proj.cap1': 'Residential-Tower MAMADs',
+    'proj.cap2': 'Mobile Protected Structures',
+    'proj.cap3': 'Safe-Room Reinforcement',
+    'proj.cap4': 'Cast-Concrete Safe Rooms',
+    'proj.cap5': 'Completed Safe Rooms',
+    'proj.cap6': 'Institutional Protected Spaces'
   }
 };
