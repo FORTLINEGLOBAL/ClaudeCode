@@ -18,8 +18,8 @@
     DEFAULT_LANG: 'en',
     COOKIE_NAME: 'fortline_lang',
     COOKIE_DAYS: 30,
-    SUPPORTED: ['en', 'he', 'ar'],
-    RTL_LANGS: ['he', 'ar'],
+    SUPPORTED: ['en', 'he'],
+    RTL_LANGS: ['he'],
     MIN_TEXT_LENGTH: 2
   };
 

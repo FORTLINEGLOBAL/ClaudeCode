@@ -639,6 +639,7 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <a href="<?php echo home_url('/customers/'); ?>">Who We Serve</a>
 <a href="<?php echo home_url('/about/'); ?>">About</a>
 <a href="<?php echo home_url('/articles/'); ?>">Articles</a>
+<div id="lang-toggle"></div>
 <a href="<?php echo home_url('/customers/'); ?>#contact" class="nav-cta">Contact Us</a>
 </div>
 <div class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">

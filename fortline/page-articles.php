@@ -346,6 +346,7 @@ get_header(); ?>
             <li><a href="<?php echo home_url('/customers/'); ?>">Who We Serve</a></li>
             <li><a href="<?php echo home_url('/about/'); ?>">About</a></li>
             <li><a href="<?php echo home_url('/articles/'); ?>">Articles</a></li>
+<div id="lang-toggle"></div>
             <li><a href="<?php echo home_url('/customers/'); ?>#contact" class="nav-cta">Contact Us</a></li>
         </ul>
         <div class="hamburger" onclick="document.querySelector('.menu').classList.toggle('open')">

@@ -521,6 +521,7 @@ div[style*="grid-template-columns:repeat(6"]{grid-template-columns:1fr !importan
 <a href="<?php echo home_url('/customers/'); ?>">Who We Serve</a>
 <a href="<?php echo home_url('/about/'); ?>">About</a>
 <a href="<?php echo home_url('/articles/'); ?>">Articles</a>
+<div id="lang-toggle"></div>
 <a href="<?php echo home_url('/customers/'); ?>#contact" class="nav-cta">Contact Us</a>
 </div>
 <div class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">

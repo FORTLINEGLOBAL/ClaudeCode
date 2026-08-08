@@ -16,6 +16,67 @@ function fortline_scripts() {
 add_action('wp_enqueue_scripts', 'fortline_scripts');
 
 /**
+ * Multilingual system (EN default + HE).
+ * Loads the page-specific translation file + shared strings + the language
+ * engine (lang-system.js) in the correct dependency order, plus RTL styles.
+ */
+function fortline_lang_assets() {
+    $uri = get_template_directory_uri();
+    $ver = defined('FORTLINE_THEME_VERSION') ? FORTLINE_THEME_VERSION : '2.0';
+
+    // Map each page template to its translation file.
+    $map = array(
+        'front-page.php'                                => 'home.js',
+        'page-about.php'                                => 'about.js',
+        'page-shield6000.php'                           => 'shield6000.js',
+        'page-customers.php'                            => 'customers.js',
+        'page-execution.php'                            => 'execution.js',
+        'page-facility-assessment.php'                  => 'facility-assessment.js',
+        'page-national-planning.php'                    => 'national-planning.js',
+        'page-articles.php'                             => 'articles.js',
+        'page-article-critical-infrastructure-uae.php'  => 'article-critical-infrastructure-uae.js',
+        'page-article-blast-resistant-fortification.php'=> 'article-blast-resistant-fortification.js',
+        'page-article-safe-room-retrofit.php'           => 'article-safe-room-retrofit.js',
+        'page-article-passive-protection-gcc.php'       => 'article-passive-protection-gcc.js',
+        'page-article-qatar-infrastructure.php'         => 'article-qatar-infrastructure.js',
+    );
+
+    // Determine the current template.
+    $tpl = '';
+    if (is_front_page()) {
+        $tpl = 'front-page.php';
+    } elseif (is_page()) {
+        $slug = get_page_template_slug(get_queried_object_id());
+        if ($slug) { $tpl = $slug; }
+    }
+
+    $deps = array();
+
+    // Page-specific translations (loaded first).
+    if (isset($map[$tpl]) && file_exists(get_template_directory() . '/translations/' . $map[$tpl])) {
+        wp_enqueue_script('fortline-tr-page', $uri . '/translations/' . $map[$tpl], array(), $ver, true);
+        $deps[] = 'fortline-tr-page';
+    }
+
+    // Extra homepage strings for the newer sections (Services, audiences, clients).
+    if ($tpl === 'front-page.php' && file_exists(get_template_directory() . '/translations/home-additions.js')) {
+        wp_enqueue_script('fortline-tr-additions', $uri . '/translations/home-additions.js', array(), $ver, true);
+        $deps[] = 'fortline-tr-additions';
+    }
+
+    // Shared strings (nav, footer, forms) on every page.
+    wp_enqueue_script('fortline-tr-shared', $uri . '/translations/shared.js', array(), $ver, true);
+    $deps[] = 'fortline-tr-shared';
+
+    // Language engine loads last, after all translation sources.
+    wp_enqueue_script('fortline-lang', $uri . '/lang-system.js', $deps, $ver, true);
+
+    // RTL stylesheet (applies when <html dir="rtl">).
+    wp_enqueue_style('fortline-rtl', $uri . '/lang-rtl.css', array('fortline-style'), $ver);
+}
+add_action('wp_enqueue_scripts', 'fortline_lang_assets');
+
+/**
  * Theme support
  */
 function fortline_setup() {
