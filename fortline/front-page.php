@@ -11,6 +11,9 @@ get_header(); ?>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 section[id],div[id]{scroll-margin-top:86px}
+.rp-hidden{display:none!important}
+.nav-links a.active{color:var(--gold-bright)}
+.nav.scrolled .nav-links a.active{color:var(--gold-bright)}
 :root{
 --bg:#ffffff;
 --bg-light:#f7f8fa;
@@ -60,7 +63,9 @@ box-shadow:var(--shadow);
 .nav.scrolled .nav-logo-text,.nav.scrolled .nav-links a{color:var(--text-dark)}
 .nav.scrolled .nav-logo-text span{color:var(--gold-bright)}
 .nav.scrolled .nav-links a:hover{color:var(--gold)}
-.nav-inner{max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.nav-inner{max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:flex-start;gap:0.5rem}
+.nav-links{margin-inline-start:2rem}
+.nav-right{display:flex;align-items:center;gap:0.7rem;margin-inline-start:auto}
 .nav-logo{display:flex;align-items:center;gap:0.6rem}
 .nav-logo-img{height:40px;width:auto;display:block}.nav-logo-dark{display:none}.nav.scrolled .nav-logo-light{display:none}.nav.scrolled .nav-logo-dark{display:block}.footer-logo-img{height:38px;width:auto;display:block}
 .nav-logo-text{font-family:var(--font-heading);font-size:1.25rem;font-weight:700;color:#fff;transition:color 0.4s}
@@ -810,20 +815,22 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 
 
 
+<style id="rp-init">section[data-page]:not([data-page="home"]){display:none}</style>
 <!-- ===== NAVIGATION ===== -->
 <nav class="nav" id="nav">
 <div class="nav-inner">
-<a href="#" class="nav-logo" aria-label="A.R.I. Faberman Engineering Solutions Ltd.">
+<a href="#home" class="nav-logo" aria-label="A.R.I. Faberman Engineering Solutions Ltd.">
 <img src="<?php echo get_template_directory_uri(); ?>/images/brand/ari-logo-horizontal-reversed.svg" alt="A.R.I. Faberman Engineering Solutions Ltd." class="nav-logo-img nav-logo-light">
 <img src="<?php echo get_template_directory_uri(); ?>/images/brand/ari-logo-horizontal.svg" alt="" aria-hidden="true" class="nav-logo-img nav-logo-dark">
 </a>
 <div class="nav-links">
 <a href="#services" data-i18n="nav2.services">Services</a>
 <a href="#projects" data-i18n="nav2.projects">Projects</a>
-<a href="#customers" data-i18n="nav2.serve">Who We Serve</a>
-<a href="#why" data-i18n="nav2.about">About</a>
+<a href="#serve" data-i18n="nav2.serve">Who We Serve</a>
+<a href="#about" data-i18n="nav2.about">About</a>
 <a href="#faq" data-i18n="nav2.faq">FAQ</a>
-
+</div>
+<div class="nav-right">
 <div id="lang-toggle"></div>
 <a href="#contact" class="nav-cta">Contact Us</a>
 </div>
@@ -837,13 +844,13 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <div class="mobile-close" onclick="this.parentElement.classList.remove('open')">&times;</div>
 <a href="#services" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.services">Services</a>
 <a href="#projects" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.projects">Projects</a>
-<a href="#customers" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.serve">Who We Serve</a>
-<a href="#why" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.about">About</a>
+<a href="#serve" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.serve">Who We Serve</a>
+<a href="#about" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.about">About</a>
 <a href="#faq" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.faq">FAQ</a>
 <a href="#contact" onclick="this.parentElement.classList.remove('open')" class="btn-gold" style="margin-top:1rem">Contact Us</a>
 </div>
 <!-- ===== HERO -Company Level ===== -->
-<section class="hero" id="hero">
+<section class="hero" id="hero" data-page="home">
 <div class="hero-video-wrap">
 <video autoplay muted loop playsinline>
 <source src="<?php echo get_template_directory_uri(); ?>/images/Backgroundf.mp4" type="video/mp4">
@@ -912,7 +919,7 @@ Protection and engineering solutions for the private, public and municipal secto
 </section>
 
 <!-- ===== WHY: THE NEED ===== -->
-<section style="padding:5rem 0;background:var(--bg-dark);position:relative;overflow:hidden" id="why">
+<section style="padding:5rem 0;background:var(--bg-dark);position:relative;overflow:hidden" id="why" data-page="about">
 <div style="position:absolute;top:0;left:0;right:0;bottom:0;opacity:0.06;background:url('threat-image.jpg') center/cover no-repeat"></div>
 <div class="container" style="position:relative;z-index:1">
 <div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="who.label">Who We Are</div>
@@ -969,7 +976,7 @@ Protection and engineering solutions for the private, public and municipal secto
 </section>
 
 <!-- ===== SERVICES: STRATEGIC PROTECTION ===== -->
-<section class="pillars" id="pillars" style="padding:5rem 0;background:var(--bg-section)">
+<section class="pillars" id="pillars" data-page="home" style="padding:5rem 0;background:var(--bg-section)">
 <div class="container">
 <div class="pillars-header">
 <div class="section-label fade-in" data-i18n="pil.label">How We Work</div>
@@ -1044,7 +1051,7 @@ Protection and engineering solutions for the private, public and municipal secto
 
 
 <!-- ===== OUR SERVICES (detailed) ===== -->
-<section style="padding:5rem 0;background:#fff;border-top:1px solid var(--border)" id="services">
+<section style="padding:5rem 0;background:#fff;border-top:1px solid var(--border)" id="services" data-page="services">
 <div class="container">
 <div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)">What We Do</div>
 <div class="section-title fade-in" style="text-align:center">Our Services</div>
@@ -1081,8 +1088,23 @@ Protection and engineering solutions for the private, public and municipal secto
 </section>
 
 
+<!-- ===== MAMAD PROCESS DETAIL (Services page) ===== -->
+<section class="fl-faq" id="mamad-process" data-page="services" style="background:var(--bg-light)">
+<div class="container">
+<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="mp.label">The Process</div>
+<div class="section-title fade-in" style="text-align:center" data-i18n="mp.title">Building a MAMAD, Step by Step</div>
+<p class="fade-in" style="color:var(--text-light);max-width:760px;margin:0.5rem auto 0;font-size:0.95rem;text-align:center;line-height:1.7" data-i18n="mp.sub">Since the outbreak of the war an accelerated Home Front Command track lets you add a MAMAD quickly. Here is how the process works, end to end.</p>
+<div class="fl-faq-wrap fade-in">
+<details open><summary data-i18n="mp.q0">The Accelerated "Tzav HaShaa" Permit</summary><p data-i18n="mp.a0">Following 7 October 2023, the Planning Administration and Home Front Command introduced an emergency order: a fast track that exempts a MAMAD from the usual building-permit process and grants approval directly from the Home Front Command. Licensing takes up to about 30 working days from signing; the HFC approval is valid for two years (extendable), and the route removes the dependence on local planning committees.</p></details>
+<details><summary data-i18n="mp.q1">Stage 1 — Early Planning</summary><p data-i18n="mp.a1">A professional site visit with our planning team to determine the optimal MAMAD placement: the best opening point to minimise damage to the existing home, a review of existing infrastructure (sewage, electricity, water) and access routes, a placement sketch, and the homeowner's sign-off ("configuration freeze").</p></details>
+<details><summary data-i18n="mp.q2">Stage 2 — Advanced Planning</summary><p data-i18n="mp.a2">A licensed surveyor measures the building and plot (house contour, connection facade, on-site infrastructure, plot lines, blocks &amp; parcels and the approved zoning plan) for the online permit submission, plus a soil test and report with foundation guidance for each home.</p></details>
+<details><summary data-i18n="mp.q3">Stage 3 — Detailed Planning &amp; Licensing</summary><p data-i18n="mp.a3">Architectural design at 1:100 and 1:50 and structural design at 1:50, connected to the house per Home Front Command guidelines and signed by a licensed architect and structural engineer; submission to the HFC systems and liaison with the relevant officials through to final approval — then approval to begin construction.</p></details>
+</div>
+</div>
+</section>
+
 <!-- ===== WHO WE SERVE ===== -->
-<section style="padding:5rem 0;background:#fff" id="customers">
+<section style="padding:5rem 0;background:#fff" id="customers" data-page="serve">
 <div class="container">
 <div class="section-label fade-in" style="text-align:center">Who We Serve</div>
 <div class="section-title fade-in" style="text-align:center">Every Organization That Must Operate During Emergencies</div>
@@ -1112,7 +1134,7 @@ Protection and engineering solutions for the private, public and municipal secto
     <a href="#contact" class="wws-cta">Request Private Consultation &rarr;</a>
   </div>
   <div class="wws-visual">
-    <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80" alt="Private residence safe room" loading="lazy">
+    <img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj03.jpg" alt="Private residence safe room" loading="lazy">
     <div class="wws-badge">Private Clients</div>
   </div>
 </div>
@@ -1205,7 +1227,7 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 @media(max-width:1024px){.fl-clients-grid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:640px){.fl-clients-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
-<section class="fl-clients" id="clients">
+<section class="fl-clients" id="clients" data-page="about">
 <div class="container">
 <div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)">Our Clients</div>
 <div class="section-title fade-in" style="text-align:center">Trusted By Leading Organizations</div>
@@ -1231,7 +1253,7 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 
 
 <!-- ===== AREAS OF ACTIVITY ===== -->
-<section style="padding:5rem 0;background:var(--bg-light)" id="sectors">
+<section style="padding:5rem 0;background:var(--bg-light)" id="sectors" data-page="serve">
 <div class="container">
 <div class="section-label fade-in" style="text-align:center" data-i18n="area.label">Who We Protect</div>
 <div class="section-title fade-in" style="text-align:center" data-i18n="area.title">Areas of Activity</div>
@@ -1263,7 +1285,7 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 </section>
 
 <!-- ===== WHY CHOOSE US ===== -->
-<section style="padding:5rem 0;background:#fff;border-top:1px solid var(--border)" id="advantages">
+<section style="padding:5rem 0;background:#fff;border-top:1px solid var(--border)" id="advantages" data-page="about">
 <div class="container">
 <div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="wcu.label">Our Advantages</div>
 <div class="section-title fade-in" style="text-align:center" data-i18n="wcu.title">Why Work With Us</div>
@@ -1311,7 +1333,7 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 @media(max-width:900px){.fl-proj-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.fl-proj-grid{grid-template-columns:1fr}}
 </style>
-<section class="fl-proj" id="projects">
+<section class="fl-proj" id="projects" data-page="projects">
 <div class="container">
 <div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="proj.label">Our Work</div>
 <div class="section-title fade-in" style="text-align:center" data-i18n="proj.title">Selected Projects</div>
@@ -1339,7 +1361,7 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 
 
 <!-- ===== PROCESS ===== -->
-<section class="process" id="process">
+<section class="process" id="process" data-page="services">
 <div class="container">
 <div class="process-header">
 <div class="section-label fade-in" data-i18n="proc.label">How It Works</div>
@@ -1347,25 +1369,25 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 </div>
 <div class="timeline">
 <div class="tl-step fade-in">
-<div class="tl-img"><img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80" alt="Consultation" loading="lazy"></div>
+<div class="tl-img"><img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj07.jpg" alt="Consultation" loading="lazy"></div>
 <div class="tl-num">1</div>
 <h3 data-i18n="proc.s1_t">Free, No-Obligation Consultation</h3>
 <p data-i18n="proc.s1_p">We visit your home or facility, understand your needs, and check eligibility for state funding.</p>
 </div>
 <div class="tl-step fade-in fade-in-delay-1">
-<div class="tl-img"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80" alt="Engineering plans" loading="lazy"></div>
+<div class="tl-img"><img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj09.jpg" alt="Engineering plans" loading="lazy"></div>
 <div class="tl-num">2</div>
 <h3 data-i18n="proc.s2_t">Planning &amp; Design</h3>
 <p data-i18n="proc.s2_p">Optimal safe-room placement, engineering drawings, and a solution tailored to the site and budget.</p>
 </div>
 <div class="tl-step fade-in fade-in-delay-2">
-<div class="tl-img"><img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80" alt="Licensing" loading="lazy"></div>
+<div class="tl-img"><img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj06.jpg" alt="Licensing" loading="lazy"></div>
 <div class="tl-num">3</div>
 <h3 data-i18n="proc.s3_t">Licensing &amp; Permits</h3>
 <p data-i18n="proc.s3_p">Home Front Command approval and building-permit handling, including the accelerated route.</p>
 </div>
 <div class="tl-step fade-in fade-in-delay-3">
-<div class="tl-img"><img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&q=80" alt="Handover" loading="lazy"></div>
+<div class="tl-img"><img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj05.jpg" alt="Handover" loading="lazy"></div>
 <div class="tl-num">4</div>
 <h3 data-i18n="proc.s4_t">Construction &amp; Handover</h3>
 <p data-i18n="proc.s4_p">End-to-end construction, certification and handover  -  with ongoing support.</p>
@@ -1382,6 +1404,9 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 .fl-tst-quote{font-size:0.92rem;color:var(--text-mid);line-height:1.75;margin-bottom:1.2rem}
 .fl-tst-quote::before{content:'\201C';font-family:Georgia,serif;font-size:2.4rem;color:var(--gold-bright);line-height:0;vertical-align:-0.4em;margin-right:0.15em}
 .fl-tst-by{font-family:var(--font-heading);font-size:0.9rem;font-weight:700;color:var(--text-dark)}
+.fl-tst-foot{display:flex;align-items:center;gap:0.75rem;margin-top:0.4rem}
+.fl-tst-logo{width:46px;height:46px;border-radius:10px;background:#0B162C;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.fl-tst-logo svg{width:24px;height:24px}
 @media(max-width:760px){.fl-tst-grid{grid-template-columns:1fr}}
 /* FAQ */
 .fl-faq{padding:5rem 0;background:#fff;border-top:1px solid var(--border)}
@@ -1393,21 +1418,21 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 .fl-faq details[open] summary::after{content:'\2212'}
 .fl-faq p{padding:0 1.3rem 1.2rem;font-size:0.9rem;color:var(--text-light);line-height:1.7;margin:0}
 </style>
-<section class="fl-tst" id="testimonials">
+<section class="fl-tst" id="testimonials" data-page="about">
 <div class="container">
 <div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="tst.label">Testimonials</div>
 <div class="section-title fade-in" style="text-align:center" data-i18n="tst.title">What Our Clients Say</div>
 <div class="fl-tst-grid fade-in">
-<div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q1">ARI Faberman carried out comprehensive protection work for us across several hospitals nationwide. We were very satisfied  -  the team was professional, skilled and reliable, worked under significant time pressure, and finished on time and on budget. We highly recommend them for anyone needing quality protection services.</p><div class="fl-tst-by" data-i18n="tst.b1">Ministry of Health</div></div>
-<div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q2">We warmly recommend ARI Faberman for upgrading MAMADs and shelters. The team was professional, efficient and courteous throughout, worked closely with us to understand our needs, and delivered a tailored solution. The results were excellent and we're confident it will protect our students in an emergency.</p><div class="fl-tst-by" data-i18n="tst.b2">Ministry of Education</div></div>
-<div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q3">We looked for a reliable company to protect our kindergarten's MAMAD and chose ARI Faberman after reading positive reviews. We weren't disappointed  -  professional, efficient and courteous, working quietly and quickly with the children in mind. The upgraded MAMAD looks great and we feel much safer now.</p><div class="fl-tst-by" data-i18n="tst.b3">"Rakefet" Kindergarten, Sderot</div></div>
-<div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q4">Thank you for renovating the shelter at our school. The process was smooth and easy, and the team was friendly and professional. Our upgraded space looks great and we're confident it will provide our students with optimal protection in an emergency.</p><div class="fl-tst-by" data-i18n="tst.b4">Sde Uziya School</div></div>
+<div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q1">ARI Faberman carried out comprehensive protection work for us across several hospitals nationwide. We were very satisfied  -  the team was professional, skilled and reliable, worked under significant time pressure, and finished on time and on budget. We highly recommend them for anyone needing quality protection services.</p><div class="fl-tst-foot"><span class="fl-tst-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M10 21v-5h4v5M9 10h.01M15 10h.01M9 13h.01M15 13h.01"/></svg></span><span class="fl-tst-by" data-i18n="tst.b1">Ministry of Health</span></div></div>
+<div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q2">We warmly recommend ARI Faberman for upgrading MAMADs and shelters. The team was professional, efficient and courteous throughout, worked closely with us to understand our needs, and delivered a tailored solution. The results were excellent and we're confident it will protect our students in an emergency.</p><div class="fl-tst-foot"><span class="fl-tst-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M10 21v-5h4v5M9 10h.01M15 10h.01M9 13h.01M15 13h.01"/></svg></span><span class="fl-tst-by" data-i18n="tst.b2">Ministry of Education</span></div></div>
+<div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q3">We looked for a reliable company to protect our kindergarten's MAMAD and chose ARI Faberman after reading positive reviews. We weren't disappointed  -  professional, efficient and courteous, working quietly and quickly with the children in mind. The upgraded MAMAD looks great and we feel much safer now.</p><div class="fl-tst-foot"><span class="fl-tst-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M10 21v-5h4v5M9 10h.01M15 10h.01M9 13h.01M15 13h.01"/></svg></span><span class="fl-tst-by" data-i18n="tst.b3">"Rakefet" Kindergarten, Sderot</span></div></div>
+<div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q4">Thank you for renovating the shelter at our school. The process was smooth and easy, and the team was friendly and professional. Our upgraded space looks great and we're confident it will provide our students with optimal protection in an emergency.</p><div class="fl-tst-foot"><span class="fl-tst-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M10 21v-5h4v5M9 10h.01M15 10h.01M9 13h.01M15 13h.01"/></svg></span><span class="fl-tst-by" data-i18n="tst.b4">Sde Uziya School</span></div></div>
 </div>
 </div>
 </section>
 
 <!-- ===== FAQ ===== -->
-<section class="fl-faq" id="faq">
+<section class="fl-faq" id="faq" data-page="faq">
 <div class="container">
 <div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="faq.label">FAQ</div>
 <div class="section-title fade-in" style="text-align:center" data-i18n="faq.title">Frequently Asked Questions</div>
@@ -1423,7 +1448,7 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 </section>
 
 <!-- ===== CONTACT ===== -->
-<section class="contact" id="contact">
+<section class="contact" id="contact" data-page="contact">
 <div class="container">
 <div class="section-label fade-in" data-i18n="ct.label">Get Started</div>
 <div class="section-title fade-in" style="margin-bottom:2rem" data-i18n="ct.title">Request a Consultation</div>
@@ -1477,7 +1502,6 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 <div class="footer-logo">
 <img src="<?php echo get_template_directory_uri(); ?>/images/brand/ari-logo-horizontal-reversed.svg" alt="A.R.I. Faberman Engineering Solutions Ltd." class="footer-logo-img">
 </div>
-</div>
 <p class="footer-tagline" data-i18n="footer.tagline">Civil-protection engineering  -  safe rooms (MAMAD), shelters and building-permit licensing, planned and built end to end.</p>
 </div>
 <div class="footer-col">
@@ -1488,9 +1512,9 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 </div>
 <div class="footer-col">
 <h4 data-i18n="footer.company_h">Company</h4>
-<a href="#why" data-i18n="footer.l_about">About Us</a>
-<a href="#customers" data-i18n="footer.l_serve">Who We Serve</a>
-<a href="#clients" data-i18n="footer.l_clients">Clients</a>
+<a href="#about" data-i18n="footer.l_about">About Us</a>
+<a href="#serve" data-i18n="footer.l_serve">Who We Serve</a>
+<a href="#about" data-i18n="footer.l_clients">Clients</a>
 </div>
 <div class="footer-col">
 <h4 data-i18n="footer.contact_h">Get in Touch</h4>
@@ -1607,58 +1631,27 @@ setTimeout(()=>{btn.textContent=origText;btn.style.background='';btn.style.color
 </script>
 
 
+
 <script>
-// Who We Serve tabs
-function wwsShow(e,id){
-  document.querySelectorAll('.wws-tab').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.wws-panel').forEach(p=>p.classList.remove('active'));
-  e.target.classList.add('active');
-  document.getElementById('wws-'+id).classList.add('active');
-}
-
-// Sticky nav
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>80));
-
-// Scroll fade-in
-const obs=new IntersectionObserver(entries=>{
-entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
-},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
-document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
-
-// Counter animation
-const cObs=new IntersectionObserver(entries=>{
-entries.forEach(e=>{
-if(e.isIntersecting){
-const el=e.target;
-const target=parseInt(el.dataset.count);
-if(isNaN(target))return;
-const suffix=el.dataset.suffix||'';
-const dur=2000;const st=performance.now();
-const anim=now=>{
-const p=Math.min((now-st)/dur,1);
-const eased=1-Math.pow(1-p,3);
-const cur=Math.floor(eased*target);
-const formatted=target>=1000?cur.toLocaleString():cur;
-el.textContent=formatted+suffix;
-if(p<1)requestAnimationFrame(anim);
-};
-requestAnimationFrame(anim);
-cObs.unobserve(el);
-}
-});
-},{threshold:0.3});
-document.querySelectorAll('[data-count]').forEach(el=>cObs.observe(el));
-
-// Smooth scroll
-document.querySelectorAll('a[href^="#"]').forEach(a=>{
-a.addEventListener('click',e=>{
-e.preventDefault();
-const t=document.querySelector(a.getAttribute('href'));
-if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
-});
-});
-
+/* Simple hash router: each menu item is its own "page" (sections tagged data-page). */
+(function(){
+  var PAGES=['home','services','projects','serve','about','faq','contact'];
+  function current(){ var h=(location.hash||'').replace(/^#\/?/,'').toLowerCase(); return PAGES.indexOf(h)>=0?h:'home'; }
+  function show(pg){
+    var init=document.getElementById('rp-init'); if(init){ init.remove(); }
+    document.querySelectorAll('section[data-page]').forEach(function(s){
+      s.classList.toggle('rp-hidden', s.getAttribute('data-page')!==pg);
+    });
+    document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(function(a){
+      var href=(a.getAttribute('href')||'').replace('#','');
+      a.classList.toggle('active', href===pg);
+    });
+    window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange', function(){ show(current()); });
+  function init(){ show(current()); }
+  if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
 </script>
 
 <?php get_footer(); ?>
