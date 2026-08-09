@@ -1,3 +1,4 @@
+<?php /* ARI: legacy page — send visitors to the single-page site */ if (function_exists("wp_safe_redirect") && !is_admin()) { wp_safe_redirect( home_url("/") ); exit; } ?>
 <?php
 /**
  * Template Name: Execution
@@ -60,7 +61,7 @@ box-shadow:var(--shadow);
 .nav.scrolled .nav-links a:hover{color:var(--gold)}
 .nav-inner{max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
 .nav-logo{display:flex;align-items:center;gap:0.6rem}
-.nav-logo svg{width:40px;height:38px;color:#fff}.nav.scrolled .nav-logo svg{color:var(--bg-dark)}
+.nav-logo-img{height:40px;width:auto;display:block}.nav-logo-dark{display:none}.nav.scrolled .nav-logo-light{display:none}.nav.scrolled .nav-logo-dark{display:block}.footer-logo-img{height:38px;width:auto;display:block}
 .nav-logo-text{font-family:var(--font-heading);font-size:1.25rem;font-weight:700;color:#fff;transition:color 0.4s}
 .nav-logo-text span{color:var(--gold-bright)}
 .nav-links{display:flex;gap:1.2rem;align-items:center}
@@ -398,7 +399,7 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 .footer-inner{grid-template-columns:1fr 1fr;gap:2rem}
 .footer-brand{grid-column:1/-1}
 
-.nav{background:#fff!important;box-shadow:0 1px 4px rgba(0,0,0,0.08)}
+.nav{background:#fff!important;box-shadow:0 1px 4px rgba(0,0,0,0.08)}.nav .nav-logo-light{display:none}.nav .nav-logo-dark{display:block}
 .nav-logo-text{color:var(--text-dark)!important}
 .nav-links{display:none}
 .hamburger{display:flex}
@@ -479,9 +480,9 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <!-- ===== NAVIGATION ===== -->
 <nav class="nav" id="nav">
 <div class="nav-inner">
-<a href="<?php echo home_url('/'); ?>" class="nav-logo">
-<svg viewBox="0 0 44 40" fill="none" aria-hidden="true"><rect x="2" y="24" width="7" height="16" rx="1" fill="currentColor" opacity="0.5"/><rect x="11" y="18" width="7" height="22" rx="1" fill="currentColor" opacity="0.7"/><rect x="20" y="11" width="7" height="29" rx="1" fill="currentColor" opacity="0.92"/><polygon points="30,8 37,2 37,40 30,40" fill="#C8A84B"/></svg>
-<div class="nav-logo-text">A.R.I.<span> Faberman</span></div>
+<a href="<?php echo home_url('/'); ?>" class="nav-logo" aria-label="A.R.I. Faberman Engineering Solutions Ltd.">
+<img src="<?php echo get_template_directory_uri(); ?>/images/brand/ari-logo-horizontal-reversed.svg" alt="A.R.I. Faberman Engineering Solutions Ltd." class="nav-logo-img nav-logo-light">
+<img src="<?php echo get_template_directory_uri(); ?>/images/brand/ari-logo-horizontal.svg" alt="" aria-hidden="true" class="nav-logo-img nav-logo-dark">
 </a>
 <div class="nav-links">
 <a href="<?php echo home_url('/'); ?>#services" data-i18n="nav2.services">Services</a>
@@ -760,8 +761,8 @@ When the scope goes beyond room-level fortification &mdash; whether it's a new s
 <div class="footer-inner">
 <div class="footer-brand">
 <div class="footer-logo">
-<svg viewBox="0 0 44 40" fill="none" aria-hidden="true"><rect x="2" y="24" width="7" height="16" rx="1" fill="currentColor" opacity="0.5"/><rect x="11" y="18" width="7" height="22" rx="1" fill="currentColor" opacity="0.7"/><rect x="20" y="11" width="7" height="29" rx="1" fill="currentColor" opacity="0.92"/><polygon points="30,8 37,2 37,40 30,40" fill="#C8A84B"/></svg>
-<div class="footer-logo-text">Fort<span>line</span></div>
+<img src="<?php echo get_template_directory_uri(); ?>/images/brand/ari-logo-horizontal-reversed.svg" alt="A.R.I. Faberman Engineering Solutions Ltd." class="footer-logo-img">
+</div>
 </div>
 <p class="footer-tagline">Israeli defense-grade protection technology for critical infrastructure worldwide.</p>
 </div>

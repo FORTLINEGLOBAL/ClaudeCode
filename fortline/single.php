@@ -1,3 +1,4 @@
+<?php /* ARI: legacy page — send visitors to the single-page site */ if (function_exists("wp_safe_redirect") && !is_admin()) { wp_safe_redirect( home_url("/") ); exit; } ?>
 <?php
 /**
  * Single Post Template

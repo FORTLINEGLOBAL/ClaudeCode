@@ -1,3 +1,4 @@
+<?php /* ARI: legacy page — send visitors to the single-page site */ if (function_exists("wp_safe_redirect") && !is_admin()) { wp_safe_redirect( home_url("/") ); exit; } ?>
 <?php
 /**
  * Template Name: Article: Critical Infrastructure UAE
@@ -531,7 +532,9 @@ get_header(); ?>
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
-                <div class="footer-logo">Fortline</div>
+                <div class="footer-logo">
+<img src="<?php echo get_template_directory_uri(); ?>/images/brand/ari-logo-horizontal-reversed.svg" alt="A.R.I. Faberman Engineering Solutions Ltd." class="footer-logo-img">
+</div>
                 <p class="footer-desc">Advanced protection systems for critical infrastructure across the Middle East and beyond. Defense-certified, battle-tested, mission-ready.</p>
             </div>
             <div class="footer-col">

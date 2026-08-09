@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 82 82" width="82" height="82" role="img" aria-label="A.R.I. Faberman mark">
+  <title>A.R.I. Faberman mark</title>
+  <circle cx="41" cy="41" r="39" fill="none" stroke="#0B162C" stroke-width="3"></circle>
+  <circle cx="41" cy="41" r="31" fill="none" stroke="#D4AF37" stroke-width="2"></circle>
+  <rect x="26" y="46" width="8" height="14" fill="#0B162C"></rect>
+  <rect x="37" y="38" width="8" height="22" fill="#0B162C"></rect>
+  <rect x="48" y="30" width="8" height="30" fill="#0B162C"></rect>
+  <rect x="26" y="22" width="30" height="4" fill="#0B162C"></rect>
+</svg>

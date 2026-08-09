@@ -94,54 +94,12 @@ add_action('after_setup_theme', 'fortline_setup');
  */
 function fortline_activate() {
     // Define all pages: slug => [title, template file]
+    // Single-page site: only the Home page is created; the homepage holds all
+    // sections. Legacy inner templates redirect to the homepage.
     $pages = array(
         'home' => array(
             'title'    => 'Home',
             'template' => 'front-page.php',
-        ),
-        'about' => array(
-            'title'    => 'About',
-            'template' => 'page-about.php',
-        ),
-        'customers' => array(
-            'title'    => 'Who We Serve',
-            'template' => 'page-customers.php',
-        ),
-        'execution' => array(
-            'title'    => 'Execution',
-            'template' => 'page-execution.php',
-        ),
-        'facility-assessment' => array(
-            'title'    => 'Facility Assessment',
-            'template' => 'page-facility-assessment.php',
-        ),
-        'national-planning' => array(
-            'title'    => 'National Planning',
-            'template' => 'page-national-planning.php',
-        ),
-        'articles' => array(
-            'title'    => 'Articles',
-            'template' => 'page-articles.php',
-        ),
-        'article-critical-infrastructure-uae' => array(
-            'title'    => 'Critical Infrastructure Protection UAE',
-            'template' => 'page-article-critical-infrastructure-uae.php',
-        ),
-        'article-blast-resistant-fortification' => array(
-            'title'    => 'Blast Resistant Building Fortification',
-            'template' => 'page-article-blast-resistant-fortification.php',
-        ),
-        'article-safe-room-retrofit' => array(
-            'title'    => 'Safe Room Retrofit Technology',
-            'template' => 'page-article-safe-room-retrofit.php',
-        ),
-        'article-passive-protection-gcc' => array(
-            'title'    => 'Passive Protection Defense GCC',
-            'template' => 'page-article-passive-protection-gcc.php',
-        ),
-        'article-qatar-infrastructure' => array(
-            'title'    => 'Building Fortification Spray System Qatar',
-            'template' => 'page-article-qatar-infrastructure.php',
         ),
     );
 

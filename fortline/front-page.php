@@ -60,7 +60,7 @@ box-shadow:var(--shadow);
 .nav.scrolled .nav-links a:hover{color:var(--gold)}
 .nav-inner{max-width:1320px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
 .nav-logo{display:flex;align-items:center;gap:0.6rem}
-.nav-logo svg{width:40px;height:38px;color:#fff}.nav.scrolled .nav-logo svg{color:var(--bg-dark)}
+.nav-logo-img{height:40px;width:auto;display:block}.nav-logo-dark{display:none}.nav.scrolled .nav-logo-light{display:none}.nav.scrolled .nav-logo-dark{display:block}.footer-logo-img{height:38px;width:auto;display:block}
 .nav-logo-text{font-family:var(--font-heading);font-size:1.25rem;font-weight:700;color:#fff;transition:color 0.4s}
 .nav-logo-text span{color:var(--gold-bright)}
 .nav-links{display:flex;gap:1.2rem;align-items:center}
@@ -622,7 +622,7 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 .footer-brand{grid-column:1/-1}
 
 .container{padding:0 1.2rem}
-.nav{background:#fff!important;box-shadow:0 1px 4px rgba(0,0,0,0.08)}
+.nav{background:#fff!important;box-shadow:0 1px 4px rgba(0,0,0,0.08)}.nav .nav-logo-light{display:none}.nav .nav-logo-dark{display:block}
 .nav-logo-text{color:var(--text-dark)!important}
 .nav-links{display:none}
 .hamburger{display:flex}
@@ -811,9 +811,9 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <!-- ===== NAVIGATION ===== -->
 <nav class="nav" id="nav">
 <div class="nav-inner">
-<a href="<?php echo home_url('/'); ?>" class="nav-logo">
-<svg viewBox="0 0 44 40" fill="none" aria-hidden="true"><rect x="2" y="24" width="7" height="16" rx="1" fill="currentColor" opacity="0.5"/><rect x="11" y="18" width="7" height="22" rx="1" fill="currentColor" opacity="0.7"/><rect x="20" y="11" width="7" height="29" rx="1" fill="currentColor" opacity="0.92"/><polygon points="30,8 37,2 37,40 30,40" fill="#C8A84B"/></svg>
-<div class="nav-logo-text">A.R.I.<span> Faberman</span></div>
+<a href="<?php echo home_url('/'); ?>" class="nav-logo" aria-label="A.R.I. Faberman Engineering Solutions Ltd.">
+<img src="<?php echo get_template_directory_uri(); ?>/images/brand/ari-logo-horizontal-reversed.svg" alt="A.R.I. Faberman Engineering Solutions Ltd." class="nav-logo-img nav-logo-light">
+<img src="<?php echo get_template_directory_uri(); ?>/images/brand/ari-logo-horizontal.svg" alt="" aria-hidden="true" class="nav-logo-img nav-logo-dark">
 </a>
 <div class="nav-links">
 <a href="<?php echo home_url('/'); ?>#services" data-i18n="nav2.services">Services</a>
@@ -915,7 +915,7 @@ Protection and engineering solutions for the private, public and municipal secto
 <div class="container" style="position:relative;z-index:1">
 <div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="who.label">Who We Are</div>
 <div class="section-title fade-in" style="text-align:center;color:#fff" data-i18n="who.title">Two Decades Inside Israel's Home Front Command</div>
-<p class="fade-in" style="color:rgba(255,255,255,0.65);max-width:800px;margin:0.5rem auto 3rem;font-size:0.95rem;text-align:center;line-height:1.8" data-i18n="who.intro">ARI Faberman Engineering Solutions plans, licenses and delivers civil-protection projects across the residential, public and municipal sectors. We combine hands-on regulatory experience inside the Home Front Command with end-to-end engineering  -  from concept and permitting to on-site construction.</p>
+<p class="fade-in" style="color:rgba(255,255,255,0.65);max-width:800px;margin:0.5rem auto 3rem;font-size:0.95rem;text-align:center;line-height:1.8" data-i18n="who.intro">A.R.I. Faberman Engineering Solutions Ltd. plans, licenses and delivers civil-protection projects across the residential, public and municipal sectors. We combine hands-on regulatory experience inside the Home Front Command with end-to-end engineering  -  from concept and permitting to on-site construction.</p>
 
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;align-items:center">
   <div>
@@ -970,70 +970,69 @@ Protection and engineering solutions for the private, public and municipal secto
 <section class="pillars" id="pillars" style="padding:5rem 0;background:var(--bg-section)">
 <div class="container">
 <div class="pillars-header">
-<div class="section-label fade-in">Our Solutions</div>
-<div class="section-title fade-in">Three Pillars of Civilian Defense Protection Programs</div>
-<div class="section-subtitle fade-in" style="margin:0 auto">From strategic consulting to national regulation  -  each pillar represents a complete service tier.</div>
+<div class="section-label fade-in" data-i18n="pil.label">How We Work</div>
+<div class="section-title fade-in" data-i18n="pil.title">End to End  -  From Idea to Execution</div>
+<div class="section-subtitle fade-in" style="margin:0 auto" data-i18n="pil.sub">Three service tiers that cover the whole journey: planning and consulting, licensing and permits, and construction and execution.</div>
 </div>
 
 <div class="svc-grid">
-<!-- Card 1: Protection Advisory -->
+<!-- Card 1: Planning & Consulting -->
 <div class="svc-card primary fade-in">
 <div class="svc-img">
-<img src="<?php echo get_template_directory_uri(); ?>/images/facility-thumb.jpg" alt="Strategic Protection Advisory" loading="lazy">
+<img src="<?php echo get_template_directory_uri(); ?>/images/facility-thumb.jpg" alt="Planning &amp; Consulting" loading="lazy">
 <div class="svc-num">01</div>
 </div>
 <div class="svc-body">
-<span class="svc-badge blue">PRIMARY SERVICE</span>
-<h3>Strategic Protection Advisory</h3>
-<p>Comprehensive assessments, emergency operations methodology, and integrated protection strategies from defense engineers.</p>
+<span class="svc-badge blue" data-i18n="pil.c1_badge">PLANNING</span>
+<h3 data-i18n="pil.c1_t">Planning &amp; Consulting</h3>
+<p data-i18n="pil.c1_p">An on-site visit, optimal safe-room placement, and a clear plan tailored to your home or facility  -  and to your budget.</p>
 <ul>
-<li>Engineering surveys &amp; vulnerability assessment</li>
-<li>Emergency operations methodology</li>
-<li>Protection planning &amp; characterization</li>
-<li>Regulatory compliance roadmaps</li>
-<li>Cost-benefit analysis</li>
+<li data-i18n="pil.c1_l1">Site survey &amp; feasibility</li>
+<li data-i18n="pil.c1_l2">Optimal MAMAD placement</li>
+<li data-i18n="pil.c1_l3">Solution &amp; budget planning</li>
+<li data-i18n="pil.c1_l4">State-funding eligibility check</li>
 </ul>
-<a href="<?php echo home_url('/facility-assessment/'); ?>" class="svc-cta">Explore Advisory →</a>
+<a href="<?php echo home_url('/'); ?>#contact" class="svc-cta" data-i18n="pil.cta">Talk to Us →</a>
 </div>
 </div>
 
-<!-- Card 2: Execution -->
+<!-- Card 2: Construction & Execution -->
 <div class="svc-card accent fade-in fade-in-delay-1">
 <div class="svc-img">
-<img src="<?php echo get_template_directory_uri(); ?>/images/shield-thumb.jpg" alt="Execution &amp; Physical Protection" loading="lazy">
+<img src="<?php echo get_template_directory_uri(); ?>/images/shield-thumb.jpg" alt="Construction &amp; Execution" loading="lazy">
 <div class="svc-num">02</div>
 </div>
 <div class="svc-body">
-<span class="svc-badge dark">EXECUTION</span>
-<h3>Execution &amp; Physical Protection</h3>
-<p>Approved protective technologies, structural reinforcement, safe-room (MAMAD) construction, and full project management  -  end to end.</p>
+<span class="svc-badge dark" data-i18n="pil.c2_badge">EXECUTION</span>
+<h3 data-i18n="pil.c2_t">Construction &amp; Execution</h3>
+<p data-i18n="pil.c2_p">Approved protective technologies, structural reinforcement, safe-room (MAMAD) construction, and full project management  -  end to end.</p>
 <ul>
-<li>Room upgrades with no demolition required</li>
-<li>Structural reinforcement &amp; blast protection</li>
-<li>Safe room construction &amp; certification</li>
-<li>Project management &amp; QA</li>
+<li data-i18n="pil.c2_l1">Room upgrades with no demolition required</li>
+<li data-i18n="pil.c2_l2">Structural reinforcement &amp; blast protection</li>
+<li data-i18n="pil.c2_l3">Safe-room construction &amp; certification</li>
+<li data-i18n="pil.c2_l4">Project management &amp; QA</li>
 </ul>
-<a href="<?php echo home_url('/execution/'); ?>" class="svc-cta">Explore Execution →</a>
+<a href="<?php echo home_url('/'); ?>#contact" class="svc-cta" data-i18n="pil.cta">Talk to Us →</a>
 </div>
 </div>
 
-<!-- Card 3: National Regulation -->
+<!-- Card 3: Licensing & Permits -->
 <div class="svc-card govt fade-in fade-in-delay-2">
 <div class="svc-img">
-<img src="<?php echo get_template_directory_uri(); ?>/images/national-thumb.jpg" alt="National Regulation Advisory" loading="lazy">
+<img src="<?php echo get_template_directory_uri(); ?>/images/national-thumb.jpg" alt="Licensing &amp; Permits" loading="lazy">
 <div class="svc-num">03</div>
 </div>
 <div class="svc-body">
-<span class="svc-badge red">GOVERNMENT</span>
-<h3>National Regulation Advisory</h3>
-<p>Developing mandatory protection building codes and regulatory frameworks. Modeled after the Civil Defense Law.</p>
+<span class="svc-badge red" data-i18n="pil.c3_badge">LICENSING</span>
+<h3 data-i18n="pil.c3_t">Licensing &amp; Permits</h3>
+<p data-i18n="pil.c3_p">Full Home Front Command licensing and building-permit handling  -  including the accelerated "Tzav HaShaa" route that skips the usual planning committees.</p>
 <ul>
-<li>Building code creation</li>
-<li>6-pillar protection framework</li>
-<li>Municipal programs</li>
-<li>National resilience strategy</li>
+<li data-i18n="pil.c3_l1">HFC model approval &amp; registry listing</li>
+<li data-i18n="pil.c3_l2">Building-permit submission</li>
+<li data-i18n="pil.c3_l3">Accelerated permit (Tzav HaShaa)</li>
+<li data-i18n="pil.c3_l4">Liaison with authorities &amp; committees</li>
 </ul>
-<a href="<?php echo home_url('/national-planning/'); ?>" class="svc-cta">Explore Regulation →</a>
+<a href="<?php echo home_url('/'); ?>#contact" class="svc-cta" data-i18n="pil.cta">Talk to Us →</a>
 </div>
 </div>
 </div>
@@ -1229,92 +1228,7 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 </div>
 </section>
 
-<!-- ===== THREAT -Dark dramatic section ===== -->
-<section class="threat" id="threat">
-<div class="container">
-<div class="section-label fade-in">The Threat</div>
-<div class="section-title fade-in">An Operational Reality  -  Not a Theoretical Risk</div>
-<p class="fade-in" style="color:rgba(255,255,255,0.7);max-width:700px;margin:0.5rem auto 2rem;font-size:0.95rem;text-align:center">Missile and drone attacks on civilian populations are no longer a theoretical risk but an operational reality for many countries. Strengthening civil protection and protective infrastructure has become a critical component of national resilience.</p>
-<div class="threat-grid">
-<div class="threat-cards">
-<div class="threat-card fade-in">
-<h3>Evolving Regional Missile &amp; Drone Threats</h3>
-<p>Ballistic missiles, cruise missiles, precision-guided weapons, and long-range unmanned aerial systems are increasingly targeting civilian populations and critical infrastructure. Coordinated mass attacks can overwhelm even the most advanced air defense systems.</p>
-</div>
-<div class="threat-card fade-in fade-in-delay-1">
-<h3>No Passive Protection Infrastructure</h3>
-<p>Unlike nations with decades of conflict experience, most countries in the region have no mandatory protective construction standards, no shelter requirements, and no civil defense building codes. Buildings are designed for comfort  -  not survivability.</p>
-</div>
-<div class="threat-card fade-in fade-in-delay-2">
-<h3>Critical Infrastructure at Risk</h3>
-<p>Energy installations, desalination plants, transportation networks, hospitals, government institutions, and economic hubs remain unprotected. A single strike on energy infrastructure or critical facilities can cascade into national-level disruption affecting millions.</p>
-</div>
-<div class="threat-card fade-in fade-in-delay-3">
-<h3>The Cost of Inaction</h3>
-<p>For nations positioning as global business and investment destinations, protection gaps threaten economic continuity, foreign investment confidence, and long-term national resilience during prolonged conflicts.</p>
-</div>
-</div>
-<div class="threat-right">
-<div class="threat-image fade-in">
-<img src="<?php echo get_template_directory_uri(); ?>/images/threat-image.jpg" alt="Protected room under construction" loading="lazy">
-</div>
-</div>
-</div>
-<div class="fade-in" style="text-align:center;margin-top:2.5rem">
-<a href="<?php echo home_url('/'); ?>#threat" style="display:inline-block;padding:0.7rem 2rem;border:1px solid rgba(255,255,255,0.3);border-radius:8px;color:rgba(255,255,255,0.85);font-size:0.88rem;font-weight:500;transition:all 0.3s;letter-spacing:0.02em" onmouseover="this.style.borderColor='rgba(255,255,255,0.6)';this.style.color='#fff'" onmouseout="this.style.borderColor='rgba(255,255,255,0.3)';this.style.color='rgba(255,255,255,0.85)'">Read the Full Strategic Brief &rarr;</a>
-</div>
-</div>
-</section>
 
-<!-- ===== CREDENTIALS ===== -->
-<section class="credentials" id="credentials">
-<div class="container">
-<div class="section-label fade-in">Why Us</div>
-<div class="section-title fade-in">Battle-Tested Credentials By Militaries and Ministries of Defense</div>
-<p class="fade-in" style="color:var(--text-light);max-width:700px;margin:0.5rem auto 2rem;font-size:0.95rem;text-align:center">ARI Engineering combines the most advanced leading protection technology and advisory companies  -  bringing decades of military-grade engineering, regulatory expertise, and active operational experience to every project. Backed by continuous R&amp;D investment from a privately-held, self-funded technology partner with over 18 years of innovation in protection and sealing solutions.</p>
-<div class="cred-grid">
-<div class="cred-cards">
-<div class="cred-card fade-in">
-<h3>Military &amp; Engineering Leadership</h3>
-<p>Our core team is led by a retired Lt. Colonel (Res.) with 25 years of military experience and degrees in Architecture and Economics. Supported by a team of 5 senior engineers specializing in protective infrastructure, regulatory licensing, and project management  -  delivering end-to-end service from planning through execution.</p>
-<div class="cred-stats">
-<span class="cred-stat">25 Years Military</span>
-<span class="cred-stat">5 Senior Engineers</span>
-<span class="cred-stat">End-to-End Delivery</span>
-</div>
-</div>
-<div class="cred-card fade-in fade-in-delay-1">
-<h3>Proven Track Record</h3>
-<p>Currently delivering protection for energy infrastructure, strategic facilities, public institutions, and residential projects. Key references include the Underground Tunnels, Rail Infra, municipal and national protection programs across.</p>
-</div>
-<div class="cred-card fade-in fade-in-delay-2">
-<h3>Exclusive Patented Technology</h3>
-<p>We work with the leading approved protective technologies on the market  -  selecting the right solution for each room and each budget  -  and pair them with deep Home Front Command licensing expertise to deliver a complete, code-compliant protection package from planning through construction.</p>
-</div>
-</div>
-<div class="cred-right">
-<div class="cred-image fade-in">
-<img src="<?php echo get_template_directory_uri(); ?>/images/credentials-image.jpg" alt="Engineering team reviewing blueprints" loading="lazy">
-</div>
-<div class="cert-box fade-in fade-in-delay-1">
-<h4>Military Home Front Command Certification</h4>
-<p>The national military authority responsible for civilian protection. Their certification is the gold standard -requiring rigorous ballistic, blast, and durability testing equivalent to reinforced concrete safe rooms.</p>
-</div>
-<div class="cert-box fade-in fade-in-delay-2">
-<h4>Ministry of Defense Approval</h4>
-<p>Oversees all national defense procurement and technology validation. Confirms military-grade protection standards and classified testing protocols.</p>
-</div>
-<div class="cert-box fade-in fade-in-delay-3">
-<h4>International Patent &amp; Standard 4422</h4>
-<p>Globally registered patent protection. Certified under Standard 4422 for protected space door and window frames -ensuring full regulatory compliance.</p>
-</div>
-</div>
-</div>
-<div class="fade-in" style="text-align:center;margin-top:2.5rem">
-<a href="<?php echo home_url('/about/'); ?>" style="display:inline-block;padding:0.7rem 2rem;border:1px solid var(--gold-border);border-radius:8px;color:var(--gold);font-size:0.88rem;font-weight:600;transition:all 0.3s" onmouseover="this.style.background='var(--gold)';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='var(--gold)'">Meet Our Team &rarr;</a>
-</div>
-</div>
-</section>
 
 
 
@@ -1342,7 +1256,7 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;text-align:center;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
 <div style="width:56px;height:56px;background:rgba(22,163,74,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem">&#9881;</div>
 <h4 style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem">Industrial</h4>
-<p style="font-size:0.85rem;color:var(--text-light);line-height:1.6">Energy plants, desalination facilities, data centers, oil &amp; gas infrastructure, and critical industrial assets across the Gulf region.</p>
+<p style="font-size:0.85rem;color:var(--text-light);line-height:1.6">Energy plants, desalination facilities, data centers, oil &amp; gas infrastructure, and critical industrial and strategic facilities across Israel.</p>
 </div>
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;text-align:center;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
@@ -1435,42 +1349,6 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 </div>
 </section>
 
-<!-- ===== STRATEGIC BENEFITS ===== -->
-<section style="padding:5rem 0;background:var(--bg-dark);position:relative" id="benefits">
-<div class="container">
-<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)">Strategic Impact</div>
-<div class="section-title fade-in" style="text-align:center;color:#fff">What This Framework Delivers</div>
-<p class="fade-in" style="color:rgba(255,255,255,0.6);max-width:700px;margin:0.5rem auto 3rem;font-size:0.95rem;text-align:center">Implementation of a national civil protection program enables countries to achieve measurable, strategic outcomes.</p>
-
-<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:1.2rem" class="fade-in">
-<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.5rem;text-align:center">
-<div style="width:48px;height:48px;background:rgba(220,38,38,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin:0 auto 0.8rem">&#128737;</div>
-<h4 style="font-family:var(--font-heading);font-size:0.88rem;color:#fff;margin-bottom:0.4rem;font-weight:600">Reduce Casualties</h4>
-<p style="font-size:0.78rem;color:rgba(255,255,255,0.5);line-height:1.5">Proven protection of civilian populations during missile and drone attacks</p>
-</div>
-<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.5rem;text-align:center">
-<div style="width:48px;height:48px;background:rgba(37,99,235,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin:0 auto 0.8rem">&#9881;</div>
-<h4 style="font-family:var(--font-heading);font-size:0.88rem;color:#fff;margin-bottom:0.4rem;font-weight:600">Protect Infrastructure</h4>
-<p style="font-size:0.78rem;color:rgba(255,255,255,0.5);line-height:1.5">Safeguard energy, transportation, and essential services from disruption</p>
-</div>
-<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.5rem;text-align:center">
-<div style="width:48px;height:48px;background:rgba(22,163,74,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin:0 auto 0.8rem">&#127963;</div>
-<h4 style="font-family:var(--font-heading);font-size:0.88rem;color:#fff;margin-bottom:0.4rem;font-weight:600">Municipal Readiness</h4>
-<p style="font-size:0.78rem;color:rgba(255,255,255,0.5);line-height:1.5">Strengthen local preparedness and emergency response capabilities</p>
-</div>
-<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.5rem;text-align:center">
-<div style="width:48px;height:48px;background:rgba(37,99,235,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin:0 auto 0.8rem">&#128170;</div>
-<h4 style="font-family:var(--font-heading);font-size:0.88rem;color:#fff;margin-bottom:0.4rem;font-weight:600">National Resilience</h4>
-<p style="font-size:0.78rem;color:rgba(255,255,255,0.5);line-height:1.5">Maintain continuity and stability during prolonged conflicts</p>
-</div>
-<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:1.5rem;text-align:center">
-<div style="width:48px;height:48px;background:rgba(22,163,74,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin:0 auto 0.8rem">&#128200;</div>
-<h4 style="font-family:var(--font-heading);font-size:0.88rem;color:#fff;margin-bottom:0.4rem;font-weight:600">Economic Continuity</h4>
-<p style="font-size:0.78rem;color:rgba(255,255,255,0.5);line-height:1.5">Preserve economic activity, investment confidence, and societal function</p>
-</div>
-</div>
-</div>
-</section>
 
 <!-- ===== PROCESS ===== -->
 <section class="process" id="process">
@@ -1483,7 +1361,7 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 <div class="tl-step fade-in">
 <div class="tl-img"><img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80" alt="Assessment meeting" loading="lazy"></div>
 <div class="tl-num">1</div>
-<h3>Confidential Assessment</h3>
+<h3>Free, No-Obligation Consultation</h3>
 <p>Initial consultation under strict NDA. We understand your facility, threat profile, and objectives.</p>
 </div>
 <div class="tl-step fade-in fade-in-delay-1">
@@ -1560,7 +1438,7 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 <section class="contact" id="contact">
 <div class="container">
 <div class="section-label fade-in">Get Started</div>
-<div class="section-title fade-in" style="margin-bottom:2rem">Request a Confidential Assessment</div>
+<div class="section-title fade-in" style="margin-bottom:2rem">Request a Consultation</div>
 <div class="contact-grid">
 <div class="contact-form-box fade-in">
 <form id="contactForm">
@@ -1609,8 +1487,8 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 <div class="footer-inner">
 <div class="footer-brand">
 <div class="footer-logo">
-<svg viewBox="0 0 44 40" fill="none" aria-hidden="true"><rect x="2" y="24" width="7" height="16" rx="1" fill="currentColor" opacity="0.5"/><rect x="11" y="18" width="7" height="22" rx="1" fill="currentColor" opacity="0.7"/><rect x="20" y="11" width="7" height="29" rx="1" fill="currentColor" opacity="0.92"/><polygon points="30,8 37,2 37,40 30,40" fill="#C8A84B"/></svg>
-<div class="footer-logo-text">A.R.I.<span> Faberman</span></div>
+<img src="<?php echo get_template_directory_uri(); ?>/images/brand/ari-logo-horizontal-reversed.svg" alt="A.R.I. Faberman Engineering Solutions Ltd." class="footer-logo-img">
+</div>
 </div>
 <p class="footer-tagline" data-i18n="footer.tagline">Civil-protection engineering  -  safe rooms (MAMAD), shelters and building-permit licensing, planned and built end to end.</p>
 </div>
@@ -1634,7 +1512,7 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 </div>
 </div>
 <div class="footer-bar">
-<p>&copy; 2026 ARI Engineering. All rights reserved.</p>
+<p>&copy; 2026 A.R.I. Faberman Engineering Solutions Ltd. All rights reserved.</p>
 </div>
 </footer>
 
@@ -1723,7 +1601,7 @@ phone:data.phone||'Not provided',
 inquiry_type:data.inquiry_type||'Not specified',
 facility_type:data.facility_type||'Not specified',
 message:data.message||'No message provided',
-subject:'New ARI Engineering Inquiry from '+data.name
+subject:'New A.R.I. Faberman Inquiry from '+data.name
 }).then(function(){
 btn.textContent='Inquiry Submitted Successfully';
 btn.style.background='#16a34a';btn.style.color='#fff';
