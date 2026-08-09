@@ -1359,6 +1359,48 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 </div>
 </section>
 
+<!-- ===== WHY CHOOSE US ===== -->
+<section style="padding:5rem 0;background:#fff;border-top:1px solid var(--border)" id="advantages">
+<div class="container">
+<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="wcu.label">Our Advantages</div>
+<div class="section-title fade-in" style="text-align:center" data-i18n="wcu.title">Why Work With Us</div>
+<p class="fade-in" style="color:var(--text-light);max-width:700px;margin:0.5rem auto 2.5rem;font-size:0.95rem;text-align:center;line-height:1.7" data-i18n="wcu.subtitle">A comprehensive, high-quality answer for sensitive protection projects  -  an experienced team, efficient solutions and a full-service envelope from planning to execution.</p>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem" class="fade-in">
+
+<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.6rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+<div style="width:52px;height:52px;background:rgba(37,99,235,0.08);border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem">&#9889;</div>
+<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="wcu.a1_t">Professional Efficiency &amp; Sensitivity</h4>
+<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6" data-i18n="wcu.a1_d">Coordination, planning, licensing and management of sensitive projects  -  on tight schedules and dedicated budgets, with close personal attention throughout.</p>
+</div>
+
+<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.6rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+<div style="width:52px;height:52px;background:rgba(22,163,74,0.08);border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem">&#128295;</div>
+<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="wcu.a2_t">Solutions for Every Challenge</h4>
+<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6" data-i18n="wcu.a2_d">Creative, cost-effective answers to any issue that arises during a project  -  while meeting the strictest standards and delivering quality results.</p>
+</div>
+
+<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.6rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+<div style="width:52px;height:52px;background:rgba(200,168,75,0.12);border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem">&#128101;</div>
+<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="wcu.a3_t">Experienced Team</h4>
+<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6" data-i18n="wcu.a3_d">Five engineers and specialists in budgeting, scheduling, planning and execution  -  led by Yigal Faberman, with deep experience delivering national protection projects.</p>
+</div>
+
+<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.6rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+<div style="width:52px;height:52px;background:rgba(37,99,235,0.08);border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem">&#128230;</div>
+<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="wcu.a4_t">Full-Service Envelope</h4>
+<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6" data-i18n="wcu.a4_d">Managing every stage from planning to on-site execution, working with all relevant authorities and providers  -  streamlining the process and saving valuable time.</p>
+</div>
+
+<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.6rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
+<div style="width:52px;height:52px;background:rgba(220,38,38,0.08);border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem">&#11088;</div>
+<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="wcu.a5_t">Uncompromising Quality</h4>
+<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6" data-i18n="wcu.a5_d">Working with the leading physical-protection suppliers, precise and fast Home Front Command licensing, and strict adherence to every standard.</p>
+</div>
+
+</div>
+</div>
+</section>
+
 <!-- ===== SELECTED PROJECTS ===== -->
 <style>
 .fl-proj{padding:5rem 0;background:var(--bg-light);border-top:1px solid var(--border)}
@@ -1470,6 +1512,54 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 </div>
 </section>
 
+<!-- ===== TESTIMONIALS ===== -->
+<style>
+.fl-tst{padding:5rem 0;background:var(--bg-section)}
+.fl-tst-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem;margin-top:2rem}
+.fl-tst-card{background:#fff;border:1px solid var(--border);border-radius:16px;padding:2rem 1.8rem;box-shadow:0 4px 18px rgba(10,22,40,0.05)}
+.fl-tst-quote{font-size:0.92rem;color:var(--text-mid);line-height:1.75;margin-bottom:1.2rem}
+.fl-tst-quote::before{content:'\201C';font-family:Georgia,serif;font-size:2.4rem;color:var(--gold-bright);line-height:0;vertical-align:-0.4em;margin-right:0.15em}
+.fl-tst-by{font-family:var(--font-heading);font-size:0.9rem;font-weight:700;color:var(--text-dark)}
+@media(max-width:760px){.fl-tst-grid{grid-template-columns:1fr}}
+/* FAQ */
+.fl-faq{padding:5rem 0;background:#fff;border-top:1px solid var(--border)}
+.fl-faq-wrap{max-width:820px;margin:2rem auto 0}
+.fl-faq details{border:1px solid var(--border);border-radius:12px;margin-bottom:0.8rem;background:var(--bg-card);overflow:hidden}
+.fl-faq summary{list-style:none;cursor:pointer;padding:1.1rem 1.3rem;font-family:var(--font-heading);font-size:1rem;font-weight:600;color:var(--text-dark);display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.fl-faq summary::-webkit-details-marker{display:none}
+.fl-faq summary::after{content:'+';font-size:1.4rem;color:var(--gold-bright);font-weight:400;flex-shrink:0}
+.fl-faq details[open] summary::after{content:'\2212'}
+.fl-faq p{padding:0 1.3rem 1.2rem;font-size:0.9rem;color:var(--text-light);line-height:1.7;margin:0}
+</style>
+<section class="fl-tst" id="testimonials">
+<div class="container">
+<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="tst.label">Testimonials</div>
+<div class="section-title fade-in" style="text-align:center" data-i18n="tst.title">What Our Clients Say</div>
+<div class="fl-tst-grid fade-in">
+<div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q1">ARI Faberman carried out comprehensive protection work for us across several hospitals nationwide. We were very satisfied  -  the team was professional, skilled and reliable, worked under significant time pressure, and finished on time and on budget. We highly recommend them for anyone needing quality protection services.</p><div class="fl-tst-by" data-i18n="tst.b1">Ministry of Health</div></div>
+<div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q2">We warmly recommend ARI Faberman for upgrading MAMADs and shelters. The team was professional, efficient and courteous throughout, worked closely with us to understand our needs, and delivered a tailored solution. The results were excellent and we're confident it will protect our students in an emergency.</p><div class="fl-tst-by" data-i18n="tst.b2">Ministry of Education</div></div>
+<div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q3">We looked for a reliable company to protect our kindergarten's MAMAD and chose ARI Faberman after reading positive reviews. We weren't disappointed  -  professional, efficient and courteous, working quietly and quickly with the children in mind. The upgraded MAMAD looks great and we feel much safer now.</p><div class="fl-tst-by" data-i18n="tst.b3">"Rakefet" Kindergarten, Sderot</div></div>
+<div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q4">Thank you for renovating the shelter at our school. The process was smooth and easy, and the team was friendly and professional. Our upgraded space looks great and we're confident it will provide our students with optimal protection in an emergency.</p><div class="fl-tst-by" data-i18n="tst.b4">Sde Uziya School</div></div>
+</div>
+</div>
+</section>
+
+<!-- ===== FAQ ===== -->
+<section class="fl-faq" id="faq">
+<div class="container">
+<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="faq.label">FAQ</div>
+<div class="section-title fade-in" style="text-align:center" data-i18n="faq.title">Frequently Asked Questions</div>
+<div class="fl-faq-wrap fade-in">
+<details><summary data-i18n="faq.q1">Why is it important to upgrade my home's MAMAD or shelter?</summary><p data-i18n="faq.a1">A properly upgraded protected space provides real safety and peace of mind, meets Home Front Command standards, and can significantly increase your property's value.</p></details>
+<details><summary data-i18n="faq.q2">What services does your company offer?</summary><p data-i18n="faq.a2">Safe-room (MAMAD) construction, security-room and existing-room upgrades, supply of Home Front Command-approved mobile protected elements, public-shelter rehabilitation, and protection consulting for building permits.</p></details>
+<details><summary data-i18n="faq.q3">Do you also serve government institutions and communities in the Gaza envelope and the north?</summary><p data-i18n="faq.a3">Yes. We work extensively with government ministries, local authorities, kibbutzim and border communities  -  including a program of roughly 3,000 MAMADs along the northern border.</p></details>
+<details><summary data-i18n="faq.q4">How much does a MAMAD or shelter renovation cost?</summary><p data-i18n="faq.a4">It depends on the specific room, the chosen protection method, and the scope of work. We assess the site and provide a clear, tailored quote.</p></details>
+<details><summary data-i18n="faq.q5">How can I get a price quote?</summary><p data-i18n="faq.a5">Call us or message on WhatsApp, or send the contact form. We come to you, check eligibility (free of charge in confrontation-line communities) and provide a quote.</p></details>
+<details><summary data-i18n="faq.q6">What is the accelerated "Order of the Hour" (Tzav HaShaa) permit?</summary><p data-i18n="faq.a6">A fast-track Home Front Command route  -  up to about 30 working days  -  for adding a MAMAD, bypassing the usual planning committees. The approval is valid for two years, with an option to extend.</p></details>
+</div>
+</div>
+</section>
+
 <!-- ===== CONTACT ===== -->
 <section class="contact" id="contact">
 <div class="container">
@@ -1484,7 +1574,7 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 </div>
 <div class="form-row">
 <div class="form-group"><label>Email Address *</label><input type="email" name="email" required placeholder="you@organization.com"></div>
-<div class="form-group"><label>Phone Number</label><input type="tel" name="phone" placeholder="+971 XX XXX XXXX"></div>
+<div class="form-group"><label>Phone Number</label><input type="tel" name="phone" placeholder="054-000-0000"></div>
 </div>
 <div class="form-row">
 <div class="form-group">
@@ -1493,7 +1583,7 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 </div>
 <div class="form-group">
 <label>Facility Type</label>
-<select name="facility_type"><option value="">Select facility</option><option>Hotel / Hospitality</option><option>Hospital / Healthcare</option><option>Office / Commercial</option><option>Data Center</option><option>Energy / Industrial</option><option>Government / Military</option><option>Residential</option><option>Other</option></select>
+<select name="facility_type"><option value="">Select facility</option><option>Private Home</option><option>Apartment Building</option><option>Kibbutz / Moshav</option><option>Public Institution</option><option>Local Authority</option><option>Business / Industry</option><option>Other</option></select>
 </div>
 </div>
 <div class="form-group"><label>Message</label><textarea name="message" placeholder="Tell us about your protection needs -all communications are strictly confidential"></textarea></div>
@@ -1502,16 +1592,16 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 </div>
 <div class="contact-info fade-in fade-in-delay-1">
 <div class="info-card">
-<div><h4>Confidential by Default</h4><p>All inquiries under strict NDA. Every engagement begins with mutual confidentiality agreements.</p></div>
+<div><h4 data-i18n="ci.phone_t">Phone &amp; WhatsApp</h4><p><a href="tel:+972544757201" style="color:inherit">054-475-7201</a></p></div>
 </div>
 <div class="info-card">
-<div><h4>Fast SLA</h4><p>We commit to rapid response times on all inquiries. Mark urgent for priority handling.</p></div>
+<div><h4 data-i18n="ci.email_t">Email</h4><p><a href="mailto:Ari.engpm@gmail.com" style="color:inherit">Ari.engpm@gmail.com</a></p></div>
 </div>
 <div class="info-card">
-<div><h4>Global Deployment</h4><p>Based in the Middle East, deployable across the Gulf, Southeast Asia, and worldwide.</p></div>
+<div><h4 data-i18n="ci.addr_t">Address</h4><p data-i18n="ci.addr_v">Shamir, HaBazelet 8</p></div>
 </div>
 <div class="info-card">
-<div><h4>Warzone Defense Heritage</h4><p>Built on 25 years of Military Home Front Command protection engineering and the most battle-tested civilian protection program in the world.</p></div>
+<div><h4 data-i18n="ci.elig_t">Free Eligibility Check</h4><p data-i18n="ci.elig_v">Homes in confrontation-line communities may be eligible for a state-funded MAMAD  -  we check at no cost.</p></div>
 </div>
 </div>
 </div>
@@ -1524,25 +1614,27 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 <div class="footer-brand">
 <div class="footer-logo">
 <svg viewBox="0 0 44 40" fill="none" aria-hidden="true"><rect x="2" y="24" width="7" height="16" rx="1" fill="currentColor" opacity="0.5"/><rect x="11" y="18" width="7" height="22" rx="1" fill="currentColor" opacity="0.7"/><rect x="20" y="11" width="7" height="29" rx="1" fill="currentColor" opacity="0.92"/><polygon points="30,8 37,2 37,40 30,40" fill="#C8A84B"/></svg>
-<div class="footer-logo-text">Fort<span>line</span></div>
+<div class="footer-logo-text">A.R.I.<span> Faberman</span></div>
 </div>
-<p class="footer-tagline">Warzone defense-grade protection technology for critical infrastructure worldwide.</p>
-</div>
-<div class="footer-col">
-<h4>Solutions</h4>
-<a href="<?php echo home_url('/facility-assessment/'); ?>">Protection Advisory</a>
-<a href="<?php echo home_url('/execution/'); ?>">Execution</a>
-<a href="<?php echo home_url('/national-planning/'); ?>">National Regulation</a>
+<p class="footer-tagline" data-i18n="footer.tagline">Civil-protection engineering  -  safe rooms (MAMAD), shelters and building-permit licensing, planned and built end to end.</p>
 </div>
 <div class="footer-col">
-<h4>Company</h4>
-<a href="<?php echo home_url('/customers/'); ?>">Who We Serve</a>
-<a href="<?php echo home_url('/about/'); ?>">About</a>
-<a href="<?php echo home_url('/articles/'); ?>">Articles</a>
+<h4 data-i18n="footer.services_h">Services</h4>
+<a href="<?php echo home_url('/'); ?>#services" data-i18n="footer.l_services">Our Services</a>
+<a href="<?php echo home_url('/'); ?>#projects" data-i18n="footer.l_projects">Projects</a>
+<a href="<?php echo home_url('/'); ?>#faq" data-i18n="footer.l_faq">FAQ</a>
 </div>
 <div class="footer-col">
-<h4>Get in Touch</h4>
-<a href="<?php echo home_url('/customers/'); ?>#contact">Request Assessment</a>
+<h4 data-i18n="footer.company_h">Company</h4>
+<a href="<?php echo home_url('/'); ?>#why" data-i18n="footer.l_about">About Us</a>
+<a href="<?php echo home_url('/'); ?>#customers" data-i18n="footer.l_serve">Who We Serve</a>
+<a href="<?php echo home_url('/'); ?>#clients" data-i18n="footer.l_clients">Clients</a>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.contact_h">Get in Touch</h4>
+<a href="tel:+972544757201">054-475-7201</a>
+<a href="mailto:Ari.engpm@gmail.com">Ari.engpm@gmail.com</a>
+<a href="#" data-i18n="footer.addr">Shamir, HaBazelet 8</a>
 </div>
 </div>
 <div class="footer-bar">
@@ -1627,7 +1719,7 @@ message:form.message.value
 
 // Send via EmailJS
 emailjs.send('service_py23y6a','template_lgfttoi',{
-to_email:'eddie.nudel@gmail.com',
+to_email:'Ari.engpm@gmail.com',
 from_name:data.name,
 from_email:data.email,
 organization:data.organization,
