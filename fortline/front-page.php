@@ -9,6 +9,8 @@ get_header(); ?>
 <style>
 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+section[id],div[id]{scroll-margin-top:86px}
 :root{
 --bg:#ffffff;
 --bg-light:#f7f8fa;
@@ -811,19 +813,19 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <!-- ===== NAVIGATION ===== -->
 <nav class="nav" id="nav">
 <div class="nav-inner">
-<a href="<?php echo home_url('/'); ?>" class="nav-logo" aria-label="A.R.I. Faberman Engineering Solutions Ltd.">
+<a href="#" class="nav-logo" aria-label="A.R.I. Faberman Engineering Solutions Ltd.">
 <img src="<?php echo get_template_directory_uri(); ?>/images/brand/ari-logo-horizontal-reversed.svg" alt="A.R.I. Faberman Engineering Solutions Ltd." class="nav-logo-img nav-logo-light">
 <img src="<?php echo get_template_directory_uri(); ?>/images/brand/ari-logo-horizontal.svg" alt="" aria-hidden="true" class="nav-logo-img nav-logo-dark">
 </a>
 <div class="nav-links">
-<a href="<?php echo home_url('/'); ?>#services" data-i18n="nav2.services">Services</a>
-<a href="<?php echo home_url('/'); ?>#projects" data-i18n="nav2.projects">Projects</a>
-<a href="<?php echo home_url('/'); ?>#customers" data-i18n="nav2.serve">Who We Serve</a>
-<a href="<?php echo home_url('/'); ?>#why" data-i18n="nav2.about">About</a>
-<a href="<?php echo home_url('/'); ?>#faq" data-i18n="nav2.faq">FAQ</a>
+<a href="#services" data-i18n="nav2.services">Services</a>
+<a href="#projects" data-i18n="nav2.projects">Projects</a>
+<a href="#customers" data-i18n="nav2.serve">Who We Serve</a>
+<a href="#why" data-i18n="nav2.about">About</a>
+<a href="#faq" data-i18n="nav2.faq">FAQ</a>
 
 <div id="lang-toggle"></div>
-<a href="<?php echo home_url('/'); ?>#contact" class="nav-cta">Contact Us</a>
+<a href="#contact" class="nav-cta">Contact Us</a>
 </div>
 <div class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">
 <span></span><span></span><span></span>
@@ -833,12 +835,12 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 
 <div class="mobile-menu" id="mobileMenu">
 <div class="mobile-close" onclick="this.parentElement.classList.remove('open')">&times;</div>
-<a href="<?php echo home_url('/'); ?>#services" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.services">Services</a>
-<a href="<?php echo home_url('/'); ?>#projects" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.projects">Projects</a>
-<a href="<?php echo home_url('/'); ?>#customers" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.serve">Who We Serve</a>
-<a href="<?php echo home_url('/'); ?>#why" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.about">About</a>
-<a href="<?php echo home_url('/'); ?>#faq" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.faq">FAQ</a>
-<a href="<?php echo home_url('/'); ?>#contact" onclick="this.parentElement.classList.remove('open')" class="btn-gold" style="margin-top:1rem">Contact Us</a>
+<a href="#services" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.services">Services</a>
+<a href="#projects" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.projects">Projects</a>
+<a href="#customers" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.serve">Who We Serve</a>
+<a href="#why" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.about">About</a>
+<a href="#faq" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.faq">FAQ</a>
+<a href="#contact" onclick="this.parentElement.classList.remove('open')" class="btn-gold" style="margin-top:1rem">Contact Us</a>
 </div>
 <!-- ===== HERO -Company Level ===== -->
 <section class="hero" id="hero">
@@ -904,7 +906,7 @@ Protection and engineering solutions for the private, public and municipal secto
 
 <!-- Mobile CTA between stats and next section -->
 <div class="hero-mobile-cta" style="display:none;padding:1.5rem 1.5rem 2rem;text-align:center;background:var(--bg-dark)">
-<a href="<?php echo home_url('/'); ?>#contact" class="btn-gold" style="display:inline-block;width:100%;max-width:400px;padding:1rem 2rem;font-size:1rem;text-align:center">Contact Us &rarr;</a>
+<a href="#contact" class="btn-gold" style="display:inline-block;width:100%;max-width:400px;padding:1rem 2rem;font-size:1rem;text-align:center">Contact Us &rarr;</a>
 </div>
 
 </section>
@@ -992,7 +994,7 @@ Protection and engineering solutions for the private, public and municipal secto
 <li data-i18n="pil.c1_l3">Solution &amp; budget planning</li>
 <li data-i18n="pil.c1_l4">State-funding eligibility check</li>
 </ul>
-<a href="<?php echo home_url('/'); ?>#contact" class="svc-cta" data-i18n="pil.cta">Talk to Us →</a>
+<a href="#contact" class="svc-cta" data-i18n="pil.cta">Talk to Us →</a>
 </div>
 </div>
 
@@ -1012,7 +1014,7 @@ Protection and engineering solutions for the private, public and municipal secto
 <li data-i18n="pil.c2_l3">Safe-room construction &amp; certification</li>
 <li data-i18n="pil.c2_l4">Project management &amp; QA</li>
 </ul>
-<a href="<?php echo home_url('/'); ?>#contact" class="svc-cta" data-i18n="pil.cta">Talk to Us →</a>
+<a href="#contact" class="svc-cta" data-i18n="pil.cta">Talk to Us →</a>
 </div>
 </div>
 
@@ -1032,7 +1034,7 @@ Protection and engineering solutions for the private, public and municipal secto
 <li data-i18n="pil.c3_l3">Accelerated permit (Tzav HaShaa)</li>
 <li data-i18n="pil.c3_l4">Liaison with authorities &amp; committees</li>
 </ul>
-<a href="<?php echo home_url('/'); ?>#contact" class="svc-cta" data-i18n="pil.cta">Talk to Us →</a>
+<a href="#contact" class="svc-cta" data-i18n="pil.cta">Talk to Us →</a>
 </div>
 </div>
 </div>
@@ -1050,31 +1052,26 @@ Protection and engineering solutions for the private, public and municipal secto
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem" class="fade-in services-grid">
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<div style="width:56px;height:56px;background:rgba(37,99,235,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem">&#128737;</div>
 <h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem">Protective Rooms &amp; Structures Supply</h4>
 <p style="font-size:0.88rem;color:var(--text-light);line-height:1.6">Supply of protective rooms and fortified structures, including Home Front Command licensing for model approval and registration in the official HFC (Pikud HaOref) database.</p>
 </div>
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<div style="width:56px;height:56px;background:rgba(22,163,74,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem">&#127968;</div>
 <h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem">Protected Space Construction</h4>
 <p style="font-size:0.88rem;color:var(--text-light);line-height:1.6">End-to-end design and construction of protected spaces (safe rooms / MAMAD) for private clients, kibbutzim, moshavim and more  -  full-service coverage for individuals and organizations.</p>
 </div>
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<div style="width:56px;height:56px;background:rgba(200,168,75,0.10);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem">&#128295;</div>
 <h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem">Security &amp; Existing Room Upgrades</h4>
 <p style="font-size:0.88rem;color:var(--text-light);line-height:1.6">Upgrading security rooms and existing rooms to protective standard using Home Front Command&ndash;approved technologies  -  no demolition required.</p>
 </div>
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<div style="width:56px;height:56px;background:rgba(220,38,38,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem">&#127963;</div>
 <h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem">Public Shelter Rehabilitation</h4>
 <p style="font-size:0.88rem;color:var(--text-light);line-height:1.6">Rehabilitation and restoration of public shelters for municipal authorities  -  bringing communal protection back to operational, code-compliant condition.</p>
 </div>
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<div style="width:56px;height:56px;background:rgba(139,92,246,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem">&#128203;</div>
 <h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem">Protection Consulting &amp; Permitting</h4>
 <p style="font-size:0.88rem;color:var(--text-light);line-height:1.6">Protection consulting throughout statutory processes and building-permit procedures  -  including Home Front Command approvals and exceptions committees.</p>
 </div>
@@ -1112,7 +1109,7 @@ Protection and engineering solutions for the private, public and municipal secto
       <li>Home Front Command&ndash;compliant protection</li>
       <li>Full turnkey delivery with minimal disruption</li>
     </ul>
-    <a href="<?php echo home_url('/customers/'); ?>#private" class="wws-cta">Request Private Consultation &rarr;</a>
+    <a href="#contact" class="wws-cta">Request Private Consultation &rarr;</a>
   </div>
   <div class="wws-visual">
     <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80" alt="Private residence safe room" loading="lazy">
@@ -1135,7 +1132,7 @@ Protection and engineering solutions for the private, public and municipal secto
       <li>Protected spaces for public institutions</li>
       <li>End-to-end support for communities &amp; organizations</li>
     </ul>
-    <a href="<?php echo home_url('/customers/'); ?>#services" class="wws-cta green">Explore Public-Sector Solutions &rarr;</a>
+    <a href="#contact" class="wws-cta green">Explore Public-Sector Solutions &rarr;</a>
   </div>
   <div class="wws-visual">
     <img src="<?php echo get_template_directory_uri(); ?>/images/hospital-blueprint.jpg" alt="Municipal protection planning">
@@ -1158,7 +1155,7 @@ Protection and engineering solutions for the private, public and municipal secto
       <li>Project management from planning to permit</li>
       <li>Protection solutions tailored to each project</li>
     </ul>
-    <a href="<?php echo home_url('/customers/'); ?>#gov" class="wws-cta">Explore Developer Solutions &rarr;</a>
+    <a href="#contact" class="wws-cta">Explore Developer Solutions &rarr;</a>
   </div>
   <div class="wws-visual">
     <img src="<?php echo get_template_directory_uri(); ?>/images/national-thumb.jpg" alt="Developments and construction projects">
@@ -1167,7 +1164,7 @@ Protection and engineering solutions for the private, public and municipal secto
 </div>
 
 <div class="fade-in" style="text-align:center;margin-top:2.5rem">
-<a href="<?php echo home_url('/customers/'); ?>" style="display:inline-block;padding:0.7rem 2rem;background:var(--gold);color:#fff;border-radius:8px;font-size:0.88rem;font-weight:600;transition:all 0.3s" onmouseover="this.style.background='var(--gold-light)'" onmouseout="this.style.background='var(--gold)'">See All Customer Solutions &rarr;</a>
+<a href="#contact" style="display:inline-block;padding:0.7rem 2rem;background:var(--gold);color:#fff;border-radius:8px;font-size:0.88rem;font-weight:600;transition:all 0.3s" onmouseover="this.style.background='var(--gold-light)'" onmouseout="this.style.background='var(--gold)'">See All Customer Solutions &rarr;</a>
 </div>
 </div>
 </section>
@@ -1242,25 +1239,21 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem" class="fade-in areas-grid">
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;text-align:center;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<div style="width:56px;height:56px;background:rgba(220,38,38,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem">&#127981;</div>
 <h4 style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="area.c1_t">Private Homes</h4>
 <p style="font-size:0.85rem;color:var(--text-light);line-height:1.6" data-i18n="area.c1_p">Safe rooms (MAMAD) for houses and apartments, room upgrades, building permits and home additions  -  turnkey, with minimal disruption.</p>
 </div>
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;text-align:center;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<div style="width:56px;height:56px;background:rgba(37,99,235,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem">&#127968;</div>
 <h4 style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="area.c2_t">Public Institutions</h4>
 <p style="font-size:0.85rem;color:var(--text-light);line-height:1.6" data-i18n="area.c2_p">Protected spaces for schools, kindergartens, clinics and public buildings for the Ministries of Education, Health and Welfare.</p>
 </div>
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;text-align:center;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<div style="width:56px;height:56px;background:rgba(22,163,74,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem">&#9881;</div>
 <h4 style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="area.c3_t">Kibbutzim &amp; Communities</h4>
 <p style="font-size:0.85rem;color:var(--text-light);line-height:1.6" data-i18n="area.c3_p">Community-scale protection programs for kibbutzim, moshavim and local authorities  -  including public-shelter rehabilitation.</p>
 </div>
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;text-align:center;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<div style="width:56px;height:56px;background:rgba(139,92,246,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem">&#127963;</div>
 <h4 style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="area.c4_t">Industry &amp; Strategic Sites</h4>
 <p style="font-size:0.85rem;color:var(--text-light);line-height:1.6" data-i18n="area.c4_p">Physical protection for energy facilities, plants and strategic infrastructure  -  planned and licensed to standard.</p>
 </div>
@@ -1278,31 +1271,26 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem" class="fade-in">
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.6rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<div style="width:52px;height:52px;background:rgba(37,99,235,0.08);border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem">&#9889;</div>
 <h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="wcu.a1_t">Professional Efficiency &amp; Sensitivity</h4>
 <p style="font-size:0.88rem;color:var(--text-light);line-height:1.6" data-i18n="wcu.a1_d">Coordination, planning, licensing and management of sensitive projects  -  on tight schedules and dedicated budgets, with close personal attention throughout.</p>
 </div>
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.6rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<div style="width:52px;height:52px;background:rgba(22,163,74,0.08);border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem">&#128295;</div>
 <h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="wcu.a2_t">Solutions for Every Challenge</h4>
 <p style="font-size:0.88rem;color:var(--text-light);line-height:1.6" data-i18n="wcu.a2_d">Creative, cost-effective answers to any issue that arises during a project  -  while meeting the strictest standards and delivering quality results.</p>
 </div>
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.6rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<div style="width:52px;height:52px;background:rgba(200,168,75,0.12);border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem">&#128101;</div>
 <h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="wcu.a3_t">Experienced Team</h4>
 <p style="font-size:0.88rem;color:var(--text-light);line-height:1.6" data-i18n="wcu.a3_d">Five engineers and specialists in budgeting, scheduling, planning and execution  -  led by Yigal Faberman, with deep experience delivering national protection projects.</p>
 </div>
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.6rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<div style="width:52px;height:52px;background:rgba(37,99,235,0.08);border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem">&#128230;</div>
 <h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="wcu.a4_t">Full-Service Envelope</h4>
 <p style="font-size:0.88rem;color:var(--text-light);line-height:1.6" data-i18n="wcu.a4_d">Managing every stage from planning to on-site execution, working with all relevant authorities and providers  -  streamlining the process and saving valuable time.</p>
 </div>
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.6rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<div style="width:52px;height:52px;background:rgba(220,38,38,0.08);border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1rem">&#11088;</div>
 <h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="wcu.a5_t">Uncompromising Quality</h4>
 <p style="font-size:0.88rem;color:var(--text-light);line-height:1.6" data-i18n="wcu.a5_d">Working with the leading physical-protection suppliers, precise and fast Home Front Command licensing, and strict adherence to every standard.</p>
 </div>
@@ -1494,15 +1482,15 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 </div>
 <div class="footer-col">
 <h4 data-i18n="footer.services_h">Services</h4>
-<a href="<?php echo home_url('/'); ?>#services" data-i18n="footer.l_services">Our Services</a>
-<a href="<?php echo home_url('/'); ?>#projects" data-i18n="footer.l_projects">Projects</a>
-<a href="<?php echo home_url('/'); ?>#faq" data-i18n="footer.l_faq">FAQ</a>
+<a href="#services" data-i18n="footer.l_services">Our Services</a>
+<a href="#projects" data-i18n="footer.l_projects">Projects</a>
+<a href="#faq" data-i18n="footer.l_faq">FAQ</a>
 </div>
 <div class="footer-col">
 <h4 data-i18n="footer.company_h">Company</h4>
-<a href="<?php echo home_url('/'); ?>#why" data-i18n="footer.l_about">About Us</a>
-<a href="<?php echo home_url('/'); ?>#customers" data-i18n="footer.l_serve">Who We Serve</a>
-<a href="<?php echo home_url('/'); ?>#clients" data-i18n="footer.l_clients">Clients</a>
+<a href="#why" data-i18n="footer.l_about">About Us</a>
+<a href="#customers" data-i18n="footer.l_serve">Who We Serve</a>
+<a href="#clients" data-i18n="footer.l_clients">Clients</a>
 </div>
 <div class="footer-col">
 <h4 data-i18n="footer.contact_h">Get in Touch</h4>
