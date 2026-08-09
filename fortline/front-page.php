@@ -1236,33 +1236,33 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 <!-- ===== AREAS OF ACTIVITY ===== -->
 <section style="padding:5rem 0;background:var(--bg-light)" id="sectors">
 <div class="container">
-<div class="section-label fade-in" style="text-align:center">Who We Protect</div>
-<div class="section-title fade-in" style="text-align:center">Areas of Activity</div>
-<p class="fade-in" style="color:var(--text-light);max-width:700px;margin:0.5rem auto 2.5rem;font-size:0.95rem;text-align:center;line-height:1.7">Our protection solutions span four key sectors  -  each with tailored approaches based on threat profiles, regulatory requirements, and operational constraints.</p>
+<div class="section-label fade-in" style="text-align:center" data-i18n="area.label">Who We Protect</div>
+<div class="section-title fade-in" style="text-align:center" data-i18n="area.title">Areas of Activity</div>
+<p class="fade-in" style="color:var(--text-light);max-width:700px;margin:0.5rem auto 2.5rem;font-size:0.95rem;text-align:center;line-height:1.7" data-i18n="area.sub">We protect across four core sectors  -  each with an approach tailored to its needs, regulation and constraints.</p>
 <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem" class="fade-in areas-grid">
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;text-align:center;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
 <div style="width:56px;height:56px;background:rgba(220,38,38,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem">&#127981;</div>
-<h4 style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem">Defence</h4>
-<p style="font-size:0.85rem;color:var(--text-light);line-height:1.6">Military installations, fortifications, border infrastructure, and strategic defense facilities requiring the highest protection standards.</p>
+<h4 style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="area.c1_t">Private Homes</h4>
+<p style="font-size:0.85rem;color:var(--text-light);line-height:1.6" data-i18n="area.c1_p">Safe rooms (MAMAD) for houses and apartments, room upgrades, building permits and home additions  -  turnkey, with minimal disruption.</p>
 </div>
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;text-align:center;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
 <div style="width:56px;height:56px;background:rgba(37,99,235,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem">&#127968;</div>
-<h4 style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem">Private</h4>
-<p style="font-size:0.85rem;color:var(--text-light);line-height:1.6">Residential safe rooms, luxury properties, and private compounds. Discreet protection that integrates seamlessly with existing architecture.</p>
+<h4 style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="area.c2_t">Public Institutions</h4>
+<p style="font-size:0.85rem;color:var(--text-light);line-height:1.6" data-i18n="area.c2_p">Protected spaces for schools, kindergartens, clinics and public buildings for the Ministries of Education, Health and Welfare.</p>
 </div>
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;text-align:center;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
 <div style="width:56px;height:56px;background:rgba(22,163,74,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem">&#9881;</div>
-<h4 style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem">Industrial</h4>
-<p style="font-size:0.85rem;color:var(--text-light);line-height:1.6">Energy plants, desalination facilities, data centers, oil &amp; gas infrastructure, and critical industrial and strategic facilities across Israel.</p>
+<h4 style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="area.c3_t">Kibbutzim &amp; Communities</h4>
+<p style="font-size:0.85rem;color:var(--text-light);line-height:1.6" data-i18n="area.c3_p">Community-scale protection programs for kibbutzim, moshavim and local authorities  -  including public-shelter rehabilitation.</p>
 </div>
 
 <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;text-align:center;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
 <div style="width:56px;height:56px;background:rgba(139,92,246,0.08);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin:0 auto 1rem">&#127963;</div>
-<h4 style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem">Institutional</h4>
-<p style="font-size:0.85rem;color:var(--text-light);line-height:1.6">Hospitals, schools, government buildings, embassies, and public institutions where continuity of operations and civilian safety are paramount.</p>
+<h4 style="font-family:var(--font-heading);font-size:1rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="area.c4_t">Industry &amp; Strategic Sites</h4>
+<p style="font-size:0.85rem;color:var(--text-light);line-height:1.6" data-i18n="area.c4_p">Physical protection for energy facilities, plants and strategic infrastructure  -  planned and licensed to standard.</p>
 </div>
 
 </div>
@@ -1354,33 +1354,33 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 <section class="process" id="process">
 <div class="container">
 <div class="process-header">
-<div class="section-label fade-in">How It Works</div>
-<div class="section-title fade-in">From Assessment to Protection</div>
+<div class="section-label fade-in" data-i18n="proc.label">How It Works</div>
+<div class="section-title fade-in" data-i18n="proc.title">From Assessment to Protection</div>
 </div>
 <div class="timeline">
 <div class="tl-step fade-in">
-<div class="tl-img"><img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80" alt="Assessment meeting" loading="lazy"></div>
+<div class="tl-img"><img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?w=600&q=80" alt="Consultation" loading="lazy"></div>
 <div class="tl-num">1</div>
-<h3>Free, No-Obligation Consultation</h3>
-<p>Initial consultation under strict NDA. We understand your facility, threat profile, and objectives.</p>
+<h3 data-i18n="proc.s1_t">Free, No-Obligation Consultation</h3>
+<p data-i18n="proc.s1_p">We visit your home or facility, understand your needs, and check eligibility for state funding.</p>
 </div>
 <div class="tl-step fade-in fade-in-delay-1">
-<div class="tl-img"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80" alt="Engineering blueprints" loading="lazy"></div>
+<div class="tl-img"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80" alt="Engineering plans" loading="lazy"></div>
 <div class="tl-num">2</div>
-<h3>Gap Analysis &amp; Design</h3>
-<p>Structural assessment, protection gap identification, custom fortification plan.</p>
+<h3 data-i18n="proc.s2_t">Planning &amp; Design</h3>
+<p data-i18n="proc.s2_p">Optimal safe-room placement, engineering drawings, and a solution tailored to the site and budget.</p>
 </div>
 <div class="tl-step fade-in fade-in-delay-2">
-<div class="tl-img"><img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80" alt="Solution delivery" loading="lazy"></div>
+<div class="tl-img"><img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80" alt="Licensing" loading="lazy"></div>
 <div class="tl-num">3</div>
-<h3>Solution Delivery</h3>
-<p>Consulting, licensing, or protected-space construction on accelerated timelines.</p>
+<h3 data-i18n="proc.s3_t">Licensing &amp; Permits</h3>
+<p data-i18n="proc.s3_p">Home Front Command approval and building-permit handling, including the accelerated route.</p>
 </div>
 <div class="tl-step fade-in fade-in-delay-3">
-<div class="tl-img"><img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&q=80" alt="Certification handshake" loading="lazy"></div>
+<div class="tl-img"><img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&q=80" alt="Handover" loading="lazy"></div>
 <div class="tl-num">4</div>
-<h3>Certification &amp; Training</h3>
-<p>Full documentation, staff emergency protocol training, ongoing support.</p>
+<h3 data-i18n="proc.s4_t">Construction &amp; Handover</h3>
+<p data-i18n="proc.s4_p">End-to-end construction, certification and handover  -  with ongoing support.</p>
 </div>
 </div>
 </div>
@@ -1437,8 +1437,8 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 <!-- ===== CONTACT ===== -->
 <section class="contact" id="contact">
 <div class="container">
-<div class="section-label fade-in">Get Started</div>
-<div class="section-title fade-in" style="margin-bottom:2rem">Request a Consultation</div>
+<div class="section-label fade-in" data-i18n="ct.label">Get Started</div>
+<div class="section-title fade-in" style="margin-bottom:2rem" data-i18n="ct.title">Request a Consultation</div>
 <div class="contact-grid">
 <div class="contact-form-box fade-in">
 <form id="contactForm">
