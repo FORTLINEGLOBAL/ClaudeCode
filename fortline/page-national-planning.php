@@ -513,15 +513,14 @@ div[style*="grid-template-columns:repeat(6"]{grid-template-columns:1fr !importan
 <div class="nav-logo-text">A.R.I.<span> Faberman</span></div>
 </a>
 <div class="nav-links">
-<a href="<?php echo home_url('/'); ?>#pillars">Solutions</a>
-<a href="<?php echo home_url('/facility-assessment/'); ?>">Protection Advisory</a>
-<a href="<?php echo home_url('/execution/'); ?>">Execution</a>
-<a href="<?php echo home_url('/national-planning/'); ?>">National Regulation</a>
-<a href="<?php echo home_url('/customers/'); ?>">Who We Serve</a>
-<a href="<?php echo home_url('/about/'); ?>">About</a>
-<a href="<?php echo home_url('/articles/'); ?>">Articles</a>
+<a href="<?php echo home_url('/'); ?>#services" data-i18n="nav2.services">Services</a>
+<a href="<?php echo home_url('/'); ?>#projects" data-i18n="nav2.projects">Projects</a>
+<a href="<?php echo home_url('/'); ?>#customers" data-i18n="nav2.serve">Who We Serve</a>
+<a href="<?php echo home_url('/'); ?>#why" data-i18n="nav2.about">About</a>
+<a href="<?php echo home_url('/'); ?>#faq" data-i18n="nav2.faq">FAQ</a>
+
 <div id="lang-toggle"></div>
-<a href="<?php echo home_url('/customers/'); ?>#contact" class="nav-cta">Contact Us</a>
+<a href="<?php echo home_url('/'); ?>#contact" class="nav-cta">Contact Us</a>
 </div>
 <div class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">
 <span></span><span></span><span></span>
@@ -531,14 +530,12 @@ div[style*="grid-template-columns:repeat(6"]{grid-template-columns:1fr !importan
 
 <div class="mobile-menu" id="mobileMenu">
 <div class="mobile-close" onclick="this.parentElement.classList.remove('open')">&times;</div>
-<a href="<?php echo home_url('/'); ?>#pillars" onclick="this.parentElement.classList.remove('open')">Solutions</a>
-<a href="<?php echo home_url('/facility-assessment/'); ?>" onclick="this.parentElement.classList.remove('open')">Protection Advisory</a>
-<a href="<?php echo home_url('/execution/'); ?>" onclick="this.parentElement.classList.remove('open')">Execution</a>
-<a href="<?php echo home_url('/national-planning/'); ?>" onclick="this.parentElement.classList.remove('open')">National Regulation</a>
-<a href="<?php echo home_url('/customers/'); ?>" onclick="this.parentElement.classList.remove('open')">Who We Serve</a>
-<a href="<?php echo home_url('/about/'); ?>" onclick="this.parentElement.classList.remove('open')">About</a>
-<a href="<?php echo home_url('/articles/'); ?>" onclick="this.parentElement.classList.remove('open')">Articles</a>
-<a href="<?php echo home_url('/customers/'); ?>#contact" onclick="this.parentElement.classList.remove('open')" class="btn-gold" style="margin-top:1rem">Contact Us</a>
+<a href="<?php echo home_url('/'); ?>#services" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.services">Services</a>
+<a href="<?php echo home_url('/'); ?>#projects" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.projects">Projects</a>
+<a href="<?php echo home_url('/'); ?>#customers" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.serve">Who We Serve</a>
+<a href="<?php echo home_url('/'); ?>#why" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.about">About</a>
+<a href="<?php echo home_url('/'); ?>#faq" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.faq">FAQ</a>
+<a href="<?php echo home_url('/'); ?>#contact" onclick="this.parentElement.classList.remove('open')" class="btn-gold" style="margin-top:1rem">Contact Us</a>
 </div>
 <!-- ===== HERO ===== -->
 <section class="hero" id="hero">
@@ -994,7 +991,7 @@ Government-Level Service<br>Developing Mandatory Protection Building Codes
 </div>
 <div class="footer-col">
 <h4>Get in Touch</h4>
-<a href="<?php echo home_url('/customers/'); ?>#contact">Request Assessment</a>
+<a href="<?php echo home_url('/'); ?>#contact">Request Assessment</a>
 </div>
 </div>
 <div class="footer-bar">

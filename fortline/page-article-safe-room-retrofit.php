@@ -407,7 +407,7 @@ get_header(); ?>
             <li><a href="<?php echo home_url('/about/'); ?>">About</a></li>
             <li><a href="<?php echo home_url('/articles/'); ?>">Articles</a></li>
 <div id="lang-toggle"></div>
-            <li><a href="<?php echo home_url('/customers/'); ?>#contact" class="nav-cta">Contact Us</a></li>
+            <li><a href="<?php echo home_url('/'); ?>#contact" class="nav-cta">Contact Us</a></li>
         </ul>
         <div class="hamburger" onclick="document.querySelector('.menu').classList.toggle('open')">
             <span></span>
@@ -518,7 +518,7 @@ get_header(); ?>
         <section class="cta-section">
             <h3>Evaluate Your Retrofit Options</h3>
             <p>Our protection advisory team can assess your facility's critical functions, evaluate threat scenarios, and recommend retrofit strategies that align with your operational needs and capital constraints. Protection is possible without disruption.</p>
-            <a href="<?php echo home_url('/customers/'); ?>#contact" class="cta-button">Contact Us</a>
+            <a href="<?php echo home_url('/'); ?>#contact" class="cta-button">Contact Us</a>
         </section>
     </article>
 
@@ -544,13 +544,13 @@ get_header(); ?>
                     <li><a href="<?php echo home_url('/about/'); ?>">About Us</a></li>
                     <li><a href="<?php echo home_url('/articles/'); ?>">Articles</a></li>
                     <li><a href="<?php echo home_url('/customers/'); ?>">Who We Serve</a></li>
-                    <li><a href="<?php echo home_url('/customers/'); ?>#contact">Contact</a></li>
+                    <li><a href="<?php echo home_url('/'); ?>#contact">Contact</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>Get In Touch</h4>
                 <p class="footer-desc">Ready to discuss your infrastructure protection requirements.</p>
-                <a href="<?php echo home_url('/customers/'); ?>#contact" style="color: var(--gold-bright); font-weight: 600; text-decoration: none;">Contact Us</a>
+                <a href="<?php echo home_url('/'); ?>#contact" style="color: var(--gold-bright); font-weight: 600; text-decoration: none;">Contact Us</a>
             </div>
         </div>
         <div class="footer-bottom">

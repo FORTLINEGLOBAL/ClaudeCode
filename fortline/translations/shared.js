@@ -8,6 +8,12 @@
 
 window.SHARED_TRANSLATIONS = {
   he: {
+    // Navigation (ARI)
+    'nav2.services': 'שירותים',
+    'nav2.projects': 'פרויקטים',
+    'nav2.serve': 'למי אנחנו פונים',
+    'nav2.about': 'עלינו',
+    'nav2.faq': 'שאלות ותשובות',
     // Navigation
     'nav.solutions': 'פתרונות',
     'nav.protection_program': 'תוכנית הגנה',
@@ -188,6 +194,12 @@ window.SHARED_TRANSLATIONS = {
   },
 
   en: {
+    // Navigation (ARI)
+    'nav2.services': 'Services',
+    'nav2.projects': 'Projects',
+    'nav2.serve': 'Who We Serve',
+    'nav2.about': 'About',
+    'nav2.faq': 'FAQ',
     // Navigation
     'nav.solutions': 'Solutions',
     'nav.protection_program': 'Protection Program',
