@@ -855,6 +855,8 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 .fl-tst-foot{display:flex;align-items:center;gap:0.75rem;margin-top:0.4rem}
 .fl-tst-logo{width:46px;height:46px;border-radius:10px;background:#0B162C;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .fl-tst-logo svg{width:24px;height:24px}
+.fl-tst-logo.has-img{background:#fff;border:1px solid rgba(11,22,44,0.08)}
+.fl-tst-logo.has-img img{width:100%;height:100%;object-fit:contain;padding:6px;box-sizing:border-box}
 @media(max-width:760px){.fl-tst-grid{grid-template-columns:1fr}}
 /* FAQ */
 .fl-faq{padding:5rem 0;background:#fff;border-top:1px solid var(--border)}

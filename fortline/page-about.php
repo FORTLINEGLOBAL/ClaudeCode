@@ -68,6 +68,21 @@ get_header(); ?>
      name is shown as a text tile automatically, so the wall always looks complete. -->
 <?php
 $fortline_clients = array(
+    array('name' => 'Home Front Command',             'file' => 'pikud-haoref.png'),
+    array('name' => 'Israel Airports Authority',      'file' => 'israel-airports-authority.png'),
+    array('name' => 'Ministry of Health',             'file' => 'health.png'),
+    array('name' => 'Ministry of Education',          'file' => 'education.png'),
+    array('name' => 'Ministry of Welfare',            'file' => 'welfare.png'),
+    array('name' => 'Kfar Blum',                      'file' => 'kfar-blum.png'),
+    array('name' => 'Kibbutz Shamir',                 'file' => 'kibbutz-shamir.png'),
+    array('name' => 'Kibbutz Dafna',                  'file' => 'kibbutz-dafna.png'),
+    array('name' => 'Arim',                           'file' => 'arim.png'),
+    array('name' => 'Gesem',                          'file' => 'gesham.png'),
+    array('name' => 'Betonix',                        'file' => 'betonix.png'),
+    array('name' => 'Tempo',                          'file' => 'tampo.png'),
+    array('name' => 'Victory',                        'file' => 'victory.png'),
+    array('name' => 'Plaston',                        'file' => 'plaston.png'),
+    array('name' => 'Hadish',                         'file' => 'hadish.png'),
     array('name' => 'Elite Safety Engineering',      'file' => 'elite.png'),
     array('name' => 'Eldar',                          'file' => 'eldar.png'),
     array('name' => 'Afi Capital',                    'file' => 'afi-capital.png'),
@@ -156,8 +171,8 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 <div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="tst.label">Testimonials</div>
 <div class="section-title fade-in" style="text-align:center" data-i18n="tst.title">What Our Clients Say</div>
 <div class="fl-tst-grid fade-in">
-<div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q1">ARI Faberman carried out comprehensive protection work for us across several hospitals nationwide. We were very satisfied  -  the team was professional, skilled and reliable, worked under significant time pressure, and finished on time and on budget. We highly recommend them for anyone needing quality protection services.</p><div class="fl-tst-foot"><span class="fl-tst-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M10 21v-5h4v5M9 10h.01M15 10h.01M9 13h.01M15 13h.01"/></svg></span><span class="fl-tst-by" data-i18n="tst.b1">Ministry of Health</span></div></div>
-<div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q2">We warmly recommend ARI Faberman for upgrading MAMADs and shelters. The team was professional, efficient and courteous throughout, worked closely with us to understand our needs, and delivered a tailored solution. The results were excellent and we're confident it will protect our students in an emergency.</p><div class="fl-tst-foot"><span class="fl-tst-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M10 21v-5h4v5M9 10h.01M15 10h.01M9 13h.01M15 13h.01"/></svg></span><span class="fl-tst-by" data-i18n="tst.b2">Ministry of Education</span></div></div>
+<div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q1">ARI Faberman carried out comprehensive protection work for us across several hospitals nationwide. We were very satisfied  -  the team was professional, skilled and reliable, worked under significant time pressure, and finished on time and on budget. We highly recommend them for anyone needing quality protection services.</p><div class="fl-tst-foot"><span class="fl-tst-logo has-img"><img src="<?php echo get_template_directory_uri(); ?>/images/clients/health.png" alt="Ministry of Health" loading="lazy"></span><span class="fl-tst-by" data-i18n="tst.b1">Ministry of Health</span></div></div>
+<div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q2">We warmly recommend ARI Faberman for upgrading MAMADs and shelters. The team was professional, efficient and courteous throughout, worked closely with us to understand our needs, and delivered a tailored solution. The results were excellent and we're confident it will protect our students in an emergency.</p><div class="fl-tst-foot"><span class="fl-tst-logo has-img"><img src="<?php echo get_template_directory_uri(); ?>/images/clients/education.png" alt="Ministry of Education" loading="lazy"></span><span class="fl-tst-by" data-i18n="tst.b2">Ministry of Education</span></div></div>
 <div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q3">We looked for a reliable company to protect our kindergarten's MAMAD and chose ARI Faberman after reading positive reviews. We weren't disappointed  -  professional, efficient and courteous, working quietly and quickly with the children in mind. The upgraded MAMAD looks great and we feel much safer now.</p><div class="fl-tst-foot"><span class="fl-tst-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M10 21v-5h4v5M9 10h.01M15 10h.01M9 13h.01M15 13h.01"/></svg></span><span class="fl-tst-by" data-i18n="tst.b3">"Rakefet" Kindergarten, Sderot</span></div></div>
 <div class="fl-tst-card"><p class="fl-tst-quote" data-i18n="tst.q4">Thank you for renovating the shelter at our school. The process was smooth and easy, and the team was friendly and professional. Our upgraded space looks great and we're confident it will provide our students with optimal protection in an emergency.</p><div class="fl-tst-foot"><span class="fl-tst-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l7-4 7 4v14M10 21v-5h4v5M9 10h.01M15 10h.01M9 13h.01M15 13h.01"/></svg></span><span class="fl-tst-by" data-i18n="tst.b4">Sde Uziya School</span></div></div>
 </div>
