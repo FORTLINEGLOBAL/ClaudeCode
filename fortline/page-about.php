@@ -62,65 +62,8 @@ get_header(); ?>
 </section>
 
 
-<!-- ===== TRUSTED BY / CLIENT LOGO WALL =====
-     To add a client: drop a logo file into images/clients/ and add a line to the
-     $fortline_clients array below (name + file). If the file is missing, the client
-     name is shown as a text tile automatically, so the wall always looks complete. -->
-<?php
-$fortline_clients = array(
-    array('name' => 'Home Front Command',             'file' => 'pikud-haoref.png'),
-    array('name' => 'Israel Airports Authority',      'file' => 'israel-airports-authority.png'),
-    array('name' => 'Ministry of Health',             'file' => 'health.png'),
-    array('name' => 'Ministry of Education',          'file' => 'education.png'),
-    array('name' => 'Ministry of Welfare',            'file' => 'welfare.png'),
-    array('name' => 'Kfar Blum',                      'file' => 'kfar-blum.png'),
-    array('name' => 'Kibbutz Shamir',                 'file' => 'kibbutz-shamir.png'),
-    array('name' => 'Kibbutz Dafna',                  'file' => 'kibbutz-dafna.png'),
-    array('name' => 'Arim',                           'file' => 'arim.png'),
-    array('name' => 'Gesem',                          'file' => 'gesham.png'),
-    array('name' => 'Betonix',                        'file' => 'betonix.png'),
-    array('name' => 'Tempo',                          'file' => 'tampo.png'),
-    array('name' => 'Victory',                        'file' => 'victory.png'),
-    array('name' => 'Plaston',                        'file' => 'plaston.png'),
-    array('name' => 'Hadish',                         'file' => 'hadish.png'),
-    array('name' => 'Elite Safety Engineering',      'file' => 'elite.png'),
-    array('name' => 'Eldar',                          'file' => 'eldar.png'),
-    array('name' => 'Afi Capital',                    'file' => 'afi-capital.png'),
-    array('name' => 'Electra Living',                 'file' => 'electra-living.png'),
-    array('name' => 'Ackerstein',                     'file' => 'ackerstein.jpg'),
-    array('name' => 'H.L.M – Business Licensing',     'file' => 'hlm.png'),
-    array('name' => 'am:pm City Market',              'file' => 'ampm.png'),
-    array('name' => 'State Comptroller of Israel',    'file' => 'state-comptroller.jpg'),
-    array('name' => 'Mifram',                         'file' => 'mifram.png'),
-    array('name' => 'Ashdod Port',                    'file' => 'ashdod-port.webp'),
-    array('name' => 'Harish Municipality',            'file' => 'harish.png'),
-    array('name' => 'Rami Sarfati Construction',      'file' => 'rami-sarfati.jpg'),
-    array('name' => 'Shaviro Engineering & Construction', 'file' => 'shaviro.png'),
-    array('name' => 'Shidor',                         'file' => 'shidor.webp'),
-    array('name' => 'Tnuva',                          'file' => 'tnuva.jpg'),
-);
-$fortline_clients_dir = get_template_directory() . '/images/clients/';
-$fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
-?>
-<section class="fl-clients" id="clients">
-<div class="container">
-<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)">Our Clients</div>
-<div class="section-title fade-in" style="text-align:center">Trusted By Leading Organizations</div>
-<p class="fade-in" style="color:var(--text-light);max-width:680px;margin:0.5rem auto 0;font-size:0.95rem;text-align:center;line-height:1.7">Authorities, municipalities, developers, public institutions and private clients rely on us for civil-protection planning and construction.</p>
-<div class="fl-clients-grid fade-in">
-<?php foreach ($fortline_clients as $c):
-    $has = !empty($c['file']) && file_exists($fortline_clients_dir . $c['file']); ?>
-  <div class="fl-client-tile">
-    <?php if ($has): ?>
-      <img src="<?php echo esc_url($fortline_clients_uri . $c['file']); ?>" alt="<?php echo esc_attr($c['name']); ?>" loading="lazy">
-    <?php else: ?>
-      <span class="fl-client-name"><?php echo esc_html($c['name']); ?></span>
-    <?php endif; ?>
-  </div>
-<?php endforeach; ?>
-</div>
-</div>
-</section>
+<!-- ===== TRUSTED BY / CLIENT LOGO WALL (shared function in functions.php) ===== -->
+<?php fortline_render_client_wall(); ?>
 
 
 
@@ -134,31 +77,46 @@ $fortline_clients_uri = get_template_directory_uri() . '/images/clients/';
 <div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="wcu.label">Our Advantages</div>
 <div class="section-title fade-in" style="text-align:center" data-i18n="wcu.title">Why Work With Us</div>
 <p class="fade-in" style="color:var(--text-light);max-width:700px;margin:0.5rem auto 2.5rem;font-size:0.95rem;text-align:center;line-height:1.7" data-i18n="wcu.subtitle">A comprehensive, high-quality answer for sensitive protection projects  -  an experienced team, efficient solutions and a full-service envelope from planning to execution.</p>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem" class="fade-in">
+<div class="vgrid fade-in">
 
-<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.6rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="wcu.a1_t">Professional Efficiency &amp; Sensitivity</h4>
-<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6" data-i18n="wcu.a1_d">Coordination, planning, licensing and management of sensitive projects  -  on tight schedules and dedicated budgets, with close personal attention throughout.</p>
+<div class="vcard">
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/hospital-blueprint.jpg" alt="Planning and coordination" loading="lazy"></div>
+<div class="vcard-body">
+<h4 data-i18n="wcu.a1_t">Professional Efficiency &amp; Sensitivity</h4>
+<p data-i18n="wcu.a1_d">Coordination, planning, licensing and management of sensitive projects  -  on tight schedules and dedicated budgets, with close personal attention throughout.</p>
+</div>
 </div>
 
-<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.6rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="wcu.a2_t">Solutions for Every Challenge</h4>
-<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6" data-i18n="wcu.a2_d">Creative, cost-effective answers to any issue that arises during a project  -  while meeting the strictest standards and delivering quality results.</p>
+<div class="vcard">
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/tunnel-engineering.jpg" alt="Engineering solutions" loading="lazy"></div>
+<div class="vcard-body">
+<h4 data-i18n="wcu.a2_t">Solutions for Every Challenge</h4>
+<p data-i18n="wcu.a2_d">Creative, cost-effective answers to any issue that arises during a project  -  while meeting the strictest standards and delivering quality results.</p>
+</div>
 </div>
 
-<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.6rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="wcu.a3_t">Experienced Team</h4>
-<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6" data-i18n="wcu.a3_d">Five engineers and specialists in budgeting, scheduling, planning and execution  -  led by Yigal Faberman, with deep experience delivering national protection projects.</p>
+<div class="vcard">
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/credentials-image.jpg" alt="Experienced engineering team" loading="lazy"></div>
+<div class="vcard-body">
+<h4 data-i18n="wcu.a3_t">Experienced Team</h4>
+<p data-i18n="wcu.a3_d">Five engineers and specialists in budgeting, scheduling, planning and execution  -  led by Yigal Faberman, with deep experience delivering national protection projects.</p>
+</div>
 </div>
 
-<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.6rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="wcu.a4_t">Full-Service Envelope</h4>
-<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6" data-i18n="wcu.a4_d">Managing every stage from planning to on-site execution, working with all relevant authorities and providers  -  streamlining the process and saving valuable time.</p>
+<div class="vcard">
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/infrastructure-protection.jpg" alt="Full-service project envelope" loading="lazy"></div>
+<div class="vcard-body">
+<h4 data-i18n="wcu.a4_t">Full-Service Envelope</h4>
+<p data-i18n="wcu.a4_d">Managing every stage from planning to on-site execution, working with all relevant authorities and providers  -  streamlining the process and saving valuable time.</p>
+</div>
 </div>
 
-<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.6rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem" data-i18n="wcu.a5_t">Uncompromising Quality</h4>
-<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6" data-i18n="wcu.a5_d">Working with the leading physical-protection suppliers, precise and fast Home Front Command licensing, and strict adherence to every standard.</p>
+<div class="vcard">
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj08.jpg" alt="Uncompromising protective quality" loading="lazy"></div>
+<div class="vcard-body">
+<h4 data-i18n="wcu.a5_t">Uncompromising Quality</h4>
+<p data-i18n="wcu.a5_d">Working with the leading physical-protection suppliers, precise and fast Home Front Command licensing, and strict adherence to every standard.</p>
+</div>
 </div>
 
 </div>

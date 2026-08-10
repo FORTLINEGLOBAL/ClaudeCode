@@ -43,9 +43,11 @@ function wwsShow(e,id){
   document.getElementById('wws-'+id).classList.add('active');
 }
 
-// Sticky nav
+// Sticky nav — pages without a dark hero stay solid (readable) from the top
 const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>80));
+const fortlineHasHero=!!document.getElementById('hero');
+if(nav&&!fortlineHasHero){nav.classList.add('solid');}
+window.addEventListener('scroll',()=>{if(nav)nav.classList.toggle('scrolled',window.scrollY>80);});
 
 // Scroll fade-in
 const obs=new IntersectionObserver(entries=>{

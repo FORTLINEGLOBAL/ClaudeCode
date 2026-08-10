@@ -93,6 +93,31 @@ font-weight:600 !important;transition:all 0.3s;
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
 .hamburger span{width:24px;height:2px;background:#fff;transition:0.3s}
 .nav.scrolled .hamburger span{background:var(--text-dark)}
+/* solid nav state — used on every page without a dark hero (all non-home pages) */
+.nav.solid{background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);box-shadow:var(--shadow)}
+.nav.solid .nav-logo-text,.nav.solid .nav-links a{color:var(--text-dark)}
+.nav.solid .nav-logo-text span{color:var(--gold-bright)}
+.nav.solid .nav-links a:hover{color:var(--gold-light)}
+.nav.solid .nav-links a.active{color:var(--gold-bright)}
+.nav.solid .nav-logo-light{display:none}.nav.solid .nav-logo-dark{display:block}
+.nav.solid .hamburger span{background:var(--text-dark)}
+/* ===== visual card system (services / areas / advantages) ===== */
+.vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:1.6rem}
+.vcard{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .3s,box-shadow .3s,border-color .3s;text-decoration:none}
+.vcard:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(11,22,44,0.12);border-color:var(--gold-border)}
+.vcard-img{position:relative;height:186px;overflow:hidden;background:var(--bg-dark)}
+.vcard-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.vcard:hover .vcard-img img{transform:scale(1.06)}
+.vcard-img::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,22,40,0) 45%,rgba(10,22,40,.4))}
+.vcard-kicker{position:absolute;left:1rem;bottom:.9rem;z-index:2;color:#fff;font-family:var(--font-heading);font-size:.68rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;background:var(--gold-light);padding:.26rem .7rem;border-radius:6px}
+.vcard-body{padding:1.5rem 1.4rem;display:flex;flex-direction:column;gap:.55rem;flex:1}
+.vcard-body h4{font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);line-height:1.3;margin:0}
+.vcard-body p{font-size:.88rem;color:var(--text-light);line-height:1.65;margin:0}
+/* ===== stacked Who-We-Serve feature rows (replaces tabs) ===== */
+.wws-stack{display:flex;flex-direction:column;gap:3.6rem;margin-top:1rem}
+.wws-row{display:grid;grid-template-columns:1fr 1fr;gap:2.8rem;align-items:center}
+.wws-row.rev .wws-rc{order:2}
+@media(max-width:820px){.wws-row,.wws-row.rev{grid-template-columns:1fr}.wws-row.rev .wws-rc{order:0}}
 .mobile-menu{
 
 display:none;position:fixed;top:0;left:0;right:0;bottom:0;

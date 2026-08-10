@@ -167,3 +167,77 @@ function fortline_activation_notice() {
     }
 }
 add_action('admin_notices', 'fortline_activation_notice');
+
+/**
+ * Client roster + reusable "Trusted By" logo wall.
+ * Single source of truth so the wall can appear on multiple pages (home + about).
+ * To add a client: drop a logo into images/clients/ and add a line below.
+ * If the file is missing, the name renders as a text tile so the wall stays full.
+ */
+function fortline_clients_list() {
+    return array(
+        array('name' => 'Home Front Command',             'file' => 'pikud-haoref.png'),
+        array('name' => 'Israel Airports Authority',      'file' => 'israel-airports-authority.png'),
+        array('name' => 'Ministry of Health',             'file' => 'health.png'),
+        array('name' => 'Ministry of Education',          'file' => 'education.png'),
+        array('name' => 'Ministry of Welfare',            'file' => 'welfare.png'),
+        array('name' => 'Kfar Blum',                      'file' => 'kfar-blum.png'),
+        array('name' => 'Kibbutz Shamir',                 'file' => 'kibbutz-shamir.png'),
+        array('name' => 'Kibbutz Dafna',                  'file' => 'kibbutz-dafna.png'),
+        array('name' => 'Arim',                           'file' => 'arim.png'),
+        array('name' => 'Gesem',                          'file' => 'gesham.png'),
+        array('name' => 'Betonix',                        'file' => 'betonix.png'),
+        array('name' => 'Tempo',                          'file' => 'tampo.png'),
+        array('name' => 'Victory',                        'file' => 'victory.png'),
+        array('name' => 'Plaston',                        'file' => 'plaston.png'),
+        array('name' => 'Hadish',                         'file' => 'hadish.png'),
+        array('name' => 'Elite Safety Engineering',       'file' => 'elite.png'),
+        array('name' => 'Eldar',                          'file' => 'eldar.png'),
+        array('name' => 'Afi Capital',                    'file' => 'afi-capital.png'),
+        array('name' => 'Electra Living',                 'file' => 'electra-living.png'),
+        array('name' => 'Ackerstein',                     'file' => 'ackerstein.jpg'),
+        array('name' => 'H.L.M - Business Licensing',     'file' => 'hlm.png'),
+        array('name' => 'am:pm City Market',              'file' => 'ampm.png'),
+        array('name' => 'State Comptroller of Israel',    'file' => 'state-comptroller.jpg'),
+        array('name' => 'Mifram',                         'file' => 'mifram.png'),
+        array('name' => 'Ashdod Port',                    'file' => 'ashdod-port.webp'),
+        array('name' => 'Harish Municipality',            'file' => 'harish.png'),
+        array('name' => 'Rami Sarfati Construction',      'file' => 'rami-sarfati.jpg'),
+        array('name' => 'Shaviro Engineering & Construction', 'file' => 'shaviro.png'),
+        array('name' => 'Shidor',                         'file' => 'shidor.webp'),
+        array('name' => 'Tnuva',                          'file' => 'tnuva.jpg'),
+    );
+}
+
+function fortline_render_client_wall($args = array()) {
+    $d = array_merge(array(
+        'label' => 'Our Clients',
+        'title' => 'Trusted By Leading Organizations',
+        'sub'   => 'Authorities, municipalities, developers, public institutions and private clients rely on us for civil-protection planning and construction.',
+        'bg'    => '#ffffff',
+    ), $args);
+    $clients = fortline_clients_list();
+    $dir = get_template_directory() . '/images/clients/';
+    $uri = get_template_directory_uri() . '/images/clients/';
+    ?>
+<section class="fl-clients" id="clients" style="background:<?php echo esc_attr($d['bg']); ?>">
+<div class="container">
+<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)"><?php echo esc_html($d['label']); ?></div>
+<div class="section-title fade-in" style="text-align:center"><?php echo esc_html($d['title']); ?></div>
+<p class="fade-in" style="color:var(--text-light);max-width:680px;margin:0.5rem auto 0;font-size:0.95rem;text-align:center;line-height:1.7"><?php echo esc_html($d['sub']); ?></p>
+<div class="fl-clients-grid fade-in">
+<?php foreach ($clients as $c):
+    $has = !empty($c['file']) && file_exists($dir . $c['file']); ?>
+  <div class="fl-client-tile">
+    <?php if ($has): ?>
+      <img src="<?php echo esc_url($uri . $c['file']); ?>" alt="<?php echo esc_attr($c['name']); ?>" loading="lazy">
+    <?php else: ?>
+      <span class="fl-client-name"><?php echo esc_html($c['name']); ?></span>
+    <?php endif; ?>
+  </div>
+<?php endforeach; ?>
+</div>
+</div>
+</section>
+<?php
+}

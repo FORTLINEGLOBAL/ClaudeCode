@@ -10,31 +10,46 @@ get_header(); ?>
 <div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)">What We Do</div>
 <div class="section-title fade-in" style="text-align:center">Our Services</div>
 <p class="fade-in" style="color:var(--text-light);max-width:720px;margin:0.5rem auto 2.5rem;font-size:0.95rem;text-align:center;line-height:1.7">End-to-end civil protection  -  from Home Front Command licensing and protected-space construction to upgrades, public-shelter rehabilitation, and statutory consulting.</p>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem" class="fade-in services-grid">
+<div class="vgrid fade-in services-grid">
 
-<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem">Protective Rooms &amp; Structures Supply</h4>
-<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6">Supply of protective rooms and fortified structures, including Home Front Command licensing for model approval and registration in the official HFC (Pikud HaOref) database.</p>
+<div class="vcard">
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj01.jpg" alt="Protective rooms and fortified structures" loading="lazy"><span class="vcard-kicker">Supply &amp; Licensing</span></div>
+<div class="vcard-body">
+<h4>Protective Rooms &amp; Structures Supply</h4>
+<p>Supply of protective rooms and fortified structures, including Home Front Command licensing for model approval and registration in the official HFC (Pikud HaOref) database.</p>
+</div>
 </div>
 
-<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem">Protected Space Construction</h4>
-<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6">End-to-end design and construction of protected spaces (safe rooms / MAMAD) for private clients, kibbutzim, moshavim and more  -  full-service coverage for individuals and organizations.</p>
+<div class="vcard">
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/rebar-construction.jpg" alt="Protected space construction" loading="lazy"><span class="vcard-kicker">Construction</span></div>
+<div class="vcard-body">
+<h4>Protected Space Construction</h4>
+<p>End-to-end design and construction of protected spaces (safe rooms / MAMAD) for private clients, kibbutzim, moshavim and more  -  full-service coverage for individuals and organizations.</p>
+</div>
 </div>
 
-<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem">Security &amp; Existing Room Upgrades</h4>
-<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6">Upgrading security rooms and existing rooms to protective standard using Home Front Command&ndash;approved technologies  -  no demolition required.</p>
+<div class="vcard">
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj05.jpg" alt="Security and existing room upgrades" loading="lazy"><span class="vcard-kicker">Upgrades</span></div>
+<div class="vcard-body">
+<h4>Security &amp; Existing Room Upgrades</h4>
+<p>Upgrading security rooms and existing rooms to protective standard using Home Front Command&ndash;approved technologies  -  no demolition required.</p>
+</div>
 </div>
 
-<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem">Public Shelter Rehabilitation</h4>
-<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6">Rehabilitation and restoration of public shelters for municipal authorities  -  bringing communal protection back to operational, code-compliant condition.</p>
+<div class="vcard">
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/institutional-building.jpg" alt="Public shelter rehabilitation" loading="lazy"><span class="vcard-kicker">Rehabilitation</span></div>
+<div class="vcard-body">
+<h4>Public Shelter Rehabilitation</h4>
+<p>Rehabilitation and restoration of public shelters for municipal authorities  -  bringing communal protection back to operational, code-compliant condition.</p>
+</div>
 </div>
 
-<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:2rem 1.5rem;transition:all 0.3s" onmouseover="this.style.borderColor='rgba(37,99,235,0.3)';this.style.boxShadow='0 8px 30px rgba(0,0,0,0.08)'" onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='none'">
-<h4 style="font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);margin-bottom:0.6rem">Protection Consulting &amp; Permitting</h4>
-<p style="font-size:0.88rem;color:var(--text-light);line-height:1.6">Protection consulting throughout statutory processes and building-permit procedures  -  including Home Front Command approvals and exceptions committees.</p>
+<div class="vcard">
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/permit-step1.jpg" alt="Protection consulting and permitting" loading="lazy"><span class="vcard-kicker">Consulting</span></div>
+<div class="vcard-body">
+<h4>Protection Consulting &amp; Permitting</h4>
+<p>Protection consulting throughout statutory processes and building-permit procedures  -  including Home Front Command approvals and exceptions committees.</p>
+</div>
 </div>
 
 </div>

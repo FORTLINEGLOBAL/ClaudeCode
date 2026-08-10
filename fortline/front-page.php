@@ -150,6 +150,9 @@ Protection and engineering solutions for the private, public and municipal secto
 </section>
 
 
+<!-- ===== TRUSTED BY / CLIENT LOGO WALL (shared function) ===== -->
+<?php fortline_render_client_wall(); ?>
+
 
 <!-- ===== HOME CTA BAND ===== -->
 <section style="padding:4.5rem 0;background:var(--bg-dark);position:relative;overflow:hidden">
