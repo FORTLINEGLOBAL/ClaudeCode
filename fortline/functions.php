@@ -22,56 +22,19 @@ add_action('wp_enqueue_scripts', 'fortline_scripts');
  */
 function fortline_lang_assets() {
     $uri = get_template_directory_uri();
-    $ver = defined('FORTLINE_THEME_VERSION') ? FORTLINE_THEME_VERSION : '2.0';
+    $ver = defined('FORTLINE_THEME_VERSION') ? FORTLINE_THEME_VERSION : '3.0';
 
-    // Map each page template to its translation file.
-    $map = array(
-        'front-page.php'                                => 'home.js',
-        'page-about.php'                                => 'about.js',
-        'page-shield6000.php'                           => 'shield6000.js',
-        'page-customers.php'                            => 'customers.js',
-        'page-execution.php'                            => 'execution.js',
-        'page-facility-assessment.php'                  => 'facility-assessment.js',
-        'page-national-planning.php'                    => 'national-planning.js',
-        'page-articles.php'                             => 'articles.js',
-        'page-article-critical-infrastructure-uae.php'  => 'article-critical-infrastructure-uae.js',
-        'page-article-blast-resistant-fortification.php'=> 'article-blast-resistant-fortification.js',
-        'page-article-safe-room-retrofit.php'           => 'article-safe-room-retrofit.js',
-        'page-article-passive-protection-gcc.php'       => 'article-passive-protection-gcc.js',
-        'page-article-qatar-infrastructure.php'         => 'article-qatar-infrastructure.js',
-    );
-
-    // Determine the current template.
-    $tpl = '';
-    if (is_front_page()) {
-        $tpl = 'front-page.php';
-    } elseif (is_page()) {
-        $slug = get_page_template_slug(get_queried_object_id());
-        if ($slug) { $tpl = $slug; }
-    }
-
+    // The site content (with its EN/HE strings) is spread across pages, so load
+    // all translation sources on every page, then the language engine last.
     $deps = array();
-
-    // Page-specific translations (loaded first).
-    if (isset($map[$tpl]) && file_exists(get_template_directory() . '/translations/' . $map[$tpl])) {
-        wp_enqueue_script('fortline-tr-page', $uri . '/translations/' . $map[$tpl], array(), $ver, true);
-        $deps[] = 'fortline-tr-page';
+    foreach (array('home.js', 'home-additions.js', 'shared.js') as $f) {
+        if (file_exists(get_template_directory() . '/translations/' . $f)) {
+            $h = 'fortline-tr-' . sanitize_title($f);
+            wp_enqueue_script($h, $uri . '/translations/' . $f, array(), $ver, true);
+            $deps[] = $h;
+        }
     }
-
-    // Extra homepage strings for the newer sections (Services, audiences, clients).
-    if ($tpl === 'front-page.php' && file_exists(get_template_directory() . '/translations/home-additions.js')) {
-        wp_enqueue_script('fortline-tr-additions', $uri . '/translations/home-additions.js', array(), $ver, true);
-        $deps[] = 'fortline-tr-additions';
-    }
-
-    // Shared strings (nav, footer, forms) on every page.
-    wp_enqueue_script('fortline-tr-shared', $uri . '/translations/shared.js', array(), $ver, true);
-    $deps[] = 'fortline-tr-shared';
-
-    // Language engine loads last, after all translation sources.
     wp_enqueue_script('fortline-lang', $uri . '/lang-system.js', $deps, $ver, true);
-
-    // RTL stylesheet (applies when <html dir="rtl">).
     wp_enqueue_style('fortline-rtl', $uri . '/lang-rtl.css', array('fortline-style'), $ver);
 }
 add_action('wp_enqueue_scripts', 'fortline_lang_assets');
@@ -93,14 +56,15 @@ add_action('after_setup_theme', 'fortline_setup');
  * This makes the theme work out of the box - no manual page creation needed
  */
 function fortline_activate() {
-    // Define all pages: slug => [title, template file]
-    // Single-page site: only the Home page is created; the homepage holds all
-    // sections. Legacy inner templates redirect to the homepage.
+    // Multi-page site: one real page per menu item, each with its own template.
     $pages = array(
-        'home' => array(
-            'title'    => 'Home',
-            'template' => 'front-page.php',
-        ),
+        'home'          => array('title' => 'Home',         'template' => 'front-page.php'),
+        'services'      => array('title' => 'Services',     'template' => 'page-services.php'),
+        'projects'      => array('title' => 'Projects',     'template' => 'page-projects.php'),
+        'who-we-serve'  => array('title' => 'Who We Serve', 'template' => 'page-customers.php'),
+        'about'         => array('title' => 'About',        'template' => 'page-about.php'),
+        'faq'           => array('title' => 'FAQ',          'template' => 'page-faq.php'),
+        'contact'       => array('title' => 'Contact',      'template' => 'page-contact.php'),
     );
 
     foreach ($pages as $slug => $page_data) {

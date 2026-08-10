@@ -1,9 +1,141 @@
-<?php
-/**
- * Footer Template
- */
-?>
+<?php /** Footer Template */ ?>
+<!-- ===== FOOTER ===== -->
+<footer>
+<div class="footer-inner">
+<div class="footer-brand">
+<div class="footer-logo">
+<img src="<?php echo get_template_directory_uri(); ?>/images/brand/ari-logo-horizontal-reversed.svg" alt="A.R.I. Faberman Engineering Solutions Ltd." class="footer-logo-img">
+</div>
+<p class="footer-tagline" data-i18n="footer.tagline">Civil-protection engineering  -  safe rooms (MAMAD), shelters and building-permit licensing, planned and built end to end.</p>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.services_h">Services</h4>
+<a href="<?php echo home_url('/services/'); ?>" data-i18n="footer.l_services">Our Services</a>
+<a href="<?php echo home_url('/projects/'); ?>" data-i18n="footer.l_projects">Projects</a>
+<a href="<?php echo home_url('/faq/'); ?>" data-i18n="footer.l_faq">FAQ</a>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.company_h">Company</h4>
+<a href="<?php echo home_url('/about/'); ?>" data-i18n="footer.l_about">About Us</a>
+<a href="<?php echo home_url('/who-we-serve/'); ?>" data-i18n="footer.l_serve">Who We Serve</a>
+<a href="<?php echo home_url('/about/'); ?>" data-i18n="footer.l_clients">Clients</a>
+</div>
+<div class="footer-col">
+<h4 data-i18n="footer.contact_h">Get in Touch</h4>
+<a href="tel:+972544757201">054-475-7201</a>
+<a href="mailto:Ari.engpm@gmail.com">Ari.engpm@gmail.com</a>
+<a href="#" data-i18n="footer.addr">Shamir, HaBazelet 8</a>
+</div>
+</div>
+<div class="footer-bar">
+<p>&copy; 2026 A.R.I. Faberman Engineering Solutions Ltd. All rights reserved.</p>
+</div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>try { emailjs.init('gHP8ZucvB2iLEtPVU'); } catch(e) {}</script>
 
+<script>
+// Who We Serve tabs
+function wwsShow(e,id){
+  document.querySelectorAll('.wws-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.wws-panel').forEach(p=>p.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById('wws-'+id).classList.add('active');
+}
+
+// Sticky nav
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>80));
+
+// Scroll fade-in
+const obs=new IntersectionObserver(entries=>{
+entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
+},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+
+// Counter animation
+const cObs=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+if(e.isIntersecting){
+const el=e.target;
+const target=parseInt(el.dataset.count);
+if(isNaN(target))return;
+const suffix=el.dataset.suffix||'';
+const dur=2000;const st=performance.now();
+const anim=now=>{
+const p=Math.min((now-st)/dur,1);
+const eased=1-Math.pow(1-p,3);
+const cur=Math.floor(eased*target);
+const formatted=target>=1000?cur.toLocaleString():cur;
+el.textContent=formatted+suffix;
+if(p<1)requestAnimationFrame(anim);
+};
+requestAnimationFrame(anim);
+cObs.unobserve(el);
+}
+});
+},{threshold:0.3});
+document.querySelectorAll('[data-count]').forEach(el=>cObs.observe(el));
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+a.addEventListener('click',e=>{
+e.preventDefault();
+const t=document.querySelector(a.getAttribute('href'));
+if(t)t.scrollIntoView({behavior:'smooth',block:'start'});
+});
+});
+
+// Contact form -send email via EmailJS
+(function(){
+const form=document.getElementById('contactForm');
+if(!form)return;
+form.addEventListener('submit',function(e){
+e.preventDefault();
+const btn=form.querySelector('.form-submit');
+const origText=btn.textContent;
+btn.textContent='Sending...';btn.disabled=true;
+
+const data={
+name:form.name.value,
+organization:form.organization.value,
+email:form.email.value,
+phone:form.phone.value,
+inquiry_type:form.inquiry_type.value,
+facility_type:form.facility_type.value,
+message:form.message.value
+};
+
+// Send via EmailJS
+emailjs.send('service_py23y6a','template_lgfttoi',{
+to_email:'Ari.engpm@gmail.com',
+from_name:data.name,
+from_email:data.email,
+organization:data.organization,
+phone:data.phone||'Not provided',
+inquiry_type:data.inquiry_type||'Not specified',
+facility_type:data.facility_type||'Not specified',
+message:data.message||'No message provided',
+subject:'New A.R.I. Faberman Inquiry from '+data.name
+}).then(function(){
+btn.textContent='Inquiry Submitted Successfully';
+btn.style.background='#16a34a';btn.style.color='#fff';
+form.reset();
+setTimeout(()=>{btn.textContent=origText;btn.style.background='';btn.style.color='';btn.disabled=false;},5000);
+},function(err){
+console.error('EmailJS error:',err);
+btn.textContent='Error -Please Try Again';
+btn.style.background='#dc2626';btn.style.color='#fff';
+btn.disabled=false;
+setTimeout(()=>{btn.textContent=origText;btn.style.background='';btn.style.color='';},4000);
+});
+});
+})();
+</script>
+<script>
+/* mark the current page's nav link active */
+(function(){try{var here=location.pathname.replace(/\/$/,'');document.querySelectorAll('.nav-links a,.footer-col a').forEach(function(a){var u=document.createElement('a');u.href=a.getAttribute('href')||'';if(u.pathname.replace(/\/$/,'')===here)a.classList.add('active');});}catch(e){}})();
+</script>
 <?php
 /* WhatsApp floating contact button (site-wide).
    Replace the number with the real WhatsApp number in international format:
@@ -23,6 +155,7 @@ $fortline_wa_msg   = rawurlencode('Hello, I would like to ask about protection s
 .fl-whatsapp:hover{transform:scale(1.08);box-shadow:0 8px 26px rgba(37,211,102,0.6)}
 @media(max-width:640px){.fl-whatsapp{right:16px;bottom:16px;width:52px;height:52px}}
 </style>
+
 
 <?php wp_footer(); ?>
 </body>
