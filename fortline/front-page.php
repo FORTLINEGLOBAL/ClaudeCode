@@ -988,7 +988,7 @@ Protection and engineering solutions for the private, public and municipal secto
 <!-- Card 1: Planning & Consulting -->
 <div class="svc-card primary fade-in">
 <div class="svc-img">
-<img src="<?php echo get_template_directory_uri(); ?>/images/facility-thumb.jpg" alt="Planning &amp; Consulting" loading="lazy">
+<img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj04.jpg" alt="Planning &amp; Consulting" loading="lazy">
 <div class="svc-num">01</div>
 </div>
 <div class="svc-body">
@@ -1008,7 +1008,7 @@ Protection and engineering solutions for the private, public and municipal secto
 <!-- Card 2: Construction & Execution -->
 <div class="svc-card accent fade-in fade-in-delay-1">
 <div class="svc-img">
-<img src="<?php echo get_template_directory_uri(); ?>/images/shield-thumb.jpg" alt="Construction &amp; Execution" loading="lazy">
+<img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj09.jpg" alt="Construction &amp; Execution" loading="lazy">
 <div class="svc-num">02</div>
 </div>
 <div class="svc-body">
@@ -1028,7 +1028,7 @@ Protection and engineering solutions for the private, public and municipal secto
 <!-- Card 3: Licensing & Permits -->
 <div class="svc-card govt fade-in fade-in-delay-2">
 <div class="svc-img">
-<img src="<?php echo get_template_directory_uri(); ?>/images/national-thumb.jpg" alt="Licensing &amp; Permits" loading="lazy">
+<img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj03.jpg" alt="Licensing &amp; Permits" loading="lazy">
 <div class="svc-num">03</div>
 </div>
 <div class="svc-body">
@@ -1049,6 +1049,18 @@ Protection and engineering solutions for the private, public and municipal secto
 </div>
 </section>
 
+
+<!-- ===== HOME CTA BAND ===== -->
+<section data-page="home" style="padding:4.5rem 0;background:var(--bg-dark);position:relative;overflow:hidden">
+<div class="container" style="text-align:center;position:relative;z-index:1">
+<div class="section-title fade-in" style="color:#fff;margin-bottom:0.6rem" data-i18n="cta.title">Ready to protect what matters most?</div>
+<p class="fade-in" style="color:rgba(255,255,255,0.7);max-width:640px;margin:0 auto 1.8rem;font-size:0.98rem;line-height:1.7" data-i18n="cta.sub">Book a free, no-obligation consultation. We visit, check your eligibility for state funding, and give you a clear plan and quote.</p>
+<div class="fade-in" style="display:flex;gap:0.9rem;justify-content:center;flex-wrap:wrap">
+<a href="#contact" class="btn-gold" data-i18n="cta.b1">Schedule a Consultation</a>
+<a href="https://wa.me/972544757201" target="_blank" rel="noopener" class="btn-white" data-i18n="cta.b2">Message on WhatsApp</a>
+</div>
+</div>
+</section>
 
 <!-- ===== OUR SERVICES (detailed) ===== -->
 <section style="padding:5rem 0;background:#fff;border-top:1px solid var(--border)" id="services" data-page="services">
@@ -1180,7 +1192,7 @@ Protection and engineering solutions for the private, public and municipal secto
     <a href="#contact" class="wws-cta">Explore Developer Solutions &rarr;</a>
   </div>
   <div class="wws-visual">
-    <img src="<?php echo get_template_directory_uri(); ?>/images/national-thumb.jpg" alt="Developments and construction projects">
+    <img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj03.jpg" alt="Developments and construction projects">
     <div class="wws-badge">Developers &amp; Companies</div>
   </div>
 </div>
