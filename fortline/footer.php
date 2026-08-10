@@ -45,7 +45,7 @@ function wwsShow(e,id){
 
 // Sticky nav — pages without a dark hero stay solid (readable) from the top
 const nav=document.getElementById('nav');
-const fortlineHasHero=!!document.getElementById('hero');
+const fortlineHasHero=!!document.querySelector('.hero, .page-hero');
 if(nav&&!fortlineHasHero){nav.classList.add('solid');}
 window.addEventListener('scroll',()=>{if(nav)nav.classList.toggle('scrolled',window.scrollY>80);});
 

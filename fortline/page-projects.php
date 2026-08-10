@@ -4,11 +4,20 @@
  */
 get_header(); ?>
 
+<!-- ===== PAGE HERO (video banner) ===== -->
+<section class="page-hero" id="hero">
+<video autoplay muted loop playsinline>
+<source src="<?php echo get_template_directory_uri(); ?>/images/Backgroundf.mp4" type="video/mp4">
+</video>
+<div class="ph-inner fade-in">
+<div class="ph-label" data-i18n="proj.label">Our Work</div>
+<h1 data-i18n="proj.title">Selected Projects</h1>
+<p data-i18n="proj.subtitle">From private safe rooms to institutional protected spaces and community-scale programs  -  planned, licensed and built end to end.</p>
+</div>
+</section>
+
 <section class="fl-proj" id="projects">
 <div class="container">
-<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="proj.label">Our Work</div>
-<div class="section-title fade-in" style="text-align:center" data-i18n="proj.title">Selected Projects</div>
-<p class="fade-in" style="color:var(--text-light);max-width:700px;margin:0.5rem auto 0;font-size:0.95rem;text-align:center;line-height:1.7" data-i18n="proj.subtitle">From private safe rooms to institutional protected spaces and community-scale programs  -  planned, licensed and built end to end.</p>
 <div class="fl-proj-grid fade-in">
 <?php
 $fortline_projects = array(

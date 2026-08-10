@@ -4,12 +4,21 @@
  */
 get_header(); ?>
 
+<!-- ===== PAGE HERO (video banner) ===== -->
+<section class="page-hero" id="hero">
+<video autoplay muted loop playsinline>
+<source src="<?php echo get_template_directory_uri(); ?>/images/Backgroundf.mp4" type="video/mp4">
+</video>
+<div class="ph-inner fade-in">
+<div class="ph-label">Who We Serve</div>
+<h1>Every Organization That Must Operate During Emergencies</h1>
+<p>From private homeowners to municipalities and developers  -  we deliver civil-protection consulting, planning and construction across three core audiences.</p>
+</div>
+</section>
+
 <!-- ===== WHO WE SERVE ===== -->
 <section style="padding:5rem 0;background:#fff" id="customers">
 <div class="container">
-<div class="section-label fade-in" style="text-align:center">Who We Serve</div>
-<div class="section-title fade-in" style="text-align:center">Every Organization That Must Operate During Emergencies</div>
-<p class="fade-in" style="color:var(--text-light);max-width:700px;margin:0.5rem auto 2.5rem;font-size:0.95rem;text-align:center">From private homeowners to municipalities and developers  -  we deliver civil-protection consulting, planning and construction across three core audiences.</p>
 
 <div class="wws-stack">
 
