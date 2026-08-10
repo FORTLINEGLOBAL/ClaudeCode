@@ -1645,23 +1645,39 @@ setTimeout(()=>{btn.textContent=origText;btn.style.background='';btn.style.color
 
 
 <script>
-/* Simple hash router: each menu item is its own "page" (sections tagged data-page). */
+/* Page router: each menu item is its own "page" (sections tagged data-page).
+   Routing is driven by real click handlers (NOT hash navigation), so it works
+   even inside sandboxed iframes / previews where changing location.hash is blocked. */
 (function(){
   var PAGES=['home','services','projects','serve','about','faq','contact'];
-  function current(){ var h=(location.hash||'').replace(/^#\/?/,'').toLowerCase(); return PAGES.indexOf(h)>=0?h:'home'; }
+  function pageOf(h){ h=(h||'').replace(/^#\/?/,'').toLowerCase(); return PAGES.indexOf(h)>=0?h:null; }
   function show(pg){
-    var init=document.getElementById('rp-init'); if(init){ init.remove(); }
+    pg = pg || 'home';
+    var init=document.getElementById('rp-init'); if(init){ init.parentNode && init.parentNode.removeChild(init); }
     document.querySelectorAll('section[data-page]').forEach(function(s){
       s.classList.toggle('rp-hidden', s.getAttribute('data-page')!==pg);
     });
-    document.querySelectorAll('.nav-links a, .mobile-menu a').forEach(function(a){
-      var href=(a.getAttribute('href')||'').replace('#','');
-      a.classList.toggle('active', href===pg);
+    document.querySelectorAll('.nav-links a, .mobile-menu a, .footer-col a').forEach(function(a){
+      a.classList.toggle('active', pageOf(a.getAttribute('href'))===pg);
     });
+    try { if (('#'+pg)!==location.hash) history.replaceState(null,'','#'+pg); } catch(e){}
     window.scrollTo(0,0);
   }
-  window.addEventListener('hashchange', function(){ show(current()); });
-  function init(){ show(current()); }
+  // Delegated click routing for every internal #page link (nav, mobile, footer, CTAs).
+  document.addEventListener('click', function(e){
+    var t=e.target; var a=(t && t.closest) ? t.closest('a[href]') : null;
+    if(!a) return;
+    var href=a.getAttribute('href')||'';
+    if(href.charAt(0)!=='#') return;         // leave external / tel / mailto / wa.me links alone
+    var pg=pageOf(href);
+    if(pg){
+      e.preventDefault();
+      var mm=document.getElementById('mobileMenu'); if(mm){ mm.classList.remove('open'); }
+      show(pg);
+    }
+  }, false);
+  window.addEventListener('hashchange', function(){ show(pageOf(location.hash)); });
+  function init(){ show(pageOf(location.hash)); }
   if (document.readyState==='loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
