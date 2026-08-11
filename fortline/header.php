@@ -153,14 +153,16 @@ font-weight:600 !important;transition:all 0.3s;
 .form-success h3{font-family:var(--font-heading);font-size:1.3rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem}
 .form-success p{font-size:0.95rem;color:var(--text-light);line-height:1.6;max-width:420px;margin:0 auto}
 .mobile-menu{
-
-display:none;position:fixed;top:0;left:0;right:0;bottom:0;
-background:rgba(255,255,255,0.98);z-index:1001;
-flex-direction:column;align-items:center;justify-content:center;gap:2rem;
+display:none;position:fixed;inset:0;z-index:1002;
+background:#0B162C;
+flex-direction:column;align-items:center;justify-content:center;gap:0.35rem;
+padding:5rem 1.4rem 2.5rem;overflow-y:auto;
 }
 .mobile-menu.open{display:flex}
-.mobile-menu a{font-size:1.2rem;color:var(--text-dark);font-weight:500}
-.mobile-close{position:absolute;top:1.5rem;right:1.5rem;font-size:1.8rem;color:var(--text-dark);cursor:pointer}
+.mobile-menu a{font-size:1.3rem;color:#fff;font-weight:600;width:100%;max-width:360px;text-align:center;padding:0.85rem 1rem;border-radius:10px;transition:background .2s}
+.mobile-menu a:hover,.mobile-menu a:active{background:rgba(255,255,255,0.08)}
+.mobile-menu a.btn-gold{background:var(--gold-light)!important;color:#fff!important;margin-top:1.1rem;font-weight:700}
+.mobile-close{position:absolute;top:1.3rem;right:1.5rem;font-size:2.1rem;line-height:1;color:#fff;cursor:pointer;z-index:2}
 
 /* ===== HERO -Rafael Iron Dome Style (Exact Copy) ===== */
 .hero{
@@ -704,6 +706,8 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 .nav-links{display:none}
 .hamburger{display:flex}
 .hamburger span{background:var(--text-dark)!important}
+.nav-right .nav-cta{display:none}
+.hamburger{margin-inline-start:auto}
 #why .container > div[style*="grid-template-columns"]{grid-template-columns:1fr !important;gap:1.5rem !important}
 #why .container > div[style*="grid-template-columns"] > div:first-child > div > div[style*="flex"]{gap:0.8rem !important;margin-bottom:1.2rem !important}
 #why .container > div[style*="grid-template-columns"] > div:first-child h3{font-size:0.95rem !important}
