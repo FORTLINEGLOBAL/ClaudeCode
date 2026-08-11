@@ -7,7 +7,7 @@ get_header(); ?>
 <!-- ===== PAGE HERO (video banner) ===== -->
 <section class="page-hero" id="hero">
 <video autoplay muted loop playsinline>
-<source src="<?php echo get_template_directory_uri(); ?>/images/Backgroundf.mp4" type="video/mp4">
+<source src="<?php echo get_template_directory_uri(); ?>/images/hero-projects.mp4" type="video/mp4">
 </video>
 <div class="ph-inner fade-in">
 <div class="ph-label" data-i18n="proj.label">Our Work</div>
