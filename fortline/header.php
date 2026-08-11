@@ -139,7 +139,7 @@ font-weight:600 !important;transition:all 0.3s;
 .wws-row.rev .wws-rc{order:2}
 @media(max-width:820px){.wws-row,.wws-row.rev{grid-template-columns:1fr}.wws-row.rev .wws-rc{order:0}}
 /* ===== interior page hero (video banner on inner pages) ===== */
-.page-hero{position:relative;min-height:50vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:var(--bg-dark);padding:7rem 1.5rem 4rem}
+.page-hero{position:relative;min-height:74vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;background:var(--bg-dark);padding:8rem 1.5rem 5rem}
 .page-hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 .page-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,22,40,.72),rgba(10,22,40,.86));z-index:1}
 .page-hero .ph-inner{position:relative;z-index:2;max-width:820px;margin:0 auto}
