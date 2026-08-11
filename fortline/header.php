@@ -942,7 +942,6 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <a href="<?php echo home_url('/faq/'); ?>" data-i18n="nav2.faq">FAQ</a>
 </div>
 <div class="nav-right">
-<div id="lang-toggle"></div>
 <a href="<?php echo home_url('/contact/'); ?>" class="nav-cta">Contact Us</a>
 </div>
 <div class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">

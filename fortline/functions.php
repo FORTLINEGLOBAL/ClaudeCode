@@ -16,28 +16,12 @@ function fortline_scripts() {
 add_action('wp_enqueue_scripts', 'fortline_scripts');
 
 /**
- * Multilingual system (EN default + HE).
- * Loads the page-specific translation file + shared strings + the language
- * engine (lang-system.js) in the correct dependency order, plus RTL styles.
+ * English-only build: the multilingual engine, translation files, RTL styles and
+ * the language toggle are intentionally NOT loaded. The pages render from their
+ * inline English content; any leftover data-i18n attributes are inert without the
+ * engine. (To re-enable EN/HE, restore lang-system.js + translations + lang-rtl.css
+ * and re-add the enqueue hook here, and the #lang-toggle in header.php.)
  */
-function fortline_lang_assets() {
-    $uri = get_template_directory_uri();
-    $ver = defined('FORTLINE_THEME_VERSION') ? FORTLINE_THEME_VERSION : '3.0';
-
-    // The site content (with its EN/HE strings) is spread across pages, so load
-    // all translation sources on every page, then the language engine last.
-    $deps = array();
-    foreach (array('home.js', 'home-additions.js', 'shared.js') as $f) {
-        if (file_exists(get_template_directory() . '/translations/' . $f)) {
-            $h = 'fortline-tr-' . sanitize_title($f);
-            wp_enqueue_script($h, $uri . '/translations/' . $f, array(), $ver, true);
-            $deps[] = $h;
-        }
-    }
-    wp_enqueue_script('fortline-lang', $uri . '/lang-system.js', $deps, $ver, true);
-    wp_enqueue_style('fortline-rtl', $uri . '/lang-rtl.css', array('fortline-style'), $ver);
-}
-add_action('wp_enqueue_scripts', 'fortline_lang_assets');
 
 /**
  * Theme support
