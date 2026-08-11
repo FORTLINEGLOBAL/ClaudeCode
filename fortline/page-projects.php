@@ -40,5 +40,8 @@ foreach ($fortline_projects as $pr): $proj_i++; ?>
 </section>
 
 
+<!-- ===== TRUSTED BY / CLIENT LOGO WALL (shared function) ===== -->
+<?php fortline_render_client_wall(array('bg' => 'var(--bg-light)')); ?>
+
 
 <?php get_footer(); ?>

@@ -117,7 +117,7 @@ get_header(); ?>
 </div>
 
 <div class="vcard">
-<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/institutional-building.jpg" alt="Public institutions" loading="lazy"></div>
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/facility-thumb.jpg" alt="Public institutions" loading="lazy"></div>
 <div class="vcard-body">
 <h4 data-i18n="area.c2_t">Public Institutions</h4>
 <p data-i18n="area.c2_p">Protected spaces for schools, kindergartens, clinics and public buildings for the Ministries of Education, Health and Welfare.</p>

@@ -107,7 +107,8 @@ phone:form.phone.value
 
 // Send via EmailJS
 emailjs.send('service_py23y6a','template_lgfttoi',{
-to_email:'Ari.engpm@gmail.com',
+to_email:'Ari.engpm@gmail.com, eddie.nudel@gmail.com',
+cc_email:'eddie.nudel@gmail.com',
 from_name:data.name,
 from_email:data.email,
 organization:data.organization||'Not provided',

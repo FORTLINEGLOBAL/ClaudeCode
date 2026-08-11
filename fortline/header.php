@@ -121,6 +121,18 @@ font-weight:600 !important;transition:all 0.3s;
 .vcard-body{padding:1.5rem 1.4rem;display:flex;flex-direction:column;gap:.55rem;flex:1}
 .vcard-body h4{font-family:var(--font-heading);font-size:1.05rem;font-weight:700;color:var(--text-dark);line-height:1.3;margin:0}
 .vcard-body p{font-size:.88rem;color:var(--text-light);line-height:1.65;margin:0}
+/* services: fewer, larger cards that fill each row evenly (3 + 2) */
+.services-grid{display:flex;flex-wrap:wrap;gap:1.6rem}
+.services-grid>.vcard{flex:1 1 30%;min-width:290px}
+.services-grid .vcard-img{height:230px}
+.services-grid .vcard-body{padding:1.7rem 1.6rem}
+.services-grid .vcard-body h4{font-size:1.2rem}
+.services-grid .vcard-body p{font-size:0.94rem}
+@media(max-width:900px){.services-grid>.vcard{flex:1 1 45%}}
+@media(max-width:600px){.services-grid>.vcard{flex:1 1 100%}}
+/* areas of activity: taller, centered images so nothing important is cropped */
+.areas-grid .vcard-img{height:250px}
+.areas-grid .vcard-img img{object-position:center}
 /* ===== stacked Who-We-Serve feature rows (replaces tabs) ===== */
 .wws-stack{display:flex;flex-direction:column;gap:3.6rem;margin-top:1rem}
 .wws-row{display:grid;grid-template-columns:1fr 1fr;gap:2.8rem;align-items:center}

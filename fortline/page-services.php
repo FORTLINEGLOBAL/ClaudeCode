@@ -37,7 +37,7 @@ get_header(); ?>
 </div>
 
 <div class="vcard">
-<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/institutional-building.jpg" alt="Public shelter rehabilitation" loading="lazy"><span class="vcard-kicker">Rehabilitation</span></div>
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj07.jpg" alt="Public shelter rehabilitation" loading="lazy"><span class="vcard-kicker">Rehabilitation</span></div>
 <div class="vcard-body">
 <h4>Public Shelter Rehabilitation</h4>
 <p>Rehabilitation and restoration of public shelters for municipal authorities  -  bringing communal protection back to operational, code-compliant condition.</p>
