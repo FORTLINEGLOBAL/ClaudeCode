@@ -102,10 +102,7 @@ const data={
 name:form.name.value,
 organization:form.organization.value,
 email:form.email.value,
-phone:form.phone.value,
-inquiry_type:form.inquiry_type.value,
-facility_type:form.facility_type.value,
-message:form.message.value
+phone:form.phone.value
 };
 
 // Send via EmailJS
@@ -113,17 +110,14 @@ emailjs.send('service_py23y6a','template_lgfttoi',{
 to_email:'Ari.engpm@gmail.com',
 from_name:data.name,
 from_email:data.email,
-organization:data.organization,
+organization:data.organization||'Not provided',
 phone:data.phone||'Not provided',
-inquiry_type:data.inquiry_type||'Not specified',
-facility_type:data.facility_type||'Not specified',
-message:data.message||'No message provided',
 subject:'New A.R.I. Faberman Inquiry from '+data.name
 }).then(function(){
-btn.textContent='Inquiry Submitted Successfully';
-btn.style.background='#16a34a';btn.style.color='#fff';
 form.reset();
-setTimeout(()=>{btn.textContent=origText;btn.style.background='';btn.style.color='';btn.disabled=false;},5000);
+var ok=document.getElementById('formSuccess');
+if(ok){ form.style.display='none'; ok.style.display='block'; ok.scrollIntoView({behavior:'smooth',block:'center'}); }
+else { btn.textContent='Inquiry Submitted Successfully'; btn.style.background='#16a34a'; btn.style.color='#fff'; }
 },function(err){
 console.error('EmailJS error:',err);
 btn.textContent='Error -Please Try Again';

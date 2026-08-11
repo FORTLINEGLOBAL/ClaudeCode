@@ -50,19 +50,19 @@ Protection and engineering solutions for the private, public and municipal secto
 <!-- Stats bar -pinned to bottom like Rafael -->
 <div class="hero-stats fade-in fade-in-delay-3">
 <div class="hero-stat">
-<div class="hero-stat-num" data-count="25" data-suffix="+">0</div>
+<div class="hero-stat-num">25+</div>
 <div class="hero-stat-label" data-i18n="stat.years">Years of<br>Experience</div>
 </div>
 <div class="hero-stat">
-<div class="hero-stat-num" data-count="12" data-suffix=",000+">0</div>
+<div class="hero-stat-num">12,000+</div>
 <div class="hero-stat-label" data-i18n="stat.mamads">Safe Rooms<br>(MAMADs) Built</div>
 </div>
 <div class="hero-stat">
-<div class="hero-stat-num" data-count="3" data-suffix=",000+">0</div>
+<div class="hero-stat-num">3,000+</div>
 <div class="hero-stat-label" data-i18n="stat.border">Northern-Border<br>MAMADs</div>
 </div>
 <div class="hero-stat">
-<div class="hero-stat-num" data-count="300" data-suffix="+">0</div>
+<div class="hero-stat-num">300+</div>
 <div class="hero-stat-label" data-i18n="stat.institutional">Institutional<br>Protected Spaces</div>
 </div>
 </div>

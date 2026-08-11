@@ -20,19 +20,15 @@ get_header(); ?>
 <div class="form-group"><label>Email Address *</label><input type="email" name="email" required placeholder="you@organization.com"></div>
 <div class="form-group"><label>Phone Number</label><input type="tel" name="phone" placeholder="054-000-0000"></div>
 </div>
-<div class="form-row">
-<div class="form-group">
-<label>Type of Inquiry</label>
-<select name="inquiry_type"><option value="">Select type</option><option>Safe Room (MAMAD) Construction</option><option>Security Room Upgrade</option><option>Public Shelter Rehabilitation</option><option>Protection Consulting / Permit</option><option>Other</option></select>
-</div>
-<div class="form-group">
-<label>Facility Type</label>
-<select name="facility_type"><option value="">Select facility</option><option>Private Home</option><option>Apartment Building</option><option>Kibbutz / Moshav</option><option>Public Institution</option><option>Local Authority</option><option>Business / Industry</option><option>Other</option></select>
-</div>
-</div>
-<div class="form-group"><label>Message</label><textarea name="message" placeholder="Tell us about your protection needs -all communications are strictly confidential"></textarea></div>
 <button type="submit" class="form-submit">Submit Inquiry &rarr;</button>
 </form>
+<div id="formSuccess" class="form-success" style="display:none" role="status" aria-live="polite">
+<div class="form-success-icon" aria-hidden="true">
+<svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+</div>
+<h3 data-i18n="ct.success_t">Thank you for reaching out</h3>
+<p data-i18n="ct.success_p">Your request has been received. Our team will review it and contact you shortly.</p>
+</div>
 </div>
 <div class="contact-info fade-in fade-in-delay-1">
 <div class="info-card">

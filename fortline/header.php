@@ -7,6 +7,14 @@
 <head>
 <meta charset="<?php bloginfo('charset'); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JTQVH594LV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-JTQVH594LV');
+</script>
 <link rel="icon" href="<?php echo get_template_directory_uri(); ?>/images/brand/ari-favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/images/brand/ari-favicon-180w.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -127,6 +135,11 @@ font-weight:600 !important;transition:all 0.3s;
 .page-hero h1{font-family:var(--font-heading);color:#fff;font-weight:700;line-height:1.12;font-size:clamp(2rem,4.6vw,3.1rem);margin:.7rem 0 0;text-wrap:balance}
 .page-hero p{color:rgba(255,255,255,.78);max-width:680px;margin:1rem auto 0;font-size:1rem;line-height:1.7}
 @media(max-width:640px){.page-hero{min-height:44vh;padding:6rem 1.2rem 3rem}}
+/* ===== contact form success message ===== */
+.form-success{text-align:center;padding:2.5rem 1.5rem;background:rgba(22,163,74,0.06);border:1px solid rgba(22,163,74,0.25);border-radius:14px}
+.form-success-icon{width:64px;height:64px;margin:0 auto 1rem;border-radius:50%;background:rgba(22,163,74,0.12);display:flex;align-items:center;justify-content:center}
+.form-success h3{font-family:var(--font-heading);font-size:1.3rem;font-weight:700;color:var(--text-dark);margin-bottom:0.5rem}
+.form-success p{font-size:0.95rem;color:var(--text-light);line-height:1.6;max-width:420px;margin:0 auto}
 .mobile-menu{
 
 display:none;position:fixed;top:0;left:0;right:0;bottom:0;
@@ -241,13 +254,13 @@ border-top:1px solid rgba(255,255,255,0.12);
 }
 .hero-stat{
 flex:1;
-padding:2rem 2.5rem;
+padding:1.05rem 2.5rem;
 text-align:left;
 border-right:1px solid rgba(255,255,255,0.1);
 }
 .hero-stat:last-child{border-right:none}
 .hero-stat-num{
-font-family:var(--font-heading);font-size:3rem;font-weight:300;
+font-family:var(--font-heading);font-size:2.3rem;font-weight:400;
 color:#fff;
 letter-spacing:-0.01em;
 }
