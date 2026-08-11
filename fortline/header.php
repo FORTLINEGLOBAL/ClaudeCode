@@ -194,7 +194,7 @@ flex:1;
 }
 .hero h1{
 font-family:var(--font-heading);
-font-size:7rem;font-weight:300;line-height:1.05;
+font-size:clamp(2.4rem,4.4vw,4rem);font-weight:400;line-height:1.08;
 color:#fff;
 margin-bottom:0.6rem;
 letter-spacing:-0.02em;
@@ -646,7 +646,7 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 
 /* ===== RESPONSIVE ===== */
 @media(max-width:1024px){
-.hero h1{font-size:5rem}
+.hero h1{font-size:clamp(2.2rem,5vw,3rem)}
 .hero-stat{padding:1.5rem 1.5rem}
 .hero-stat-num{font-size:2.4rem}
 .pillars-grid{grid-template-columns:1fr}
