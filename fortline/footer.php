@@ -28,7 +28,7 @@
 </div>
 </div>
 <div class="footer-bar">
-<p>&copy; 2026 A.R.I. Faberman Engineering Solutions Ltd. All rights reserved.</p>
+<p data-i18n-html="footer.copyright">&copy; 2026 A.R.I. Faberman Engineering Solutions Ltd. All rights reserved.</p>
 </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>

@@ -13,14 +13,14 @@ get_header(); ?>
 <div class="contact-form-box fade-in">
 <form id="contactForm">
 <div class="form-row">
-<div class="form-group"><label>Full Name *</label><input type="text" name="name" required placeholder="Your full name"></div>
-<div class="form-group"><label>Organization</label><input type="text" name="organization" placeholder="Company or government entity"></div>
+<div class="form-group"><label data-i18n="cf.name">Full Name *</label><input type="text" name="name" required dir="auto" placeholder="Your full name" data-i18n-ph="cf.name_ph"></div>
+<div class="form-group"><label data-i18n="cf.org">Organization</label><input type="text" name="organization" dir="auto" placeholder="Company or government entity" data-i18n-ph="cf.org_ph"></div>
 </div>
 <div class="form-row">
-<div class="form-group"><label>Email Address *</label><input type="email" name="email" required placeholder="you@organization.com"></div>
-<div class="form-group"><label>Phone Number</label><input type="tel" name="phone" placeholder="054-000-0000"></div>
+<div class="form-group"><label data-i18n="cf.email">Email Address *</label><input type="email" name="email" required dir="auto" placeholder="you@organization.com" data-i18n-ph="cf.email_ph"></div>
+<div class="form-group"><label data-i18n="cf.phone">Phone Number</label><input type="tel" name="phone" dir="auto" placeholder="054-000-0000" data-i18n-ph="cf.phone_ph"></div>
 </div>
-<button type="submit" class="form-submit">Submit Inquiry &rarr;</button>
+<button type="submit" class="form-submit" data-i18n="cf.submit">Submit Inquiry &rarr;</button>
 </form>
 <div id="formSuccess" class="form-success" style="display:none" role="status" aria-live="polite">
 <div class="form-success-icon" aria-hidden="true">

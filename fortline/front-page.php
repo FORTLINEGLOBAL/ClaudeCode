@@ -34,7 +34,7 @@ get_header(); ?>
 
 <!-- Right column -main text -->
 <div class="hero-right">
-<h1 class="fade-in" data-i18n="hero.headline">
+<h1 class="fade-in" data-i18n-html="hero.headline">
 Leaders in Civil<br>Protection &amp; Engineering<span class="red-dot">.</span>
 </h1>
 <p class="hero-sub fade-in fade-in-delay-1" data-i18n="hero.sub">
@@ -50,26 +50,26 @@ Protection and engineering solutions for the private, public and municipal secto
 <!-- Stats bar -pinned to bottom like Rafael -->
 <div class="hero-stats fade-in fade-in-delay-3">
 <div class="hero-stat">
-<div class="hero-stat-num">25+</div>
-<div class="hero-stat-label" data-i18n="stat.years">Years of<br>Experience</div>
+<div class="hero-stat-num" dir="ltr">25+</div>
+<div class="hero-stat-label" data-i18n-html="stat.years">Years of<br>Experience</div>
 </div>
 <div class="hero-stat">
-<div class="hero-stat-num">12,000+</div>
-<div class="hero-stat-label" data-i18n="stat.mamads">Safe Rooms<br>(MAMADs) Built</div>
+<div class="hero-stat-num" dir="ltr">12,000+</div>
+<div class="hero-stat-label" data-i18n-html="stat.mamads">Safe Rooms<br>(MAMADs) Built</div>
 </div>
 <div class="hero-stat">
-<div class="hero-stat-num">3,000+</div>
-<div class="hero-stat-label" data-i18n="stat.border">Northern-Border<br>MAMADs</div>
+<div class="hero-stat-num" dir="ltr">3,000+</div>
+<div class="hero-stat-label" data-i18n-html="stat.border">Northern-Border<br>MAMADs</div>
 </div>
 <div class="hero-stat">
-<div class="hero-stat-num">300+</div>
-<div class="hero-stat-label" data-i18n="stat.institutional">Institutional<br>Protected Spaces</div>
+<div class="hero-stat-num" dir="ltr">300+</div>
+<div class="hero-stat-label" data-i18n-html="stat.institutional">Institutional<br>Protected Spaces</div>
 </div>
 </div>
 
 <!-- Mobile CTA between stats and next section -->
 <div class="hero-mobile-cta" style="display:none;padding:1.5rem 1.5rem 2rem;text-align:center;background:var(--bg-dark)">
-<a href="<?php echo home_url('/contact/'); ?>" class="btn-gold" style="display:inline-block;width:100%;max-width:400px;padding:1rem 2rem;font-size:1rem;text-align:center">Contact Us &rarr;</a>
+<a href="<?php echo home_url('/contact/'); ?>" class="btn-gold" style="display:inline-block;width:100%;max-width:400px;padding:1rem 2rem;font-size:1rem;text-align:center" data-i18n="nav2.contact_arrow">Contact Us &rarr;</a>
 </div>
 
 </section>

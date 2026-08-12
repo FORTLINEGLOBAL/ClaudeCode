@@ -7,48 +7,48 @@ get_header(); ?>
 <!-- ===== OUR SERVICES (detailed) ===== -->
 <section style="padding:5rem 0;background:#fff;border-top:1px solid var(--border)" id="services">
 <div class="container">
-<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)">What We Do</div>
-<div class="section-title fade-in" style="text-align:center">Our Services</div>
-<p class="fade-in" style="color:var(--text-light);max-width:720px;margin:0.5rem auto 2.5rem;font-size:0.95rem;text-align:center;line-height:1.7">End-to-end civil protection  -  from Home Front Command licensing and protected-space construction to upgrades, public-shelter rehabilitation, and statutory consulting.</p>
+<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="svc.label">What We Do</div>
+<div class="section-title fade-in" style="text-align:center" data-i18n="svc.title">Our Services</div>
+<p class="fade-in" style="color:var(--text-light);max-width:720px;margin:0.5rem auto 2.5rem;font-size:0.95rem;text-align:center;line-height:1.7" data-i18n="svc.sub">End-to-end civil protection  -  from Home Front Command licensing and protected-space construction to upgrades, public-shelter rehabilitation, and statutory consulting.</p>
 <div class="vgrid fade-in services-grid">
 
 <div class="vcard">
-<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj01.jpg" alt="Protective rooms and fortified structures" loading="lazy"><span class="vcard-kicker">Supply &amp; Licensing</span></div>
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj01.jpg" alt="Protective rooms and fortified structures" loading="lazy"><span class="vcard-kicker" data-i18n="svc.c1_k">Supply &amp; Licensing</span></div>
 <div class="vcard-body">
-<h4>Protective Rooms &amp; Structures Supply</h4>
-<p>Supply of protective rooms and fortified structures, including Home Front Command licensing for model approval and registration in the official HFC (Pikud HaOref) database.</p>
+<h4 data-i18n="svc.c1_t">Protective Rooms &amp; Structures Supply</h4>
+<p data-i18n="svc.c1_d">Supply of protective rooms and fortified structures, including Home Front Command licensing for model approval and registration in the official HFC (Pikud HaOref) database.</p>
 </div>
 </div>
 
 <div class="vcard">
-<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/rebar-construction.jpg" alt="Protected space construction" loading="lazy"><span class="vcard-kicker">Construction</span></div>
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/rebar-construction.jpg" alt="Protected space construction" loading="lazy"><span class="vcard-kicker" data-i18n="svc.c2_k">Construction</span></div>
 <div class="vcard-body">
-<h4>Protected Space Construction</h4>
-<p>End-to-end design and construction of protected spaces (safe rooms / MAMAD) for private clients, kibbutzim, moshavim and more  -  full-service coverage for individuals and organizations.</p>
+<h4 data-i18n="svc.c2_t">Protected Space Construction</h4>
+<p data-i18n="svc.c2_d">End-to-end design and construction of protected spaces (safe rooms / MAMAD) for private clients, kibbutzim, moshavim and more  -  full-service coverage for individuals and organizations.</p>
 </div>
 </div>
 
 <div class="vcard">
-<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj05.jpg" alt="Security and existing room upgrades" loading="lazy"><span class="vcard-kicker">Upgrades</span></div>
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj05.jpg" alt="Security and existing room upgrades" loading="lazy"><span class="vcard-kicker" data-i18n="svc.c3_k">Upgrades</span></div>
 <div class="vcard-body">
-<h4>Security &amp; Existing Room Upgrades</h4>
-<p>Upgrading security rooms and existing rooms to protective standard using Home Front Command&ndash;approved technologies  -  no demolition required.</p>
+<h4 data-i18n="svc.c3_t">Security &amp; Existing Room Upgrades</h4>
+<p data-i18n="svc.c3_d">Upgrading security rooms and existing rooms to protective standard using Home Front Command&ndash;approved technologies  -  no demolition required.</p>
 </div>
 </div>
 
 <div class="vcard">
-<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj07.jpg" alt="Public shelter rehabilitation" loading="lazy"><span class="vcard-kicker">Rehabilitation</span></div>
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/projects/proj07.jpg" alt="Public shelter rehabilitation" loading="lazy"><span class="vcard-kicker" data-i18n="svc.c4_k">Rehabilitation</span></div>
 <div class="vcard-body">
-<h4>Public Shelter Rehabilitation</h4>
-<p>Rehabilitation and restoration of public shelters for municipal authorities  -  bringing communal protection back to operational, code-compliant condition.</p>
+<h4 data-i18n="svc.c4_t">Public Shelter Rehabilitation</h4>
+<p data-i18n="svc.c4_d">Rehabilitation and restoration of public shelters for municipal authorities  -  bringing communal protection back to operational, code-compliant condition.</p>
 </div>
 </div>
 
 <div class="vcard">
-<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/permit-step1.jpg" alt="Protection consulting and permitting" loading="lazy"><span class="vcard-kicker">Consulting</span></div>
+<div class="vcard-img"><img src="<?php echo get_template_directory_uri(); ?>/images/permit-step1.jpg" alt="Protection consulting and permitting" loading="lazy"><span class="vcard-kicker" data-i18n="svc.c5_k">Consulting</span></div>
 <div class="vcard-body">
-<h4>Protection Consulting &amp; Permitting</h4>
-<p>Protection consulting throughout statutory processes and building-permit procedures  -  including Home Front Command approvals and exceptions committees.</p>
+<h4 data-i18n="svc.c5_t">Protection Consulting &amp; Permitting</h4>
+<p data-i18n="svc.c5_d">Protection consulting throughout statutory processes and building-permit procedures  -  including Home Front Command approvals and exceptions committees.</p>
 </div>
 </div>
 

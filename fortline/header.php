@@ -2,8 +2,9 @@
 /**
  * Header Template
  */
+$ari_lang = (isset($_COOKIE['ari_lang']) && $_COOKIE['ari_lang'] === 'he') ? 'he' : 'en';
 ?><!DOCTYPE html>
-<html <?php language_attributes(); ?>>
+<html lang="<?php echo $ari_lang; ?>" dir="<?php echo $ari_lang === 'he' ? 'rtl' : 'ltr'; ?>">
 <head>
 <meta charset="<?php bloginfo('charset'); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +20,7 @@
 <link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/images/brand/ari-favicon-180w.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Heebo:wght@300;400;500;600;700;800;900&family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>
@@ -946,7 +947,8 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <a href="<?php echo home_url('/faq/'); ?>" data-i18n="nav2.faq">FAQ</a>
 </div>
 <div class="nav-right">
-<a href="<?php echo home_url('/contact/'); ?>" class="nav-cta">Contact Us</a>
+<div id="lang-toggle" class="js-lang-toggle"></div>
+<a href="<?php echo home_url('/contact/'); ?>" class="nav-cta" data-i18n="nav2.contact">Contact Us</a>
 </div>
 <div class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">
 <span></span><span></span><span></span>
@@ -961,5 +963,6 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <a href="<?php echo home_url('/who-we-serve/'); ?>" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.serve">Who We Serve</a>
 <a href="<?php echo home_url('/about/'); ?>" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.about">About</a>
 <a href="<?php echo home_url('/faq/'); ?>" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.faq">FAQ</a>
-<a href="<?php echo home_url('/contact/'); ?>" onclick="this.parentElement.classList.remove('open')" class="btn-gold" style="margin-top:1rem">Contact Us</a>
+<div class="js-lang-toggle mobile-lang"></div>
+<a href="<?php echo home_url('/contact/'); ?>" onclick="this.parentElement.classList.remove('open')" class="btn-gold" style="margin-top:1rem" data-i18n="nav2.contact">Contact Us</a>
 </div>

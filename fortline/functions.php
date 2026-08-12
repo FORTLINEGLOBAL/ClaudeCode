@@ -16,12 +16,19 @@ function fortline_scripts() {
 add_action('wp_enqueue_scripts', 'fortline_scripts');
 
 /**
- * English-only build: the multilingual engine, translation files, RTL styles and
- * the language toggle are intentionally NOT loaded. The pages render from their
- * inline English content; any leftover data-i18n attributes are inert without the
- * engine. (To re-enable EN/HE, restore lang-system.js + translations + lang-rtl.css
- * and re-add the enqueue hook here, and the #lang-toggle in header.php.)
+ * Bilingual EN/HE: load the Hebrew dictionary, the language engine and the RTL
+ * stylesheet. English is the source in the markup; the engine swaps [data-i18n]
+ * content to Hebrew and flips <html dir="rtl"> on toggle (remembered by cookie).
  */
+function fortline_lang_assets() {
+    $uri = get_template_directory_uri();
+    $ver = defined('FORTLINE_THEME_VERSION') ? FORTLINE_THEME_VERSION : '3.0';
+    // dictionary first, then the engine (depends on window.ARI_I18N)
+    wp_enqueue_script('ari-i18n', $uri . '/i18n.js', array(), $ver, true);
+    wp_enqueue_script('ari-lang', $uri . '/lang-system.js', array('ari-i18n'), $ver, true);
+    wp_enqueue_style('ari-rtl', $uri . '/lang-rtl.css', array('fortline-style'), $ver);
+}
+add_action('wp_enqueue_scripts', 'fortline_lang_assets');
 
 /**
  * Theme support
@@ -206,9 +213,9 @@ function fortline_render_client_wall($args = array()) {
     ?>
 <section class="fl-clients" id="clients" style="background:<?php echo esc_attr($d['bg']); ?>">
 <div class="container">
-<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)"><?php echo esc_html($d['label']); ?></div>
-<div class="section-title fade-in" style="text-align:center"><?php echo esc_html($d['title']); ?></div>
-<p class="fade-in" style="color:var(--text-light);max-width:680px;margin:0.5rem auto 0;font-size:0.95rem;text-align:center;line-height:1.7"><?php echo esc_html($d['sub']); ?></p>
+<div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="clients.label"><?php echo esc_html($d['label']); ?></div>
+<div class="section-title fade-in" style="text-align:center" data-i18n="clients.title"><?php echo esc_html($d['title']); ?></div>
+<p class="fade-in" style="color:var(--text-light);max-width:680px;margin:0.5rem auto 0;font-size:0.95rem;text-align:center;line-height:1.7" data-i18n="clients.sub"><?php echo esc_html($d['sub']); ?></p>
 <div class="fl-clients-grid fade-in">
 <?php foreach ($clients as $c):
     $has = !empty($c['file']) && file_exists($dir . $c['file']); ?>
