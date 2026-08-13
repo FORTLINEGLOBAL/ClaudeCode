@@ -6,7 +6,7 @@ get_header(); ?>
 
 <!-- ===== WHY: THE NEED ===== -->
 <section style="padding:5rem 0;background:var(--bg-dark);position:relative;overflow:hidden" id="why">
-<div style="position:absolute;top:0;left:0;right:0;bottom:0;opacity:0.06;background:url('threat-image.jpg') center/cover no-repeat"></div>
+<div style="position:absolute;top:0;left:0;right:0;bottom:0;opacity:0.06;background:url('<?php echo get_template_directory_uri(); ?>/images/threat-image.jpg') center/cover no-repeat"></div>
 <div class="container" style="position:relative;z-index:1">
 <div class="section-label fade-in" style="text-align:center;color:var(--gold-bright)" data-i18n="who.label">Who We Are</div>
 <div class="section-title fade-in" style="text-align:center;color:#fff" data-i18n="who.title">Two Decades Inside Israel's Home Front Command</div>
