@@ -58,7 +58,7 @@ html[dir="rtl"] details summary { text-align: right; }
 .lang-btn {
   background: transparent;
   border: 1px solid rgba(255,255,255,0.30);
-  color: inherit;
+  color: #fff;
   padding: 0.4rem 0.9rem;
   border-radius: 7px;
   cursor: pointer;
