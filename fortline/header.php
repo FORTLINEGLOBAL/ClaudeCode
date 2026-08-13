@@ -708,7 +708,10 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 .hamburger{display:flex}
 .hamburger span{background:var(--text-dark)!important}
 .nav-right .nav-cta{display:none}
-.hamburger{margin-inline-start:auto}
+/* the mobile nav is forced white (above), so the top-bar language button needs dark ink to be visible from the top — not only once scrolled */
+.nav-right .lang-btn{color:var(--text-dark);border-color:rgba(17,24,39,0.28)}
+.nav-right{margin-inline-start:auto;gap:0.5rem}
+.hamburger{margin-inline-start:0.6rem}
 #why .container > div[style*="grid-template-columns"]{grid-template-columns:1fr !important;gap:1.5rem !important}
 #why .container > div[style*="grid-template-columns"] > div:first-child > div > div[style*="flex"]{gap:0.8rem !important;margin-bottom:1.2rem !important}
 #why .container > div[style*="grid-template-columns"] > div:first-child h3{font-size:0.95rem !important}
@@ -947,7 +950,7 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <a href="<?php echo home_url('/faq/'); ?>" data-i18n="nav2.faq">FAQ</a>
 </div>
 <div class="nav-right">
-<div id="lang-toggle" class="js-lang-toggle"></div>
+<div id="lang-toggle" class="js-lang-toggle"><button type="button" class="lang-btn" lang="he" aria-label="עבור לעברית" onclick="if(window.switchLanguage)switchLanguage('he')">עברית</button></div>
 <a href="<?php echo home_url('/contact/'); ?>" class="nav-cta" data-i18n="nav2.contact">Contact Us</a>
 </div>
 <div class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">
@@ -963,6 +966,6 @@ footer{background:#0a1628;padding:4rem 2rem 2rem;color:#fff}
 <a href="<?php echo home_url('/who-we-serve/'); ?>" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.serve">Who We Serve</a>
 <a href="<?php echo home_url('/about/'); ?>" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.about">About</a>
 <a href="<?php echo home_url('/faq/'); ?>" onclick="this.parentElement.classList.remove('open')" data-i18n="nav2.faq">FAQ</a>
-<div class="js-lang-toggle mobile-lang"></div>
+<div class="js-lang-toggle mobile-lang"><button type="button" class="lang-btn" lang="he" aria-label="עבור לעברית" onclick="if(window.switchLanguage)switchLanguage('he')">עברית</button></div>
 <a href="<?php echo home_url('/contact/'); ?>" onclick="this.parentElement.classList.remove('open')" class="btn-gold" style="margin-top:1rem" data-i18n="nav2.contact">Contact Us</a>
 </div>
