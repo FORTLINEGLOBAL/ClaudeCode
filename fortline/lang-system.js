@@ -75,10 +75,33 @@
     current = lang; apply(lang); setDir(lang); setCookie(lang); renderToggle();
   };
 
+  // The applied language is the source of truth for direction. If anything else
+  // on the page (e.g. a translation plugin) flips <html dir/lang> out of sync,
+  // restore it to match `current` so we never end up English-in-RTL.
+  function enforceConsistency() {
+    var html = document.documentElement;
+    var wantDir = RTL.indexOf(current) >= 0 ? 'rtl' : 'ltr';
+    if (html.getAttribute('dir') !== wantDir) html.setAttribute('dir', wantDir);
+    if (html.getAttribute('lang') !== current) html.setAttribute('lang', current);
+  }
+
   function init() {
     capture();
     var saved = getCookie();
     current = saved; apply(saved); setDir(saved); renderToggle();
+    enforceConsistency();
+    // Re-assert after late scripts/plugins run and on bfcache restore.
+    window.addEventListener('load', enforceConsistency);
+    window.addEventListener('pageshow', enforceConsistency);
+    // Guard against an external script flipping <html dir/lang> post-load.
+    // (Only re-asserts on a genuine mismatch, so it settles in one pass — no loop.)
+    try {
+      new MutationObserver(function () {
+        var html = document.documentElement;
+        var wantDir = RTL.indexOf(current) >= 0 ? 'rtl' : 'ltr';
+        if (html.getAttribute('dir') !== wantDir || html.getAttribute('lang') !== current) enforceConsistency();
+      }).observe(document.documentElement, { attributes: true, attributeFilter: ['dir', 'lang'] });
+    } catch (e) {}
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);

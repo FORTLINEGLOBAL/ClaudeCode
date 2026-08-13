@@ -79,3 +79,26 @@ html[dir="rtl"] details summary { text-align: right; }
 .mobile-lang { width: 100%; max-width: 360px; display: flex; justify-content: center; margin-top: 0.4rem; }
 .mobile-lang .lang-btn { width: 100%; text-align: center; padding: 0.75rem 1rem; font-size: 1rem; border-color: rgba(255,255,255,0.3); color: #fff; }
 .js-lang-toggle:empty { display: none; }
+
+/* Desktop toggle: keep it clean and vertically centred beside the CTA */
+#lang-toggle.js-lang-toggle { display: flex; align-items: center; }
+.nav-right { flex-wrap: nowrap; }
+
+/* =====================================================================
+   Suppress third-party translation-plugin flag switchers.
+   This theme ships a complete EN/HE engine (lang-system.js) whose only UI
+   is the text "עברית / English" button. If a translation plugin (GTranslate,
+   TranslatePress, WPML, Polylang, Weglot, …) is also active it injects a
+   duplicate flag/dropdown switcher that fights this system. Hide those so the
+   built-in text toggle is the single language control. (No-op if absent.)
+   ===================================================================== */
+.gtranslate_wrapper, #gtranslate_selector, .gt_container, .gt_float_switcher,
+#gt_float_wrapper, .gtranslate_selector, .glink,
+.trp-language-switcher, #trp-floater-ls, .trp_language_switcher_shortcode,
+.trp-ls-shortcode-current-language, .trp-floater,
+.wpml-ls, .wpml-ls-legacy-dropdown, .wpml-ls-legacy-list-horizontal,
+.pll-switcher, #pll_switcher, .lang_switcher_widget, .polylang, ul.pll-switcher,
+.weglot-container, #weglot_here, .country-selector.wg-drop,
+.menu-item-language, .flag-select, select.language-picker {
+  display: none !important;
+}
