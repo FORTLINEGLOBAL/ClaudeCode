@@ -40,6 +40,7 @@ html[dir="rtl"] .svc-num     { left: auto; right: 1.5rem; }
 html[dir="rtl"] .mobile-close{ right: auto; left: 1.5rem; }
 
 /* ===== text alignment that was hard-set to left ===== */
+html[dir="rtl"] .hero-right,
 html[dir="rtl"] .footer-col a,
 html[dir="rtl"] .footer-col h4,
 html[dir="rtl"] .footer-brand,
