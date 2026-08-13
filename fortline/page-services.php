@@ -4,6 +4,18 @@
  */
 get_header(); ?>
 
+<!-- ===== PAGE HERO (video banner) ===== -->
+<section class="page-hero" id="hero">
+<video autoplay muted loop playsinline>
+<source src="<?php echo get_template_directory_uri(); ?>/images/hero-services.mp4" type="video/mp4">
+</video>
+<div class="ph-inner fade-in">
+<div class="ph-label" data-i18n="svc.hero_label">Our Services</div>
+<h1 data-i18n="svc.hero_title">Protection, Engineered End to End</h1>
+<p data-i18n="svc.hero_sub">From Home Front Command licensing to construction, upgrades and statutory consulting  -  one accountable team across the full project lifecycle.</p>
+</div>
+</section>
+
 <!-- ===== OUR SERVICES (detailed) ===== -->
 <section style="padding:5rem 0;background:#fff;border-top:1px solid var(--border)" id="services">
 <div class="container">
