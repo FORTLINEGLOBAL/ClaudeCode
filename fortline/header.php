@@ -18,9 +18,7 @@ $ari_lang = (isset($_COOKIE['ari_lang']) && $_COOKIE['ari_lang'] === 'he') ? 'he
 </script>
 <link rel="icon" href="<?php echo get_template_directory_uri(); ?>/images/brand/ari-favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/images/brand/ari-favicon-180w.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Heebo:wght@300;400;500;600;700;800;900&family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Webfonts are self-hosted and enqueued as 'ari-fonts' (see functions.php / fonts.css) -->
 <?php wp_head(); ?>
 </head>
 <body <?php body_class(); ?>>

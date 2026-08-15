@@ -11,7 +11,11 @@ if (!defined('FORTLINE_THEME_VERSION')) {
  * Enqueue scripts and styles
  */
 function fortline_scripts() {
-    wp_enqueue_style('fortline-style', get_stylesheet_uri());
+    // Self-hosted webfonts (Inter/Space Grotesk/Heebo/Rubik) — bundled so the site
+    // renders identically without depending on the Google Fonts CDN. Loaded first
+    // so @font-face is defined before the theme styles use it.
+    wp_enqueue_style('ari-fonts', get_template_directory_uri() . '/fonts.css', array(), defined('FORTLINE_THEME_VERSION') ? FORTLINE_THEME_VERSION : '3.0');
+    wp_enqueue_style('fortline-style', get_stylesheet_uri(), array('ari-fonts'));
 }
 add_action('wp_enqueue_scripts', 'fortline_scripts');
 
