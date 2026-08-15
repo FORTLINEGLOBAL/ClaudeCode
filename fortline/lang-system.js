@@ -76,13 +76,18 @@
   };
 
   // The applied language is the source of truth for direction. If anything else
-  // on the page (e.g. a translation plugin) flips <html dir/lang> out of sync,
+  // on the page (e.g. a translation plugin) flips the document out of sync,
   // restore it to match `current` so we never end up English-in-RTL.
+  function wantDir() { return RTL.indexOf(current) >= 0 ? 'rtl' : 'ltr'; }
   function enforceConsistency() {
-    var html = document.documentElement;
-    var wantDir = RTL.indexOf(current) >= 0 ? 'rtl' : 'ltr';
-    if (html.getAttribute('dir') !== wantDir) html.setAttribute('dir', wantDir);
+    var html = document.documentElement, w = wantDir();
+    if (html.getAttribute('dir') !== w) html.setAttribute('dir', w);
     if (html.getAttribute('lang') !== current) html.setAttribute('lang', current);
+    // Some plugins set direction on <body> instead of <html>; keep it in sync too.
+    if (document.body) {
+      var bd = document.body.getAttribute('dir');
+      if (bd && bd !== w) document.body.setAttribute('dir', w);
+    }
   }
 
   function init() {
@@ -90,17 +95,22 @@
     var saved = getCookie();
     current = saved; apply(saved); setDir(saved); renderToggle();
     enforceConsistency();
-    // Re-assert after late scripts/plugins run and on bfcache restore.
+    // Re-assert across the load lifecycle to beat late plugin scripts, plus bfcache.
+    [50, 200, 500, 1200].forEach(function (t) { setTimeout(enforceConsistency, t); });
     window.addEventListener('load', enforceConsistency);
     window.addEventListener('pageshow', enforceConsistency);
-    // Guard against an external script flipping <html dir/lang> post-load.
+    // Guard against an external script flipping direction post-load.
     // (Only re-asserts on a genuine mismatch, so it settles in one pass — no loop.)
     try {
-      new MutationObserver(function () {
-        var html = document.documentElement;
-        var wantDir = RTL.indexOf(current) >= 0 ? 'rtl' : 'ltr';
-        if (html.getAttribute('dir') !== wantDir || html.getAttribute('lang') !== current) enforceConsistency();
-      }).observe(document.documentElement, { attributes: true, attributeFilter: ['dir', 'lang'] });
+      var mo = new MutationObserver(function () {
+        var html = document.documentElement, w = wantDir();
+        if (html.getAttribute('dir') !== w || html.getAttribute('lang') !== current ||
+            (document.body && document.body.getAttribute('dir') && document.body.getAttribute('dir') !== w)) {
+          enforceConsistency();
+        }
+      });
+      mo.observe(document.documentElement, { attributes: true, attributeFilter: ['dir', 'lang'] });
+      if (document.body) mo.observe(document.body, { attributes: true, attributeFilter: ['dir'] });
     } catch (e) {}
   }
 

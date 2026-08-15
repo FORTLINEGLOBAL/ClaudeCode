@@ -4,18 +4,29 @@
  */
 
 if (!defined('FORTLINE_THEME_VERSION')) {
-    define('FORTLINE_THEME_VERSION', '2.0.0');
+    define('FORTLINE_THEME_VERSION', '3.1.0');
 }
 
 /**
  * Enqueue scripts and styles
  */
+/**
+ * Cache-busting version for an asset: its file modification time, so browsers and
+ * caches always pick up the latest file after a theme update (a static version
+ * string would keep serving stale JS/CSS from the previous upload).
+ */
+function fortline_asset_ver($rel) {
+    $path = get_template_directory() . '/' . ltrim($rel, '/');
+    return file_exists($path) ? filemtime($path) : FORTLINE_THEME_VERSION;
+}
+
 function fortline_scripts() {
+    $uri = get_template_directory_uri();
     // Self-hosted webfonts (Inter/Space Grotesk/Heebo/Rubik) — bundled so the site
     // renders identically without depending on the Google Fonts CDN. Loaded first
     // so @font-face is defined before the theme styles use it.
-    wp_enqueue_style('ari-fonts', get_template_directory_uri() . '/fonts.css', array(), defined('FORTLINE_THEME_VERSION') ? FORTLINE_THEME_VERSION : '3.0');
-    wp_enqueue_style('fortline-style', get_stylesheet_uri(), array('ari-fonts'));
+    wp_enqueue_style('ari-fonts', $uri . '/fonts.css', array(), fortline_asset_ver('fonts.css'));
+    wp_enqueue_style('fortline-style', get_stylesheet_uri(), array('ari-fonts'), fortline_asset_ver('style.css'));
 }
 add_action('wp_enqueue_scripts', 'fortline_scripts');
 
@@ -26,11 +37,11 @@ add_action('wp_enqueue_scripts', 'fortline_scripts');
  */
 function fortline_lang_assets() {
     $uri = get_template_directory_uri();
-    $ver = defined('FORTLINE_THEME_VERSION') ? FORTLINE_THEME_VERSION : '3.0';
-    // dictionary first, then the engine (depends on window.ARI_I18N)
-    wp_enqueue_script('ari-i18n', $uri . '/i18n.js', array(), $ver, true);
-    wp_enqueue_script('ari-lang', $uri . '/lang-system.js', array('ari-i18n'), $ver, true);
-    wp_enqueue_style('ari-rtl', $uri . '/lang-rtl.css', array('fortline-style'), $ver);
+    // filemtime versions so an updated theme actually busts the browser/WP cache
+    // (a static version string would keep serving the previous upload's JS/CSS).
+    wp_enqueue_script('ari-i18n', $uri . '/i18n.js', array(), fortline_asset_ver('i18n.js'), true);
+    wp_enqueue_script('ari-lang', $uri . '/lang-system.js', array('ari-i18n'), fortline_asset_ver('lang-system.js'), true);
+    wp_enqueue_style('ari-rtl', $uri . '/lang-rtl.css', array('fortline-style'), fortline_asset_ver('lang-rtl.css'));
 }
 add_action('wp_enqueue_scripts', 'fortline_lang_assets');
 

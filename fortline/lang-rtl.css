@@ -99,6 +99,17 @@ html[dir="rtl"] details summary { text-align: right; }
 .wpml-ls, .wpml-ls-legacy-dropdown, .wpml-ls-legacy-list-horizontal,
 .pll-switcher, #pll_switcher, .lang_switcher_widget, .polylang, ul.pll-switcher,
 .weglot-container, #weglot_here, .country-selector.wg-drop,
-.menu-item-language, .flag-select, select.language-picker {
+.menu-item-language, .flag-select, select.language-picker,
+.goog-te-gadget, #google_translate_element, .skiptranslate {
+  display: none !important;
+}
+/* Catch-all inside the header/nav: any third-party language/flag switcher that is
+   NOT the theme's own text toggle. Scoped to the nav and matched on translate/flag/
+   switcher patterns so it can't hit the built-in .lang-btn / #lang-toggle. */
+.nav [class*="translate" i], .nav [id*="translate" i],
+.nav [class*="gtranslate" i], .nav [class*="switcher" i],
+.nav .language-switcher, .nav .lang-switcher, .nav .wg-drop,
+.nav img[src*="flag" i], .nav select[name*="lang" i],
+.nav a[href*="#googtrans" i], .nav a[onclick*="translate" i] {
   display: none !important;
 }
