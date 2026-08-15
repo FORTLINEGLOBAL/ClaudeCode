@@ -1,0 +1,19 @@
+/*
+Theme Name: A.R.I. Faberman Engineering Solutions
+Theme URI: https://ari-faberman.co.il
+Description: Civil-protection engineering theme for A.R.I. Faberman Engineering Solutions Ltd. — safe rooms (MAMAD), shelters, HFC licensing. Bilingual EN/HE.
+Version: 3.0
+Author: A.R.I. Faberman Engineering Solutions Ltd.
+Author URI: https://ari-faberman.co.il
+License: GPL v2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: fortline
+Domain Path: /languages
+*/
+
+/* Theme styles are inlined in individual page templates for pixel-perfect matching */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+}

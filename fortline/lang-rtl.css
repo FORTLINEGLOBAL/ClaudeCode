@@ -1,0 +1,115 @@
+/**
+ * A.R.I. Faberman — RTL / Hebrew overrides.
+ * Applied when <html dir="rtl"> (set by lang-system.js / server cookie).
+ * The theme's layout is mostly flexbox/grid + logical margins, which mirror
+ * automatically; this file fixes Hebrew typography and the physical properties
+ * (absolute offsets, ::before markers, text-align:left) that do not auto-flip.
+ */
+
+/* ===== Hebrew typography ===== */
+html[dir="rtl"] body,
+body.lang-he {
+  font-family: 'Heebo', 'Assistant', 'Rubik', 'Noto Sans Hebrew', sans-serif;
+  line-height: 1.75;
+}
+/* Headings use a Hebrew display face (Space Grotesk has no Hebrew glyphs) */
+html[dir="rtl"] h1, html[dir="rtl"] h2, html[dir="rtl"] h3, html[dir="rtl"] h4, html[dir="rtl"] h5,
+html[dir="rtl"] .section-title, html[dir="rtl"] .section-label, html[dir="rtl"] .section-subtitle,
+html[dir="rtl"] .hero h1, html[dir="rtl"] .page-hero h1, html[dir="rtl"] .hero-stat-num,
+html[dir="rtl"] .nav-logo-text, html[dir="rtl"] .vcard-body h4, html[dir="rtl"] .wws-content h3,
+html[dir="rtl"] .vcard-kicker, html[dir="rtl"] .svc-badge, html[dir="rtl"] .ph-label,
+html[dir="rtl"] .wws-badge, html[dir="rtl"] .form-success h3 {
+  font-family: 'Rubik', 'Heebo', 'Assistant', sans-serif;
+}
+/* Never letter-space Hebrew */
+html[dir="rtl"] * { letter-spacing: normal !important; }
+/* Hebrew headings can wrap tighter; keep them balanced */
+html[dir="rtl"] .hero h1, html[dir="rtl"] .page-hero h1,
+html[dir="rtl"] .section-title { text-wrap: balance; }
+
+/* ===== directional list markers ===== */
+html[dir="rtl"] .wws-features li { padding-left: 0; padding-right: 1.2rem; }
+html[dir="rtl"] .wws-features li::before { content: '←'; left: auto; right: 0; }
+html[dir="rtl"] .svc-body ul li { padding-left: 0; padding-right: 1.5rem; }
+html[dir="rtl"] .svc-body ul li::before { left: auto; right: 0; }
+
+/* ===== absolutely-positioned chips / numbers flip to the other side ===== */
+html[dir="rtl"] .vcard-kicker { left: auto; right: 1rem; }
+html[dir="rtl"] .wws-badge   { left: auto; right: 1rem; }
+html[dir="rtl"] .svc-num     { left: auto; right: 1.5rem; }
+html[dir="rtl"] .mobile-close{ right: auto; left: 1.5rem; }
+
+/* ===== text alignment that was hard-set to left ===== */
+html[dir="rtl"] .hero-right,
+html[dir="rtl"] .footer-col a,
+html[dir="rtl"] .footer-col h4,
+html[dir="rtl"] .footer-brand,
+html[dir="rtl"] .wws-content,
+html[dir="rtl"] .form-group label { text-align: right; }
+
+/* Form fields: Hebrew resting alignment, but values auto-detect via dir="auto" */
+html[dir="rtl"] input, html[dir="rtl"] textarea, html[dir="rtl"] select { text-align: right; }
+
+/* Keep the accelerated-permit / process accordion marker on the correct side */
+html[dir="rtl"] .fl-faq-wrap summary,
+html[dir="rtl"] details summary { text-align: right; }
+
+/* ===== language toggle button (both themes) ===== */
+.lang-btn {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.30);
+  color: #fff;
+  padding: 0.4rem 0.9rem;
+  border-radius: 7px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background .2s, border-color .2s;
+}
+.lang-btn:hover { background: rgba(255,255,255,0.12); }
+/* On solid/scrolled (light) nav the toggle needs dark ink */
+.nav.solid .nav-right .lang-btn,
+.nav.scrolled .nav-right .lang-btn {
+  border-color: rgba(17,24,39,0.25);
+  color: var(--text-dark);
+}
+/* Mobile menu toggle sits on the dark panel */
+.mobile-lang { width: 100%; max-width: 360px; display: flex; justify-content: center; margin-top: 0.4rem; }
+.mobile-lang .lang-btn { width: 100%; text-align: center; padding: 0.75rem 1rem; font-size: 1rem; border-color: rgba(255,255,255,0.3); color: #fff; }
+.js-lang-toggle:empty { display: none; }
+
+/* Desktop toggle: keep it clean and vertically centred beside the CTA */
+#lang-toggle.js-lang-toggle { display: flex; align-items: center; }
+.nav-right { flex-wrap: nowrap; }
+
+/* =====================================================================
+   Suppress third-party translation-plugin flag switchers.
+   This theme ships a complete EN/HE engine (lang-system.js) whose only UI
+   is the text "עברית / English" button. If a translation plugin (GTranslate,
+   TranslatePress, WPML, Polylang, Weglot, …) is also active it injects a
+   duplicate flag/dropdown switcher that fights this system. Hide those so the
+   built-in text toggle is the single language control. (No-op if absent.)
+   ===================================================================== */
+.gtranslate_wrapper, #gtranslate_selector, .gt_container, .gt_float_switcher,
+#gt_float_wrapper, .gtranslate_selector, .glink,
+.trp-language-switcher, #trp-floater-ls, .trp_language_switcher_shortcode,
+.trp-ls-shortcode-current-language, .trp-floater,
+.wpml-ls, .wpml-ls-legacy-dropdown, .wpml-ls-legacy-list-horizontal,
+.pll-switcher, #pll_switcher, .lang_switcher_widget, .polylang, ul.pll-switcher,
+.weglot-container, #weglot_here, .country-selector.wg-drop,
+.menu-item-language, .flag-select, select.language-picker,
+.goog-te-gadget, #google_translate_element, .skiptranslate {
+  display: none !important;
+}
+/* Catch-all inside the header/nav: any third-party language/flag switcher that is
+   NOT the theme's own text toggle. Scoped to the nav and matched on translate/flag/
+   switcher patterns so it can't hit the built-in .lang-btn / #lang-toggle. */
+.nav [class*="translate" i], .nav [id*="translate" i],
+.nav [class*="gtranslate" i], .nav [class*="switcher" i],
+.nav .language-switcher, .nav .lang-switcher, .nav .wg-drop,
+.nav img[src*="flag" i], .nav select[name*="lang" i],
+.nav a[href*="#googtrans" i], .nav a[onclick*="translate" i] {
+  display: none !important;
+}
