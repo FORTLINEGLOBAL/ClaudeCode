@@ -1,0 +1,578 @@
+<title>מפת יזמיות הנדל״ן בישראל</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@300;400;600;700&family=Frank+Ruhl+Libre:wght@500;700;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --ground:#EDF1F1;
+  --surface:#FFFFFF;
+  --panel:#F5F8F8;
+  --ink:#0F1718;
+  --ink-2:#3A4A4B;
+  --muted:#617274;
+  --hair:#D2DCDC;
+  --hair-soft:#E3EAEA;
+  --accent:#0E5B5F;
+  --accent-soft:#CFE2E1;
+  --bar:#B9752A;
+  --bar-soft:#EEDCC6;
+  --good:#2C6B50;
+  --warn:#8C6412;
+  --bad:#9A3A31;
+  --shadow:0 1px 2px rgba(15,23,24,.05), 0 8px 24px -16px rgba(15,23,24,.28);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0A1112;
+    --surface:#121B1C;
+    --panel:#0F1819;
+    --ink:#E5EDEC;
+    --ink-2:#BDCBCA;
+    --muted:#8DA2A2;
+    --hair:#243130;
+    --hair-soft:#1B2626;
+    --accent:#5FB2B3;
+    --accent-soft:#1C3A3B;
+    --bar:#CE8F55;
+    --bar-soft:#33281D;
+    --good:#6FB08D;
+    --warn:#C79A3E;
+    --bad:#D2796E;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0A1112;
+  --surface:#121B1C;
+  --panel:#0F1819;
+  --ink:#E5EDEC;
+  --ink-2:#BDCBCA;
+  --muted:#8DA2A2;
+  --hair:#243130;
+  --hair-soft:#1B2626;
+  --accent:#5FB2B3;
+  --accent-soft:#1C3A3B;
+  --bar:#CE8F55;
+  --bar-soft:#33281D;
+  --good:#6FB08D;
+  --warn:#C79A3E;
+  --bad:#D2796E;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -18px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+html,:root{direction:rtl}
+body{
+  margin:0;
+  direction:rtl;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:'Assistant','Noto Sans Hebrew',system-ui,sans-serif;
+  font-size:16.5px;
+  line-height:1.7;
+  word-spacing:.03em;
+  scrollbar-gutter:stable;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin-inline:auto;padding:0 24px 96px}
+.lbl{font-size:12.5px;font-weight:600;letter-spacing:normal;color:var(--muted)}
+
+/* ---------- masthead ---------- */
+header.top{
+  border-block-end:1px solid var(--hair);
+  background:var(--surface);
+  padding-block:52px 40px;
+}
+header.top .wrap{padding-block:0}
+h1{
+  font-family:'Frank Ruhl Libre','Assistant',serif;
+  font-weight:900;
+  font-size:clamp(38px,6vw,64px);
+  line-height:1.06;
+  letter-spacing:-.015em;
+  margin:0 0 14px;
+  text-wrap:balance;
+}
+.dek{font-size:19px;color:var(--ink-2);max-width:62ch;margin:0 0 28px}
+.stamp{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:baseline;margin-block-end:34px}
+.stamp span{color:var(--muted);font-size:13px}
+.stamp .dot{color:var(--hair)}
+
+.hero-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:1px;background:var(--hair);border:1px solid var(--hair);border-radius:2px;overflow:hidden}
+.hero-cell{background:var(--surface);padding:20px 22px}
+.hero-cell .v{font-family:'IBM Plex Mono',monospace;font-size:31px;font-weight:600;line-height:1.1;letter-spacing:-.02em;display:block;unicode-bidi:isolate;direction:ltr;text-align:end}
+.hero-cell .k{display:block;margin-block-start:8px;font-size:13.5px;color:var(--muted);line-height:1.45}
+.hero-cell .v.down{color:var(--bad)}
+
+/* ---------- nav ---------- */
+nav.tiers{
+  position:sticky;top:0;z-index:20;
+  background:color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter:blur(10px);
+  border-block-end:1px solid var(--hair);
+}
+nav.tiers ul{display:flex;gap:0;list-style:none;margin:0;padding:0;overflow-x:auto;max-width:1180px;margin-inline:auto;padding-inline:24px}
+nav.tiers a{
+  display:block;white-space:nowrap;padding:13px 16px;
+  font-size:13.5px;color:var(--muted);text-decoration:none;
+  border-block-end:2px solid transparent;
+}
+nav.tiers a:hover,nav.tiers a:focus-visible{color:var(--ink);border-block-end-color:var(--accent)}
+nav.tiers a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+
+/* ---------- sections ---------- */
+section{padding-block-start:64px}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px;margin-block-end:6px;padding-block-end:12px;border-block-end:1px solid var(--hair)}
+h2{
+  font-family:'Frank Ruhl Libre',serif;font-weight:700;
+  font-size:clamp(24px,3.2vw,32px);line-height:1.2;margin:0;letter-spacing:-.01em;
+}
+.sec-note{font-size:14.5px;color:var(--muted);max-width:74ch;margin:14px 0 26px}
+h3{font-family:'Frank Ruhl Libre',serif;font-weight:700;font-size:20px;margin:38px 0 12px}
+
+/* ---------- thesis panel ---------- */
+.thesis{background:var(--surface);border:1px solid var(--hair);border-radius:2px;padding:30px 28px;box-shadow:var(--shadow)}
+.metric-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:26px;margin-block-start:22px}
+.metric{border-inline-start:2px solid var(--accent);padding-inline-start:16px}
+.metric h4{margin:0 0 6px;font-size:16px;font-weight:700}
+.metric p{margin:0;font-size:14.5px;color:var(--ink-2);line-height:1.62}
+.flag{margin-block-start:26px;padding:16px 18px;background:var(--bar-soft);border-radius:2px;font-size:15px;color:var(--ink)}
+.flag strong{font-weight:700}
+
+/* ---------- tables ---------- */
+.scroller{overflow-x:auto;border:1px solid var(--hair);border-radius:2px;background:var(--surface);box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:14.5px}
+caption{text-align:start;padding:16px 18px 0;font-size:13px;color:var(--muted)}
+th{
+  text-align:start;font-size:12.5px;font-weight:600;letter-spacing:normal;color:var(--muted);
+  padding:14px 16px;border-block-end:1px solid var(--hair);white-space:nowrap;vertical-align:bottom;
+}
+td{padding:12px 16px;border-block-end:1px solid var(--hair-soft);vertical-align:middle}
+tbody tr:last-child td{border-block-end:none}
+tbody tr:hover{background:var(--panel)}
+td.name{font-weight:600;white-space:nowrap}
+td.n{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;text-align:end;white-space:nowrap}
+td.n .chip{margin-inline-end:6px}
+td.soft{color:var(--muted)}
+.na{color:var(--muted);font-family:'IBM Plex Mono',monospace}
+
+/* bar cell */
+.barcell{min-width:190px;width:34%}
+.bar-wrap{display:flex;align-items:center;gap:10px}
+.bar-track{flex:1;height:9px;background:var(--hair-soft);border-radius:2px;overflow:hidden;display:flex}
+.bar-fill{
+  height:100%;background:var(--bar);
+  border-start-end-radius:4px;border-end-end-radius:4px;
+}
+.bar-fill.alt{background:var(--accent)}
+.bar-val{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums;font-size:13.5px;min-width:58px;direction:ltr;unicode-bidi:isolate;text-align:end}
+
+/* chips */
+.chip{
+  display:inline-block;font-size:11.5px;font-weight:600;letter-spacing:normal;line-height:1.5;
+  padding:1px 7px;border-radius:2px;border:1px solid currentColor;white-space:nowrap;
+}
+.chip.dev{color:var(--bar)}
+.chip.con{color:var(--accent)}
+.chip.est{color:var(--muted)}
+
+/* ---------- events ---------- */
+ol.events{list-style:none;margin:0;padding:0;counter-reset:none}
+ol.events li{
+  display:grid;grid-template-columns:112px 1fr;gap:20px;
+  padding:18px 0;border-block-end:1px solid var(--hair-soft);
+}
+ol.events li:last-child{border-block-end:none}
+ol.events .when{font-size:13px;font-weight:600;color:var(--muted);padding-block-start:4px}
+ol.events .what strong{display:block;font-size:16.5px;margin-block-end:3px}
+ol.events .what p{margin:0;font-size:14.5px;color:var(--ink-2)}
+
+/* ---------- gaps + sources ---------- */
+.gaps{background:var(--panel);border:1px solid var(--hair);border-radius:2px;padding:24px 26px}
+.gaps ul{margin:12px 0 0;padding-inline-start:20px}
+.gaps li{margin-block-end:8px;font-size:14.5px;color:var(--ink-2)}
+.srcs{columns:2 300px;column-gap:36px;font-size:13.5px}
+.srcs a{color:var(--accent);text-decoration:none;border-block-end:1px solid var(--accent-soft)}
+.srcs a:hover,.srcs a:focus-visible{border-block-end-color:var(--accent)}
+.srcs p{break-inside:avoid;margin:0 0 10px;color:var(--muted)}
+footer{margin-block-start:72px;padding-block-start:24px;border-block-start:1px solid var(--hair);font-size:13px;color:var(--muted)}
+
+@media (max-width:640px){
+  .wrap{padding-inline:18px}
+  ol.events li{grid-template-columns:1fr;gap:4px}
+  .srcs{columns:1}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="page" dir="rtl" lang="he">
+<header class="top">
+  <div class="wrap">
+    <p class="lbl">מיפוי ענף · אוגוסט 2026</p>
+    <h1>מפת יזמיות הנדל״ן בישראל</h1>
+    <p class="dek">ארבע שכבות של חברות, שלושה מדדי גודל שלא מסכימים ביניהם, ושנה שבה כמעט כולן מכרו פחות. הנתונים מבוססים על הדוחות השנתיים ל-2025 שפורסמו במרץ 2026, ועל דירוגי BDI ו-Dun's 100.</p>
+    <div class="stamp">
+      <span>מכירות: שנת 2025 מלאה</span><span class="dot">/</span>
+      <span>הכנסות ועובדים: 2024–2025 לפי המצוין</span><span class="dot">/</span>
+      <span>סכומים בשקלים</span>
+    </div>
+    <div class="hero-grid">
+      <div class="hero-cell"><span class="v">90,000</span><span class="k">דירות נמכרו במשק ב-2025</span></div>
+      <div class="hero-cell"><span class="v down">-11.9%</span><span class="k">שינוי בהיקף העסקאות מול 2024</span></div>
+      <div class="hero-cell"><span class="v">40,225</span><span class="k">הצבר הגדול בענף — י.ח. דמרי</span></div>
+      <div class="hero-cell"><span class="v">1,186</span><span class="k">שיאנית המכירות — עמרם אברהם</span></div>
+      <div class="hero-cell"><span class="v">₪10B</span><span class="k">מיזוג ישראל קנדה–אקרו</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="tiers" aria-label="ניווט בין שכבות">
+  <ul>
+    <li><a href="#measure">איך מודדים גודל</a></li>
+    <li><a href="#tier1">יזמיות מגורים</a></li>
+    <li><a href="#pipeline">פרויקטים בשיווק</a></li>
+    <li><a href="#tier2">קבוצות בנייה</a></li>
+    <li><a href="#efficiency">הכנסה לעובד</a></li>
+    <li><a href="#tier3">מניב שנכנס לייזום</a></li>
+    <li><a href="#tier4">חברות פרטיות</a></li>
+    <li><a href="#renewal">התחדשות עירונית</a></li>
+    <li><a href="#events">אירועי הענף</a></li>
+    <li><a href="#method">מתודולוגיה ומקורות</a></li>
+  </ul>
+</nav>
+
+<div class="wrap">
+
+<section id="measure">
+  <div class="sec-head"><h2>איך מודדים גודל בענף הזה</h2></div>
+  <p class="sec-note">שלושת המדדים שביקשת — עובדים, הכנסות, פרויקטים בשיווק — מודדים שלושה דברים שונים, ואחד מהם פשוט מטעה. כדאי לקרוא את זה לפני הטבלאות.</p>
+  <div class="thesis">
+    <div class="metric-row">
+      <div class="metric">
+        <h4>הכנסות — אמין, אבל מפגר אחרי המציאות</h4>
+        <p>בייזום למגורים ההכנסה מוכרת לפי קצב ההתקדמות בבנייה. ההכנסה של 2025 משקפת דירות שנמכרו ב-2022–2023. חברה יכולה להציג הכנסות שיא בשנה שבה כמעט לא מכרה כלום.</p>
+      </div>
+      <div class="metric">
+        <h4>מספר עובדים — מדד גרוע</h4>
+        <p>יזם טהור מוציא את כל הביצוע לקבלני משנה. ישראל קנדה ראם מייצרת 805 מיליון ₪ עם 40 עובדים; אלקטרה מייצרת 12.3 מיליארד ₪ עם 15,661. דירוג לפי עובדים מדרג קבלנות ביצוע, לא יזמות.</p>
+      </div>
+      <div class="metric">
+        <h4>פרויקטים בשיווק — המדד הקדימי</h4>
+        <p>המדד היחיד שמסתכל קדימה, אבל מדווח בשלוש צורות: יח״ד בשיווק ובביצוע בפועל, צנרת שיווק מתוכננת לשנה הבאה, וצבר עתידי הכולל קרקעות בתכנון. שלושתן מופיעות כאן בעמודות נפרדות.</p>
+      </div>
+    </div>
+    <p class="flag"><strong>המסקנה המעשית:</strong> כדי לדרג יזמיות מגורים לפי גודל אמיתי — דרגו לפי דירות שנמכרו בשנה, והצליבו מול יח״ד בשיווק ובביצוע. הכנסות ועובדים הם עמודות עזר, לא הדירוג.</p>
+  </div>
+</section>
+
+<section id="tier1">
+  <div class="sec-head"><h2>שכבה 1 — יזמיות מגורים</h2><span class="lbl">דירוג לפי דירות שנמכרו ב-2025</span></div>
+  <p class="sec-note">14 היזמיות הבולטות בשוק המגורים הישראלי. הבר מציג דירות שנמכרו ב-2025 ביחס לשיאנית. סתירה ידועה בין מקורות: mako ומרכז הנדל״ן מציבים את אפי קפיטל שנייה (1,125, כולל 192 יח״ד שנמכרו אחרי תאריך המאזן), גלובס מציב את אאורה שנייה (~1,036, כולל חברת הבת מגדל). שתי השיטות לגיטימיות; שתיהן מופיעות למטה.</p>
+  <div class="scroller">
+    <table>
+      <caption>מיין לפי דירות שנמכרו. « — » = לא פורסם בנפרד.</caption>
+      <thead>
+        <tr>
+          <th scope="col">חברה</th>
+          <th scope="col" class="barcell">דירות שנמכרו 2025</th>
+          <th scope="col">מחיר ממוצע</th>
+          <th scope="col">הכנסות</th>
+          <th scope="col">עובדים</th>
+          <th scope="col">בשיווק ובביצוע</th>
+          <th scope="col">צבר עתידי</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="name">עמרם אברהם</td>
+          <td class="barcell"><div class="bar-wrap"><span class="bar-val">1,186</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span></div></td>
+          <td class="n">₪1.7M</td><td class="n">1,080M <span class="chip est">2024</span></td><td class="na">—</td>
+          <td class="n">צנרת 6,486</td><td class="n">19,043</td>
+        </tr>
+        <tr>
+          <td class="name">אפי קפיטל נדל״ן</td>
+          <td class="barcell"><div class="bar-wrap"><span class="bar-val">1,125</span><span class="bar-track"><span class="bar-fill" style="width:94.9%"></span></span></div></td>
+          <td class="n">₪1.5M</td><td class="n">רווח 24M</td><td class="na">—</td>
+          <td class="n">3,800</td><td class="n">3,200 בתכנון</td>
+        </tr>
+        <tr>
+          <td class="name">אאורה ישראל</td>
+          <td class="barcell"><div class="bar-wrap"><span class="bar-val">1,036</span><span class="bar-track"><span class="bar-fill" style="width:87.4%"></span></span></div></td>
+          <td class="na">—</td><td class="n">1,520M <span class="chip est">2024</span></td><td class="na">—</td>
+          <td class="n">11,911 <span class="chip est">39 פרויקטים</span></td><td class="n">54,000</td>
+        </tr>
+        <tr>
+          <td class="name">י.ח. דמרי</td>
+          <td class="barcell"><div class="bar-wrap"><span class="bar-val">986</span><span class="bar-track"><span class="bar-fill" style="width:83.1%"></span></span></div></td>
+          <td class="n">₪2.3M</td><td class="n">1,990M <span class="chip est">2024</span></td><td class="n">315</td>
+          <td class="n">צנרת 5,158</td><td class="n">40,225</td>
+        </tr>
+        <tr>
+          <td class="name">פרשקובסקי</td>
+          <td class="barcell"><div class="bar-wrap"><span class="bar-val">393</span><span class="bar-track"><span class="bar-fill" style="width:33.1%"></span></span></div></td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td>
+        </tr>
+        <tr>
+          <td class="name">רוטשטיין נדל״ן</td>
+          <td class="barcell"><div class="bar-wrap"><span class="bar-val">354</span><span class="bar-track"><span class="bar-fill" style="width:29.8%"></span></span></div></td>
+          <td class="n">₪2.6M</td><td class="n">779.7M <span class="chip est">2024</span></td><td class="n">76</td>
+          <td class="n">4,000</td><td class="n">12,000 + 15,000 התחדשות</td>
+        </tr>
+        <tr>
+          <td class="name">דוניץ אלעד</td>
+          <td class="barcell"><div class="bar-wrap"><span class="bar-val">262</span><span class="bar-track"><span class="bar-fill" style="width:22.1%"></span></span></div></td>
+          <td class="n">₪2.06M</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td>
+        </tr>
+        <tr>
+          <td class="name">אזורים</td>
+          <td class="barcell"><div class="bar-wrap"><span class="bar-val">240*</span><span class="bar-track"><span class="bar-fill" style="width:20.2%"></span></span></div></td>
+          <td class="na">—</td><td class="na">—</td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td>
+        </tr>
+        <tr>
+          <td class="name">אפריקה ישראל מגורים</td>
+          <td class="barcell"><div class="bar-wrap"><span class="bar-val">215</span><span class="bar-track"><span class="bar-fill" style="width:18.1%"></span></span></div></td>
+          <td class="n">₪3.08M</td><td class="n">925M <span class="chip est">2025</span></td><td class="n">62</td>
+          <td class="n">3,227</td><td class="na">—</td>
+        </tr>
+        <tr>
+          <td class="name">אקרו נדל״ן</td>
+          <td class="barcell"><div class="bar-wrap"><span class="bar-val">145</span><span class="bar-track"><span class="bar-fill" style="width:12.2%"></span></span></div></td>
+          <td class="na">—</td><td class="n">צבר ₪5.3B</td><td class="na">—</td>
+          <td class="n">7,700 <span class="chip est">61 פרויקטים</span></td><td class="n">8,451 התחדשות</td>
+        </tr>
+        <tr>
+          <td class="name">צמח המרמן</td>
+          <td class="barcell"><div class="bar-wrap"><span class="bar-val">127**</span><span class="bar-track"><span class="bar-fill" style="width:10.7%"></span></span></div></td>
+          <td class="n">₪2.0M</td><td class="n">485.5M <span class="chip est">2024</span></td><td class="n">110</td>
+          <td class="na">—</td><td class="n">רווח גולמי בצבר 648M</td>
+        </tr>
+        <tr>
+          <td class="name">ישראל קנדה</td>
+          <td class="barcell"><div class="bar-wrap"><span class="bar-val">₪2.1B</span><span class="bar-track"><span class="bar-fill alt" style="width:60%"></span></span></div></td>
+          <td class="n">₪6.1M</td><td class="n">805M <span class="chip est">ראם, 2024</span></td><td class="n">40</td>
+          <td class="na">—</td><td class="n">~19,000</td>
+        </tr>
+        <tr>
+          <td class="name">קרדן נדל״ן</td>
+          <td class="barcell"><div class="bar-wrap"><span class="na">—</span><span class="bar-track"></span></div></td>
+          <td class="na">—</td><td class="n">537.3M <span class="chip est">2024</span></td><td class="n">111</td>
+          <td class="na">—</td><td class="n">18,991</td>
+        </tr>
+        <tr>
+          <td class="name">אשדר (אשטרום מגורים)</td>
+          <td class="barcell"><div class="bar-wrap"><span class="na">—</span><span class="bar-track"></span></div></td>
+          <td class="na">—</td><td class="n">373M <span class="chip est">מגזר</span></td><td class="na">—</td>
+          <td class="na">—</td><td class="na">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="sec-note">* אזורים — נתון תשעת החודשים הראשונים של 2025 (741 מיליון ₪); הנתון השנתי המלא לא פורסם בנפרד במקורות שנבדקו.<br>** צמח המרמן — 127 יח״ד במחצית הראשונה של 2026, אחרי רכישת 67% מהחברה על ידי עזריאלי. הנתון השנתי ל-2025 לא פורסם בנפרד.<br>ישראל קנדה מדווחת היקף מכירות כספי ולא מספר יחידות שנתי; הבר שלה (בטורקיז) מציג היקף כספי ואינו בר-השוואה לברים הכתומים.</p>
+</section>
+
+<section id="pipeline">
+  <div class="sec-head"><h2>פרויקטים בשיווק — מה בצנרת</h2><span class="lbl">יח״ד בשיווק ובביצוע</span></div>
+  <p class="sec-note">כאן הדירוג מתהפך. חברות שמכרו מעט ב-2025 מחזיקות את הצבר הגדול ביותר, כי הצבר נבנה מקרקעות ומעסקאות התחדשות עירונית שנחתמו לפני שנים. זה המדד שמנבא את 2027–2030.</p>
+  <div class="scroller">
+    <table>
+      <caption>יח״ד בפרויקטים בשיווק ובביצוע בפועל — לא כולל קרקעות בתכנון מוקדם.</caption>
+      <thead><tr><th scope="col">חברה</th><th scope="col" class="barcell">יח״ד בשיווק ובביצוע</th><th scope="col">מהות</th></tr></thead>
+      <tbody>
+        <tr><td class="name">אביב מליסרון</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">12,500</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span></div></td><td class="soft">2,400 מתוכן בבנייה; עלה ל-13.3 אלף ב-2026</td></tr>
+        <tr><td class="name">אאורה ישראל</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">11,911</span><span class="bar-track"><span class="bar-fill" style="width:95.3%"></span></span></div></td><td class="soft">39 פרויקטים; תוכנית 2025 כללה פתיחת 12 חדשים</td></tr>
+        <tr><td class="name">אקרו נדל״ן</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">7,700</span><span class="bar-track"><span class="bar-fill" style="width:61.6%"></span></span></div></td><td class="soft">61 פרויקטים, כולם באזור תל אביב</td></tr>
+        <tr><td class="name">עמרם אברהם</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">6,486</span><span class="bar-track"><span class="bar-fill" style="width:51.9%"></span></span></div></td><td class="soft">צנרת שיווק מתוכננת; מיקוד במחיר מופחת בפריפריה</td></tr>
+        <tr><td class="name">אפי קפיטל</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">5,185</span><span class="bar-track"><span class="bar-fill" style="width:41.5%"></span></span></div></td><td class="soft">3,800 בשיווק ובביצוע + 3,200 בתכנון</td></tr>
+        <tr><td class="name">י.ח. דמרי</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">5,158</span><span class="bar-track"><span class="bar-fill" style="width:41.3%"></span></span></div></td><td class="soft">צנרת שיווק; הצבר הכולל הוא 40,225</td></tr>
+        <tr><td class="name">רוטשטיין נדל״ן</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">4,000</span><span class="bar-track"><span class="bar-fill" style="width:32%"></span></span></div></td><td class="soft">2,000 חלק החברה; שותפויות בחלק מהפרויקטים</td></tr>
+        <tr><td class="name">אפריקה ישראל מגורים</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">3,227</span><span class="bar-track"><span class="bar-fill" style="width:25.8%"></span></span></div></td><td class="soft">1,428 מהן כבר נמכרו (44%)</td></tr>
+        <tr><td class="name">קבוצת תדהר</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">2,738</span><span class="bar-track"><span class="bar-fill" style="width:21.9%"></span></span></div></td><td class="soft">30 פרויקטים למגורים + 28 שאינם למגורים</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>הצבר העתידי הגדול — כולל קרקעות והתחדשות בתכנון</h3>
+  <div class="scroller">
+    <table>
+      <caption>צבר עתידי כולל. מדד ארוך-טווח; מימושו תלוי באישורי תכנון ולכן ודאותו נמוכה מהטבלה שמעליה.</caption>
+      <thead><tr><th scope="col">חברה</th><th scope="col" class="barcell">יח״ד בצבר</th><th scope="col">מזה בהתחדשות עירונית</th></tr></thead>
+      <tbody>
+        <tr><td class="name">אאורה ישראל</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">54,000</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span></div></td><td class="n">25,769</td></tr>
+        <tr><td class="name">י.ח. דמרי</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">40,225</span><span class="bar-track"><span class="bar-fill" style="width:74.5%"></span></span></div></td><td class="n">22,499</td></tr>
+        <tr><td class="name">עמרם אברהם</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">19,043</span><span class="bar-track"><span class="bar-fill" style="width:35.3%"></span></span></div></td><td class="na">—</td></tr>
+        <tr><td class="name">ישראל קנדה</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">19,000</span><span class="bar-track"><span class="bar-fill" style="width:35.2%"></span></span></div></td><td class="n">8,056</td></tr>
+        <tr><td class="name">קרדן נדל״ן</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">18,991</span><span class="bar-track"><span class="bar-fill" style="width:35.2%"></span></span></div></td><td class="n">8,443</td></tr>
+        <tr><td class="name">רוטשטיין נדל״ן</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">15,000</span><span class="bar-track"><span class="bar-fill" style="width:27.8%"></span></span></div></td><td class="n">15,000</td></tr>
+        <tr><td class="name">אקרו נדל״ן</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">8,451</span><span class="bar-track"><span class="bar-fill" style="width:15.7%"></span></span></div></td><td class="n">8,451</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="tier2">
+  <div class="sec-head"><h2>שכבה 2 — קבוצות בנייה וקבלנות</h2><span class="lbl">הכנסות ועובדים</span></div>
+  <p class="sec-note">כאן נמצא הכסף הגדול ורוב העובדים בענף. כל אחת מהקבוצות האלה מחזיקה זרוע ייזום למגורים, אבל רוב ההכנסה מגיעה מקבלנות ביצוע, תשתיות ותעשייה — ולכן הן לא נכללות בדירוג המכירות שלמעלה.</p>
+  <div class="scroller">
+    <table>
+      <caption>הכנסות 2025 מדוחות שנתיים; הכנסות 2024 ומספרי עובדים מדירוג BDI Code 2025.</caption>
+      <thead><tr><th scope="col">קבוצה</th><th scope="col" class="barcell">הכנסות 2025</th><th scope="col">הכנסות 2024</th><th scope="col">עובדים</th><th scope="col">זרוע הייזום</th></tr></thead>
+      <tbody>
+        <tr><td class="name">אלקטרה</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">—</span><span class="bar-track"><span class="bar-fill" style="width:100%;opacity:.4"></span></span></div></td><td class="n">12,326M</td><td class="n">15,661</td><td class="soft">אלקטרה נדל״ן</td></tr>
+        <tr><td class="name">שיכון ובינוי</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">9,300M</span><span class="bar-track"><span class="bar-fill" style="width:75.4%"></span></span></div></td><td class="n">8,496M</td><td class="n">3,524</td><td class="soft">שיכון ובינוי נדל״ן</td></tr>
+        <tr><td class="name">דניה סיבוס</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">6,500M</span><span class="bar-track"><span class="bar-fill" style="width:52.7%"></span></span></div></td><td class="n">6,025.6M</td><td class="n">1,508 / 2,303</td><td class="soft">אפריקה ישראל מגורים</td></tr>
+        <tr><td class="name">שפיר הנדסה</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">6,070M</span><span class="bar-track"><span class="bar-fill" style="width:49.2%"></span></span></div></td><td class="n">5,085M</td><td class="n">~3,500</td><td class="soft">שפיר מגורים</td></tr>
+        <tr><td class="name">קבוצת אשטרום</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">4,650M</span><span class="bar-track"><span class="bar-fill" style="width:37.7%"></span></span></div></td><td class="n">4,459.5M</td><td class="n">1,424 / ~1,800</td><td class="soft">אשדר · אשטרום מגורים</td></tr>
+        <tr><td class="name">קבוצת תדהר</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">2,890M</span><span class="bar-track"><span class="bar-fill" style="width:23.4%"></span></span></div></td><td class="n">2,700M</td><td class="n">~1,100</td><td class="soft">תדהר מגורים · לקראת הנפקה</td></tr>
+        <tr><td class="name">קבוצת אורון</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">—</span><span class="bar-track"><span class="bar-fill" style="width:15.1%;opacity:.4"></span></span></div></td><td class="n">1,860.1M</td><td class="n">567</td><td class="soft">אורון נדל״ן</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="sec-note">עמודת העובדים מציגה שני מספרים היכן שהמקורות נחלקים: הראשון מ-BDI (לרוב החברה הבודדת), השני מדיווח החברה (הקבוצה כולה). ברים בשקיפות מופחתת = נתון 2024 בהיעדר נתון 2025.<br>תדהר: רווח נקי 202 מיליון ₪ ב-2025, 300 אלף מ״ר נדל״ן מניב, נערכת להנפקה בשווי מתוכנן 7–8 מיליארד ₪.</p>
+</section>
+
+<section id="efficiency">
+  <div class="sec-head"><h2>הכנסה לעובד</h2><span class="lbl">למה עובדים הם מדד מטעה</span></div>
+  <p class="sec-note">אותם נתונים משכבות 1, 2 ו-4, מחולקים. הפער בין יזמיות (כתום) לקבלניות ביצוע (טורקיז) הוא פי 3 עד פי 25 — כי היזם קונה קרקע, מתכנן ומשווק, והבנייה עצמה יוצאת החוצה לקבלן. שתי הקבוצות מסומנות גם בתווית טקסט ולא בצבע בלבד.</p>
+  <div class="scroller">
+    <table>
+      <caption>הכנסות 2024 חלקי מספר עובדים, במיליוני ₪ לעובד.</caption>
+      <thead><tr><th scope="col">חברה</th><th scope="col">סוג</th><th scope="col" class="barcell">₪ מיליון לעובד</th><th scope="col">הכנסות</th><th scope="col">עובדים</th></tr></thead>
+      <tbody>
+        <tr><td class="name">ישראל קנדה ראם</td><td><span class="chip dev">יזם</span></td><td class="barcell"><div class="bar-wrap"><span class="bar-val">20.1</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span></div></td><td class="n">805M</td><td class="n">40</td></tr>
+        <tr><td class="name">אפריקה ישראל מגורים</td><td><span class="chip dev">יזם</span></td><td class="barcell"><div class="bar-wrap"><span class="bar-val">15.6</span><span class="bar-track"><span class="bar-fill" style="width:77.6%"></span></span></div></td><td class="n">966.5M</td><td class="n">62</td></tr>
+        <tr><td class="name">גינדי החזקות</td><td><span class="chip dev">יזם</span></td><td class="barcell"><div class="bar-wrap"><span class="bar-val">12.5</span><span class="bar-track"><span class="bar-fill" style="width:62.2%"></span></span></div></td><td class="n">~1,000M</td><td class="n">~80</td></tr>
+        <tr><td class="name">רוטשטיין נדל״ן</td><td><span class="chip dev">יזם</span></td><td class="barcell"><div class="bar-wrap"><span class="bar-val">10.3</span><span class="bar-track"><span class="bar-fill" style="width:51.2%"></span></span></div></td><td class="n">779.7M</td><td class="n">76</td></tr>
+        <tr><td class="name">קבוצת עזריאלי</td><td><span class="chip dev">מניב</span></td><td class="barcell"><div class="bar-wrap"><span class="bar-val">6.8</span><span class="bar-track"><span class="bar-fill" style="width:33.8%"></span></span></div></td><td class="n">2,943M</td><td class="n">435</td></tr>
+        <tr><td class="name">י.ח. דמרי</td><td><span class="chip dev">יזם</span></td><td class="barcell"><div class="bar-wrap"><span class="bar-val">6.3</span><span class="bar-track"><span class="bar-fill" style="width:31.3%"></span></span></div></td><td class="n">1,990M</td><td class="n">315</td></tr>
+        <tr><td class="name">מליסרון</td><td><span class="chip dev">מניב</span></td><td class="barcell"><div class="bar-wrap"><span class="bar-val">6.4</span><span class="bar-track"><span class="bar-fill" style="width:31.8%"></span></span></div></td><td class="n">1,803M</td><td class="n">280</td></tr>
+        <tr><td class="name">קרדן נדל״ן</td><td><span class="chip dev">יזם</span></td><td class="barcell"><div class="bar-wrap"><span class="bar-val">4.8</span><span class="bar-track"><span class="bar-fill" style="width:23.9%"></span></span></div></td><td class="n">537.3M</td><td class="n">111</td></tr>
+        <tr><td class="name">סיון ביצוע (צמח המרמן)</td><td><span class="chip con">מבצע</span></td><td class="barcell"><div class="bar-wrap"><span class="bar-val">4.4</span><span class="bar-track"><span class="bar-fill alt" style="width:21.9%"></span></span></div></td><td class="n">485.5M</td><td class="n">110</td></tr>
+        <tr><td class="name">דניה סיבוס</td><td><span class="chip con">מבצע</span></td><td class="barcell"><div class="bar-wrap"><span class="bar-val">4.0</span><span class="bar-track"><span class="bar-fill alt" style="width:19.9%"></span></span></div></td><td class="n">6,025.6M</td><td class="n">1,508</td></tr>
+        <tr><td class="name">קבוצת אורון</td><td><span class="chip con">מבצע</span></td><td class="barcell"><div class="bar-wrap"><span class="bar-val">3.3</span><span class="bar-track"><span class="bar-fill alt" style="width:16.4%"></span></span></div></td><td class="n">1,860.1M</td><td class="n">567</td></tr>
+        <tr><td class="name">קבוצת אשטרום</td><td><span class="chip con">משולב</span></td><td class="barcell"><div class="bar-wrap"><span class="bar-val">3.1</span><span class="bar-track"><span class="bar-fill alt" style="width:15.4%"></span></span></div></td><td class="n">4,459.5M</td><td class="n">1,424</td></tr>
+        <tr><td class="name">שיכון ובינוי</td><td><span class="chip con">משולב</span></td><td class="barcell"><div class="bar-wrap"><span class="bar-val">2.4</span><span class="bar-track"><span class="bar-fill alt" style="width:11.9%"></span></span></div></td><td class="n">8,496M</td><td class="n">3,524</td></tr>
+        <tr><td class="name">יוסי אברהמי</td><td><span class="chip con">מבצע</span></td><td class="barcell"><div class="bar-wrap"><span class="bar-val">2.0</span><span class="bar-track"><span class="bar-fill alt" style="width:10%"></span></span></div></td><td class="n">200M</td><td class="n">100</td></tr>
+        <tr><td class="name">אלקטרה</td><td><span class="chip con">מבצע</span></td><td class="barcell"><div class="bar-wrap"><span class="bar-val">0.8</span><span class="bar-track"><span class="bar-fill alt" style="width:3.9%"></span></span></div></td><td class="n">12,326M</td><td class="n">15,661</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="tier3">
+  <div class="sec-head"><h2>שכבה 3 — נדל״ן מניב שנכנס לייזום למגורים</h2><span class="lbl">המגמה הבולטת של 2025</span></div>
+  <p class="sec-note">שתי חברות הנדל״ן המניב הגדולות בישראל נכנסו לייזום למגורים בשנתיים האחרונות — עזריאלי ברכישה, מליסרון בבנייה עצמית. יש להן מאזן שיזמיות המגורים הוותיקות יכולות רק לחלום עליו, וזה משנה את מבנה התחרות בענף.</p>
+  <div class="scroller">
+    <table>
+      <caption>חברות מניב עם פעילות ייזום. NOI = הכנסה תפעולית נטו מנכסים מניבים.</caption>
+      <thead><tr><th scope="col">חברה</th><th scope="col">הכנסות / NOI</th><th scope="col">עובדים</th><th scope="col">פעילות המגורים</th></tr></thead>
+      <tbody>
+        <tr><td class="name">קבוצת עזריאלי</td><td class="n">2,943M הכנסות (2024)<br>NOI 2.53B (2025, +10%)</td><td class="n">435</td><td class="soft">רכשה 67% מצמח המרמן ב-635 מיליון ₪; 249 מיליון ₪ הכנסות מגורים במחצית הראשונה של 2026</td></tr>
+        <tr><td class="name">מליסרון</td><td class="n">1,803M הכנסות (2024)<br>NOI +6.9% (2025)</td><td class="n">280</td><td class="soft">אביב מליסרון: צבר 12,500 יח״ד, מתוכן 2,400 בבנייה; גדל ל-13.3 אלף ב-2026. רווח נקי קבוצתי 1.86 מיליארד ₪</td></tr>
+        <tr><td class="name">גב-ים</td><td class="n">NOI 759M (2025, +10%)</td><td class="na">—</td><td class="soft">לא מגורים — שבעה פרויקטים בהיקף 296 אלף מ״ר למשרדים והייטק</td></tr>
+        <tr><td class="name">מגה אור</td><td class="n">שווי שוק ₪20.8B</td><td class="na">—</td><td class="soft">לא מגורים — לוגיסטיקה, תעשייה ודאטה סנטרס</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="tier4">
+  <div class="sec-head"><h2>שכבה 4 — יזמיות פרטיות</h2><span class="lbl">נתוני BDI Code 2025</span></div>
+  <p class="sec-note">חברות שאינן נסחרות ולכן אינן מדווחות מכירות רבעוניות. הנתונים היחידים הזמינים עליהן הם הערכות מחזור ומספרי עובדים מדירוגי BDI — ולכן הן מוצגות בנפרד ולא מדורגות מול הציבוריות.</p>
+  <div class="scroller">
+    <table>
+      <caption>הכנסות 2024 והערכת מספר עובדים. חברות פרטיות — רמת ודאות נמוכה מהציבוריות.</caption>
+      <thead><tr><th scope="col">חברה</th><th scope="col" class="barcell">הכנסות 2024</th><th scope="col">עובדים</th><th scope="col">₪M לעובד</th><th scope="col">הערה</th></tr></thead>
+      <tbody>
+        <tr><td class="name">גינדי החזקות</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">~1,000M</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span></div></td><td class="n">~80</td><td class="n">12.5</td><td class="soft">מגורים במרכז הארץ, נוסדה 2000</td></tr>
+        <tr><td class="name">ישראל קנדה ראם פרויקטים</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">805M</span><span class="bar-track"><span class="bar-fill" style="width:80.5%"></span></span></div></td><td class="n">40</td><td class="n">20.1</td><td class="soft">זרוע ביצוע של ישראל קנדה, נוסדה 2020</td></tr>
+        <tr><td class="name">סיון ביצוע</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">485.5M</span><span class="bar-track"><span class="bar-fill" style="width:48.6%"></span></span></div></td><td class="n">110</td><td class="n">4.4</td><td class="soft">בשליטת קבוצת צמח המרמן, נוסדה 2004</td></tr>
+        <tr><td class="name">יוסי אברהמי</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">200M</span><span class="bar-track"><span class="bar-fill" style="width:20%"></span></span></div></td><td class="n">100</td><td class="n">2.0</td><td class="soft">פעילה מ-1980, נערכה להנפקה ב-2025</td></tr>
+        <tr><td class="name">אחוזת אריה</td><td class="barcell"><div class="bar-wrap"><span class="bar-val">105.5M</span><span class="bar-track"><span class="bar-fill" style="width:10.6%"></span></span></div></td><td class="n">32</td><td class="n">3.3</td><td class="soft">נוסדה 2015</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="renewal">
+  <div class="sec-head"><h2>התחדשות עירונית</h2><span class="lbl">מדד ההתחדשות העירונית 2025</span></div>
+  <p class="sec-note">תחום שהפך למנוע הצמיחה המרכזי של הענף — ומדורג בנפרד, כי חברה יכולה להיות ענקית בהתחדשות ובינונית בהכנסות. אאורה, למשל, מחזיקה 25,769 יח״ד בצבר התחדשות, יותר מהצבר הכולל של רוב מתחרותיה.</p>
+  <div class="scroller">
+    <table>
+      <caption>מובילות מדד ההתחדשות העירונית של מרכז הנדל״ן לשנת 2025.</caption>
+      <thead><tr><th scope="col">חברה</th><th scope="col">מיקום</th><th scope="col">היקף</th></tr></thead>
+      <tbody>
+        <tr><td class="name">קידר מבנים</td><td class="soft">מקום 1 כולל — לראשונה</td><td class="soft">הובלה בהתחדשות בניינית</td></tr>
+        <tr><td class="name">אאורה ישראל</td><td class="soft">מקום 1 בפינוי-בינוי — תשע שנים ברציפות</td><td class="n">25,769 יח״ד בצבר התחדשות</td></tr>
+        <tr><td class="name">חג׳ג׳ צים</td><td class="soft">מובילה בפינוי-בינוי</td><td class="n">19 פרויקטים מתקדמים · 2,284 → 10,086 יח״ד</td></tr>
+        <tr><td class="name">י.ח. דמרי</td><td class="soft">מהצברים הגדולים</td><td class="n">22,499 יח״ד בצבר התחדשות</td></tr>
+        <tr><td class="name">רוטשטיין נדל״ן</td><td class="soft">בפיתוח עסקי</td><td class="n">15,000 יח״ד, רובן לתחילת בנייה עד 2032</td></tr>
+        <tr><td class="name">אקרו · קרדן · ישראל קנדה</td><td class="soft">שכבה שנייה</td><td class="n">8,451 · 8,443 · 8,056 יח״ד</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="events">
+  <div class="sec-head"><h2>מה שינה את מפת הענף</h2><span class="lbl">2025–2026 לפי סדר כרונולוגי</span></div>
+  <p class="sec-note">הרשימה ממוספרת בזמן ולא בחשיבות — סדר האירועים הוא מה שמסביר איך המפה נראית היום.</p>
+  <ol class="events">
+    <li><span class="when">יולי 2024</span><span class="what"><strong>חנן מור קורסת, דמרי קונה את שדה דב</strong><p>פרויקט הדגל של חנן מור בתל אביב נמכר לי.ח. דמרי ב-1.1 מיליארד ₪ במסגרת הסדר חוב. דמרי בונה שם 458 דירות ומכרה עד כה 41 בלבד; חלק מהן נרכשו על ידי בעל השליטה וקרוביו.</p></span></li>
+    <li><span class="when">2025</span><span class="what"><strong>שנת קיפאון — ירידה של 24% במכירות</strong><p>תשע היזמיות הציבוריות הגדולות מכרו כ-3,500 דירות בתשעת החודשים הראשונים, ירידה של 24% מול 2024. במקביל המע״מ עלה מ-17% ל-18%. סה״כ נמכרו במשק ~90 אלף דירות, ירידה של ~11.9%.</p></span></li>
+    <li><span class="when">2025</span><span class="what"><strong>עזריאלי נכנסת לייזום למגורים</strong><p>רכישת 67% מצמח המרמן תמורת 635 מיליון ₪ — חברת הנדל״ן המניב הגדולה בישראל נכנסת לשוק המגורים דרך יזמית ותיקה במקום לבנות זרוע מאפס.</p></span></li>
+    <li><span class="when">פברואר 2026</span><span class="what"><strong>מיזוג ישראל קנדה–אקרו — עסקת השנה</strong><p>שווי מצרפי כ-10 מיליארד ₪. הישות הממוזגת: כ-15,000 יח״ד ב-90 פרויקטים (5,500 בשלים, 9,500 בהתהוות), 21.8 מיליארד ₪ הכנסות שטרם הוכרו ו-5.25 מיליארד ₪ רווח גולמי צפוי, לצד 1.6 מיליארד ₪ נכסים מניבים ו-NOI שנתי של 95 מיליון ₪. רשות התחרות נתנה אור ירוק.</p></span></li>
+    <li><span class="when">2026</span><span class="what"><strong>תדהר לקראת הנפקה</strong><p>הקבוצה הפרטית הגדולה בענף נערכת להנפקה בשווי מתוכנן של 7–8 מיליארד ₪, אחרי שנת 2025 עם 2.89 מיליארד ₪ הכנסות ו-202 מיליון ₪ רווח נקי.</p></span></li>
+    <li><span class="when">2026</span><span class="what"><strong>סימני התאוששות</strong><p>ברבעון הראשון של 2026 אפי קפיטל הוסיפה 192 עסקאות, י.ח. דמרי 152 ועמרם אברהם 91. בתל אביב נרשם זינוק של 40% בהיקף מכירת דירות חדשות בסוף 2025.</p></span></li>
+  </ol>
+</section>
+
+<section id="method">
+  <div class="sec-head"><h2>מתודולוגיה, פערים ומקורות</h2></div>
+
+  <div class="gaps">
+    <strong>מה חסר בנתונים — ולמה</strong>
+    <ul>
+      <li><strong>מספרי עובדים של היזמיות הגדולות ביותר</strong> — עמרם אברהם, אאורה ואפי קפיטל אינן מפרסמות מספר עובדים בדוחות, ולא מופיעות בשורות ה-BDI שנמצאו. לפי מבנה הענף מדובר בסדר גודל של עשרות עד מאות בודדות.</li>
+      <li><strong>הכנסות 2025 של רוב היזמיות</strong> — מרבית המקורות הזמינים דיווחו מכירות ורווח נקי, אך לא שורת הכנסות מלאה. היכן שמופיע נתון 2024 הוא מסומן במפורש.</li>
+      <li><strong>נתון שנתי מלא לאזורים ולצמח המרמן</strong> — לאזורים נמצא נתון תשעת חודשים בלבד; לצמח המרמן נתון מחצית 2026 בלבד, בעקבות שינוי השליטה.</li>
+      <li><strong>מנרב, לוינשטיין, אלקטרה נדל״ן, ב.יאיר, אלמוגים, מצלאוי, רם אדרת</strong> — לא נמצאו נתונים ברמת ודאות מספקת ולכן הושמטו במקום להיכלל בהערכה.</li>
+      <li><strong>סתירות בין מקורות</strong> — סומנו בגוף הדף בכל מקום שהן קיימות (דירוג המקום השני ב-2025; מספרי עובדים BDI מול דיווח החברה).</li>
+    </ul>
+  </div>
+
+  <h3>מקורות</h3>
+  <div class="srcs">
+    <p><a href="https://www.mako.co.il/finances-real-estate/Article-fa6775767f19d91027.htm">mako — דירוג יזמיות הנדל״ן 2025</a></p>
+    <p><a href="https://www.nadlancenter.co.il/article/13331">מרכז הנדל״ן — כך מכרו ענקיות המגורים ב-2025</a></p>
+    <p><a href="https://www.nadlancenter.co.il/article/14340">מרכז הנדל״ן — שיאניות מכירת הדירות 2025</a></p>
+    <p><a href="https://www.globes.co.il/news/article.aspx?did=1001540133">גלובס — הדוחות חושפים: מי מכרה הכי הרבה דירות</a></p>
+    <p><a href="https://www.ynet.co.il/capital/article/r1z3fqggwx">ynet — נדל״ן 2025: תמונת מצב מלאה</a></p>
+    <p><a href="https://www.bdicode.com/kablanim2025/">BDI Code 2025 — החברות המובילות בנדל״ן ובנייה</a></p>
+    <p><a href="https://www.duns100.co.il/rating/%D7%91%D7%A0%D7%99%D7%94_%D7%95%D7%A0%D7%93%D7%9C%D7%9F/%D7%91%D7%A0%D7%99%D7%94_%D7%95%D7%99%D7%96%D7%9E%D7%95%D7%AA/2025">Dun's 100 — בנייה ויזמות 2025</a></p>
+    <p><a href="https://www.calcalist.co.il/market/article/8lcx62nk6">כלכליסט — תוצאות קבוצת אשטרום 2025</a></p>
+    <p><a href="https://www.ice.co.il/finance/news/article/1108119">ice — שיכון ובינוי, הכנסות 9.3 מיליארד ₪</a></p>
+    <p><a href="https://www.themarker.com/markets/2026-03-02/ty-article/.premium/0000019c-ae40-db5a-a99f-bf4542250000">TheMarker — דניה סיבוס 2025</a></p>
+    <p><a href="https://www.bizportal.co.il/capitalmarket/news/article/20032270">ביזפורטל — תדהר נערכת להנפקה</a></p>
+    <p><a href="https://www.bizportal.co.il/realestates/news/article/20029443">ביזפורטל — ישראל קנדה והמיזוג עם אקרו</a></p>
+    <p><a href="https://www.nadlancenter.co.il/article/13960">מרכז הנדל״ן — עסקת ישראל קנדה–אקרו</a></p>
+    <p><a href="https://www.bizportal.co.il/realestates/news/article/20029512">ביזפורטל — רוטשטיין 2025</a></p>
+    <p><a href="https://www.hakablan.co.il/">ערוץ הקבלן — אפריקה ישראל מגורים 2025</a></p>
+    <p><a href="https://www.ynet.co.il/economy/article/b1kdibwrbx">ynet — אפי קפיטל, סיכום 2025</a></p>
+    <p><a href="https://www.ynet.co.il/economy/article/hk8x6rakzx">ynet — פרשקובסקי, סיכום 2025</a></p>
+    <p><a href="https://www.ynet.co.il/economy/article/h1wjyuke11l">ynet — דוניץ אלעד, סיכום 2025</a></p>
+    <p><a href="https://www.ynet.co.il/economy/article/rybd11l11ozx">ynet — רוטשטיין, סיכום 2025</a></p>
+    <p><a href="https://tv10.co.il/capital-market/tel-aviv/82972/">ערוץ 10 — דוחות אאורה 2025</a></p>
+    <p><a href="https://www.nadlancenter.co.il/article/13088">מרכז הנדל״ן — מדד ההתחדשות העירונית 2025</a></p>
+    <p><a href="https://www.calcalist.co.il/real-estate/article/r1awsthjzl">כלכליסט — דמרי ושדה דב</a></p>
+  </div>
+
+  <footer>
+    <p>נאסף באמצעות חיפוש רשת בלבד — גישה ישירה לאתרי המקור ולדוחות ה-PDF בבורסה נחסמה בסביבת ההרצה, ולכן כל נתון כאן מקורו בדיווח עיתונאי או בדירוג מסחרי ולא בקריאה ישירה של הדוח הכספי. לפני שימוש בהחלטת השקעה יש לאמת מול מאיה — אתר הדיווחים של הבורסה לניירות ערך בתל אביב.</p>
+  </footer>
+</section>
+
+</div>
+</div>
