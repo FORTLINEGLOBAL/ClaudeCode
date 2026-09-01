@@ -145,6 +145,11 @@ p{margin:0}
 }
 .hero__media{position:absolute;inset:0;z-index:-2;overflow:hidden}
 .hero__media video,.hero__fallback{width:100%;height:100%;object-fit:cover}
+.hero__media video{
+  /* מקור הווידאו בהפרדה נמוכה — טשטוש עדין והגדלה קלה מסתירים ריכוך בפריסה מלאה */
+  filter:blur(1.5px) saturate(1.15) contrast(1.05);
+  transform:scale(1.06);
+}
 .hero__fallback{
   position:absolute;inset:0;
   background:
@@ -161,7 +166,9 @@ p{margin:0}
 }
 .hero__scrim{
   position:absolute;inset:0;z-index:-1;
-  background:linear-gradient(to bottom, rgba(11,18,32,.82) 0%, rgba(11,18,32,.62) 45%, rgba(11,18,32,.92) 100%);
+  background:
+    radial-gradient(80% 60% at 50% 45%, rgba(11,18,32,.55) 0%, transparent 75%),
+    linear-gradient(to bottom, rgba(11,18,32,.88) 0%, rgba(11,18,32,.68) 45%, rgba(11,18,32,.95) 100%);
 }
 .hero__inner{text-align:center;max-width:940px;position:relative}
 .hero__badge{
@@ -290,13 +297,21 @@ p{margin:0}
 .work__media img{width:100%;height:100%;object-fit:cover;transition:transform .55s ease}
 .work:hover .work__media img{transform:scale(1.05)}
 .work__ph{
-  position:absolute;inset:0;display:grid;place-items:center;gap:.7rem;align-content:center;
+  position:absolute;inset:0;display:grid;place-items:center;gap:.85rem;align-content:center;
   background:
-    radial-gradient(90% 70% at 70% 20%, rgba(34,211,238,.22) 0%, transparent 60%),
-    linear-gradient(150deg,#132340,#0b1220);
-  color:rgba(226,240,255,.5);font-size:.85rem;text-align:center;padding:1rem;
+    radial-gradient(90% 70% at 70% 18%, hsl(var(--ph-h) 85% 55% / .26) 0%, transparent 62%),
+    linear-gradient(150deg,#152741,#0b1220);
+  color:rgba(226,240,255,.45);font-size:.8rem;text-align:center;padding:1rem;overflow:hidden;
 }
-.work__ph svg{width:42px;height:42px;color:rgba(34,211,238,.6)}
+.work__ph::before{
+  content:"";position:absolute;inset:0;opacity:.55;
+  background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:34px 34px;
+  mask-image:radial-gradient(circle at 50% 45%,#000 15%,transparent 80%);
+}
+.work__ph svg{width:54px;height:54px;color:hsl(var(--ph-h) 85% 62% / .75);position:relative}
+.work__ph span{position:relative}
 .work__type{
   position:absolute;inset-block-start:.9rem;inset-inline-start:.9rem;z-index:2;
   background:rgba(11,18,32,.82);backdrop-filter:blur(8px);color:#fff;
@@ -383,7 +398,7 @@ p{margin:0}
 .lightbox__media{background:#000;aspect-ratio:16/9;display:grid;place-items:center}
 .lightbox__media img,.lightbox__media video{width:100%;height:100%;object-fit:contain}
 .lightbox__ph{color:rgba(226,240,255,.5);text-align:center;padding:2rem;font-size:.95rem;display:grid;gap:.8rem;justify-items:center}
-.lightbox__ph svg{width:48px;height:48px;color:rgba(34,211,238,.55)}
+.lightbox__ph svg{width:56px;height:56px;color:hsl(var(--ph-h,196) 85% 62% / .7)}
 .lightbox__body{padding:1.6rem 1.8rem 2rem;color:rgba(226,240,255,.72)}
 .lightbox__body h3{color:#fff;font-size:1.3rem;margin-block-end:.6rem}
 .lightbox__close{
@@ -901,8 +916,27 @@ var WORKS = [
   }
 ];
 
-/* ---------- אייקונים ---------- */
-var ICON_PH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="14" x="3" y="5" rx="2"/><path d="M7 9h4M7 13h2"/><path d="M16 9v6"/></svg>';
+/* ---------- אייקוני placeholder לפי סוג עבודה (עד שיוזנו תמונות אמיתיות) ---------- */
+function svg(inner){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" ' +
+         'stroke-linecap="round" stroke-linejoin="round">' + inner + '</svg>';
+}
+var PH = {
+  /* יחידת חוץ עם מאוורר */
+  vrf:        {hue:190, icon:svg('<rect x="2.5" y="5" width="19" height="14" rx="2"/><circle cx="12" cy="12" r="3.6"/><path d="M12 8.4v-.9M12 16.5v-.9M8.4 12h-.9M16.5 12h-.9"/>')},
+  /* תעלות מיזוג בתקרה */
+  mini:       {hue:205, icon:svg('<path d="M3 7h13a3 3 0 0 1 3 3v7"/><path d="M3 11h9a3 3 0 0 1 3 3v3"/><path d="M3 4v16"/><path d="M19 17h2M15 17h2"/>')},
+  /* מזגן עילי על קיר */
+  split:      {hue:198, icon:svg('<rect x="2.5" y="6" width="19" height="7" rx="2"/><path d="M6 10h8"/><path d="M7 16.5c1.6 0 1.6 2 3.2 2M13 16.5c1.6 0 1.6 2 3.2 2"/>')},
+  /* תוכנית / שרטוט */
+  design:     {hue:174, icon:svg('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/><path d="M13 13h4v4h-4z"/>')},
+  /* חנות / חלל מסחרי */
+  commercial: {hue:38,  icon:svg('<path d="M3 9.5 4.6 4h14.8L21 9.5"/><path d="M4 9.5v10.5h16V9.5"/><path d="M3 9.5h18"/><path d="M9.5 20v-6h5v6"/>')},
+  /* מפתח שירות / שיקום */
+  repair:     {hue:15,  icon:svg('<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z"/>')}
+};
+function phFor(cat){ return PH[cat] || {hue:196, icon:svg('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h4M7 13h2"/>')}; }
+var ICON_PH = phFor('').icon;
 var ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
 
 /* ---------- בניית כרטיסי העבודות ---------- */
@@ -914,11 +948,12 @@ var ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
     var w = WORKS[i];
     var tags = '';
     for(var t=0;t<w.tags.length;t++){ tags += '<span class="tag">' + w.tags[t] + '</span>'; }
+    var ph = phFor(w.cat);
     html +=
       '<article class="work reveal" data-cat="' + w.cat + '">' +
-        '<button class="work__media" type="button" data-index="' + i + '" aria-label="פתיחת גלריה: ' + w.title + '">' +
-          '<span class="work__ph">' + ICON_PH + '<span>תמונה תתווסף בקרוב</span></span>' +
-          '<img src="' + w.image + '" alt="' + w.title + '" loading="lazy" onerror="this.style.display=\'none\'">' +
+        '<button class="work__media" type="button" data-index="' + i + '" aria-label="פתיחת גלריה: ' + w.title + '" style="--ph-h:' + ph.hue + '">' +
+          '<span class="work__ph">' + ph.icon + '<span>' + w.type + ' · תמונה תתווסף</span></span>' +
+          (w.image ? '<img src="' + w.image + '" alt="' + w.title + '" loading="lazy" onerror="this.style.display=\'none\'">' : '') +
           '<span class="work__type">' + w.type + '</span>' +
           (w.video ? '<span class="work__play">' + ICON_PLAY + '</span>' : '') +
         '</button>' +
@@ -964,12 +999,19 @@ var ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
     title.textContent = w.type + ' — ' + w.title;
     text.textContent = w.text;
     if(w.video){
-      media.innerHTML = '<video src="' + w.video + '" controls autoplay playsinline poster="' + w.image + '"></video>';
+      media.innerHTML = '<video src="' + w.video + '" controls autoplay playsinline' +
+                        (w.image ? ' poster="' + w.image + '"' : '') + '></video>';
+    } else if(!w.image){
+      var p0 = phFor(w.cat);
+      media.innerHTML = '<div class="lightbox__ph" style="--ph-h:' + p0.hue + '">' + p0.icon +
+                        '<span>' + w.type + ' — תמונה תתווסף בקרוב</span></div>';
     } else {
       media.innerHTML = '<img src="' + w.image + '" alt="' + w.title + '">';
       var img = media.querySelector('img');
       img.addEventListener('error', function(){
-        media.innerHTML = '<div class="lightbox__ph">' + ICON_PH + '<span>מדיה לעבודה זו תתווסף בקרוב</span></div>';
+        var ph = phFor(w.cat);
+        media.innerHTML = '<div class="lightbox__ph" style="--ph-h:' + ph.hue + '">' + ph.icon +
+                          '<span>' + w.type + ' — תמונה תתווסף בקרוב</span></div>';
       });
     }
     box.classList.add('is-open');
