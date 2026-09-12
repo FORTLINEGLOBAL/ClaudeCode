@@ -1,0 +1,9 @@
+# תוצרי הבנייה של תבנית הוורדפרס. הכול נוצר מחדש על ידי
+#   python3 tools/build-wp-theme.py --zip
+# ולכן אין טעם לשמור בגיט עוד עותק של 15MB של וידאו.
+wp-theme/kol-hamizug/assets/media/
+wp-theme/*.zip
+
+# מועתקים לתבנית על ידי הסקריפט מתוך tools/
+wp-theme/kol-hamizug/screenshot.png
+wp-theme/kol-hamizug/readme.txt
