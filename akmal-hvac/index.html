@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>אקמל | תכנון וביצוע מיזוג מתקדם</title>
+<title>כל המיזוג | תכנון וביצוע מיזוג מתקדם</title>
 <meta name="description" content="תכנון וביצוע מערכות מיזוג אוויר ברמה הגבוהה בשוק. VRF, מיני מרכזי, מזגנים עיליים ותכנון מיזוג לווילות. עבודה נקייה, חומרים מקוריים, בלי קיצורי דרך.">
 <meta name="theme-color" content="#0b1220">
-<meta property="og:title" content="אקמל | תכנון וביצוע מיזוג מתקדם">
+<meta property="og:title" content="כל המיזוג | תכנון וביצוע מיזוג מתקדם">
 <meta property="og:description" content="התקנה טובה לא נמדדת ביום שאחרי — אלא בחודשים ובשנים שאחריה.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +14,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 <style>
 /* ==========================================================================
-   אקמל — תכנון וביצוע מיזוג מתקדם
+   כל המיזוג — תכנון וביצוע מיזוג מתקדם
    אתר חד-עמודי, RTL מלא, ללא תלויות חיצוניות (מלבד גופן Heebo).
    ========================================================================== */
 
@@ -76,6 +76,34 @@ p{margin:0}
 .eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--brand)}
 .section{padding-block:clamp(4rem,9vw,7rem)}
 .section--alt{background:var(--surface-2);border-block:1px solid var(--line)}
+/* ---------------- על אקמל ---------------- */
+.about{background:var(--surface-2);border-block-end:1px solid var(--line)}
+.about__grid{display:grid;grid-template-columns:minmax(260px,360px) 1fr;gap:clamp(1.75rem,4vw,3.5rem);align-items:center}
+.about__photo{
+  position:relative;aspect-ratio:1/1;border-radius:var(--radius-lg);overflow:hidden;
+  background:linear-gradient(140deg,var(--navy-800),var(--navy-900));box-shadow:var(--shadow-lg);
+  border:1px solid var(--line);display:grid;place-items:center
+}
+.about__photo img{width:100%;height:100%;object-fit:cover;display:block}
+.about__ph{display:grid;place-items:center;gap:.6rem;color:rgba(226,240,255,.72);text-align:center;padding:1.5rem}
+.about__ph span{font-size:3.4rem;font-weight:900;color:#fff;line-height:1}
+.about__ph small{font-size:.85rem;line-height:1.5}
+.about__badge{
+  position:absolute;inset-block-end:1rem;inset-inline-start:1rem;z-index:2;
+  background:rgba(11,18,32,.82);backdrop-filter:blur(6px);color:#fff;
+  border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:.5rem 1rem;
+  font-weight:700;font-size:.88rem;display:flex;align-items:center;gap:.5rem
+}
+.about__badge b{color:var(--accent);font-size:1.05rem}
+.about__body h2{font-size:clamp(1.7rem,3.3vw,2.5rem);line-height:1.2;margin-block-end:1rem}
+.about__body p{color:var(--muted);font-size:1.05rem;line-height:1.8;margin-block-end:1rem;max-width:60ch}
+.about__list{list-style:none;display:grid;gap:.7rem;margin-block-start:1.6rem}
+.about__list li{display:flex;gap:.7rem;align-items:flex-start;font-weight:500}
+.about__list svg{width:20px;height:20px;flex:0 0 auto;color:var(--brand);margin-block-start:.15rem}
+@media (max-width:760px){
+  .about__grid{grid-template-columns:1fr}
+  .about__photo{max-width:320px;margin-inline:auto}
+}
 .section__head{max-width:780px;margin-block-end:3rem}
 .section__title{font-size:clamp(1.9rem,4.2vw,2.9rem);font-weight:900;letter-spacing:-.01em}
 .section__sub{margin-block-start:1rem;font-size:clamp(1.02rem,2vw,1.16rem);color:var(--muted)}
@@ -288,6 +316,7 @@ p{margin:0}
   display:flex;flex-direction:column;box-shadow:var(--shadow-sm);
   transition:transform .3s ease, box-shadow .3s ease, border-color .3s;
 }
+.work{cursor:pointer}
 .work:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:#cfe6f7}
 .work[hidden]{display:none}
 .work__media{
@@ -453,15 +482,16 @@ p{margin:0}
           <path d="M9.5 5.5a2.5 2.5 0 1 1 2.5 2.5H2"/><path d="M14 17.5a2.5 2.5 0 1 0 2.5-2.5H2"/><path d="M17 4.5a3 3 0 1 1 3 3H2"/>
         </svg>
       </span>
-      <span class="brand__name">אקמל<span class="brand__tag">תכנון וביצוע מיזוג מתקדם</span></span>
+      <span class="brand__name">כל המיזוג<span class="brand__tag">תכנון וביצוע מיזוג מתקדם</span></span>
     </a>
 
     <button class="nav__burger" id="burger" aria-label="תפריט" aria-expanded="false" aria-controls="navLinks"><span></span></button>
 
     <nav class="nav__links" id="navLinks" aria-label="ניווט ראשי">
+      <a href="#about">על אקמל</a>
       <a href="#value">למה אנחנו</a>
-      <a href="#principles">עקרונות עבודה</a>
       <a href="#works">מבחר עבודות</a>
+      <a href="#principles">עקרונות עבודה</a>
       <a href="#faq">שאלות נפוצות</a>
       <a href="#contact">צור קשר</a>
     </nav>
@@ -474,7 +504,7 @@ p{margin:0}
 <section class="hero" id="top">
   <div class="hero__media">
     <!-- החליפו את media/hero.mp4 בסרטון רקע אמיתי. עד שהקובץ קיים מוצג רקע חלופי מעוצב. -->
-    <video id="heroVideo" autoplay muted loop playsinline preload="none" poster="media/hero-poster.jpg" hidden>
+    <video id="heroVideo" autoplay muted loop playsinline preload="none" hidden>
       <source src="media/hero.mp4" type="video/mp4">
     </video>
     <div class="hero__fallback" id="heroFallback" aria-hidden="true"></div>
@@ -505,6 +535,56 @@ p{margin:0}
   </div>
 
   <div class="hero__scroll" aria-hidden="true"><span></span></div>
+</section>
+
+<!-- ============================ על אקמל ============================ -->
+<section class="section about" id="about">
+  <div class="wrap">
+    <div class="about__grid reveal">
+      <div class="about__photo">
+        <!-- החליפו את media/akmal.jpg בתמונה אמיתית. עד שהקובץ קיים מוצג תחליף מעוצב. -->
+        <img id="akmalPhoto" src="media/akmal.jpg" alt="אקמל, בעל החברה כל המיזוג" loading="lazy" width="720" height="720">
+        <span class="about__badge"><b>20</b> שנות ניסיון</span>
+      </div>
+      <div class="about__body">
+        <span class="eyebrow">מי עומד מאחורי העבודה</span>
+        <h2>אקמל — 20 שנות ניסיון במיזוג אוויר</h2>
+        <p>
+          כל המיזוג היא חברה של בעל מקצוע אחד שמלווה כל פרויקט מהתכנון ועד המסירה.
+          עשרים שנות ניסיון בשטח מלמדות בעיקר דבר אחד: כל קיצור דרך חוזר אחרי שנה־שנתיים,
+          וכל דבר שנעשה נכון מלכתחילה פשוט ממשיך לעבוד בלי שתצטרכו לחשוב עליו.
+        </p>
+        <p>
+          העבודה לא נגמרת ביחידה שתלויה על הקיר: אנחנו מייעצים לפני הרכישה, מתכננים,
+          מתקינים, ומבצעים גם את עבודות הגבס והגמר — עד לתוצאה היפה ביותר שאפשר לקבל,
+          במחירים משתלמים.
+        </p>
+        <ul class="about__list">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            איכות ושירות ללא פשרות — מהשיחה הראשונה ועד אחרי המסירה
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            ייעוץ לפני ההתקנה — איזו מערכת באמת נכונה לנכס שלכם
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            עבודות גבס וגמר ברמה היפה ביותר שיש — הכול אצלנו, בלי בעל מקצוע נוסף
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            מחירים משתלמים ביחס לרמת הביצוע ולחומרים
+          </li>
+        </ul>
+        <div class="hero__actions" style="margin-block-start:2rem">
+          <a class="btn btn--primary" href="tel:+972533346759">
+            דברו עם אקמל · <span dir="ltr">053-334-6759</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- ============================ הצעת הערך ============================ -->
@@ -610,6 +690,26 @@ p{margin:0}
   </div>
 </section>
 
+<!-- ============================ מבחר עבודות ============================ -->
+<section class="section section--alt" id="works">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <span class="eyebrow">מבחר עבודות</span>
+      <h2 class="section__title">פרויקטים שביצענו</h2>
+      <p class="section__sub">מבחר מתוך העבודות האחרונות — מדירות ועד וילות ובתים פרטיים, כולל עבודות הגבס והגמרים שסוגרות אותן. לחצו על עבודה לצפייה בווידאו.</p>
+    </div>
+
+    <div class="filters reveal" role="group" aria-label="סינון עבודות לפי סוג">
+      <button class="chip is-active" data-filter="all">הכל</button>
+      <button class="chip" data-filter="vrf">מערכות VRF</button>
+      <button class="chip" data-filter="home">בתים פרטיים ווילות</button>
+      <button class="chip" data-filter="finish">גבס וגמרים</button>
+    </div>
+
+    <div class="works" id="works-grid"></div>
+  </div>
+</section>
+
 <!-- ============================ עקרונות עבודה ============================ -->
 <section class="section principles" id="principles">
   <div class="wrap">
@@ -686,31 +786,6 @@ p{margin:0}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
       <p><strong>למה זה חשוב לכם?</strong> רוב העקרונות האלה מסתתרים מאחורי הגבס ואף אחד לא רואה אותם ביום המסירה. בדיוק בגלל זה קל לוותר עליהם — ובדיוק בגלל זה אנחנו לא מוותרים.</p>
     </div>
-  </div>
-</section>
-
-<!-- ============================ מבחר עבודות ============================ -->
-<section class="section section--alt" id="works">
-  <div class="wrap">
-    <div class="section__head reveal">
-      <span class="eyebrow">מבחר עבודות</span>
-      <h2 class="section__title">פרויקטים שביצענו</h2>
-      <p class="section__sub">מבחר מתוך העבודות האחרונות — מדירות ופנטהאוזים ועד וילות, משרדים ועסקים. לחצו על עבודה לצפייה בתמונות ובווידאו.</p>
-    </div>
-
-    <div class="filters reveal" role="group" aria-label="סינון עבודות לפי סוג">
-      <button class="chip is-active" data-filter="all">הכל</button>
-      <button class="chip" data-filter="vrf">VRF</button>
-      <button class="chip" data-filter="mini">מיני מרכזי</button>
-      <button class="chip" data-filter="split">מזגן עילי</button>
-      <button class="chip" data-filter="design">תכנון</button>
-      <button class="chip" data-filter="commercial">מסחרי</button>
-      <button class="chip" data-filter="home">בית פרטי</button>
-      <button class="chip" data-filter="finish">גבס וגמרים</button>
-      <button class="chip" data-filter="repair">שיקום ושדרוג</button>
-    </div>
-
-    <div class="works" id="works-grid"></div>
   </div>
 </section>
 
@@ -822,17 +897,13 @@ p{margin:0}
           <p>שיחת ייעוץ ראשונה, בדיקת התאמה והצעת מחיר מפורטת — בלי התחייבות. ספרו לנו על הנכס, ונגיד לכם בדיוק מה נכון לעשות ולמה.</p>
         </div>
         <div class="cta__actions">
-          <a class="cta__line" href="tel:+972500000000">
+          <a class="cta__line" href="tel:+972533346759">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
-            <span>התקשרו אלינו<small><span dir="ltr">050-000-0000</span></small></span>
+            <span>התקשרו אלינו<small><span dir="ltr">053-334-6759</span></small></span>
           </a>
-          <a class="cta__line" href="https://wa.me/972500000000" target="_blank" rel="noopener">
+          <a class="cta__line" href="https://wa.me/972533346759" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>
             <span>וואטסאפ<small>שלחו תמונות ונחזור אליכם</small></span>
-          </a>
-          <a class="cta__line" href="mailto:info@example.co.il">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-            <span>אימייל<small><span dir="ltr">info@example.co.il</span></small></span>
           </a>
         </div>
       </div>
@@ -843,11 +914,12 @@ p{margin:0}
 <!-- ============================ פוטר ============================ -->
 <footer class="footer">
   <div class="wrap footer__inner">
-    <p><strong>אקמל — תכנון וביצוע מיזוג מתקדם</strong><br>תכנון, התקנה ותחזוקה של מערכות מיזוג אוויר.</p>
+    <p><strong>כל המיזוג — תכנון וביצוע מיזוג מתקדם</strong><br>אקמל — תכנון, התקנה, גבס וגמרים של מערכות מיזוג אוויר.</p>
     <nav aria-label="ניווט תחתון">
+      <a href="#about">על אקמל</a>
       <a href="#value">למה אנחנו</a>
-      <a href="#principles">עקרונות</a>
       <a href="#works">עבודות</a>
+      <a href="#principles">עקרונות</a>
       <a href="#faq">שאלות נפוצות</a>
       <a href="#contact">צור קשר</a>
     </nav>
@@ -875,7 +947,7 @@ p{margin:0}
    ========================================================================== */
 var WORKS = [
   {
-    cat:'vrf', type:'מזגן VRF',
+    cat:'vrf home', type:'מזגן VRF',
     title:'מערכת VRF של סמסונג בווילה דו-קומתית',
     text:'מערכת VRF של סמסונג בווילה בת שתי קומות, עם שליטה נפרדת בכל חלל. בווילה דו-קומתית ' +
          'האתגר המרכזי הוא מסלולי הצנרת בין הקומות ושמירה על שיפוע ניקוז רציף לאורך כל המסלול — ' +
@@ -945,6 +1017,35 @@ var WORKS = [
          'עבודה שנעשתה בבית, לבין חלל שנראה כאילו המערכת תוכננה לתוכו מלכתחילה.',
     tags:['גמרים','סגירת גבס','מסתורים'],
     image:null, video:'media/work-08.mp4'
+  },
+  {
+    cat:'finish', type:'גבס וגמרים',
+    title:'גמרים ברמה הגבוהה ביותר — התוצר הסופי',
+    text:'ככה נראה החלל אחרי שהכול נסגר: תקרת גבס ישרה, צביעה בספריי בגוון אחיד, ' +
+         'ואף סימן לכך שעברה שם מערכת מיזוג שלמה. זה השלב שבו נמדדת העבודה — ' +
+         'לא בשלב הצנרת שאף אחד לא רואה, אלא בתוצאה שנשארת מול העיניים.',
+    tags:['תוצר סופי','צביעה בספריי','תקרת גבס'],
+    image:null, video:'media/work-09.mp4'
+  },
+  {
+    cat:'vrf', type:'מזגן VRF',
+    title:'מערכת VRF של מיצובישי',
+    text:'מיצובישי היא המערכת המתקדמת והטובה ביותר שיש היום בשוק, וזו גם המערכת שאנחנו ' +
+         'ממליצים עליה כשהתקציב מאפשר. היתרון שלה הוא בדיוק במה שנמדד לאורך שנים: ' +
+         'שקט בעבודה, יציבות בטמפרטורה ואורך חיים של המדחס. מערכת כזו מצדיקה את עצמה רק ' +
+         'כשהיא מותקנת ומתוכננת בהתאם — אחרת שילמתם על רכיב מצוין שמותקן בינוני.',
+    tags:['VRF מיצובישי','המערכת המובילה בשוק'],
+    image:null, video:'media/work-10.mp4'
+  },
+  {
+    cat:'home', type:'בית חכם',
+    title:'מערכת סמסונג שמתחברת לבית החכם',
+    text:'המערכת של סמסונג מתחברת למערכת הבית החכם — שליטה בכל יחידה מהטלפון או מהמסך ' +
+         'המרכזי, תרחישים לפי שעה ולפי חדר, ובקרה על מה שבאמת צורך חשמל בבית. ' +
+         'החיבור הזה צריך להילקח בחשבון כבר בשלב התכנון, כי הוא משפיע על בחירת היחידות ' +
+         'ועל התשתית שמונחת בקירות עוד לפני שסוגרים אותם.',
+    tags:['סמסונג','בית חכם','שליטה מהטלפון'],
+    image:null, video:'media/work-11.mp4'
   }
 ];
 
@@ -956,16 +1057,6 @@ function svg(inner){
 var PH = {
   /* יחידת חוץ עם מאוורר */
   vrf:        {hue:190, icon:svg('<rect x="2.5" y="5" width="19" height="14" rx="2"/><circle cx="12" cy="12" r="3.6"/><path d="M12 8.4v-.9M12 16.5v-.9M8.4 12h-.9M16.5 12h-.9"/>')},
-  /* תעלות מיזוג בתקרה */
-  mini:       {hue:205, icon:svg('<path d="M3 7h13a3 3 0 0 1 3 3v7"/><path d="M3 11h9a3 3 0 0 1 3 3v3"/><path d="M3 4v16"/><path d="M19 17h2M15 17h2"/>')},
-  /* מזגן עילי על קיר */
-  split:      {hue:198, icon:svg('<rect x="2.5" y="6" width="19" height="7" rx="2"/><path d="M6 10h8"/><path d="M7 16.5c1.6 0 1.6 2 3.2 2M13 16.5c1.6 0 1.6 2 3.2 2"/>')},
-  /* תוכנית / שרטוט */
-  design:     {hue:174, icon:svg('<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/><path d="M13 13h4v4h-4z"/>')},
-  /* חנות / חלל מסחרי */
-  commercial: {hue:38,  icon:svg('<path d="M3 9.5 4.6 4h14.8L21 9.5"/><path d="M4 9.5v10.5h16V9.5"/><path d="M3 9.5h18"/><path d="M9.5 20v-6h5v6"/>')},
-  /* מפתח שירות / שיקום */
-  repair:     {hue:15,  icon:svg('<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.8-3.8a6 6 0 0 1-7.9 7.9l-6.9 6.9a2.1 2.1 0 0 1-3-3l6.9-6.9a6 6 0 0 1 7.9-7.9z"/>')},
   /* בית פרטי */
   home:       {hue:320, icon:svg('<path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5.5h4V20"/>')},
   /* רולר צביעה / גמרים */
@@ -1061,6 +1152,20 @@ var ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
   }
 })();
 
+/* ---------- תמונת אקמל: תחליף מעוצב עד שהקובץ קיים ---------- */
+(function akmalPhoto(){
+  var img = document.getElementById('akmalPhoto');
+  if(!img) return;
+  img.addEventListener('error', function(){
+    var holder = img.parentNode;
+    img.remove();
+    var ph = document.createElement('div');
+    ph.className = 'about__ph';
+    ph.innerHTML = '<span>א</span><small>תמונה של אקמל<br>תתווסף כאן</small>';
+    holder.insertBefore(ph, holder.firstChild);
+  });
+})();
+
 /* ---------- לייטבוקס ---------- */
 (function lightbox(){
   var box = document.getElementById('lightbox');
@@ -1103,7 +1208,10 @@ var ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
   }
 
   document.addEventListener('click', function(e){
-    var trigger = e.target.closest ? e.target.closest('.work__media') : null;
+    if(!e.target.closest) return;
+    var card = e.target.closest('.work');
+    if(!card) return;
+    var trigger = card.querySelector('.work__media');
     if(trigger){ open(parseInt(trigger.getAttribute('data-index'),10)); }
   });
   closeBtn.addEventListener('click', close);
