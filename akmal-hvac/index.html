@@ -207,8 +207,10 @@ p{margin:0}
 .hero__badge .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(16,185,129,.22)}
 .hero h1{
   color:#fff;font-weight:900;letter-spacing:-.02em;
-  font-size:clamp(2.4rem,7.2vw,5rem);line-height:1.08;
+  font-size:clamp(2.05rem,6.4vw,4.4rem);line-height:1.1;
 }
+/* שוברים שורה רק בין ביטויים שלמים, לא בתוכם */
+.hero h1 .nb{white-space:nowrap}
 .hero h1 .grad{
   background:linear-gradient(100deg,var(--accent) 0%,var(--brand) 60%,#7dd3fc 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
@@ -513,7 +515,7 @@ p{margin:0}
 
   <div class="wrap hero__inner">
     <span class="hero__badge"><span class="dot" aria-hidden="true"></span>תכנון · ביצוע · אחריות מלאה</span>
-    <h1>מיזוג אוויר שנשאר<br><span class="grad">מושלם גם בעוד עשר שנים</span></h1>
+    <h1>מיזוג אוויר שנשאר<br><span class="grad"><span class="nb">מושלם שנים</span> <span class="nb">אחרי ההתקנה,</span> <span class="nb">ללא פשרות</span></span></h1>
     <p class="hero__sub">
       תכנון וביצוע מערכות מיזוג ברמה הגבוהה בשוק — VRF, מיני מרכזי, מזגנים עיליים ותכנון מלא לווילות ובנייה חדשה.
       חומרים מקוריים בלבד, עבודה לפי הספר, בלי קיצורי דרך.
