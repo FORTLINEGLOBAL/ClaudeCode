@@ -1,0 +1,15 @@
+[build]
+  command = "npm run typecheck"
+  publish = "public"
+
+[functions]
+  node_bundler = "esbuild"
+  directory = "netlify/functions"
+
+# Scan for new jobs / companies / contacts every 6 hours.
+[functions.scan]
+  schedule = "0 */6 * * *"
+
+# Follow-up reminders once a day, 06:00 UTC (08:00 IST / 09:00 IDT).
+[functions.followups]
+  schedule = "0 6 * * *"
