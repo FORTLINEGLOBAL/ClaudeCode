@@ -1,6 +1,7 @@
 // Persistence on Netlify Blobs (free tier). Falls back to a local JSON file when
 // running outside Netlify (scripts/run-local.ts).
 import { getStore } from "@netlify/blobs";
+import type { AtsRef } from "./sources/ats.js";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -70,6 +71,7 @@ export interface State {
   nextQueueNumber: number;
   lastInboundAt?: string;     // for WhatsApp 24h service window
   draftsToday: { date: string; count: number };
+  atsCache: Record<string, AtsRef>;   // company (lowercased) -> resolved job board, or a known miss
   settings: Settings;
 }
 
@@ -83,7 +85,7 @@ export const DEFAULT_SETTINGS: Settings = {
 
 function emptyState(): State {
   return {
-    jobs: {}, contacts: {}, companies: {}, queue: [], nextQueueNumber: 1,
+    jobs: {}, contacts: {}, companies: {}, queue: [], nextQueueNumber: 1, atsCache: {},
     draftsToday: { date: today(), count: 0 }, settings: { ...DEFAULT_SETTINGS },
   };
 }

@@ -2,7 +2,7 @@
 import { EMERGING_TARGET } from "../profile.js";
 import { fundingNews, linkedinPostsAboutFunding } from "../sources/news.js";
 import { extractFunding } from "../llm.js";
-import { probeAts, fetchAts, looksRelevant } from "../sources/ats.js";
+import { resolveAts, fetchAts, looksRelevant } from "../sources/ats.js";
 import { prospectCompany } from "./people.js";
 import { slug, type State, type Contact, type Company } from "../store.js";
 
@@ -29,7 +29,7 @@ export async function huntEmerging(state: State): Promise<{ companies: Company[]
 export async function prospectOne(state: State, c: Company): Promise<Contact[]> {
   // Any relevant international / GTM leadership roles open? (helps the pitch)
   let openRoles: string[] = [];
-  const ats = await probeAts(c.name);
+  const ats = await resolveAts(state.atsCache, c.name);
   if (ats) openRoles = (await fetchAts(ats.kind, ats.slug, c.name)).filter((j) => looksRelevant(j, false)).slice(0, 5).map((j) => `${j.title} (${j.location}) ${j.url}`);
   const extra = c.raisedUSD ? [`${c.name} raised $${Math.round(c.raisedUSD / 1e6)}M (${c.round || "round"}) (source: ${c.sourceUrl || "news scan"})`] : [];
   const contacts = await prospectCompany(state, { name: c.name, hq: c.hq, openRoles, extraFacts: extra, hunter: "emerging" });

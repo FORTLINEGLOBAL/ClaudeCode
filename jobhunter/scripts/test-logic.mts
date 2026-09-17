@@ -67,4 +67,20 @@ const job = (id: string): Job => ({ id, title: "VP Sales", company: "Acme", loca
   const s = fresh(); s.contacts.c1 = contact("c1"); s.jobs.j1 = job("j1");
   const p = pendingDigest(s); assert.match(p, /OPEN JOBS/); assert.match(p, /DRAFTS WAITING/); assert.ok(byNumber(s, 1));
 }
+// 7. ATS cache policy: fresh hit reused, fresh miss suppressed, stale entries re-looked-up
+{
+  const { cachedAts } = await import("../src/sources/ats.js");
+  const iso = (daysAgo: number) => new Date(Date.now() - daysAgo * 86400000).toISOString();
+  const cache: Record<string, any> = {
+    "fresh hit": { kind: "ashby", slug: "fresh-hit", checkedAt: iso(3) },
+    "stale hit": { kind: "ashby", slug: "stale-hit", checkedAt: iso(45) },
+    "fresh miss": { kind: null, slug: "", checkedAt: iso(2) },
+    "stale miss": { kind: null, slug: "", checkedAt: iso(20) },
+  };
+  assert.deepEqual(cachedAts(cache, "Fresh Hit"), { kind: "ashby", slug: "fresh-hit" }); // case-insensitive
+  assert.equal(cachedAts(cache, "fresh miss"), null);        // known-missing, do not re-probe
+  assert.equal(cachedAts(cache, "stale hit"), undefined);    // expired, look up again
+  assert.equal(cachedAts(cache, "stale miss"), undefined);   // retry weekly
+  assert.equal(cachedAts(cache, "never seen"), undefined);
+}
 console.log("all logic tests passed");

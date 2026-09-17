@@ -24,6 +24,55 @@ export async function fetchAts(kind: AtsKind, slug: string, company: string): Pr
   }
 }
 
+// A resolved (or known-missing) job board for a company, cached in state so a wrong
+// hardcoded slug self-heals and a company with no public board is not re-probed every run.
+export interface AtsRef { kind: AtsKind | null; slug: string; checkedAt: string }
+
+const HIT_TTL_DAYS = 30;   // re-verify a working board monthly
+const MISS_TTL_DAYS = 7;   // retry a company with no board weekly
+
+function fresh(ref: AtsRef | undefined, days: number): boolean {
+  return !!ref && Date.now() - Date.parse(ref.checkedAt) < days * 86400 * 1000;
+}
+
+/**
+ * What the cache alone can tell us about a company's board.
+ * Returns the board, null for a known-missing board, or undefined when a lookup is needed.
+ * Pure, so the cache policy is testable without touching the network.
+ */
+export function cachedAts(cache: Record<string, AtsRef>, company: string): { kind: AtsKind; slug: string } | null | undefined {
+  const cached = cache[company.toLowerCase()];
+  if (cached?.kind && fresh(cached, HIT_TTL_DAYS)) return { kind: cached.kind, slug: cached.slug };
+  if (cached && cached.kind === null && fresh(cached, MISS_TTL_DAYS)) return null;
+  return undefined;
+}
+
+/**
+ * Find a company's job board, preferring (in order) a fresh cache hit, the slug configured
+ * in profile.ts, then probed guesses. The cache is mutated in place by the caller's state.
+ */
+export async function resolveAts(
+  cache: Record<string, AtsRef>,
+  company: string,
+  configured?: { kind: AtsKind; slug: string },
+): Promise<{ kind: AtsKind; slug: string } | null> {
+  const key = company.toLowerCase();
+  const known = cachedAts(cache, company);
+  if (known !== undefined) return known;
+
+  const now = new Date().toISOString();
+  if (configured) {
+    const jobs = await fetchAts(configured.kind, configured.slug, company);
+    if (jobs.length) {
+      cache[key] = { ...configured, checkedAt: now };
+      return configured;
+    }
+  }
+  const probed = await probeAts(company);
+  cache[key] = probed ? { ...probed, checkedAt: now } : { kind: null, slug: "", checkedAt: now };
+  return probed;
+}
+
 // Try all three boards for a guessed slug. Used for companies discovered by the news scan.
 export async function probeAts(company: string): Promise<{ kind: AtsKind; slug: string } | null> {
   const base = company.toLowerCase().replace(/\s*(ai|inc|labs)\s*$/i, "").trim();

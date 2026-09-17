@@ -87,4 +87,4 @@ Everything about targets lives in `src/profile.ts`: title keywords, minimum rais
 
 - LinkedIn has no public API. Job search uses LinkedIn's public guest endpoint (may rate-limit; ATS boards fill the gap) and LinkedIn posts are found through a web search engine, so coverage there is partial.
 - Company discovery relies on news, so a raise that only appears on Crunchbase is missed.
-- The ATS slugs in the big-company list are best guesses; run `npm run smoke:sources` once and fix any that return 0 jobs.
+- The ATS slugs in the big-company list are best guesses, but a wrong one self-heals: if the configured slug returns nothing the agent probes the other boards, then caches what worked for 30 days (a company with no public board is retried weekly). `npm run smoke:sources` still shows you which slugs are wrong if you want to correct them in `src/profile.ts`.

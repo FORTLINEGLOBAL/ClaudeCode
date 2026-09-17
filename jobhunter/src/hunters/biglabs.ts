@@ -1,6 +1,6 @@
 // Hunter 3: large AI labs and platforms. Mix of open roles (any region that fits) and cold DMs to international leaders.
 import { BIG_COMPANIES } from "../profile.js";
-import { fetchAts, looksRelevant, type RawJob } from "../sources/ats.js";
+import { fetchAts, resolveAts, looksRelevant, type RawJob } from "../sources/ats.js";
 import { scoreJobs } from "../llm.js";
 import { prospectCompany } from "./people.js";
 import type { State, Job, Contact } from "../store.js";
@@ -8,8 +8,12 @@ import type { State, Job, Contact } from "../store.js";
 const INTL = /(emea|apac|international|europe|israel|london|uk|middle east|global|regional|country)/i;
 
 export async function huntBigLabs(state: State, prospectBudget = 2): Promise<{ jobs: Job[]; contacts: Contact[] }> {
-  const boards = await Promise.all(BIG_COMPANIES.filter((c) => c.ats).map((c) => fetchAts(c.ats!.kind, c.ats!.slug, c.name)));
-  const raw: RawJob[] = boards.flat().filter((j) => looksRelevant(j, false) && INTL.test(`${j.title} ${j.location}`) && !state.jobs[j.id]);
+  const boards: RawJob[] = [];
+  for (const c of BIG_COMPANIES) {
+    const ref = await resolveAts(state.atsCache, c.name, c.ats);
+    if (ref) boards.push(...(await fetchAts(ref.kind, ref.slug, c.name)));
+  }
+  const raw: RawJob[] = boards.filter((j) => looksRelevant(j, false) && INTL.test(`${j.title} ${j.location}`) && !state.jobs[j.id]);
   const jobs: Job[] = [];
   if (raw.length) {
     const scores = await scoreJobs(raw.slice(0, 60).map((j) => ({ id: j.id, title: j.title, company: j.company, location: j.location, snippet: j.snippet })));
