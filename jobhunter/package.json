@@ -1,0 +1,29 @@
+{
+  "name": "jobhunter-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Eddie's personal job-hunting agent, driven over WhatsApp, hosted on Netlify Functions (free tier).",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "dev": "netlify dev",
+    "scan:local": "tsx scripts/run-local.ts scan",
+    "followups:local": "tsx scripts/run-local.ts followups",
+    "cmd:local": "tsx scripts/run-local.ts cmd",
+    "test": "tsx scripts/test-logic.mts",
+    "smoke:sources": "tsx scripts/smoke.mts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
+    "@netlify/blobs": "^8.2.0",
+    "@netlify/functions": "^3.1.0",
+    "cheerio": "^1.0.0",
+    "fast-xml-parser": "^4.5.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
