@@ -83,4 +83,51 @@ const job = (id: string): Job => ({ id, title: "VP Sales", company: "Acme", loca
   assert.equal(cachedAts(cache, "stale miss"), undefined);   // retry weekly
   assert.equal(cachedAts(cache, "never seen"), undefined);
 }
+// 8. Fast/slow command split: the 10s webhook must never take on fetching work
+{
+  const { fastAction, ackFor } = await import("../src/commands.js");
+  for (const fast of ["digest", "status", "help", "show 3", "sent 3", "skip 2", "pause", "resume", "set cap 5"]) {
+    assert.ok(fastAction(fast), `${fast} should be answered inline`);
+  }
+  for (const slow of ["scan now", "diag", "find contacts at Baseten", "rewrite 3 shorter", "replied 2: sure, let's talk"]) {
+    assert.equal(fastAction(slow), null, `${slow} must go to the background worker`);
+  }
+  // Free text needs the LLM to interpret it, which is itself a network call.
+  assert.equal(fastAction("what's going on with Together?"), null);
+  // The ack names the work rather than being a bare "ok".
+  assert.match(ackFor("scan now"), /Scanning now/);
+  assert.match(ackFor("find contacts at Baseten"), /Baseten/);
+}
+
+// 9. Internal dispatch is signed and fails closed
+{
+  const prev = process.env.WHATSAPP_APP_SECRET;
+  process.env.WHATSAPP_APP_SECRET = "test-secret";
+  const { sign, verifyInternal, isSlow } = await import("../src/internal.js");
+  const body = JSON.stringify({ kind: "scan" });
+  assert.ok(verifyInternal(body, sign(body)));
+  assert.equal(verifyInternal(body, sign("different body")), false);
+  assert.equal(verifyInternal(body, null), false);
+  assert.equal(verifyInternal(body, "sha256=deadbeef"), false, "length mismatch must not throw");
+  assert.ok(isSlow("scan_now") && isSlow("diag") && !isSlow("digest"));
+  delete process.env.WHATSAPP_APP_SECRET;
+  assert.equal(verifyInternal(body, "sha256=" + "0".repeat(64)), false, "unset secret must reject, not accept");
+  if (prev) process.env.WHATSAPP_APP_SECRET = prev;
+}
+
+// 10. Fetch trace turns silent failures into a readable report
+{
+  const { traceSummary } = await import("../src/sources/http.js");
+  const out = traceSummary([
+    { host: "news.google.com", ok: true, status: 200, ms: 120, bytes: 2048 },
+    { host: "news.google.com", ok: false, status: 429, ms: 90, bytes: 0 },
+    { host: "html.duckduckgo.com", ok: false, status: 403, ms: 80, bytes: 0 },
+    { host: "html.duckduckgo.com", ok: false, status: null, reason: "timeout 15000ms", ms: 15000, bytes: 0 },
+  ]);
+  assert.match(out, /news\.google\.com: 1\/2 ok/);
+  assert.match(out, /1x HTTP 429/);
+  assert.match(out, /html\.duckduckgo\.com: 0\/2 ok/);
+  assert.match(out, /timeout 15000ms/);
+}
+
 console.log("all logic tests passed");
