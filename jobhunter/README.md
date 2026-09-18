@@ -25,6 +25,7 @@ replied N: <text>   paste their reply, the agent drafts yours
 find contacts at <company>
 add company <company> | block company <company>
 set cap 10 | pause | resume | scan now
+diag                check every source is alive
 ```
 
 Anything else in plain language is interpreted by Claude and mapped to one of those.
@@ -63,7 +64,11 @@ Create a key at console.anthropic.com. That is `ANTHROPIC_API_KEY`.
 In the Meta app: WhatsApp > Configuration > Webhook. Callback URL is the URL above, Verify token is your `WHATSAPP_VERIFY_TOKEN`. Subscribe to the `messages` field.
 
 ### 5. First run
-Send "help" from WhatsApp to the test number. Then send "scan now". The first scan takes a couple of minutes and returns the first digest.
+Send "help" from WhatsApp to the test number. Then send "scan now". The scan runs in a
+background function and pushes the digest when it is done, usually a minute or two.
+
+If a scan comes back with nothing, send "diag". It probes every feed and the Claude API
+one call at a time and reports what each returned, so an empty result is never ambiguous.
 
 You can also trigger a scan from a browser: `https://<site>.netlify.app/.netlify/functions/scan?key=<JOBHUNTER_ADMIN_KEY>`.
 
@@ -82,6 +87,33 @@ npm test               # offline logic tests
 ## Tuning
 
 Everything about targets lives in `src/profile.ts`: title keywords, minimum raise, sectors, the big-company list and their ATS slugs, the expansion pitch per HQ region, and the voice rules with Eddie's reference DMs. `src/store.ts` has the defaults for cap, cadence and max touches (also changeable over WhatsApp).
+
+## Execution model
+
+Netlify caps synchronous functions at 10 seconds and scheduled functions at 30. A real
+scan makes a couple of hundred HTTP calls plus several Claude calls, so it cannot run in
+either. The work therefore lives in `netlify/functions/work-background.ts`, which gets a
+15-minute budget:
+
+- `whatsapp.ts` answers state-only commands (digest, status, show, sent, skip, ...) inline
+  and hands anything that fetches or calls Claude to the worker, replying with an ack first.
+- `scan.ts` and `followups.ts` are schedulers only: they dispatch and return.
+- Internal calls are HMAC-signed with `WHATSAPP_APP_SECRET` and fail closed, so the
+  background endpoint cannot be triggered by anyone else.
+
+## Diagnosing an empty scan
+
+Every source swallows its own errors and returns an empty list, which once made "nothing
+new" and "every feed is broken" look identical. Now:
+
+- `fetchText` traces each call (host, status, timing, size).
+- A forced scan (`scan now`) always reports: found counts, or a per-host breakdown of what
+  failed and why.
+- The last scan's report is kept in state and shown by `diag`.
+- `npm run try:scan` runs the same thing locally.
+
+A report reading `0/233 succeeded ... 233x HTTP 403` means outbound access is blocked, not
+that the market is quiet.
 
 ## Known limits
 

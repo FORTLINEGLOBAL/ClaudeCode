@@ -63,6 +63,20 @@ export interface Settings {
 
 export interface QueueItem { n: number; kind: "job" | "contact"; id: string; createdAt: string }
 
+// What the last scan actually did on the wire. Kept so "nothing new" can always
+// be explained after the fact, including for the unattended scheduled runs.
+export interface ScanReport {
+  at: string;
+  elapsedSec: number;
+  fetches: number;
+  fetchesOk: number;
+  jobs: number;
+  contacts: number;
+  companies: number;
+  trace: string;
+  errors: string;
+}
+
 export interface State {
   jobs: Record<string, Job>;
   contacts: Record<string, Contact>;
@@ -72,6 +86,7 @@ export interface State {
   lastInboundAt?: string;     // for WhatsApp 24h service window
   draftsToday: { date: string; count: number };
   atsCache: Record<string, AtsRef>;   // company (lowercased) -> resolved job board, or a known miss
+  lastScan?: ScanReport;
   settings: Settings;
 }
 

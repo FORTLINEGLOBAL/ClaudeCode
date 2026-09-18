@@ -1,21 +1,16 @@
 import type { Config } from "@netlify/functions";
-import { loadState, saveState, enqueue } from "../../src/store.js";
-import { prepareFollowUps } from "../../src/followups.js";
-import { fmtContactFull } from "../../src/digest.js";
+import { dispatch } from "../../src/internal.js";
 import { sendText } from "../../src/whatsapp.js";
 
-export default async (req: Request) => {
-  const url = new URL(req.url);
-  if (url.searchParams.has("key") && url.searchParams.get("key") !== process.env.JOBHUNTER_ADMIN_KEY) return new Response("forbidden", { status: 403 });
-  const state = await loadState();
-  const due = await prepareFollowUps(state);
-  let text = "";
-  if (due.length) {
-    text = "FOLLOW-UPS DUE TODAY\n\n" + due.map((c) => fmtContactFull(enqueue(state, "contact", c.id), c)).join("\n\n");
+// Drafting each due follow-up is a Claude call, so a busy day exceeds the 30s
+// scheduled limit. The background worker does the drafting and sends the result.
+export default async () => {
+  try {
+    await dispatch({ kind: "followups" });
+  } catch (e: any) {
+    console.error("scheduled follow-ups dispatch failed", e);
+    await sendText(`The follow-up run could not start: ${e?.message || e}`);
   }
-  await saveState(state);
-  if (text) await sendText(text, state.lastInboundAt);
-  return new Response(text || "no follow-ups due", { status: 200 });
 };
 
 export const config: Config = { schedule: "0 6 * * *" };

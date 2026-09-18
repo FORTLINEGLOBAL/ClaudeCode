@@ -5,6 +5,8 @@ import { markSent } from "./followups.js";
 import { fmtContactFull, fmtJob, pendingDigest, statusLine } from "./digest.js";
 import { prospectOne } from "./hunters/emerging.js";
 import { runScan } from "./scan.js";
+import { runDiagnostics } from "./diag.js";
+import { isSlow } from "./internal.js";
 
 const HELP = `Commands:
 digest | status | help
@@ -15,7 +17,8 @@ rewrite N <how>     e.g. rewrite 3 shorter, mention I'm in London in Oct
 replied N: <text>   paste their reply, I draft yours
 find contacts at <company>
 add company <company> | block company <company>
-set cap 10 | pause | resume | scan now`;
+set cap 10 | pause | resume | scan now
+diag                check every source is alive`;
 
 type Intent = Awaited<ReturnType<typeof interpret>>;
 
@@ -29,6 +32,7 @@ function quick(msg: string): Intent | null {
   if (/^pause$/i.test(m)) return { action: "pause", numbers: [], company: "", text: "", value: 0 };
   if (/^resume$/i.test(m)) return { action: "resume", numbers: [], company: "", text: "", value: 0 };
   if (/^scan( now)?$/i.test(m)) return { action: "scan_now", numbers: [], company: "", text: "", value: 0 };
+  if (/^(diag|diagnose|sources|health|check sources)$/i.test(m)) return { action: "diag", numbers: [], company: "", text: "", value: 0 };
   if ((r = m.match(/^show\s+#?(\d+)$/i))) return { action: "show", numbers: [Number(r[1])], company: "", text: "", value: 0 };
   if ((r = m.match(/^(sent|done)\s+([\d,#\s]+)$/i))) return { action: "sent", numbers: nums(r[2]), company: "", text: "", value: 0 };
   if ((r = m.match(/^skip\s+#?(\d+)$/i))) return { action: "skip", numbers: [Number(r[1])], company: "", text: "", value: 0 };
@@ -40,6 +44,30 @@ function quick(msg: string): Intent | null {
   if ((r = m.match(/^block( company)?\s+(.+)$/i))) return { action: "block_company", numbers: [], company: r[2].trim(), text: "", value: 0 };
   if ((r = m.match(/^set cap\s+(\d+)$/i))) return { action: "set_cap", numbers: [], company: "", text: "", value: Number(r[1]) };
   return null;
+}
+
+/**
+ * The action, if this message is one the 10s webhook can answer by itself.
+ * Returns null when the work needs the background function: either a slow action,
+ * or free text that needs the LLM to interpret it (a network call in itself).
+ */
+export function fastAction(msg: string): string | null {
+  const q = quick(msg);
+  return q && !isSlow(q.action) ? q.action : null;
+}
+
+/** What to tell Eddie while a slow command runs, so the ack is not a bare "ok". */
+export function ackFor(msg: string): string {
+  const q = quick(msg);
+  switch (q?.action) {
+    case "scan_now": return "Scanning now — all three hunters. This takes a minute or two; I'll send the results when they land.";
+    case "diag": return "Checking every source. Results in a moment.";
+    case "find_contacts":
+    case "add_company": return `Looking for senior people at ${q.company}. Back shortly.`;
+    case "rewrite": return "Rewriting that draft — one moment.";
+    case "replied": return "Reading their reply and drafting yours — one moment.";
+    default: return "On it — I'll reply in a moment.";
+  }
 }
 
 function contactByN(state: State, n: number): Contact | null {
@@ -119,9 +147,11 @@ export async function handleCommand(state: State, msg: string): Promise<string> 
       return contacts.map((x) => fmtContactFull(enqueue(state, "contact", x.id), x)).join("\n\n");
     }
     case "scan_now": {
-      const r = await runScan(state, { force: true });
-      return r || "Scan done, nothing new.";
+      // force: runScan then always reports, so an empty result explains itself.
+      return await runScan(state, { force: true });
     }
+    case "diag":
+      return await runDiagnostics(state);
     default:
       return `Not sure what you meant. ${HELP}`;
   }

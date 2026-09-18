@@ -1,7 +1,8 @@
 import type { Config, Context } from "@netlify/functions";
 import { loadState, saveState } from "../../src/store.js";
 import { parseInbound, sendText, verifySignature } from "../../src/whatsapp.js";
-import { handleCommand } from "../../src/commands.js";
+import { ackFor, fastAction, handleCommand } from "../../src/commands.js";
+import { dispatch } from "../../src/internal.js";
 
 export default async (req: Request, _ctx: Context) => {
   const url = new URL(req.url);
@@ -23,6 +24,21 @@ export default async (req: Request, _ctx: Context) => {
 
   const state = await loadState();
   state.lastInboundAt = new Date().toISOString();
+
+  // This function is killed at 10s. Only commands that just read and write state are
+  // answered here; anything that fetches or calls Claude goes to the background worker,
+  // which has 15 minutes and pushes its own reply.
+  if (!fastAction(inbound.text)) {
+    await saveState(state);
+    try {
+      await dispatch({ kind: "command", text: inbound.text, lastInboundAt: state.lastInboundAt });
+      await sendText(ackFor(inbound.text), state.lastInboundAt);
+    } catch (e: any) {
+      await sendText(`Could not start that: ${e?.message || e}`, state.lastInboundAt);
+    }
+    return new Response("ok", { status: 200 });
+  }
+
   let reply: string;
   try { reply = await handleCommand(state, inbound.text); }
   catch (e: any) { reply = `Something broke: ${e?.message || e}`; }

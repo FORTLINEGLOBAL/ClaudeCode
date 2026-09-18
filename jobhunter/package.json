@@ -11,7 +11,8 @@
     "followups:local": "tsx scripts/run-local.ts followups",
     "cmd:local": "tsx scripts/run-local.ts cmd",
     "test": "tsx scripts/test-logic.mts",
-    "smoke:sources": "tsx scripts/smoke.mts"
+    "smoke:sources": "tsx scripts/smoke.mts",
+    "try:scan": "tsx scripts/try-scan.mts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.80.0",

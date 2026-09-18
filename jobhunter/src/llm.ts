@@ -129,7 +129,7 @@ THEIR REPLY: ${theirReply}`, { effort: "high" });
 export const Intent = z.object({
   action: z.enum([
     "digest", "show", "sent", "skip", "rewrite", "replied", "find_contacts", "add_company", "block_company",
-    "status", "pause", "resume", "help", "set_cap", "scan_now", "unknown",
+    "status", "pause", "resume", "help", "set_cap", "scan_now", "diag", "unknown",
   ]),
   numbers: z.array(z.number()).describe("queue item numbers referenced, if any"),
   company: z.string().describe("company name if referenced, else empty"),
@@ -140,6 +140,6 @@ export const Intent = z.object({
 export async function interpret(message: string) {
   return parse(Intent, `Map this WhatsApp message from Eddie to one action.
 Actions: digest (show pending items), show N (full draft), sent N[,N] (Eddie sent the DM), skip N or skip <company>, rewrite N <instruction>,
-replied N: <their reply text>, find_contacts <company>, add_company <company>, block_company <company>, status, pause, resume, help, set_cap <n>, scan_now.
+replied N: <their reply text>, find_contacts <company>, add_company <company>, block_company <company>, status, pause, resume, help, set_cap <n>, scan_now, diag (check whether the data sources are working).
 MESSAGE: ${message}`, { effort: "low" });
 }
