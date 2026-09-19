@@ -5,6 +5,7 @@ import { searchLinkedInJobs } from "./sources/linkedinJobs.js";
 import { googleNews } from "./sources/news.js";
 import { duckSearch } from "./sources/search.js";
 import { startTrace, endTrace, traceSummary } from "./sources/http.js";
+import { startSearchTrace, endSearchTrace } from "./sources/search.js";
 import { scoreJobs } from "./llm.js";
 import type { State } from "./store.js";
 
@@ -22,6 +23,7 @@ async function probe(name: string, run: () => Promise<{ length: number }>): Prom
 
 export async function runDiagnostics(state: State): Promise<string> {
   startTrace();
+  startSearchTrace();
   const probes = await Promise.all([
     probe("Google News RSS", () => googleNews('"raises" "$100 million" AI', 7)),
     probe("DuckDuckGo search", () => duckSearch('site:linkedin.com/in "Anthropic" "VP"')),
@@ -41,6 +43,7 @@ export async function runDiagnostics(state: State): Promise<string> {
   }
 
   const notes = endTrace();
+  const searches = endSearchTrace();
   const dead = probes.filter((p) => !p.ok);
 
   return [
@@ -50,6 +53,9 @@ export async function runDiagnostics(state: State): Promise<string> {
     "",
     "WIRE",
     traceSummary(notes) || "no fetches recorded",
+    // The people hunters live or die on this: a parsed page with zero rows is not the
+    // same as a page that was declined, and only the verdict tells them apart.
+    searches.length ? `Search verdicts: ${searches.map((s) => `${s.verdict} (${s.results} results, ${Math.round(s.bytes / 1024)}kb)`).join("; ")}` : "",
     "",
     dead.length === probes.length
       ? "Every feed is dead. Nothing reaches the network — check outbound access, not the market."
@@ -57,7 +63,7 @@ export async function runDiagnostics(state: State): Promise<string> {
         ? `Dead feeds: ${dead.map((d) => d.name).join(", ")}. The rest work, so the scan is running on partial data.`
         : "All feeds alive.",
     state.lastScan
-      ? `\nLAST SCAN ${state.lastScan.at.slice(0, 16).replace("T", " ")} UTC: ${state.lastScan.elapsedSec}s, ${state.lastScan.fetchesOk}/${state.lastScan.fetches} fetches ok, ${state.lastScan.jobs} jobs, ${state.lastScan.contacts} contacts, ${state.lastScan.companies} companies.${state.lastScan.errors ? `\nErrors: ${state.lastScan.errors}` : ""}`
+      ? `\nLAST SCAN ${state.lastScan.at.slice(0, 16).replace("T", " ")} UTC: ${state.lastScan.elapsedSec}s, ${state.lastScan.fetchesOk}/${state.lastScan.fetches} fetches ok, ${state.lastScan.jobs} jobs, ${state.lastScan.contacts} contacts, ${state.lastScan.companies} companies.${state.lastScan.search ? `\nSearch: ${state.lastScan.search}` : ""}${state.lastScan.prospect ? `\n${state.lastScan.prospect}` : ""}${state.lastScan.errors ? `\nErrors: ${state.lastScan.errors}` : ""}`
       : "\nNo scan recorded yet.",
   ].join("\n");
 }

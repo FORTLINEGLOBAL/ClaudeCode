@@ -75,6 +75,8 @@ export interface ScanReport {
   companies: number;
   trace: string;
   errors: string;
+  search?: string;    // how the web searches behaved (people lookup depends entirely on them)
+  prospect?: string;  // the company -> candidates -> picked -> drafted funnel
 }
 
 export interface State {
