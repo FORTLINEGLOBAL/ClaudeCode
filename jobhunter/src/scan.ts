@@ -47,8 +47,13 @@ export async function runScan(state: State, opts: { force?: boolean } = {}): Pro
     ].filter(Boolean).join("\n\n");
   }
 
+  // A per-hunter tally, always. Without it a hunter that returns nothing is
+  // indistinguishable from one that was never asked, which is how an empty DM
+  // section went unexplained.
+  const tally = `Israel jobs ${jobs.length} | big-lab roles ${big.jobs.length} | funded companies ${emerging.companies.length} | DM drafts ${contacts.length} (${state.draftsToday.count}/${state.settings.dailyDraftCap} today)`;
   const header = [
     `New from the scan (${new Date().toISOString().slice(0, 16).replace("T", " ")} UTC, ${elapsed}s):`,
+    tally,
     emerging.companies.length ? `Funding radar: ${emerging.companies.map((c) => `${c.name} ($${Math.round((c.raisedUSD || 0) / 1e6)}M, ${c.hq})`).join(", ")}` : "",
     errors.length ? `Source errors: ${errors.join(" | ")}` : "",
   ].filter(Boolean).join("\n");
