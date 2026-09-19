@@ -1,6 +1,9 @@
 // All Claude calls. Structured outputs via zod so the rest of the code never parses free text.
 import Anthropic from "@anthropic-ai/sdk";
 import { zodOutputFormat } from "@anthropic-ai/sdk/helpers/zod";
+// zod v4 is required, not optional: the SDK's zodOutputFormat calls z.toJSONSchema
+// from "zod/v4", which reads schema._zod. A v3 schema has no _zod, so it throws
+// "Cannot read properties of undefined (reading 'def')" and every Claude call fails.
 import { z } from "zod";
 import { EDDIE, RESUME_SUMMARY, JOB_TARGET, EMERGING_TARGET, VOICE_RULES, expansionPitchFor } from "./profile.js";
 
@@ -17,7 +20,7 @@ TARGETS:
 - Emerging companies: raised $${EMERGING_TARGET.minRaiseUSD / 1e6}M+ recently, sectors: ${EMERGING_TARGET.sectors}, looking at international expansion.
 - Large AI labs and platforms: OpenAI, Anthropic, Mistral and similar; international / regional GTM leadership.`;
 
-async function parse<T extends z.ZodTypeAny>(schema: T, user: string, opts?: { effort?: "low" | "medium" | "high" }): Promise<z.infer<T>> {
+async function parse<T extends z.ZodType>(schema: T, user: string, opts?: { effort?: "low" | "medium" | "high" }): Promise<z.infer<T>> {
   const res = await client.messages.parse({
     model: MODEL,
     max_tokens: 4000,

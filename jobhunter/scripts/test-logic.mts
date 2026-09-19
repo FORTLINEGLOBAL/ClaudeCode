@@ -130,4 +130,30 @@ const job = (id: string): Job => ({ id, title: "VP Sales", company: "Acme", loca
   assert.match(out, /timeout 15000ms/);
 }
 
+// 11. The installed zod major must match what the SDK's zodOutputFormat expects.
+// It calls z.toJSONSchema from "zod/v4", which reads schema._zod. A zod v3 schema
+// has no _zod, so every Claude call died with "reading 'def'" and all three hunters
+// returned nothing while the feeds were healthy.
+{
+  const { zodOutputFormat } = await import("@anthropic-ai/sdk/helpers/zod");
+  const { z } = await import("zod");
+  // Mirrors the shapes in src/llm.ts: bounded numbers, enums, arrays, optionals.
+  const schema = z.object({
+    scores: z.array(z.object({ id: z.string(), score: z.number().min(0).max(100) })),
+    role: z.enum(["c_suite", "regional_leader", "other"]),
+    relevant: z.boolean(),
+    note: z.string().optional(),
+  });
+  const fmt = zodOutputFormat(schema);
+  assert.equal(fmt.type, "json_schema");
+  const props = (fmt.schema as any).properties;
+  assert.ok(props.scores && props.role && props.relevant, "every field must serialise to JSON schema");
+  assert.ok(fmt.parse, "the format must carry a parser");
+  // And the parser must actually validate, not just exist.
+  const ok = fmt.parse(JSON.stringify({ scores: [{ id: "a", score: 80 }], role: "c_suite", relevant: true }));
+  assert.equal((ok as any).scores[0].score, 80);
+  assert.throws(() => fmt.parse(JSON.stringify({ scores: [{ id: "a", score: 500 }], role: "c_suite", relevant: true })),
+    /Failed to parse structured output/, "out-of-range score must be rejected");
+}
+
 console.log("all logic tests passed");
