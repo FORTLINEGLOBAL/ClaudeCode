@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>כל המיזוג | תכנון וביצוע מיזוג מתקדם</title>
+<meta name="description" content="תכנון וביצוע מערכות מיזוג אוויר ברמה הגבוהה בשוק. VRF, מיני מרכזי, מזגנים עיליים ותכנון מיזוג לווילות. עבודה נקייה, חומרים מקוריים, בלי קיצורי דרך.">
+<meta name="theme-color" content="#0b1220">
+<meta property="og:title" content="כל המיזוג | תכנון וביצוע מיזוג מתקדם">
+<meta property="og:description" content="התקנה טובה לא נמדדת ביום שאחרי — אלא בחודשים ובשנים שאחריה.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+/* ==========================================================================
+   כל המיזוג — תכנון וביצוע מיזוג מתקדם
+   אתר חד-עמודי, RTL מלא, ללא תלויות חיצוניות (מלבד גופן Heebo).
+   ========================================================================== */
+
+:root{
+  --navy-900:#0b1220;
+  --navy-800:#111c30;
+  --navy-700:#1b2942;
+  --ink:#0f172a;
+  --body:#41506b;
+  --muted:#6b7a94;
+  --line:#e2e8f0;
+  --surface:#ffffff;
+  --surface-2:#f5f8fc;
+  --brand:#0ea5e9;
+  --brand-dark:#0284c7;
+  --brand-soft:#e0f2fe;
+  --accent:#22d3ee;
+  --ok:#10b981;
+  --radius:16px;
+  --radius-lg:24px;
+  --shadow-sm:0 1px 2px rgba(15,23,42,.06), 0 4px 12px rgba(15,23,42,.05);
+  --shadow-md:0 10px 30px rgba(15,23,42,.10);
+  --shadow-lg:0 24px 60px rgba(11,18,32,.18);
+  --wrap:1180px;
+  --nav-h:74px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-block-start:calc(var(--nav-h) + 12px); scrollbar-gutter:stable}
+body{
+  margin:0;
+  font-family:'Heebo','Assistant','Rubik','Noto Sans Hebrew',system-ui,-apple-system,'Segoe UI',sans-serif;
+  font-size:17px;
+  line-height:1.75;
+  word-spacing:.05em;
+  letter-spacing:normal;
+  color:var(--body);
+  background:var(--surface);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+img,video{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;color:inherit}
+h1,h2,h3,h4{color:var(--ink);line-height:1.25;margin:0;text-wrap:balance;font-weight:700}
+p{margin:0}
+:focus-visible{outline:3px solid var(--brand);outline-offset:3px;border-radius:6px}
+
+.wrap{width:min(100% - 2.5rem, var(--wrap));margin-inline:auto}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+
+/* ---------- כותרות מקטע ---------- */
+.eyebrow{
+  display:inline-flex;align-items:center;gap:.55rem;
+  font-size:.82rem;font-weight:700;letter-spacing:normal;
+  color:var(--brand-dark);background:var(--brand-soft);
+  padding:.4rem .95rem;border-radius:999px;margin-block-end:1.1rem;
+}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--brand)}
+.section{padding-block:clamp(4rem,9vw,7rem)}
+.section--alt{background:var(--surface-2);border-block:1px solid var(--line)}
+/* ---------------- על אקמל ---------------- */
+.about{background:var(--surface-2);border-block-end:1px solid var(--line)}
+.about__grid{display:grid;grid-template-columns:minmax(260px,360px) 1fr;gap:clamp(1.75rem,4vw,3.5rem);align-items:center}
+.about__photo{
+  position:relative;aspect-ratio:1/1;border-radius:var(--radius-lg);overflow:hidden;
+  background:linear-gradient(140deg,var(--navy-800),var(--navy-900));box-shadow:var(--shadow-lg);
+  border:1px solid var(--line);display:grid;place-items:center
+}
+.about__photo img{width:100%;height:100%;object-fit:cover;display:block}
+.about__ph{display:grid;place-items:center;gap:.6rem;color:rgba(226,240,255,.72);text-align:center;padding:1.5rem}
+.about__ph span{font-size:3.4rem;font-weight:900;color:#fff;line-height:1}
+.about__ph small{font-size:.85rem;line-height:1.5}
+.about__badge{
+  position:absolute;inset-block-end:1rem;inset-inline-start:1rem;z-index:2;
+  background:rgba(11,18,32,.82);backdrop-filter:blur(6px);color:#fff;
+  border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:.5rem 1rem;
+  font-weight:700;font-size:.88rem;display:flex;align-items:center;gap:.5rem
+}
+.about__badge b{color:var(--accent);font-size:1.05rem}
+.about__body h2{font-size:clamp(1.7rem,3.3vw,2.5rem);line-height:1.2;margin-block-end:1rem}
+.about__body p{color:var(--muted);font-size:1.05rem;line-height:1.8;margin-block-end:1rem;max-width:60ch}
+.about__list{list-style:none;display:grid;gap:.7rem;margin-block-start:1.6rem}
+.about__list li{display:flex;gap:.7rem;align-items:flex-start;font-weight:500}
+.about__list svg{width:20px;height:20px;flex:0 0 auto;color:var(--brand);margin-block-start:.15rem}
+@media (max-width:760px){
+  .about__grid{grid-template-columns:1fr}
+  .about__photo{max-width:320px;margin-inline:auto}
+}
+.section__head{max-width:780px;margin-block-end:3rem}
+.section__title{font-size:clamp(1.9rem,4.2vw,2.9rem);font-weight:900;letter-spacing:-.01em}
+.section__sub{margin-block-start:1rem;font-size:clamp(1.02rem,2vw,1.16rem);color:var(--muted)}
+
+/* ---------- ניווט ---------- */
+.nav{
+  position:fixed;inset-block-start:0;inset-inline:0;z-index:60;height:var(--nav-h);
+  display:flex;align-items:center;
+  background:rgba(11,18,32,0);transition:background .35s ease, box-shadow .35s ease, backdrop-filter .35s;
+}
+.nav.is-stuck{background:rgba(255,255,255,.94);backdrop-filter:blur(14px);box-shadow:var(--shadow-sm)}
+.nav__inner{display:flex;align-items:center;gap:1.5rem;width:min(100% - 2.5rem,var(--wrap));margin-inline:auto}
+.brand{display:flex;align-items:center;gap:.75rem;text-decoration:none;flex:0 0 auto}
+.brand__mark{
+  width:42px;height:42px;border-radius:12px;flex:0 0 auto;
+  background:linear-gradient(135deg,var(--brand) 0%,var(--accent) 100%);
+  display:grid;place-items:center;box-shadow:0 6px 18px rgba(14,165,233,.35);
+}
+.brand__mark svg{width:24px;height:24px}
+.brand__name{font-weight:900;font-size:1.12rem;color:#fff;line-height:1.15;transition:color .35s}
+.brand__tag{display:block;font-weight:400;font-size:.74rem;color:rgba(255,255,255,.72);transition:color .35s}
+.nav.is-stuck .brand__name{color:var(--ink)}
+.nav.is-stuck .brand__tag{color:var(--muted)}
+
+.nav__links{display:flex;align-items:center;gap:.3rem;margin-inline-start:auto}
+.nav__links a{
+  text-decoration:none;font-size:.95rem;font-weight:500;color:rgba(255,255,255,.86);
+  padding:.5rem .8rem;border-radius:10px;transition:color .25s,background .25s;
+}
+.nav__links a:hover{background:rgba(255,255,255,.12);color:#fff}
+.nav.is-stuck .nav__links a{color:var(--body)}
+.nav.is-stuck .nav__links a:hover{background:var(--surface-2);color:var(--ink)}
+
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.6rem;
+  padding:.85rem 1.6rem;border-radius:999px;border:1px solid transparent;
+  font-weight:700;font-size:1rem;text-decoration:none;cursor:pointer;
+  transition:transform .2s ease, box-shadow .25s ease, background .25s ease, color .25s;
+}
+.btn:hover{transform:translateY(-2px)}
+.btn--primary{background:var(--brand);color:#fff;box-shadow:0 10px 26px rgba(14,165,233,.35)}
+.btn--primary:hover{background:var(--brand-dark);box-shadow:0 14px 34px rgba(14,165,233,.45)}
+.btn--ghost{background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.35);backdrop-filter:blur(6px)}
+.btn--ghost:hover{background:rgba(255,255,255,.2)}
+.btn--outline{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn--outline:hover{border-color:var(--brand);color:var(--brand-dark)}
+.btn--sm{padding:.6rem 1.2rem;font-size:.92rem}
+.nav__cta{flex:0 0 auto}
+.nav.is-stuck .nav__cta.btn--ghost{background:var(--brand);color:#fff;border-color:transparent}
+
+.nav__burger{
+  display:none;width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.1);cursor:pointer;align-items:center;justify-content:center;margin-inline-start:auto;
+}
+.nav.is-stuck .nav__burger{border-color:var(--line);background:var(--surface-2)}
+.nav__burger span{display:block;width:20px;height:2px;background:#fff;position:relative;transition:background .2s}
+.nav__burger span::before,.nav__burger span::after{content:"";position:absolute;inset-inline:0;height:2px;background:currentColor;background:inherit;transition:transform .25s}
+.nav__burger span::before{inset-block-start:-6px}
+.nav__burger span::after{inset-block-start:6px}
+.nav.is-stuck .nav__burger span{background:var(--ink)}
+
+/* ---------- HERO ---------- */
+.hero{
+  position:relative;min-height:100svh;display:grid;place-items:center;
+  padding-block:calc(var(--nav-h) + 4rem) 5rem;
+  background:var(--navy-900);overflow:hidden;isolation:isolate;
+}
+.hero__media{position:absolute;inset:0;z-index:-2;overflow:hidden}
+.hero__media video,.hero__fallback{width:100%;height:100%;object-fit:cover}
+.hero__media video{
+  /* מקור הווידאו בהפרדה נמוכה — טשטוש עדין והגדלה קלה מסתירים ריכוך בפריסה מלאה */
+  filter:blur(1.5px) saturate(1.15) contrast(1.05);
+  transform:scale(1.06);
+}
+.hero__fallback{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(120% 90% at 78% 12%, rgba(34,211,238,.30) 0%, transparent 55%),
+    radial-gradient(110% 80% at 12% 88%, rgba(14,165,233,.28) 0%, transparent 60%),
+    linear-gradient(160deg,#0b1220 0%,#132340 48%,#0b1220 100%);
+}
+.hero__fallback::after{
+  content:"";position:absolute;inset:0;opacity:.5;
+  background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:64px 64px;
+  mask-image:radial-gradient(circle at 50% 40%,#000 10%,transparent 78%);
+}
+.hero__scrim{
+  position:absolute;inset:0;z-index:-1;
+  background:
+    radial-gradient(80% 60% at 50% 45%, rgba(11,18,32,.55) 0%, transparent 75%),
+    linear-gradient(to bottom, rgba(11,18,32,.88) 0%, rgba(11,18,32,.68) 45%, rgba(11,18,32,.95) 100%);
+}
+.hero__inner{text-align:center;max-width:940px;position:relative}
+.hero__badge{
+  display:inline-flex;align-items:center;gap:.6rem;padding:.45rem 1.1rem;border-radius:999px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);backdrop-filter:blur(8px);
+  color:#e2f4ff;font-size:.9rem;font-weight:500;margin-block-end:1.7rem;
+}
+.hero__badge .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px rgba(16,185,129,.22)}
+.hero h1{
+  color:#fff;font-weight:900;letter-spacing:-.02em;
+  font-size:clamp(2.05rem,6.4vw,4.4rem);line-height:1.1;
+}
+/* שוברים שורה רק בין ביטויים שלמים, לא בתוכם */
+.hero h1 .nb{white-space:nowrap}
+.hero h1 .grad{
+  background:linear-gradient(100deg,var(--accent) 0%,var(--brand) 60%,#7dd3fc 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero__sub{
+  margin-block-start:1.6rem;font-size:clamp(1.08rem,2.4vw,1.4rem);line-height:1.65;
+  color:rgba(226,240,255,.86);max-width:730px;margin-inline:auto;font-weight:300;
+}
+.hero__actions{display:flex;flex-wrap:wrap;gap:.9rem;justify-content:center;margin-block-start:2.4rem}
+.hero__strip{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:.7rem 2.2rem;margin-block-start:3.2rem;
+  padding-block-start:2rem;border-block-start:1px solid rgba(255,255,255,.14);
+}
+.hero__strip li{display:flex;align-items:center;gap:.55rem;color:rgba(226,240,255,.8);font-size:.97rem;list-style:none}
+.hero__strip svg{width:18px;height:18px;color:var(--accent);flex:0 0 auto}
+.hero__scroll{
+  position:absolute;inset-block-end:1.6rem;inset-inline-start:50%;transform:translateX(50%);
+  color:rgba(255,255,255,.5);font-size:.8rem;display:flex;flex-direction:column;align-items:center;gap:.4rem;
+}
+.hero__scroll span{display:block;width:1px;height:34px;background:linear-gradient(rgba(255,255,255,.6),transparent);animation:drop 2s ease-in-out infinite}
+@keyframes drop{0%,100%{opacity:.2;transform:scaleY(.4);transform-origin:top}50%{opacity:1;transform:scaleY(1);transform-origin:top}}
+
+/* ---------- הצעת ערך ---------- */
+.value{position:relative}
+.value__grid{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(2rem,5vw,4.5rem);align-items:start}
+.value__lead{font-size:clamp(1.25rem,2.6vw,1.6rem);line-height:1.6;color:var(--ink);font-weight:500}
+.value__body{margin-block-start:1.4rem;font-size:1.06rem}
+.value__body + .value__body{margin-block-start:1rem}
+.quote{
+  margin-block-start:2.2rem;padding:1.6rem 1.8rem;background:var(--navy-900);color:#fff;
+  border-radius:var(--radius-lg);border-inline-start:5px solid var(--accent);box-shadow:var(--shadow-md);
+}
+.quote p{font-size:clamp(1.1rem,2.3vw,1.32rem);font-weight:500;line-height:1.55}
+.quote small{display:block;margin-block-start:.9rem;color:rgba(226,240,255,.62);font-size:.92rem;font-weight:400}
+
+.pillars{display:grid;gap:1rem}
+.pillar{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.4rem 1.5rem;display:flex;gap:1.1rem;align-items:flex-start;
+  box-shadow:var(--shadow-sm);transition:transform .25s ease, box-shadow .25s ease, border-color .25s;
+}
+.pillar:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:#cfe6f7}
+.pillar__icon{
+  width:46px;height:46px;border-radius:13px;flex:0 0 auto;display:grid;place-items:center;
+  background:var(--brand-soft);color:var(--brand-dark);
+}
+.pillar__icon svg{width:23px;height:23px}
+.pillar h3{font-size:1.08rem;margin-block-end:.35rem}
+.pillar p{font-size:.97rem;color:var(--muted);line-height:1.6}
+
+.prevent{margin-block-start:clamp(3rem,6vw,4.5rem)}
+.prevent__title{font-size:1.15rem;font-weight:700;color:var(--ink);margin-block-end:1.3rem;display:flex;align-items:center;gap:.7rem}
+.prevent__title::after{content:"";height:1px;flex:1;background:var(--line)}
+.prevent__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem}
+.prevent__card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1.35rem;
+  position:relative;overflow:hidden;
+}
+.prevent__card::before{content:"";position:absolute;inset-block-start:0;inset-inline:0;height:3px;background:linear-gradient(90deg,var(--brand),var(--accent))}
+.prevent__card h4{font-size:1rem;margin-block-end:.4rem;display:flex;align-items:center;gap:.5rem}
+.prevent__card h4 svg{width:19px;height:19px;color:var(--brand)}
+.prevent__card p{font-size:.93rem;color:var(--muted);line-height:1.6}
+
+/* ---------- עקרונות ---------- */
+.principles{background:var(--navy-900);color:rgba(226,240,255,.78);position:relative;overflow:hidden}
+.principles::before{
+  content:"";position:absolute;inset-block-start:-20%;inset-inline-end:-10%;width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(14,165,233,.22) 0%,transparent 68%);pointer-events:none;
+}
+.principles .section__title{color:#fff}
+.principles .section__sub{color:rgba(226,240,255,.65)}
+.principles .eyebrow{background:rgba(34,211,238,.14);color:var(--accent)}
+.principles .eyebrow::before{background:var(--accent)}
+.principles__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius-lg);overflow:hidden}
+.principle{background:var(--navy-900);padding:1.9rem 1.7rem;transition:background .3s ease}
+.principle:hover{background:var(--navy-800)}
+.principle__num{
+  font-size:.8rem;font-weight:700;color:var(--accent);letter-spacing:.06em;
+  display:inline-flex;align-items:center;gap:.5rem;margin-block-end:.8rem;
+}
+.principle__num::after{content:"";width:26px;height:1px;background:rgba(34,211,238,.45)}
+.principle h3{color:#fff;font-size:1.1rem;margin-block-end:.55rem}
+.principle p{font-size:.96rem;line-height:1.68;color:rgba(226,240,255,.68)}
+.principles__note{
+  margin-block-start:2.5rem;padding:1.4rem 1.6rem;border-radius:var(--radius);
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);
+  display:flex;gap:1rem;align-items:flex-start;
+}
+.principles__note svg{width:24px;height:24px;color:var(--accent);flex:0 0 auto;margin-block-start:.2rem}
+.principles__note p{font-size:1rem;color:rgba(226,240,255,.8)}
+.principles__note strong{color:#fff}
+
+/* ---------- עבודות ---------- */
+.filters{display:flex;flex-wrap:wrap;gap:.55rem;margin-block-end:2.2rem}
+.chip{
+  padding:.55rem 1.15rem;border-radius:999px;border:1px solid var(--line);background:var(--surface);
+  color:var(--body);font-size:.93rem;font-weight:500;cursor:pointer;transition:all .22s ease;
+}
+.chip:hover{border-color:var(--brand);color:var(--brand-dark)}
+.chip.is-active{background:var(--ink);border-color:var(--ink);color:#fff}
+
+.works{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:1.6rem}
+.work{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);overflow:hidden;
+  display:flex;flex-direction:column;box-shadow:var(--shadow-sm);
+  transition:transform .3s ease, box-shadow .3s ease, border-color .3s;
+}
+.work{cursor:pointer}
+.work:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:#cfe6f7}
+.work[hidden]{display:none}
+.work__media{
+  position:relative;aspect-ratio:4/3;background:var(--navy-800);overflow:hidden;cursor:pointer;
+  border:0;padding:0;width:100%;display:block;
+}
+.work__media img,.work__thumb{width:100%;height:100%;object-fit:cover;transition:transform .55s ease}
+.work:hover .work__media img,.work:hover .work__thumb{transform:scale(1.05)}
+.work__thumb{position:absolute;inset:0;z-index:1;opacity:0;transition:opacity .45s ease}
+.work__thumb.is-ready{opacity:1}
+.work__ph{
+  position:absolute;inset:0;display:grid;place-items:center;gap:.85rem;align-content:center;
+  background:
+    radial-gradient(90% 70% at 70% 18%, hsl(var(--ph-h) 85% 55% / .26) 0%, transparent 62%),
+    linear-gradient(150deg,#152741,#0b1220);
+  color:rgba(226,240,255,.45);font-size:.8rem;text-align:center;padding:1rem;overflow:hidden;
+}
+.work__ph::before{
+  content:"";position:absolute;inset:0;opacity:.55;
+  background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:34px 34px;
+  mask-image:radial-gradient(circle at 50% 45%,#000 15%,transparent 80%);
+}
+.work__ph svg{width:54px;height:54px;color:hsl(var(--ph-h) 85% 62% / .75);position:relative}
+.work__ph span{position:relative}
+.work__type{
+  position:absolute;inset-block-start:.9rem;inset-inline-start:.9rem;z-index:2;
+  background:rgba(11,18,32,.82);backdrop-filter:blur(8px);color:#fff;
+  padding:.35rem .85rem;border-radius:999px;font-size:.8rem;font-weight:700;
+}
+.work__play{
+  position:absolute;inset-block-end:.9rem;inset-inline-end:.9rem;z-index:2;
+  width:46px;height:46px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(255,255,255,.92);color:var(--ink);box-shadow:var(--shadow-md);
+  transition:transform .25s ease, background .25s;
+}
+.work__media:hover .work__play{transform:scale(1.1);background:#fff}
+.work__play svg{width:18px;height:18px;margin-inline-start:2px}
+.work__body{padding:1.4rem 1.5rem 1.6rem;display:flex;flex-direction:column;gap:.6rem;flex:1}
+.work__body h3{font-size:1.14rem}
+.work__body p{font-size:.96rem;color:var(--muted);line-height:1.65}
+.work__meta{
+  margin-block-start:auto;padding-block-start:1rem;border-block-start:1px solid var(--line);
+  display:flex;flex-wrap:wrap;gap:.5rem;
+}
+.tag{background:var(--surface-2);border:1px solid var(--line);color:var(--muted);font-size:.8rem;padding:.25rem .7rem;border-radius:8px}
+
+/* ---------- שאלות ותשובות ---------- */
+.faq{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:1rem 2.2rem;align-items:start}
+.qa{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;transition:border-color .25s, box-shadow .25s;
+}
+.qa[open]{border-color:#bfe3f8;box-shadow:var(--shadow-sm)}
+.qa summary{
+  list-style:none;cursor:pointer;padding:1.2rem 1.4rem;display:flex;align-items:flex-start;gap:1rem;
+  font-weight:700;color:var(--ink);font-size:1.03rem;line-height:1.5;
+}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary:hover{color:var(--brand-dark)}
+.qa__icon{
+  width:26px;height:26px;flex:0 0 auto;border-radius:8px;background:var(--brand-soft);color:var(--brand-dark);
+  display:grid;place-items:center;margin-inline-start:auto;transition:transform .3s ease, background .25s;
+}
+.qa__icon svg{width:14px;height:14px}
+.qa[open] .qa__icon{transform:rotate(45deg);background:var(--brand);color:#fff}
+.qa__a{padding:0 1.4rem 1.35rem;color:var(--muted);font-size:.99rem;line-height:1.72}
+.qa__a p + p{margin-block-start:.8rem}
+
+/* ---------- CTA / צור קשר ---------- */
+.cta{padding-block:clamp(4rem,8vw,6rem);background:var(--surface-2);border-block-start:1px solid var(--line)}
+.cta__box{
+  background:linear-gradient(140deg,var(--navy-900) 0%,#16294a 55%,var(--navy-900) 100%);
+  border-radius:clamp(20px,3vw,32px);padding:clamp(2.2rem,5vw,4rem);color:#fff;
+  position:relative;overflow:hidden;box-shadow:var(--shadow-lg);
+}
+.cta__box::before{
+  content:"";position:absolute;inset-block-start:-40%;inset-inline-start:-10%;width:520px;height:520px;border-radius:50%;
+  background:radial-gradient(circle,rgba(34,211,238,.25) 0%,transparent 65%);pointer-events:none;
+}
+.cta__grid{position:relative;display:grid;grid-template-columns:1.2fr .8fr;gap:2.5rem;align-items:center}
+.cta__box h2{color:#fff;font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:900}
+.cta__box p{margin-block-start:1rem;color:rgba(226,240,255,.78);font-size:1.06rem}
+.cta__actions{display:flex;flex-direction:column;gap:.8rem}
+.cta__line{
+  display:flex;align-items:center;gap:.8rem;padding:.95rem 1.2rem;border-radius:14px;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);text-decoration:none;
+  color:#fff;font-weight:500;transition:background .25s, transform .2s;
+}
+.cta__line:hover{background:rgba(255,255,255,.16);transform:translateY(-2px)}
+.cta__line svg{width:20px;height:20px;color:var(--accent);flex:0 0 auto}
+.cta__line small{display:block;font-size:.78rem;color:rgba(226,240,255,.6);font-weight:400}
+
+/* ---------- פוטר ---------- */
+.footer{background:var(--navy-900);color:rgba(226,240,255,.55);padding-block:2.6rem;font-size:.92rem}
+.footer__inner{display:flex;flex-wrap:wrap;gap:1rem 2rem;align-items:center;justify-content:space-between}
+.footer strong{color:#fff;font-weight:700}
+.footer nav{display:flex;flex-wrap:wrap;gap:1.2rem}
+.footer nav a{text-decoration:none;transition:color .2s}
+.footer nav a:hover{color:#fff}
+
+/* ---------- לייטבוקס ---------- */
+.lightbox{
+  position:fixed;inset:0;z-index:100;display:none;place-items:center;padding:1.5rem;
+  background:rgba(6,11,20,.92);backdrop-filter:blur(6px);
+}
+.lightbox.is-open{display:grid}
+.lightbox__panel{width:min(100%,980px);max-height:90svh;overflow:auto;background:var(--navy-800);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg)}
+.lightbox__media{background:#000;min-height:240px;display:grid;place-items:center}
+.lightbox__media img,.lightbox__media video{
+  max-width:100%;max-height:68svh;width:auto;height:auto;object-fit:contain;
+}
+.lightbox__ph{color:rgba(226,240,255,.5);text-align:center;padding:2rem;font-size:.95rem;display:grid;gap:.8rem;justify-items:center}
+.lightbox__ph svg{width:56px;height:56px;color:hsl(var(--ph-h,196) 85% 62% / .7)}
+.lightbox__body{padding:1.6rem 1.8rem 2rem;color:rgba(226,240,255,.72)}
+.lightbox__body h3{color:#fff;font-size:1.3rem;margin-block-end:.6rem}
+.lightbox__close{
+  position:absolute;inset-block-start:1.2rem;inset-inline-end:1.2rem;width:46px;height:46px;border-radius:50%;
+  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;
+  display:grid;place-items:center;cursor:pointer;transition:background .2s;
+}
+.lightbox__close:hover{background:rgba(255,255,255,.25)}
+.lightbox__close svg{width:20px;height:20px}
+
+/* ---------- אנימציית חשיפה ---------- */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1)}
+.reveal.is-in{opacity:1;transform:none}
+
+/* ---------- רספונסיבי ---------- */
+@media (max-width:980px){
+  .value__grid{grid-template-columns:1fr}
+  .cta__grid{grid-template-columns:1fr}
+  .faq{grid-template-columns:1fr}
+}
+@media (max-width:820px){
+  .nav__links{
+    position:fixed;inset-block-start:var(--nav-h);inset-inline:0;flex-direction:column;align-items:stretch;gap:0;
+    background:#fff;padding:.6rem 1rem 1.2rem;box-shadow:var(--shadow-md);
+    display:none;border-block-start:1px solid var(--line);
+  }
+  .nav__links.is-open{display:flex}
+  .nav__links a{color:var(--ink);padding:.85rem .6rem;border-block-end:1px solid var(--line)}
+  .nav__burger{display:flex}
+  .nav__cta{display:none}
+  body{font-size:16px}
+  .works{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============================ ניווט ============================ -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a class="brand" href="#top">
+      <span class="brand__mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9.5 5.5a2.5 2.5 0 1 1 2.5 2.5H2"/><path d="M14 17.5a2.5 2.5 0 1 0 2.5-2.5H2"/><path d="M17 4.5a3 3 0 1 1 3 3H2"/>
+        </svg>
+      </span>
+      <span class="brand__name">כל המיזוג<span class="brand__tag">תכנון וביצוע מיזוג מתקדם</span></span>
+    </a>
+
+    <button class="nav__burger" id="burger" aria-label="תפריט" aria-expanded="false" aria-controls="navLinks"><span></span></button>
+
+    <nav class="nav__links" id="navLinks" aria-label="ניווט ראשי">
+      <a href="#about">על אקמל</a>
+      <a href="#value">למה אנחנו</a>
+      <a href="#works">מבחר עבודות</a>
+      <a href="#principles">עקרונות עבודה</a>
+      <a href="#faq">שאלות נפוצות</a>
+      <a href="#contact">צור קשר</a>
+    </nav>
+
+    <a class="btn btn--ghost btn--sm nav__cta" href="#contact">לשיחת ייעוץ</a>
+  </div>
+</header>
+
+<!-- ============================ HERO ============================ -->
+<section class="hero" id="top">
+  <div class="hero__media">
+    <!-- החליפו את media/hero.mp4 בסרטון רקע אמיתי. עד שהקובץ קיים מוצג רקע חלופי מעוצב. -->
+    <video id="heroVideo" autoplay muted loop playsinline preload="none" hidden>
+      <source src="media/hero.mp4" type="video/mp4">
+    </video>
+    <div class="hero__fallback" id="heroFallback" aria-hidden="true"></div>
+  </div>
+  <div class="hero__scrim" aria-hidden="true"></div>
+
+  <div class="wrap hero__inner">
+    <span class="hero__badge"><span class="dot" aria-hidden="true"></span>תכנון · ביצוע · אחריות מלאה</span>
+    <h1>מיזוג אוויר שנשאר<br><span class="grad"><span class="nb">מושלם שנים</span> <span class="nb">אחרי ההתקנה,</span> <span class="nb">ללא פשרות</span></span></h1>
+    <p class="hero__sub">
+      תכנון וביצוע מערכות מיזוג ברמה הגבוהה בשוק — VRF, מיני מרכזי, מזגנים עיליים ותכנון מלא לווילות ובנייה חדשה.
+      חומרים מקוריים בלבד, עבודה לפי הספר, בלי קיצורי דרך.
+    </p>
+    <div class="hero__actions">
+      <a class="btn btn--primary" href="#contact">
+        לקבלת ייעוץ ותכנון
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+      </a>
+      <a class="btn btn--ghost" href="#works">לצפייה בעבודות</a>
+    </div>
+
+    <ul class="hero__strip">
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>תכנון הנדסי לפני כל חציבה</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>חומרים מהאיכות הגבוהה בשוק</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>מסירה מתועדת ובדיקות בלחץ</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>ליווי גם אחרי סיום העבודה</li>
+    </ul>
+  </div>
+
+  <div class="hero__scroll" aria-hidden="true"><span></span></div>
+</section>
+
+<!-- ============================ על אקמל ============================ -->
+<section class="section about" id="about">
+  <div class="wrap">
+    <div class="about__grid reveal">
+      <div class="about__photo">
+        <img id="akmalPhoto" src="media/akmal.jpg" alt="אקמל, בעל החברה כל המיזוג" loading="lazy" width="953" height="960">
+        <span class="about__badge"><b>20</b> שנות ניסיון</span>
+      </div>
+      <div class="about__body">
+        <span class="eyebrow">מי עומד מאחורי העבודה</span>
+        <h2>אקמל — 20 שנות ניסיון במיזוג אוויר</h2>
+        <p>
+          כל המיזוג היא חברה של בעל מקצוע אחד שמלווה כל פרויקט מהתכנון ועד המסירה.
+          עשרים שנות ניסיון בשטח מלמדות בעיקר דבר אחד: כל קיצור דרך חוזר אחרי שנה־שנתיים,
+          וכל דבר שנעשה נכון מלכתחילה פשוט ממשיך לעבוד בלי שתצטרכו לחשוב עליו.
+        </p>
+        <p>
+          העבודה לא נגמרת ביחידה שתלויה על הקיר: אנחנו מייעצים לפני הרכישה, מתכננים,
+          מתקינים, ומבצעים גם את עבודות הגבס והגמר — עד לתוצאה היפה ביותר שאפשר לקבל,
+          במחירים משתלמים.
+        </p>
+        <ul class="about__list">
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            איכות ושירות ללא פשרות — מהשיחה הראשונה ועד אחרי המסירה
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            ייעוץ לפני ההתקנה — איזו מערכת באמת נכונה לנכס שלכם
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            עבודות גבס וגמר ברמה היפה ביותר שיש — הכול אצלנו, בלי בעל מקצוע נוסף
+          </li>
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            מחירים משתלמים ביחס לרמת הביצוע ולחומרים
+          </li>
+        </ul>
+        <div class="hero__actions" style="margin-block-start:2rem">
+          <a class="btn btn--primary" href="tel:+972533346759">
+            דברו עם אקמל · <span dir="ltr">053-334-6759</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ הצעת הערך ============================ -->
+<section class="section value" id="value">
+  <div class="wrap">
+    <div class="value__grid">
+      <div class="reveal">
+        <span class="eyebrow">הצעת הערך שלנו</span>
+        <h2 class="section__title">איכות התקנה לא נמדדת ביום שאחרי</h2>
+        <p class="value__lead">
+          כל התקנה נראית טוב ביום הראשון. השאלה האמיתית היא איך היא נראית — ואיך היא עובדת — אחרי חודשים ואחרי שנים.
+        </p>
+        <p class="value__body">
+          אנחנו עובדים בשיטה אחת: תכנון מקצועי לפני כל בורג, שימוש בחומרים הטובים ביותר שקיימים בשוק, וביצוע מלא לפי הספר.
+          אין אצלנו קיצורי דרך — לא בצנרת, לא בבידוד, לא בניקוז ולא בבדיקות. כל שלב שנראה "קטן" הוא בדיוק השלב שקובע
+          אם המערכת תעבוד בשקט עשר שנים או תתחיל לעשות בעיות בקיץ השני.
+        </p>
+        <p class="value__body">
+          קיצור דרך חוסך שעה בהתקנה ועולה ימים של תיקונים, קירות פתוחים ותקרות שנפגעו. לכן אנחנו מעדיפים להשקיע את
+          הזמן הזה מראש — ולמסור מערכת שפשוט עובדת.
+        </p>
+
+        <blockquote class="quote">
+          <p>״התקנה טובה מונעת נזילות, ירידת ביצועים, רעשים ותקלות חוזרות. לא כי נהיה שם לתקן — אלא כי לא תצטרכו אותנו.״</p>
+          <small>אקמל — תכנון וביצוע מיזוג מתקדם</small>
+        </blockquote>
+      </div>
+
+      <div class="pillars reveal">
+        <article class="pillar">
+          <span class="pillar__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+          </span>
+          <div>
+            <h3>תכנון מקצועי — לא ניחוש</h3>
+            <p>חישוב עומסי חום אמיתי לכל חלל, בחירת מערכת מתאימה, ותכנון מסלולי צנרת וניקוז לפני שמתחילים לעבוד.</p>
+          </div>
+        </article>
+
+        <article class="pillar">
+          <span class="pillar__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="M12 22V12"/><path d="m3.3 7 8.7 5 8.7-5"/></svg>
+          </span>
+          <div>
+            <h3>החומרים הטובים בשוק</h3>
+            <p>צנרת נחושת תקנית בעובי הנכון, בידוד איכותי ורציף, ניקוז מקורי וחומרי עזר מקוריים. בלי תחליפים זולים.</p>
+          </div>
+        </article>
+
+        <article class="pillar">
+          <span class="pillar__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg>
+          </span>
+          <div>
+            <h3>אפס קיצורי דרך</h3>
+            <p>ואקום מלא, בדיקת לחץ, הלחמות בהזרמת חנקן וכמות גז מדויקת. כל מה שלא רואים — נעשה בדיוק כמו שצריך.</p>
+          </div>
+        </article>
+
+        <article class="pillar">
+          <span class="pillar__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </span>
+          <div>
+            <h3>מבחן הזמן</h3>
+            <p>אנחנו מתכננים כל מערכת כך שתהיה נגישה לתחזוקה ותמשיך לעבוד בשקט ובביצועים מלאים גם בעוד שנים.</p>
+          </div>
+        </article>
+
+        <article class="pillar">
+          <span class="pillar__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="13" height="5" rx="1"/><path d="M15 6.5h3a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2h-6"/><rect x="9.5" y="13" width="5" height="7" rx="1.5"/></svg>
+          </span>
+          <div>
+            <h3>לא נעצרים בהתקנה</h3>
+            <p>עבודות גבס, גמרים וצביעה בספריי — הכול אצלנו. המערכת נעלמת בתוך התקרה ואתם מקבלים חלל מוגמר ברמה יוקרתית, לא אתר עבודה שצריך להזמין אליו עוד בעל מקצוע.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <div class="prevent reveal">
+      <h3 class="prevent__title">מה בדיוק מונעת התקנה נכונה</h3>
+      <div class="prevent__grid">
+        <article class="prevent__card">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7Z"/></svg>נזילות ומים בתקרה</h4>
+          <p>שיפוע ניקוז רציף, איטום נכון ובידוד מלא מונעים טפטופים, כתמי רטיבות וקילופי צבע בגבס ובקירות.</p>
+        </article>
+        <article class="prevent__card">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M16 9a5 5 0 0 1 0 6"/><path d="M19.4 5.6a10 10 0 0 1 0 12.8"/></svg>רעשים ורעידות</h4>
+          <p>עיגון יציב, בולמי רעידות ומיקום נכון של היחידות שומרים על שקט — גם בחדרי שינה ובשעות הלילה.</p>
+        </article>
+        <article class="prevent__card">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>ירידת ביצועים</h4>
+          <p>כמות גז מדויקת, אורכי צנרת מתוכננים וזרימת אוויר נכונה שומרים על קירור וחימום מלאים לאורך זמן.</p>
+        </article>
+        <article class="prevent__card">
+          <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>תקלות חוזרות</h4>
+          <p>מערכת שהותקנה נכון כמעט לא מייצרת קריאות שירות — וכשצריך תחזוקה, יש אליה גישה מסודרת.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ מבחר עבודות ============================ -->
+<section class="section section--alt" id="works">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <span class="eyebrow">מבחר עבודות</span>
+      <h2 class="section__title">פרויקטים שביצענו</h2>
+      <p class="section__sub">מבחר מתוך העבודות האחרונות — מדירות ועד וילות ובתים פרטיים, כולל עבודות הגבס והגמרים שסוגרות אותן. לחצו על עבודה לצפייה בווידאו.</p>
+    </div>
+
+    <div class="filters reveal" role="group" aria-label="סינון עבודות לפי סוג">
+      <button class="chip is-active" data-filter="all">הכל</button>
+      <button class="chip" data-filter="vrf">מערכות VRF</button>
+      <button class="chip" data-filter="home">בתים פרטיים ווילות</button>
+      <button class="chip" data-filter="finish">גבס וגמרים</button>
+    </div>
+
+    <div class="works" id="works-grid"></div>
+  </div>
+</section>
+
+<!-- ============================ עקרונות עבודה ============================ -->
+<section class="section principles" id="principles">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <span class="eyebrow">שיטת העבודה</span>
+      <h2 class="section__title">עקרונות חשובים בתכנון ובביצוע</h2>
+      <p class="section__sub">אלו הכללים שלא מתגמשים אצלנו. הם מה שמפריד בין מערכת שעובדת שנים לבין מערכת שמתחילה לעשות בעיות בקיץ השני.</p>
+    </div>
+
+    <div class="principles__grid reveal">
+      <article class="principle">
+        <span class="principle__num">עיקרון 01</span>
+        <h3>מתכננים לפני שחוצבים</h3>
+        <p>חישוב עומסי חום לכל חלל, בחירת סוג המערכת והספק מתאים, ותכנון מסלולי צנרת — עוד בשלב השלד או לפני פתיחת קירות.</p>
+      </article>
+      <article class="principle">
+        <span class="principle__num">עיקרון 02</span>
+        <h3>מיקום נכון של היחידות</h3>
+        <p>יחידה פנימית ממוקמת לפי זרימת אוויר אמיתית ולא לפי נוחות התקנה. יחידת חוץ ממוקמת עם אוורור, צל וגישה לשירות.</p>
+      </article>
+      <article class="principle">
+        <span class="principle__num">עיקרון 03</span>
+        <h3>צנרת בעובי תקני, במסלול קצר</h3>
+        <p>נחושת איכותית בעובי הנדרש, מסלול מתוכנן עם מינימום חיבורים וכיפופים, ואורך שנשאר בטווח שהיצרן מאשר.</p>
+      </article>
+      <article class="principle">
+        <span class="principle__num">עיקרון 04</span>
+        <h3>בידוד מלא ורציף</h3>
+        <p>הבידוד ממשיך לאורך כל הצנרת, כולל בנקודות החיבור ובמעברי קירות. בידוד חסר יוצר עיבוי, נזילות וירידת יעילות.</p>
+      </article>
+      <article class="principle">
+        <span class="principle__num">עיקרון 05</span>
+        <h3>ניקוז בשיפוע לכל אורכו</h3>
+        <p>קו ניקוז עם שיפוע קבוע, בלי שקעים או "בטן" שאוגרת מים, עם גישה לניקוי. זו הסיבה מספר אחת לנזילות בתקרות.</p>
+      </article>
+      <article class="principle">
+        <span class="principle__num">עיקרון 06</span>
+        <h3>הלחמות בהזרמת חנקן</h3>
+        <p>מונע חמצון בתוך הצנרת. פסולת חמצון פוגעת במדחס ובשסתומים — נזק שמופיע רק אחרי שנים, וכבר אי אפשר לתקן בזול.</p>
+      </article>
+      <article class="principle">
+        <span class="principle__num">עיקרון 07</span>
+        <h3>ואקום ובדיקת לחץ לפני הפעלה</h3>
+        <p>שאיבת ואקום מלאה להוצאת לחות ואוויר, ובדיקת אטימות בלחץ. בלי זה — לחות במערכת, קרח, ותקלות שחוזרות.</p>
+      </article>
+      <article class="principle">
+        <span class="principle__num">עיקרון 08</span>
+        <h3>כמות גז מדויקת</h3>
+        <p>תוספת גז מחושבת לפי אורך הצנרת בפועל ולפי נתוני היצרן. גז חסר או עודף שורף ביצועים ומקצר את חיי המדחס.</p>
+      </article>
+      <article class="principle">
+        <span class="principle__num">עיקרון 09</span>
+        <h3>חשמל ייעודי ומוגן</h3>
+        <p>קו ייעודי בחתך הנכון, הגנות מתאימות ומפסק בטיחות נגיש ליד היחידה. בטיחות היא חלק מהתכנון, לא תוספת.</p>
+      </article>
+      <article class="principle">
+        <span class="principle__num">עיקרון 10</span>
+        <h3>גישה לתחזוקה מהיום הראשון</h3>
+        <p>פתחי שירות, מסתורים ניתנים לפתיחה ומיקום מסננים בהישג יד. מערכת שאי אפשר לתחזק — תיכשל בסוף.</p>
+      </article>
+      <article class="principle">
+        <span class="principle__num">עיקרון 11</span>
+        <h3>מסירה מתועדת</h3>
+        <p>מדידות טמפרטורה, לחצים, זרם עבודה ובדיקת ניקוז — מתועדים ונמסרים ללקוח יחד עם הסבר תפעול ותחזוקה.</p>
+      </article>
+      <article class="principle">
+        <span class="principle__num">עיקרון 12</span>
+        <h3>עבודה נקייה ומסודרת</h3>
+        <p>הגנה על הבית בזמן העבודה, חציבות מדויקות, סגירה מסודרת וניקיון בסיום. האתר נמסר כמו שהיינו רוצים לקבל אותו.</p>
+      </article>
+    </div>
+
+    <div class="principles__note reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+      <p><strong>למה זה חשוב לכם?</strong> רוב העקרונות האלה מסתתרים מאחורי הגבס ואף אחד לא רואה אותם ביום המסירה. בדיוק בגלל זה קל לוותר עליהם — ובדיוק בגלל זה אנחנו לא מוותרים.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ שאלות ותשובות ============================ -->
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="section__head reveal">
+      <span class="eyebrow">שאלות ותשובות</span>
+      <h2 class="section__title">שאלות נפוצות</h2>
+      <p class="section__sub">12 השאלות שאנחנו הכי נשאלים — עם תשובות ישרות, בלי שיווק.</p>
+    </div>
+
+    <div class="faq reveal">
+      <details class="qa">
+        <summary>מה ההבדל בין VRF, מיני מרכזי ומזגן עילי — ומה מתאים לי?<span class="qa__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="qa__a">
+          <p><strong>מזגן עילי</strong> הוא הפתרון הפשוט והזול ביותר, מתאים לחדר בודד או לדירה קיימת ללא תקרות גבס. <strong>מיני מרכזי</strong> מוסתר בתקרה ומחלק אוויר בתעלות — נותן מראה נקי ואחידות טמפרטורה, ומתאים לדירות ובתים בשיפוץ או בבנייה. <strong>VRF</strong> הוא מערכת מתקדמת שבה יחידת חוץ אחת מזינה הרבה יחידות פנים, כל אחת בשליטה נפרדת — הפתרון הנכון לווילות, פנטהאוזים, משרדים ועסקים.</p>
+          <p>הבחירה נקבעת לפי גודל הנכס, מספר החללים, גובה התקרות, שלב הבנייה והתקציב — וזה בדיוק מה שנקבע בשיחת התכנון.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>מתי הזמן הנכון לתכנן מיזוג בבנייה חדשה או בשיפוץ?<span class="qa__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="qa__a">
+          <p>כמה שיותר מוקדם — עדיף בשלב השלד או לפני ביצוע החשמל והגבס. תכנון מוקדם מאפשר מסלולי צנרת קצרים ונקיים, מיקום נכון של יחידות, ניקוז בשיפוע טבעי ומסתורים מתוכננים מראש. תכנון מאוחר תמיד מסתיים בפשרות: מסלולים ארוכים, ירידות גבס מיותרות ומיקומים לא אידיאליים.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>איך קובעים את ההספק (BTU) הנכון?<span class="qa__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="qa__a">
+          <p>לא לפי מטרים בלבד. חישוב נכון לוקח בחשבון גם כיווני אוויר, שטח חלונות וזיגוג, בידוד המבנה, גובה תקרה, מספר אנשים בחלל ומקורות חום. מזגן קטן מדי יעבוד ללא הפסקה ולא יגיע לטמפרטורה; מזגן גדול מדי יקרר מהר מדי, לא יוריד לחות ויכבה וידלק שוב ושוב — מה שמקצר את חיי המדחס.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>למה מזגן מטפטף מים או יוצר רטיבות בתקרה?<span class="qa__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="qa__a">
+          <p>ברוב המקרים זו לא תקלה במזגן אלא תוצאה של התקנה: ניקוז ללא שיפוע מספיק או עם "בטן" שאוגרת מים, ניקוז סתום שאין אליו גישה, בידוד חסר על הצנרת שיוצר עיבוי, או יחידה שלא הותקנה מפולסת. כל אלה נמנעים לחלוטין כשמתקינים נכון מלכתחילה.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>למה יש רעש או רעידות מהמזגן?<span class="qa__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="qa__a">
+          <p>רעש נובע כמעט תמיד מעיגון לא יציב, היעדר בולמי רעידות ביחידת החוץ, צנרת שנוגעת בקיר או בגבס ומעבירה רעידות, או מיקום יחידה קרוב מדי לחדר שינה. מיקום ועיגון נכונים בזמן ההתקנה שווים הרבה יותר מכל ניסיון לתקן רעש בדיעבד.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>כמה זמן לוקחת התקנה?<span class="qa__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="qa__a">
+          <p>מזגן עילי בודד — בדרך כלל יום עבודה. מיני מרכזי בדירה — כיומיים עד שלושה, בהתאם למסלולי הצנרת. מערכת VRF לווילה או למשרד — מספר ימים, לרוב בשני שלבים: תשתיות לפני הגבס, והתקנת היחידות והפעלה בסיום. לוח הזמנים המדויק נמסר מראש, ואנחנו עומדים בו.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>מה החשיבות של איכות הצנרת והבידוד?<span class="qa__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="qa__a">
+          <p>הצנרת והבידוד הם החלק שקבור בקיר — ולכן החלק שאי אפשר לשדרג אחר כך. נחושת דקה מדי עלולה להיסדק בלחץ, ובידוד זול או קטוע יוצר עיבוי ונזילות ומוריד את היעילות. זה בדיוק המקום שבו קיצור דרך חוסך מעט מאוד כסף וגורם לנזק הגדול ביותר, ולכן אנחנו משתמשים רק בחומרים מהאיכות הגבוהה בשוק.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>האם צריך גם מערכת אוורור ואוויר צח?<span class="qa__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="qa__a">
+          <p>מזגן ממחזר את האוויר בחלל — הוא מקרר ומחמם, אך לא מכניס אוויר צח. בבתים אטומים, בממ"דים, בחדרי שינה ובעסקים, מערכת אוורור משפרת משמעותית את איכות האוויר ואת תחושת הרעננות. בתכנון אנחנו בודקים אם זה נדרש ומשלבים את התשתית מראש, כדי שלא תצטרכו לפתוח תקרות בעתיד.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>כל כמה זמן צריך תחזוקה, ומה היא כוללת?<span class="qa__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="qa__a">
+          <p>ניקוי מסננים אחת לחודש-חודשיים בעונת השימוש, ותחזוקה מקצועית אחת לשנה — לפני הקיץ. תחזוקה שנתית כוללת ניקוי מאייד ומעבה, שטיפת קו ניקוז, בדיקת לחצים וזרם, ובדיקת חיבורי חשמל. זו הדרך הזולה ביותר לשמור על ביצועים ולמנוע תקלות בשיא העומס.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>האם יש אחריות, ומה היא מכסה?<span class="qa__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="qa__a">
+          <p>על הציוד חלה אחריות היצרן המלאה, ועל עבודת ההתקנה שלנו אנחנו אחראים בעצמנו. אנחנו מוסרים תיעוד של המערכת בסיום, וזמינים גם אחרי — לשאלות, לכיוונונים ולתחזוקה. אנחנו לא נעלמים אחרי החשבונית.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>מה כולל המחיר, והאם צפויות הפתעות?<span class="qa__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="qa__a">
+          <p>ההצעה שאנחנו מגישים מפורטת: ציוד, צנרת, בידוד, ניקוז, חציבות, עבודה, הפעלה ובדיקות. הכול כתוב מראש כדי שתדעו בדיוק על מה אתם משלמים. אם מתגלה משהו במבנה שמחייב שינוי, מעדכנים אתכם לפני שממשיכים — ולא אחרי.</p>
+        </div>
+      </details>
+
+      <details class="qa">
+        <summary>אתם עובדים גם מול אדריכל, מעצב או קבלן?<span class="qa__icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></summary>
+        <div class="qa__a">
+          <p>בהחלט, וזו הדרך המומלצת. אנחנו מתאמים מול האדריכל את מיקומי היחידות והמסתורים כך שישתלבו בעיצוב, ומול הקבלן והחשמלאי את התשתיות ולוח הזמנים. תיאום מוקדם חוסך שינויים יקרים בהמשך ושומר על התוצאה העיצובית שתכננתם.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ צור קשר ============================ -->
+<section class="cta" id="contact">
+  <div class="wrap">
+    <div class="cta__box reveal">
+      <div class="cta__grid">
+        <div>
+          <h2>נדבר על הפרויקט שלכם</h2>
+          <p>שיחת ייעוץ ראשונה, בדיקת התאמה והצעת מחיר מפורטת — בלי התחייבות. ספרו לנו על הנכס, ונגיד לכם בדיוק מה נכון לעשות ולמה.</p>
+        </div>
+        <div class="cta__actions">
+          <a class="cta__line" href="tel:+972533346759">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+            <span>התקשרו אלינו<small><span dir="ltr">053-334-6759</span></small></span>
+          </a>
+          <a class="cta__line" href="https://wa.me/972533346759" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5Z"/></svg>
+            <span>וואטסאפ<small>שלחו תמונות ונחזור אליכם</small></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ פוטר ============================ -->
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <p><strong>כל המיזוג — תכנון וביצוע מיזוג מתקדם</strong><br>אקמל — תכנון, התקנה, גבס וגמרים של מערכות מיזוג אוויר.</p>
+    <nav aria-label="ניווט תחתון">
+      <a href="#about">על אקמל</a>
+      <a href="#value">למה אנחנו</a>
+      <a href="#works">עבודות</a>
+      <a href="#principles">עקרונות</a>
+      <a href="#faq">שאלות נפוצות</a>
+      <a href="#contact">צור קשר</a>
+    </nav>
+  </div>
+</footer>
+
+<!-- ============================ לייטבוקס ============================ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-labelledby="lbTitle">
+  <button class="lightbox__close" id="lbClose" aria-label="סגירה">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+  <div class="lightbox__panel">
+    <div class="lightbox__media" id="lbMedia"></div>
+    <div class="lightbox__body">
+      <h3 id="lbTitle"></h3>
+      <p id="lbText"></p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==========================================================================
+   נתוני העבודות — לעדכון תוכן, ערכו רק את המערך הזה.
+   image: נתיב לתמונה | video: נתיב לסרטון (אופציונלי, אפשר null)
+   ========================================================================== */
+var WORKS = [
+  {
+    cat:'vrf home', type:'מזגן VRF',
+    title:'מערכת VRF של סמסונג בווילה דו-קומתית',
+    text:'מערכת VRF של סמסונג בווילה בת שתי קומות, עם שליטה נפרדת בכל חלל. בווילה דו-קומתית ' +
+         'האתגר המרכזי הוא מסלולי הצנרת בין הקומות ושמירה על שיפוע ניקוז רציף לאורך כל המסלול — ' +
+         'שני דברים שנקבעים בשלב התכנון ולא ניתן לתקן אותם אחר כך.',
+    tags:['VRF סמסונג','וילה דו-קומתית'],
+    image:null, video:'media/work-01.mp4'
+  },
+  {
+    cat:'vrf', type:'מזגן VRF',
+    title:'מערכת VRF מורכבת בדירה',
+    text:'מערכת VRF בדירה — יחידת חוץ אחת המזינה כמה יחידות פנים, עם שליטה נפרדת בכל חדר. ' +
+         'בדירה האתגר הוא להעביר את הצנרת בתוך תקרות הגבס בלי לרדת בגובה יותר מהנדרש, ' +
+         'ולהשאיר גישה לתחזוקה בכל נקודת חיבור.',
+    tags:['VRF','דירה','שליטה נפרדת בכל חדר'],
+    image:null, video:'media/work-02.mp4'
+  },
+  {
+    cat:'vrf', type:'מזגן VRF',
+    title:'מערכת VRF של אלקטרה בדירת 5 חדרים',
+    text:'מערכת VRF של אלקטרה בדירת 5 חדרים — יחידת חוץ אחת המזינה יחידות פנים בכל החדרים, ' +
+         'עם שליטה נפרדת בכל חדר. בדירה בגודל כזה זה ההבדל בין מערכת שמקררת את כל הדירה יחד ' +
+         'לבין מערכת שבה כל חדר עובד לפי מה שנדרש בו בפועל — וזה גם מה שחוסך בחשמל.',
+    tags:['VRF אלקטרה','דירת 5 חדרים','שליטה נפרדת בכל חדר'],
+    image:null, video:'media/work-03.mp4'
+  },
+  {
+    cat:'finish', type:'גבס וגמרים',
+    title:'צביעה מקצועית בגמר של התקנה',
+    text:'הגמר הוא חלק מהעבודה, לא שלב שמישהו אחר יסגור. אחרי ההתקנה אנחנו סוגרים בגבס, ' +
+         'מיישרים וצובעים בספריי — כך שהמערכת נעלמת בתוך התקרה והחלל נמסר מוגמר ' +
+         'ברמה יוקרתית, בלי להזמין בעל מקצוע נוסף ובלי לחכות לו.',
+    tags:['צביעה בספריי','עבודות גבס','מסירה מוגמרת'],
+    image:null, video:'media/work-04.mp4'
+  },
+  {
+    cat:'home', type:'בית פרטי',
+    title:'התקנת מערכת מיזוג מתקדמת בבית פרטי',
+    text:'בבית פרטי יש חופש תכנוני שאין בדירה — אפשר לקבוע מראש את מיקומי היחידות, ' +
+         'את מסלולי הצנרת ואת נקודות הניקוז לפי מה שנכון למערכת, ולא לפי מה שהמבנה מכתיב. ' +
+         'זה מה שמאפשר מערכת שמוסתרת לגמרי ועדיין נגישה לתחזוקה בכל נקודה.',
+    tags:['בית פרטי','מערכת מתקדמת'],
+    image:null, video:'media/work-05.mp4'
+  },
+  {
+    cat:'vrf home', type:'מזגן VRF',
+    title:'מערכת VRF של סמסונג בבית מורכב במיוחד',
+    text:'ככל שהמבנה מורכב יותר — יותר מפלסים, יותר חללים, פחות מסלולים ישרים — כך התכנון ' +
+         'המוקדם קובע יותר. בבית כזה כל מסלול צנרת וכל נקודת ניקוז צריכים להיקבע לפני שמתחילים, ' +
+         'כי בדיעבד אין דרך לתקן אותם בלי לפתוח את מה שכבר נסגר.',
+    tags:['VRF סמסונג','בית מורכב','תכנון מוקדם'],
+    image:null, video:'media/work-06.mp4'
+  },
+  {
+    cat:'vrf', type:'מזגן VRF',
+    title:'מערכת VRF של תדיראן בחלל בתקרה גבוהה',
+    text:'תקרה גבוהה משנה את כל חישוב המיזוג: האוויר החם עולה ונאסף למעלה, ' +
+         'ומערכת שתוכננה לגובה תקרה רגיל פשוט תעבוד בלי להפסיק ולא תגיע לטמפרטורה. ' +
+         'הפתרון הוא בחירת יחידות ומיקומן לפי הגובה בפועל ולפי כיוון זרימת האוויר בחלל.',
+    tags:['VRF תדיראן','תקרה גבוהה','תכנון לפי נפח'],
+    image:null, video:'media/work-07.mp4'
+  },
+  {
+    cat:'finish', type:'גבס וגמרים',
+    title:'ביצוע גמרים ברמה הגבוהה ביותר',
+    text:'הגמר הוא מה שרואים אחרי שהמערכת כבר עובדת. סגירת גבס ישרה, פינות נקיות, ' +
+         'מסתורים שנפתחים כשצריך וצביעה אחידה — זה מה שמפריד בין התקנה שנראית כמו ' +
+         'עבודה שנעשתה בבית, לבין חלל שנראה כאילו המערכת תוכננה לתוכו מלכתחילה.',
+    tags:['גמרים','סגירת גבס','מסתורים'],
+    image:null, video:'media/work-08.mp4'
+  },
+  {
+    cat:'finish', type:'גבס וגמרים',
+    title:'גמרים ברמה הגבוהה ביותר — התוצר הסופי',
+    text:'ככה נראה החלל אחרי שהכול נסגר: תקרת גבס ישרה, צביעה בספריי בגוון אחיד, ' +
+         'ואף סימן לכך שעברה שם מערכת מיזוג שלמה. זה השלב שבו נמדדת העבודה — ' +
+         'לא בשלב הצנרת שאף אחד לא רואה, אלא בתוצאה שנשארת מול העיניים.',
+    tags:['תוצר סופי','צביעה בספריי','תקרת גבס'],
+    image:null, video:'media/work-09.mp4'
+  },
+  {
+    cat:'vrf', type:'מזגן VRF',
+    title:'מערכת VRF של מיצובישי',
+    text:'מיצובישי היא המערכת המתקדמת והטובה ביותר שיש היום בשוק, וזו גם המערכת שאנחנו ' +
+         'ממליצים עליה כשהתקציב מאפשר. היתרון שלה הוא בדיוק במה שנמדד לאורך שנים: ' +
+         'שקט בעבודה, יציבות בטמפרטורה ואורך חיים של המדחס. מערכת כזו מצדיקה את עצמה רק ' +
+         'כשהיא מותקנת ומתוכננת בהתאם — אחרת שילמתם על רכיב מצוין שמותקן בינוני.',
+    tags:['VRF מיצובישי','המערכת המובילה בשוק'],
+    image:null, video:'media/work-10.mp4'
+  },
+  {
+    cat:'home', type:'בית חכם',
+    title:'מערכת סמסונג שמתחברת לבית החכם',
+    text:'המערכת של סמסונג מתחברת למערכת הבית החכם — שליטה בכל יחידה מהטלפון או מהמסך ' +
+         'המרכזי, תרחישים לפי שעה ולפי חדר, ובקרה על מה שבאמת צורך חשמל בבית. ' +
+         'החיבור הזה צריך להילקח בחשבון כבר בשלב התכנון, כי הוא משפיע על בחירת היחידות ' +
+         'ועל התשתית שמונחת בקירות עוד לפני שסוגרים אותם.',
+    tags:['סמסונג','בית חכם','שליטה מהטלפון'],
+    image:null, video:'media/work-11.mp4'
+  }
+];
+
+/* ---------- אייקוני placeholder לפי סוג עבודה (עד שיוזנו תמונות אמיתיות) ---------- */
+function svg(inner){
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" ' +
+         'stroke-linecap="round" stroke-linejoin="round">' + inner + '</svg>';
+}
+var PH = {
+  /* יחידת חוץ עם מאוורר */
+  vrf:        {hue:190, icon:svg('<rect x="2.5" y="5" width="19" height="14" rx="2"/><circle cx="12" cy="12" r="3.6"/><path d="M12 8.4v-.9M12 16.5v-.9M8.4 12h-.9M16.5 12h-.9"/>')},
+  /* בית פרטי */
+  home:       {hue:320, icon:svg('<path d="M3 10.5 12 3l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5.5h4V20"/>')},
+  /* רולר צביעה / גמרים */
+  finish:     {hue:265, icon:svg('<rect x="2.5" y="4" width="12" height="5" rx="1"/><path d="M14.5 6.5h3.5a2 2 0 0 1 2 2V11a2 2 0 0 1-2 2h-6.5"/><rect x="9.5" y="13" width="4.5" height="7" rx="1.5"/>')}
+};
+function phFor(cat){
+  var first = String(cat || '').split(' ')[0];
+  return PH[first] || {hue:196, icon:svg('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 9h4M7 13h2"/>')};
+}
+var ICON_PH = phFor('').icon;
+var ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+
+/* ---------- בניית כרטיסי העבודות ---------- */
+(function buildWorks(){
+  var grid = document.getElementById('works-grid');
+  if(!grid) return;
+  var html = '';
+  for(var i=0;i<WORKS.length;i++){
+    var w = WORKS[i];
+    var tags = '';
+    for(var t=0;t<w.tags.length;t++){ tags += '<span class="tag">' + w.tags[t] + '</span>'; }
+    var ph = phFor(w.cat);
+    html +=
+      '<article class="work reveal" data-cat="' + w.cat + '">' +
+        '<button class="work__media" type="button" data-index="' + i + '" aria-label="פתיחת גלריה: ' + w.title + '" style="--ph-h:' + ph.hue + '">' +
+          '<span class="work__ph">' + ph.icon + '<span>' + w.type + ' · תמונה תתווסף</span></span>' +
+          (w.image
+            ? '<img src="' + w.image + '" alt="' + w.title + '" loading="lazy" onerror="this.style.display=\'none\'">'
+            : (w.video
+                ? '<video class="work__thumb" src="' + w.video + '" muted loop playsinline preload="metadata"></video>'
+                : '')) +
+          '<span class="work__type">' + w.type + '</span>' +
+          (w.video ? '<span class="work__play">' + ICON_PLAY + '</span>' : '') +
+        '</button>' +
+        '<div class="work__body">' +
+          '<h3>' + w.title + '</h3>' +
+          '<p>' + w.text + '</p>' +
+          '<div class="work__meta">' + tags + '</div>' +
+        '</div>' +
+      '</article>';
+  }
+  grid.innerHTML = html;
+})();
+
+/* ---------- תצוגות מקדימות בכרטיסים: מתנגנות רק כשהן על המסך ---------- */
+(function cardPreviews(){
+  var clips = document.querySelectorAll('.work__thumb');
+  if(!clips.length) return;
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* הקליפ נחשף רק אחרי שיש לו פריים אמיתי; אם הוא נכשל נשאר ה-placeholder המעוצב */
+  for(var c=0;c<clips.length;c++){
+    (function(v){
+      if(still){ v.preload = 'metadata'; }
+      v.addEventListener('loadeddata', function(){ v.classList.add('is-ready'); });
+      v.addEventListener('error', function(){ v.remove(); });
+    })(clips[c]);
+  }
+
+  if(still) return;
+  if(!('IntersectionObserver' in window)) return;
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      var v = entry.target;
+      if(entry.isIntersecting){
+        var playing = v.play();
+        if(playing && playing.catch){ playing.catch(function(){}); }
+      } else if(!v.paused){
+        v.pause();
+      }
+    });
+  }, {threshold:.25});
+
+  for(var i=0;i<clips.length;i++){ io.observe(clips[i]); }
+})();
+
+/* ---------- סינון ---------- */
+(function filters(){
+  var chips = document.querySelectorAll('.chip');
+  for(var i=0;i<chips.length;i++){
+    chips[i].addEventListener('click', function(){
+      var f = this.getAttribute('data-filter');
+      for(var j=0;j<chips.length;j++){ chips[j].classList.remove('is-active'); }
+      this.classList.add('is-active');
+      var cards = document.querySelectorAll('.work');
+      for(var k=0;k<cards.length;k++){
+        var cats = (cards[k].getAttribute('data-cat') || '').split(' ');
+        var show = (f === 'all') || (cats.indexOf(f) !== -1);
+        cards[k].hidden = !show;
+      }
+    });
+  }
+})();
+
+/* ---------- תמונת אקמל: תחליף מעוצב עד שהקובץ קיים ---------- */
+(function akmalPhoto(){
+  var img = document.getElementById('akmalPhoto');
+  if(!img) return;
+  img.addEventListener('error', function(){
+    var holder = img.parentNode;
+    img.remove();
+    var ph = document.createElement('div');
+    ph.className = 'about__ph';
+    ph.innerHTML = '<span>א</span><small>תמונה של אקמל<br>תתווסף כאן</small>';
+    holder.insertBefore(ph, holder.firstChild);
+  });
+})();
+
+/* ---------- לייטבוקס ---------- */
+(function lightbox(){
+  var box = document.getElementById('lightbox');
+  var media = document.getElementById('lbMedia');
+  var title = document.getElementById('lbTitle');
+  var text = document.getElementById('lbText');
+  var closeBtn = document.getElementById('lbClose');
+  var lastFocus = null;
+
+  function open(i){
+    var w = WORKS[i];
+    lastFocus = document.activeElement;
+    title.textContent = w.type + ' — ' + w.title;
+    text.textContent = w.text;
+    if(w.video){
+      media.innerHTML = '<video src="' + w.video + '" controls autoplay playsinline' +
+                        (w.image ? ' poster="' + w.image + '"' : '') + '></video>';
+    } else if(!w.image){
+      var p0 = phFor(w.cat);
+      media.innerHTML = '<div class="lightbox__ph" style="--ph-h:' + p0.hue + '">' + p0.icon +
+                        '<span>' + w.type + ' — תמונה תתווסף בקרוב</span></div>';
+    } else {
+      media.innerHTML = '<img src="' + w.image + '" alt="' + w.title + '">';
+      var img = media.querySelector('img');
+      img.addEventListener('error', function(){
+        var ph = phFor(w.cat);
+        media.innerHTML = '<div class="lightbox__ph" style="--ph-h:' + ph.hue + '">' + ph.icon +
+                          '<span>' + w.type + ' — תמונה תתווסף בקרוב</span></div>';
+      });
+    }
+    box.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+  function close(){
+    box.classList.remove('is-open');
+    media.innerHTML = '';
+    document.body.style.overflow = '';
+    if(lastFocus){ lastFocus.focus(); }
+  }
+
+  document.addEventListener('click', function(e){
+    if(!e.target.closest) return;
+    var card = e.target.closest('.work');
+    if(!card) return;
+    var trigger = card.querySelector('.work__media');
+    if(trigger){ open(parseInt(trigger.getAttribute('data-index'),10)); }
+  });
+  closeBtn.addEventListener('click', close);
+  box.addEventListener('click', function(e){ if(e.target === box){ close(); } });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape' && box.classList.contains('is-open')){ close(); } });
+})();
+
+/* ---------- ניווט: מצב "נדבק" + תפריט נייד ---------- */
+(function navBehavior(){
+  var nav = document.getElementById('nav');
+  var burger = document.getElementById('burger');
+  var links = document.getElementById('navLinks');
+
+  function onScroll(){
+    if(window.scrollY > 40){ nav.classList.add('is-stuck'); }
+    else { nav.classList.remove('is-stuck'); }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  burger.addEventListener('click', function(){
+    var open = links.classList.toggle('is-open');
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  links.addEventListener('click', function(e){
+    if(e.target.tagName === 'A'){
+      links.classList.remove('is-open');
+      burger.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+
+/* ---------- וידאו רקע: מוצג רק אם הקובץ באמת קיים ---------- */
+(function heroVideo(){
+  var video = document.getElementById('heroVideo');
+  var fallback = document.getElementById('heroFallback');
+  if(!video) return;
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduced) return;
+
+  video.addEventListener('loadeddata', function(){
+    video.hidden = false;
+    fallback.style.opacity = '0';
+    fallback.style.transition = 'opacity .8s ease';
+  });
+  video.addEventListener('error', function(){ video.hidden = true; }, true);
+  video.preload = 'auto';
+  video.load();
+})();
+
+/* ---------- אנימציית חשיפה בגלילה ---------- */
+(function reveal(){
+  var items = document.querySelectorAll('.reveal');
+  if(!('IntersectionObserver' in window)){
+    for(var i=0;i<items.length;i++){ items[i].classList.add('is-in'); }
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting){
+        entry.target.classList.add('is-in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:.12, rootMargin:'0px 0px -60px'});
+  for(var j=0;j<items.length;j++){ io.observe(items[j]); }
+})();
+</script>
+</body>
+</html>
