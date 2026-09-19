@@ -156,4 +156,28 @@ const job = (id: string): Job => ({ id, title: "VP Sales", company: "Acme", loca
     /Failed to parse structured output/, "out-of-range score must be rejected");
 }
 
+// 12. Funding extraction is batched and tolerates a partial failure.
+// 80 news items in one request overran the token ceiling, truncated the JSON mid-string
+// and killed the whole emerging hunter. Batching bounds each response; harvesting keeps
+// the batches that worked.
+{
+  const { batchesOf, harvest } = await import("../src/llm.js");
+  const items = Array.from({ length: 50 }, (_, i) => i);
+  assert.deepEqual(batchesOf(items, 20).map((b) => b.length), [20, 20, 10], "must split, never one giant call");
+  assert.deepEqual(batchesOf([], 20), [], "no items means no calls");
+  assert.deepEqual(batchesOf([1, 2], 20).map((b) => b.length), [2], "a short list stays one batch");
+
+  const truncation = new Error("Unterminated string in JSON at position 5708");
+  const partial: PromiseSettledResult<string>[] = [
+    { status: "rejected", reason: truncation },
+    { status: "fulfilled", value: "kept-a" },
+    { status: "fulfilled", value: "kept-b" },
+  ];
+  assert.deepEqual(harvest(partial, "funding"), ["kept-a", "kept-b"], "one bad batch must not discard the rest");
+
+  // A total failure must surface the real reason, not silently return nothing.
+  assert.throws(() => harvest([{ status: "rejected", reason: truncation }], "funding"), /Unterminated string/);
+  assert.deepEqual(harvest([], "funding"), [], "nothing attempted is not a failure");
+}
+
 console.log("all logic tests passed");

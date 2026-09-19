@@ -20,14 +20,31 @@ TARGETS:
 - Emerging companies: raised $${EMERGING_TARGET.minRaiseUSD / 1e6}M+ recently, sectors: ${EMERGING_TARGET.sectors}, looking at international expansion.
 - Large AI labs and platforms: OpenAI, Anthropic, Mistral and similar; international / regional GTM leadership.`;
 
+// 4000 was too low: a structured list of companies or jobs runs past it, the reply is
+// cut mid-string, and the JSON no longer parses. 16000 is the documented default for
+// non-streaming requests (it stays under the SDK's HTTP timeout).
+const MAX_TOKENS = 16000;
+
 async function parse<T extends z.ZodType>(schema: T, user: string, opts?: { effort?: "low" | "medium" | "high" }): Promise<z.infer<T>> {
-  const res = await client.messages.parse({
-    model: MODEL,
-    max_tokens: 4000,
-    system: [{ type: "text", text: SYSTEM_PROFILE, cache_control: { type: "ephemeral" } }],
-    messages: [{ role: "user", content: user }],
-    output_config: { format: zodOutputFormat(schema), effort: opts?.effort ?? "medium" },
-  });
+  let res;
+  try {
+    res = await client.messages.parse({
+      model: MODEL,
+      max_tokens: MAX_TOKENS,
+      system: [{ type: "text", text: SYSTEM_PROFILE, cache_control: { type: "ephemeral" } }],
+      messages: [{ role: "user", content: user }],
+      output_config: { format: zodOutputFormat(schema), effort: opts?.effort ?? "medium" },
+    });
+  } catch (e: any) {
+    // Truncation reaches us as a JSON syntax error from the SDK's parser. Say what it
+    // actually means, so the next reader is not debugging the wrong thing.
+    const msg = String(e?.message || e);
+    if (/Unterminated|Unexpected end of (JSON|input)/i.test(msg)) {
+      throw new Error(`Model output was cut off before it was valid JSON - send fewer items per call or raise max_tokens (${msg})`);
+    }
+    throw e;
+  }
+  if (res.stop_reason === "max_tokens") throw new Error(`Model hit the ${MAX_TOKENS}-token ceiling; output truncated.`);
   if (!res.parsed_output) throw new Error(`LLM returned unparseable output (stop_reason=${res.stop_reason})`);
   return res.parsed_output;
 }
@@ -59,11 +76,35 @@ const Funding = z.object({
   })),
 });
 
+// One call per batch: 80 news items in a single request is what overran the token
+// ceiling. Batches also mean one bad response costs one batch, not the whole hunter.
+const FUNDING_BATCH = 20;
+
+/** Split into bounded batches, so no single request can outgrow the token ceiling. */
+export function batchesOf<T>(items: T[], size: number): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size));
+  return out;
+}
+
+/**
+ * Keep what succeeded. One failed batch must not discard the others; only a total
+ * failure is a failure, and it reports the first real reason rather than an empty list.
+ */
+export function harvest<R>(settled: PromiseSettledResult<R>[], what: string): R[] {
+  const ok = settled.filter((r): r is PromiseFulfilledResult<R> => r.status === "fulfilled");
+  if (settled.length && !ok.length) {
+    throw new Error((settled[0] as PromiseRejectedResult).reason?.message || `${what} failed`);
+  }
+  return ok.map((r) => r.value);
+}
+
 export async function extractFunding(items: Array<{ title: string; snippet: string; url: string; date?: string }>) {
   if (!items.length) return [];
-  const out = await parse(Funding, `From these news items, extract funding rounds. Be strict about amounts. Ignore items that are not a primary funding announcement.
-ITEMS:\n${JSON.stringify(items, null, 1)}`, { effort: "low" });
-  return out.companies;
+  const settled = await Promise.allSettled(batchesOf(items, FUNDING_BATCH).map((batch) =>
+    parse(Funding, `From these news items, extract funding rounds. Be strict about amounts. Ignore items that are not a primary funding announcement.
+ITEMS:\n${JSON.stringify(batch, null, 1)}`, { effort: "low" })));
+  return harvest(settled, "funding extraction").flatMap((r) => r.companies);
 }
 
 // ---------- People selection ----------
