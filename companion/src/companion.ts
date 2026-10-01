@@ -4,7 +4,7 @@ import type { Channel } from "./channel.js";
 import type { Fact, Lang, Msg, Parent } from "./types.js";
 import { addAlert, getChat, getFacts, newId, saveFacts, saveParent } from "./store.js";
 import { chooseLang, isSos, isStart, isStop, sosReply, startReply, stopReply, withinCoverage } from "./policy.js";
-import { checkinMessage, extractFacts, reply, type Candidate } from "./llm.js";
+import { SORRY, checkinFallback, checkinOrNull, extractFacts, freshFamilyNotes, replyOrNull, type Candidate } from "./llm.js";
 import { notifyOperator } from "./operator.js";
 import { localNow } from "./time.js";
 
@@ -63,9 +63,11 @@ export async function converse(p: Parent, parentMsgId: string, ch: Channel, defe
 
   const facts = await getFacts(p.id);
   const lang = last.lang ?? p.lastLang;
-  let text: string;
+  const fresh = freshFamilyNotes(facts).map((f) => f.id);
+  let text: string, answered: boolean;
   try {
-    text = await reply(p, facts, history, lang);
+    const r = await replyOrNull(p, facts, history, lang);
+    text = r ?? SORRY[lang]; answered = r !== null;
   } catch (e) {
     // The page is waiting on a reply; never leave it hanging.
     console.error("reply failed", e);
@@ -74,16 +76,25 @@ export async function converse(p: Parent, parentMsgId: string, ch: Channel, defe
     return;
   }
   await ch.deliver(p, msg("companion", text, "chat", lang));
+  if (answered && fresh.length) await markPassedOn(p.id, fresh);
 
   if (!p.consent.memory) return;
   await defer((async () => {
     try {
       const found = await extractFacts(p, facts, last.text, text);
-      if (found.length) await saveFacts(p.id, mergeFacts(facts, found, lang));
+      // Re-read: the family may have added a note while the reply was being written.
+      if (found.length) await saveFacts(p.id, mergeFacts(await getFacts(p.id), found, lang));
     } catch (e) {
       console.error("memory extraction failed (conversation unaffected)", e);
     }
   })());
+}
+
+/** Family notes the parent has now been told; they stay as ordinary memory after this. */
+async function markPassedOn(parentId: string, ids: string[]): Promise<void> {
+  const facts = await getFacts(parentId);
+  for (const f of facts) if (ids.includes(f.id) && !f.passedOn) f.passedOn = now();
+  await saveFacts(parentId, facts);
 }
 
 /** Corrections create a new version; the old fact is kept and marked superseded. */
@@ -102,8 +113,12 @@ export function mergeFacts(facts: Fact[], found: Candidate[], lang: Lang): Fact[
 export async function checkIn(p: Parent, ch: Channel): Promise<void> {
   if (!ch.canSendFreeform(p)) return;   // WhatsApp outside the window will use a template (phase 2b)
   const lang: Lang = p.lang === "auto" ? p.lastLang : p.lang;
-  const text = await checkinMessage(p, await getFacts(p.id), await getChat(p.id), lang);
+  const facts = await getFacts(p.id);
+  const fresh = freshFamilyNotes(facts).map((f) => f.id);
+  const r = await checkinOrNull(p, facts, await getChat(p.id), lang);
+  const text = r ?? checkinFallback(p, lang);
   await ch.deliver(p, msg("companion", text, "checkin", lang));
+  if (r !== null && fresh.length) await markPassedOn(p.id, fresh);
   p.lastCheckinDate = localNow(p.tz).date;
   await saveParent(p);
 }

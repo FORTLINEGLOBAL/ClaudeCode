@@ -59,5 +59,5 @@ export function familyAlerts(alerts: Alert[], parentId: string) {
 
 /** Notes the family added, newest first. Other memories stay private. */
 export function familyNotes(facts: Fact[]) {
-  return facts.filter((f) => f.source === "family" && !f.supersededBy).reverse().map(({ id, text, at }) => ({ id, text, at }));
+  return facts.filter((f) => f.source === "family" && !f.supersededBy).reverse().map(({ id, text, at, passedOn }) => ({ id, text, at, passedOn: passedOn ?? null }));
 }

@@ -57,6 +57,7 @@ export interface Fact {
   source: "said" | "confirmed" | "family";   // "family": added on the family page
   at: string;
   supersededBy?: string;     // corrections create a new fact; the old one stays for audit
+  passedOn?: string;         // family notes: when the companion first told the parent
 }
 
 // Family page access. The family sees activity and settings, never the conversation.

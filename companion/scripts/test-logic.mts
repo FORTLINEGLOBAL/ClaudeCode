@@ -287,4 +287,31 @@ await t("family api", async () => {
   assert.match(link.link, /^https:\/\/x\.test\/#t=/);
 });
 
+// 16. a new family note is passed on in the next reply, once, then stays as memory
+await t("family note passed on", async () => {
+  const { default: family } = await import("../netlify/functions/family.js");
+  const { issueFamilyToken, getFacts } = await import("../src/store.js");
+  const { converse } = await import("../src/companion.js");
+  const { webChannel } = await import("../src/channel.js");
+  const p = parent({ id: "fam2", name: "אנה" });
+  await saveParent(p);
+  const admin = await issueFamilyToken(p.id, "admin", "Dana");
+  await family(new Request("https://x.test/api/family/notes", { method: "POST", headers: { "x-family-token": admin, "content-type": "application/json" }, body: JSON.stringify({ text: "לא לשכוח לקחת תרופות" }) }), {} as any);
+  const sys = (c: any) => JSON.stringify(c.body.system);
+  const say = async (text: string) => {
+    const r = await receive(p, text, webChannel);
+    assert.equal(r.handled, false);
+    const before = calls.length;
+    await converse(p, (r as any).parentMsgId, webChannel);
+    return calls.slice(before).find((c) => !c.body.output_config?.format)!;
+  };
+  const first = await say("מה נשמע?");
+  assert.ok(sys(first).includes("New from the family") && sys(first).includes("לא לשכוח לקחת תרופות"));
+  const note = (await getFacts(p.id)).find((f) => f.source === "family")!;
+  assert.ok(note.passedOn);
+  const second = await say("ומה עוד?");
+  assert.ok(!sys(second).includes("New from the family"));
+  assert.ok(sys(second).includes("לא לשכוח לקחת תרופות"));   // still remembered, just not news
+});
+
 console.log(`${n} test groups passed`);

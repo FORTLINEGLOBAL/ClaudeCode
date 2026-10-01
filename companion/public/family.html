@@ -35,9 +35,9 @@
   .stats { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 12px; }
   .banner { background: var(--sos-bg); border: 1px solid var(--sos); border-radius: 10px; padding: 10px 12px; margin-bottom: 12px; }
   ul.plain { list-style: none; margin: 0; padding: 0; }
-  ul.plain li { display: flex; gap: 8px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  ul.plain li { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--line); }
   ul.plain li:last-child { border-bottom: none; }
-  ul.plain li .grow { flex: 1; overflow-wrap: anywhere; }
+  ul.plain li .grow { flex: 1 1 100%; overflow-wrap: anywhere; }
   .contact { border: 1px solid var(--line); border-radius: 10px; padding: 4px 12px 12px; margin-top: 10px; }
   .status { margin-top: 10px; min-height: 1.5em; }
   .status.err { color: var(--sos); } .status.ok { color: var(--ok); }
@@ -144,7 +144,8 @@
       ci: { answered: "✓ צ'ק-אין", missed: "✗ לא נענה", waiting: "… ממתין" },
       stopped: (n) => `${n} ביקש/ה לעצור הודעות יזומות (STOP), ולכן הצ'ק-אין היומי מושהה. ${n} יכול/ה להפעיל מחדש בכתיבת START.`,
       sosTitle: "התראות SOS", noSos: "אין התראות.", sosRow: (a) => `${a.when}: ${a.operatorNotified ? "הצוות קיבל התראה" : a.withinCoverage ? "לא נשלחה התראה לצוות" : "מחוץ לשעות הכיסוי (08:00-22:00 שעון ישראל)"}`,
-      notesTitle: "לספר ל-Companion", notesHint: (n) => `משהו שכדאי שה-Companion ידע, למשל "נועה מגיעה לבקר ביום ראשון". אם הוא יעלה את זה בשיחה, הוא יגיד ל-${n} שהמשפחה סיפרה.`,
+      notesTitle: "לספר ל-Companion", notesHint: (n) => `משהו שכדאי שה-Companion ידע, למשל "נועה מגיעה לבקר ביום ראשון". הוא ימסור את זה ל-${n} בהודעה הבאה שלו, יגיד שהמשפחה ביקשה, ואחר כך יזכור את זה.`,
+      notePending: (n) => `יימסר ל-${n} בהודעה הבאה`, notePassed: (n, d) => `נמסר ל-${n} ${d}`,
       notesHintViewer: "דברים שהמשפחה סיפרה ל-Companion.", addNote: "הוספה", noNotes: "עדיין לא נוספו.", remove: "הסרה", noteAdded: "נוסף.",
       settingsTitle: "הגדרות", name: "שם", gender: "פנייה בעברית", genderF: "נקבה (את)", genderM: "זכר (אתה)", genderU: "לא ידוע",
       lang: "שפה", langAuto: "אוטומטי", tz: "איפה גר/ה", tzNY: "ארה\"ב, מזרח", tzCHI: "ארה\"ב, מרכז", tzDEN: "ארה\"ב, הרים", tzLA: "ארה\"ב, מערב", tzIL: "ישראל", tzUK: "בריטניה",
@@ -164,7 +165,8 @@
       ci: { answered: "✓ check-in", missed: "✗ missed", waiting: "… waiting" },
       stopped: (n) => `${n} asked to stop proactive messages (STOP), so the daily check-in is paused. ${n} can turn it back on by writing START.`,
       sosTitle: "SOS alerts", noSos: "No alerts.", sosRow: (a) => `${a.when}: ${a.operatorNotified ? "the team was alerted" : a.withinCoverage ? "the team was not alerted" : "outside coverage hours (08:00-22:00 Israel time)"}`,
-      notesTitle: "Tell the companion", notesHint: (n) => `Something the companion should know, like "Noa is visiting on Sunday". If it brings it up, it tells ${n} the family mentioned it.`,
+      notesTitle: "Tell the companion", notesHint: (n) => `Something the companion should know, like "Noa is visiting on Sunday". It passes it on to ${n} in its next message, says the family asked, and remembers it after that.`,
+      notePending: (n) => `Will be passed on to ${n} in the next message`, notePassed: (n, d) => `Passed on to ${n} ${d}`,
       notesHintViewer: "Things the family told the companion.", addNote: "Add", noNotes: "None yet.", remove: "Remove", noteAdded: "Added.",
       settingsTitle: "Settings", name: "Name", gender: "Hebrew form of address", genderF: "Feminine (את)", genderM: "Masculine (אתה)", genderU: "Unknown",
       lang: "Language", langAuto: "Automatic", tz: "Where they live", tzNY: "US Eastern", tzCHI: "US Central", tzDEN: "US Mountain", tzLA: "US Pacific", tzIL: "Israel", tzUK: "UK",
@@ -197,7 +199,7 @@
     });
     const r = await res.json().catch(() => ({}));
     if (res.status === 401) { showBad(); throw new Error("bad"); }
-    if (!res.ok) throw new Error(r.error || "HTTP " + res.status);
+    if (!res.ok) throw new Error((lang === "he" && r.errorHe) || r.error || "HTTP " + res.status);
     return r;
   }
   function showBad() { $("content").hidden = true; $("loading").hidden = false; $("loading").textContent = t().bad; }
@@ -242,7 +244,8 @@
     $("notes").replaceChildren(...(data.notes.length ? data.notes.map((n) => {
       const li = document.createElement("li");
       const txt = document.createElement("span"); txt.className = "grow"; txt.dir = "auto"; txt.textContent = n.text;
-      const at = document.createElement("span"); at.className = "muted"; at.textContent = new Date(n.at).toLocaleDateString(L.locale);
+      const at = document.createElement("span"); at.className = "muted";
+      at.textContent = n.passedOn ? L.notePassed(p.name, when(n.passedOn)) : L.notePending(p.name);
       li.append(txt, at);
       if (admin) {
         const rm = document.createElement("button"); rm.type = "button"; rm.className = "link"; rm.textContent = L.remove;

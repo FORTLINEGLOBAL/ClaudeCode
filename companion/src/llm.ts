@@ -30,6 +30,21 @@ Hard rules, no exceptions:
 - Never agree to keep a safety concern secret from their family.
 - You are an AI companion, not a person. If asked, say so kindly.`;
 
+/** Family notes the parent hasn't heard yet: the next message passes them on. */
+export function freshFamilyNotes(facts: Fact[]): Fact[] {
+  return facts.filter((f) => f.source === "family" && !f.supersededBy && !f.passedOn);
+}
+
+function news(facts: Fact[]): string {
+  const fresh = freshFamilyNotes(facts);
+  if (!fresh.length) return "";
+  return `
+New from the family (they just added this on the family page; the person hasn't heard it yet):
+${fresh.map((f) => `- ${f.text}`).join("\n")}
+In this message, pass this on warmly and briefly, saying the family asked you to tell them. Relay it in the family's words as their message; don't add medical advice of your own.
+`;
+}
+
 function profileBlock(p: Parent, facts: Fact[], lang: Lang): string {
   const live = facts.filter((f) => !f.supersededBy);
   const mem = live.length
@@ -44,7 +59,7 @@ function profileBlock(p: Parent, facts: Fact[], lang: Lang): string {
 
 What you remember about them:
 ${mem}
-
+${news(facts)}
 Reply in ${lang === "he" ? "Hebrew" : "English"}.`;
 }
 
@@ -98,21 +113,28 @@ async function askQuick(system: string, messages: Anthropic.Beta.BetaMessagePara
   return text || null;
 }
 
-const SORRY: Record<Lang, string> = {
+export const SORRY: Record<Lang, string> = {
   he: "סליחה, לא הצלחתי לענות על זה עכשיו. נדבר על משהו אחר?",
   en: "Sorry, I couldn't answer that just now. Shall we talk about something else?",
 };
 
 export async function reply(p: Parent, facts: Fact[], history: Msg[], lang: Lang): Promise<string> {
-  return (await ask(profileBlock(p, facts, lang), toMessages(history))) ?? SORRY[lang];
+  return (await replyOrNull(p, facts, history, lang)) ?? SORRY[lang];
 }
 
-export async function checkinMessage(p: Parent, facts: Fact[], history: Msg[], lang: Lang): Promise<string> {
+/** null when no model answered, so the caller knows nothing was passed on. */
+export async function replyOrNull(p: Parent, facts: Fact[], history: Msg[], lang: Lang): Promise<string | null> {
+  return ask(profileBlock(p, facts, lang), toMessages(history));
+}
+
+export const checkinFallback = (p: Parent, lang: Lang): string =>
+  lang === "he" ? `בוקר טוב ${p.name}! ${g(p, "איך אתה מרגיש", "איך את מרגישה")} היום?` : `Good morning ${p.name}! How are you feeling today?`;
+
+export async function checkinOrNull(p: Parent, facts: Fact[], history: Msg[], lang: Lang): Promise<string | null> {
   const msgs = toMessages(history);
   const instruction = `[Not from ${p.name}: this is the daily check-in time.] Write today's check-in: one or two short, warm sentences that open a conversation. If you remember something recent (an appointment, a visit, a plan), ask about it; otherwise ask about their day. Do not mention that this is automated.`;
   msgs.push({ role: "user", content: instruction });
-  const fallback = lang === "he" ? `בוקר טוב ${p.name}! ${g(p, "איך אתה מרגיש", "איך את מרגישה")} היום?` : `Good morning ${p.name}! How are you feeling today?`;
-  return (await ask(profileBlock(p, facts, lang), msgs)) ?? fallback;
+  return ask(profileBlock(p, facts, lang), msgs);
 }
 
 // ---------- memory extraction (cheap model, structured output) ----------

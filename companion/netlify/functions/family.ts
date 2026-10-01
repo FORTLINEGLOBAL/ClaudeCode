@@ -16,7 +16,7 @@ const json = (body: unknown, status = 200) => new Response(JSON.stringify(body),
 export default async (req: Request) => {
   const access = await familyForToken(req.headers.get("x-family-token") || "");
   const p = access ? await getParent(access.parentId) : null;
-  if (!access || !p) return json({ error: "This link is not valid. Ask for a new one." }, 401);
+  if (!access || !p) return json({ error: "This link is not valid. Ask for a new one.", errorHe: "הקישור הזה לא תקין. בקשו קישור חדש." }, 401);
 
   const route = new URL(req.url).pathname.replace(/^\/api\/family\/?/, "");
   const isAdmin = access.role === "admin";
@@ -31,18 +31,18 @@ export default async (req: Request) => {
     });
   }
 
-  if (!isAdmin) return json({ error: "This link can view but not change anything." }, 403);
+  if (!isAdmin) return json({ error: "This link can view but not change anything.", errorHe: "הקישור הזה מאפשר לצפות בלבד, לא לשנות." }, 403);
   const body = req.method === "GET" || req.method === "DELETE" ? {} : await req.json().catch(() => ({}));
 
   if (req.method === "PUT" && route === "settings") {
-    try { applySettings(p, body); } catch (e: any) { return json({ error: e?.message || String(e) }, 400); }
+    try { applySettings(p, body); } catch (e: any) { return json({ error: e?.message || String(e), errorHe: e?.he }, 400); }
     await saveParent(p);
     return json({ parent: familyView(p) });
   }
 
   if (req.method === "POST" && route === "notes") {
     const text = String(body.text ?? "").trim().slice(0, 500);
-    if (!text) return json({ error: "Write something first." }, 400);
+    if (!text) return json({ error: "Write something first.", errorHe: "צריך לכתוב משהו קודם." }, 400);
     const facts = await getFacts(p.id);
     const f: Fact = {
       id: newId(), kind: "recent", text, lang: /[֐-׿]/.test(text) ? "he" : "en",
@@ -56,7 +56,7 @@ export default async (req: Request) => {
   if (req.method === "DELETE" && del) {
     const facts = await getFacts(p.id);
     const f = facts.find((x) => x.id === del[1] && x.source === "family" && !x.supersededBy);
-    if (!f) return json({ error: "Note not found." }, 404);
+    if (!f) return json({ error: "Note not found.", errorHe: "ההערה לא נמצאה." }, 404);
     f.supersededBy = "removed-by-family";   // kept for audit, no longer used
     await saveFacts(p.id, facts);
     return json({ notes: familyNotes(facts) });
