@@ -24,7 +24,10 @@ export default async (req: Request, context: Context) => {
   if (req.method !== "POST") return new Response("method not allowed", { status: 405 });
 
   const raw = await req.text();
-  if (!validSignature(raw, req.headers.get("x-hub-signature-256"))) return new Response("bad signature", { status: 401 });
+  if (!validSignature(raw, req.headers.get("x-hub-signature-256"))) {
+    console.warn("whatsapp webhook: bad signature (check WHATSAPP_APP_SECRET)");
+    return new Response("bad signature", { status: 401 });
+  }
   let payload: unknown;
   try { payload = JSON.parse(raw); } catch { return new Response("bad request", { status: 400 }); }
 
@@ -35,7 +38,8 @@ export default async (req: Request, context: Context) => {
   for (const m of messages) {
     if (!(await firstTime(`wa/${m.id}`))) continue;   // Meta retries
     const p = parents.find((x) => x.whatsapp && waNumber(x.whatsapp) === m.from);
-    if (!p) { console.warn("whatsapp message from an unknown number, ignored"); continue; }
+    if (!p) { console.warn(`whatsapp message from an unknown number ending ${m.from.slice(-4)}, ignored`); continue; }
+    console.log(`whatsapp message for parent ${p.id} (${m.type})`);
     p.lastInboundAt = new Date().toISOString();   // opens the 24h window before we answer
     if (!m.text) {
       await saveParent(p);
