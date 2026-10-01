@@ -314,4 +314,55 @@ await t("family note passed on", async () => {
   assert.ok(sys(second).includes("לא לשכוח לקחת תרופות"));   // still remembered, just not news
 });
 
+// 17. reminders: due at the parent's local time on the chosen days, sent once, word for word
+await t("reminders", async () => {
+  const { reminderDue, sendDueReminders, newReminder, familyReminders } = await import("../src/reminders.js");
+  const { saveReminders, getReminders } = await import("../src/store.js");
+  const { webChannel } = await import("../src/channel.js");
+  const p = parent({ id: "rem1", tz: "Asia/Jerusalem", lang: "he" });
+  await saveParent(p);
+  assert.throws(() => newReminder({ text: "x", time: "25:00" }, "family"));
+  assert.throws(() => newReminder({ text: " ", time: "20:00" }, "family"));
+  const daily = newReminder({ text: "לקחת את הכדור של הערב", time: "20:00", by: "פורטי" }, "family");
+  const sunday = newReminder({ text: "חוג ציור", time: "9:30", days: [0] }, "family");
+  assert.equal(sunday.time, "09:30"); assert.equal(sunday.by, "family");
+  assert.deepEqual(newReminder({ text: "x", time: "08:00", days: [0, 1, 2, 3, 4, 5, 6] }, "f").days, []);
+  // 2026-10-04 is a Sunday; Israel is UTC+3 then
+  const at = (iso: string) => new Date(iso);
+  assert.ok(!reminderDue(daily, p, at("2026-10-04T16:59:00Z")));   // 19:59
+  assert.ok(reminderDue(daily, p, at("2026-10-04T17:10:00Z")));    // 20:10
+  assert.ok(!reminderDue(daily, p, at("2026-10-04T18:00:00Z")));   // 21:00, too late
+  assert.ok(reminderDue(sunday, p, at("2026-10-04T06:40:00Z")));   // Sunday 09:40
+  assert.ok(!reminderDue(sunday, p, at("2026-10-05T06:40:00Z")));  // Monday
+  await saveReminders(p.id, [daily, sunday]);
+  assert.equal(await sendDueReminders(p, webChannel, at("2026-10-04T17:05:00Z")), 1);
+  assert.equal(await sendDueReminders(p, webChannel, at("2026-10-04T17:20:00Z")), 0);   // once a day
+  const sent = (await getChat(p.id)).filter((m) => m.kind === "reminder");
+  assert.equal(sent.length, 1);
+  assert.equal(sent[0].text, "⏰ תזכורת מפורטי, לשעה 20:00\nלקחת את הכדור של הערב");
+  let view = familyReminders(await getReminders(p.id), p, await getChat(p.id), at("2026-10-04T17:30:00Z"));
+  assert.equal(view[0].answeredAfter, false); assert.ok(view[0].sentToday); assert.equal(view[1].sentToday, null);
+  const { appendChat } = await import("../src/store.js");
+  await appendChat(p.id, { id: "pm1", role: "parent", text: "לקחתי", at: "2026-10-04T17:12:00Z", kind: "chat" });
+  view = familyReminders(await getReminders(p.id), p, await getChat(p.id), at("2026-10-04T17:30:00Z"));
+  assert.equal(view[0].answeredAfter, true);
+  await saveParent({ ...p, stopped: true });
+  assert.equal(await sendDueReminders({ ...p, stopped: true }, webChannel, at("2026-10-05T17:05:00Z")), 0);   // STOP pauses reminders
+
+  const { default: family } = await import("../netlify/functions/family.js");
+  const { issueFamilyToken } = await import("../src/store.js");
+  const admin = await issueFamilyToken(p.id, "admin", "family");
+  const viewer = await issueFamilyToken(p.id, "viewer", "family");
+  const call = (tok: string, method: string, path: string, body?: unknown) =>
+    family(new Request(`https://x.test/api/family${path}`, { method, headers: { "x-family-token": tok, "content-type": "application/json" }, body: body ? JSON.stringify(body) : undefined }), {} as any);
+  assert.equal((await call(viewer, "POST", "/reminders", { text: "x", time: "10:00" })).status, 403);
+  const bad = await (await call(admin, "POST", "/reminders", { text: "x", time: "99:00" })).json();
+  assert.match(bad.errorHe, /השעה/);
+  const added = await (await call(admin, "POST", "/reminders", { text: "לשתות מים", time: "12:00" })).json();
+  assert.equal(added.reminders.length, 3);
+  const id = added.reminders[2].id;
+  assert.equal((await (await call(admin, "DELETE", "/reminders/" + id)).json()).reminders.length, 2);
+  assert.equal((await (await call(viewer, "GET", "")).json()).reminders.length, 2);
+});
+
 console.log(`${n} test groups passed`);

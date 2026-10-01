@@ -3,10 +3,13 @@
 //   PUT    /api/family/settings        admin: change settings and contacts (never consent)
 //   POST   /api/family/notes           admin: tell the companion something ({text})
 //   DELETE /api/family/notes/:id       admin: remove a note the family added
+//   POST   /api/family/reminders       admin: a reminder sent word for word at a set time ({text, time, days})
+//   DELETE /api/family/reminders/:id   admin: remove a reminder
 //   POST   /api/family/parent-link     admin: a new private chat link for the parent
 // The private conversation is never returned here.
 import type { Config } from "@netlify/functions";
-import { familyForToken, getAlerts, getChat, getFacts, getParent, issueToken, newId, saveFacts, saveParent } from "../../src/store.js";
+import { familyForToken, getAlerts, getChat, getFacts, getParent, getReminders, issueToken, newId, saveFacts, saveParent, saveReminders } from "../../src/store.js";
+import { MAX_REMINDERS, familyReminders, newReminder } from "../../src/reminders.js";
 import { familyAlerts, familyNotes, familyView, weeklyActivity } from "../../src/family.js";
 import { applySettings } from "../../src/settings.js";
 import type { Fact } from "../../src/types.js";
@@ -28,6 +31,7 @@ export default async (req: Request) => {
       activity: weeklyActivity(p, await getChat(p.id)),
       alerts: familyAlerts(await getAlerts(), p.id),
       notes: familyNotes(await getFacts(p.id)),
+      reminders: familyReminders(await getReminders(p.id), p, await getChat(p.id)),
     });
   }
 
@@ -60,6 +64,23 @@ export default async (req: Request) => {
     f.supersededBy = "removed-by-family";   // kept for audit, no longer used
     await saveFacts(p.id, facts);
     return json({ notes: familyNotes(facts) });
+  }
+
+  if (req.method === "POST" && route === "reminders") {
+    const list = await getReminders(p.id);
+    if (list.length >= MAX_REMINDERS) return json({ error: `Up to ${MAX_REMINDERS} reminders.`, errorHe: `אפשר עד ${MAX_REMINDERS} תזכורות.` }, 400);
+    try { list.push(newReminder(body, access.label)); } catch (e: any) { return json({ error: e?.message || String(e), errorHe: e?.he }, 400); }
+    await saveReminders(p.id, list);
+    return json({ reminders: familyReminders(list, p, await getChat(p.id)) }, 201);
+  }
+
+  const delRem = /^reminders\/([\w-]+)$/.exec(route);
+  if (req.method === "DELETE" && delRem) {
+    const list = await getReminders(p.id);
+    const rest = list.filter((r) => r.id !== delRem[1]);
+    if (rest.length === list.length) return json({ error: "Reminder not found.", errorHe: "התזכורת לא נמצאה." }, 404);
+    await saveReminders(p.id, rest);
+    return json({ reminders: familyReminders(rest, p, await getChat(p.id)) });
   }
 
   if (req.method === "POST" && route === "parent-link") {

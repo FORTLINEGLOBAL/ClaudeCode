@@ -4,7 +4,7 @@ import { getStore } from "@netlify/blobs";
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
-import type { Alert, Fact, FamilyAccess, FamilyRole, Msg, Parent } from "./types.js";
+import type { Alert, Fact, FamilyAccess, FamilyRole, Msg, Parent, Reminder } from "./types.js";
 
 const LOCAL_DIR = path.resolve(process.cwd(), ".local-store");
 
@@ -98,6 +98,12 @@ export async function getFacts(parentId: string): Promise<Fact[]> {
   return (await getJSON<Fact[]>(`facts/${parentId}`)) ?? [];
 }
 export const saveFacts = (parentId: string, facts: Fact[]) => setJSON(`facts/${parentId}`, facts);
+
+// ---------- reminders ----------
+export async function getReminders(parentId: string): Promise<Reminder[]> {
+  return (await getJSON<Reminder[]>(`reminders/${parentId}`)) ?? [];
+}
+export const saveReminders = (parentId: string, list: Reminder[]) => setJSON(`reminders/${parentId}`, list);
 
 // ---------- alerts (operator view) ----------
 export async function getAlerts(): Promise<Alert[]> {

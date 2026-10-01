@@ -38,6 +38,10 @@
   ul.plain li { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--line); }
   ul.plain li:last-child { border-bottom: none; }
   ul.plain li .grow { flex: 1 1 100%; overflow-wrap: anywhere; }
+  .days { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .days label { display: inline-flex; align-items: center; gap: 4px; margin: 0; font-weight: 400; border: 1px solid var(--line); border-radius: 16px; padding: 4px 10px; cursor: pointer; }
+  .days input { width: auto; margin: 0; }
+  .rem-state.ok { color: var(--ok); } .rem-state.warn { color: var(--warn); }
   .contact { border: 1px solid var(--line); border-radius: 10px; padding: 4px 12px 12px; margin-top: 10px; }
   .status { margin-top: 10px; min-height: 1.5em; }
   .status.err { color: var(--sos); } .status.ok { color: var(--ok); }
@@ -79,6 +83,24 @@
         <div class="status" id="noteStatus"></div>
       </div>
       <ul class="plain" id="notes"></ul>
+    </section>
+
+    <h2 data-t="remTitle"></h2>
+    <section>
+      <p class="muted" id="remHint" style="margin-top:0"></p>
+      <div data-admin>
+        <label for="remText" data-t="remText"></label>
+        <input id="remText" maxlength="300" dir="auto">
+        <div class="row">
+          <div><label for="remTime" data-t="remTime"></label><input id="remTime" type="time" value="20:00"></div>
+          <div><label for="remBy" data-t="remBy"></label><input id="remBy" maxlength="40" dir="auto"></div>
+        </div>
+        <label data-t="remDays"></label>
+        <div class="days" id="remDays"></div>
+        <button class="primary" id="addRem" type="button" style="margin-top:12px" data-t="addRem"></button>
+        <div class="status" id="remStatus"></div>
+      </div>
+      <ul class="plain" id="reminders"></ul>
     </section>
 
     <h2 data-t="settingsTitle"></h2>
@@ -147,6 +169,11 @@
       notesTitle: "לספר ל-Companion", notesHint: (n) => `משהו שכדאי שה-Companion ידע, למשל "נועה מגיעה לבקר ביום ראשון". הוא ימסור את זה ל-${n} בהודעה הבאה שלו, יגיד שהמשפחה ביקשה, ואחר כך יזכור את זה.`,
       notePending: (n) => `יימסר ל-${n} בהודעה הבאה`, notePassed: (n, d) => `נמסר ל-${n} ${d}`,
       notesHintViewer: "דברים שהמשפחה סיפרה ל-Companion.", addNote: "הוספה", noNotes: "עדיין לא נוספו.", remove: "הסרה", noteAdded: "נוסף.",
+      remTitle: "תזכורות", remHint: (n) => `נשלחות ל-${n} בצ'אט בשעה שקבעתם (לפי השעון של ${n}), מילה במילה, עם שם מי שקבע. ה-Companion לא משנה את הנוסח.`,
+      remHintViewer: (n) => `תזכורות שנשלחות ל-${n} בשעה קבועה.`,
+      remText: "על מה להזכיר", remTime: "שעה", remBy: "מאת (יופיע בהודעה)", remDays: "ימים (בלי בחירה = כל יום)", addRem: "הוספת תזכורת",
+      remAdded: "נוספה.", noRem: "אין תזכורות.", everyDay: "כל יום",
+      remSent: (t) => `נשלחה היום ב-${t}`, remAnswered: (n) => `${n} כתב/ה אחרי זה`, remNoAnswer: (n) => `${n} עוד לא כתב/ה אחרי זה`, remNotYet: "עוד לא נשלחה היום",
       settingsTitle: "הגדרות", name: "שם", gender: "פנייה בעברית", genderF: "נקבה (את)", genderM: "זכר (אתה)", genderU: "לא ידוע",
       lang: "שפה", langAuto: "אוטומטי", tz: "איפה גר/ה", tzNY: "ארה\"ב, מזרח", tzCHI: "ארה\"ב, מרכז", tzDEN: "ארה\"ב, הרים", tzLA: "ארה\"ב, מערב", tzIL: "ישראל", tzUK: "בריטניה",
       checkin: "שעת צ'ק-אין יומי (לפי השעון שלו/ה)", emergency: "מספר חירום", quietStart: "שעות שקט מ-", quietEnd: "עד",
@@ -168,6 +195,11 @@
       notesTitle: "Tell the companion", notesHint: (n) => `Something the companion should know, like "Noa is visiting on Sunday". It passes it on to ${n} in its next message, says the family asked, and remembers it after that.`,
       notePending: (n) => `Will be passed on to ${n} in the next message`, notePassed: (n, d) => `Passed on to ${n} ${d}`,
       notesHintViewer: "Things the family told the companion.", addNote: "Add", noNotes: "None yet.", remove: "Remove", noteAdded: "Added.",
+      remTitle: "Reminders", remHint: (n) => `Sent to ${n} in the chat at the time you set (${n}'s local time), word for word, with the name of who set it. The companion doesn't rephrase it.`,
+      remHintViewer: (n) => `Reminders sent to ${n} at a set time.`,
+      remText: "What to remind about", remTime: "Time", remBy: "From (shown in the message)", remDays: "Days (none = every day)", addRem: "Add reminder",
+      remAdded: "Added.", noRem: "No reminders.", everyDay: "Every day",
+      remSent: (t) => `Sent today at ${t}`, remAnswered: (n) => `${n} wrote after it`, remNoAnswer: (n) => `${n} hasn't written since`, remNotYet: "Not sent yet today",
       settingsTitle: "Settings", name: "Name", gender: "Hebrew form of address", genderF: "Feminine (את)", genderM: "Masculine (אתה)", genderU: "Unknown",
       lang: "Language", langAuto: "Automatic", tz: "Where they live", tzNY: "US Eastern", tzCHI: "US Central", tzDEN: "US Mountain", tzLA: "US Pacific", tzIL: "Israel", tzUK: "UK",
       checkin: "Daily check-in time (their time)", emergency: "Emergency number", quietStart: "Quiet hours from", quietEnd: "until",
@@ -255,6 +287,34 @@
       return li;
     }) : [Object.assign(document.createElement("li"), { textContent: L.noNotes, className: "muted" })]));
 
+    // Reminders
+    $("remHint").textContent = admin ? L.remHint(p.name) : L.remHintViewer(p.name);
+    const dayName = (d) => new Intl.DateTimeFormat(L.locale, { weekday: "short", timeZone: "UTC" }).format(new Date(Date.UTC(2026, 0, 4 + d, 12)));   // Jan 4 2026 is a Sunday
+    const picked = new Set([...document.querySelectorAll("#remDays input:checked")].map((i) => +i.value));
+    $("remDays").replaceChildren(...[0, 1, 2, 3, 4, 5, 6].map((d) => {
+      const lab = document.createElement("label"); const cb = document.createElement("input");
+      cb.type = "checkbox"; cb.value = d; cb.checked = picked.has(d); lab.append(cb, dayName(d)); return lab;
+    }));
+    if (!$("remBy").value && data.label && data.label !== "family") $("remBy").value = data.label;
+    const hm = (iso) => new Date(iso).toLocaleTimeString(L.locale, { hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZone: p.tz });
+    $("reminders").replaceChildren(...(data.reminders.length ? data.reminders.map((r) => {
+      const li = document.createElement("li");
+      const txt = document.createElement("span"); txt.className = "grow"; txt.dir = "auto";
+      const b = document.createElement("strong"); b.className = "ltr"; b.textContent = r.time; txt.append(b, " · " + r.text);
+      const when = document.createElement("span"); when.className = "muted";
+      when.textContent = (r.days.length ? r.days.map(dayName).join(", ") : L.everyDay) + (r.by && r.by !== "family" ? " · " + r.by : "");
+      const st = document.createElement("span");
+      st.className = "rem-state muted" + (r.sentToday ? (r.answeredAfter ? " ok" : " warn") : "");
+      st.textContent = r.sentToday ? `${L.remSent(hm(r.sentToday))}, ${r.answeredAfter ? L.remAnswered(p.name) : L.remNoAnswer(p.name)}` : L.remNotYet;
+      li.append(txt, when, st);
+      if (admin) {
+        const rm = document.createElement("button"); rm.type = "button"; rm.className = "link"; rm.textContent = L.remove;
+        rm.onclick = async () => { try { data.reminders = (await api("DELETE", "reminders/" + r.id)).reminders; render(); } catch (e) { status($("remStatus"), e.message, "err"); } };
+        li.append(rm);
+      }
+      return li;
+    }) : [Object.assign(document.createElement("li"), { textContent: L.noRem, className: "muted" })]));
+
     // Settings
     $("s-name").value = p.name; $("s-gender").value = p.gender || ""; $("s-lang").value = p.lang;
     if (![...$("s-tz").options].some((o) => o.value === p.tz)) $("s-tz").append(new Option(p.tz, p.tz));
@@ -322,6 +382,16 @@
     const text = $("noteText").value.trim(); if (!text) return;
     try { data.notes = (await api("POST", "notes", { text })).notes; $("noteText").value = ""; render(); status($("noteStatus"), t().noteAdded, "ok"); }
     catch (err) { if (err.message !== "bad") status($("noteStatus"), err.message, "err"); }
+  };
+
+  $("addRem").onclick = async () => {
+    const text = $("remText").value.trim(); if (!text) { status($("remStatus"), lang === "he" ? "צריך לכתוב על מה להזכיר." : "Write what to remind about.", "err"); return; }
+    const days = [...document.querySelectorAll("#remDays input:checked")].map((i) => +i.value);
+    try {
+      data.reminders = (await api("POST", "reminders", { text, time: $("remTime").value, by: $("remBy").value.trim(), days })).reminders;
+      $("remText").value = ""; document.querySelectorAll("#remDays input").forEach((i) => { i.checked = false; });
+      render(); status($("remStatus"), t().remAdded, "ok");
+    } catch (err) { if (err.message !== "bad") status($("remStatus"), err.message, "err"); }
   };
 
   $("newLink").onclick = async () => {

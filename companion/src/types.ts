@@ -34,7 +34,7 @@ export interface Parent {
   createdAt: string;
 }
 
-export type MsgKind = "chat" | "checkin" | "sos" | "system";
+export type MsgKind = "chat" | "checkin" | "sos" | "system" | "reminder";
 
 export interface Msg {
   id: string;
@@ -58,6 +58,18 @@ export interface Fact {
   at: string;
   supersededBy?: string;     // corrections create a new fact; the old one stays for audit
   passedOn?: string;         // family notes: when the companion first told the parent
+}
+
+// A reminder a person typed in. It is sent word for word at its time; nothing is inferred.
+export interface Reminder {
+  id: string;
+  text: string;
+  time: string;              // "HH:MM", the parent's local time
+  days: number[];            // 0 = Sunday ... 6 = Saturday; empty = every day
+  by: string;                // who set it (the family link's label)
+  at: string;
+  lastSentDate?: string;     // parent-local date it was last sent
+  lastSentAt?: string;
 }
 
 // Family page access. The family sees activity and settings, never the conversation.
