@@ -54,9 +54,19 @@ export interface Fact {
   lang: Lang;
   confidence: number;        // 0..1
   sensitive: boolean;        // health, money, medication: confirm before relying on it
-  source: "said" | "confirmed";
+  source: "said" | "confirmed" | "family";   // "family": added on the family page
   at: string;
   supersededBy?: string;     // corrections create a new fact; the old one stays for audit
+}
+
+// Family page access. The family sees activity and settings, never the conversation.
+export type FamilyRole = "admin" | "viewer";   // admin edits settings and adds notes; viewer only looks
+
+export interface FamilyAccess {
+  parentId: string;
+  role: FamilyRole;
+  label: string;             // who the link was made for, e.g. "Dana"
+  at: string;
 }
 
 export interface Alert {

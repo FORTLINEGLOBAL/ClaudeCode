@@ -61,6 +61,12 @@
     <div id="result" class="out" hidden></div>
   </section>
 
+  <h2>Parents</h2>
+  <section>
+    <button id="loadParents" type="button" style="margin-top:0">Show parents</button>
+    <div id="parents" class="out">Get a family page link or a new chat link for an existing parent.</div>
+  </section>
+
   <h2>SOS alerts</h2>
   <section>
     <button id="loadAlerts" type="button" style="margin-top:0">Refresh</button>
@@ -101,7 +107,35 @@
       const b = document.createElement("button"); b.type = "button"; b.textContent = "Copy link";
       b.onclick = () => navigator.clipboard.writeText(r.link).then(() => (b.textContent = "Copied"));
       out.append(document.createElement("br"), b);
+      showLink(out, "And this family page link to the family (it can change settings):", r.familyLink);
     } catch (err) { out.className = "out err"; out.textContent = err.message; }
+  });
+
+  function showLink(out, label, link) {
+    const p = document.createElement("p"); p.textContent = label; p.style.marginTop = "16px"; out.append(p);
+    const a = document.createElement("a"); a.href = link; a.textContent = link; a.target = "_blank"; out.append(a);
+    const b = document.createElement("button"); b.type = "button"; b.textContent = "Copy link";
+    b.onclick = () => navigator.clipboard.writeText(link).then(() => (b.textContent = "Copied"));
+    out.append(document.createElement("br"), b);
+  }
+
+  $("loadParents").addEventListener("click", async () => {
+    const el = $("parents"); el.className = "out"; el.textContent = "Loading...";
+    try {
+      const list = await call("GET", "parents");
+      if (!list.length) { el.textContent = "No parents yet."; return; }
+      el.replaceChildren();
+      for (const p of list) {
+        const row = document.createElement("div"); row.style.margin = "8px 0 16px";
+        const name = document.createElement("strong"); name.textContent = p.name; row.append(name);
+        const links = document.createElement("div");
+        const mk = (label, fn) => { const b = document.createElement("button"); b.type = "button"; b.textContent = label; b.style.marginInlineEnd = "8px"; b.onclick = fn; links.append(b); };
+        mk("Family link (can edit)", async () => showLink(links, `Family page for ${p.name}:`, (await call("POST", "family-link", { id: p.id, role: "admin", label: "family" })).familyLink));
+        mk("Family link (view only)", async () => showLink(links, `View-only family page for ${p.name}:`, (await call("POST", "family-link", { id: p.id, role: "viewer", label: "family" })).familyLink));
+        mk("New chat link", async () => showLink(links, `New private chat link for ${p.name}:`, (await call("POST", "link", { id: p.id })).link));
+        row.append(links); el.append(row);
+      }
+    } catch (err) { el.className = "out err"; el.textContent = err.message; }
   });
 
   $("loadAlerts").addEventListener("click", async () => {

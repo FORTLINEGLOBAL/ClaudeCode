@@ -4,7 +4,7 @@ import { getStore } from "@netlify/blobs";
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
-import type { Alert, Fact, Msg, Parent } from "./types.js";
+import type { Alert, Fact, FamilyAccess, FamilyRole, Msg, Parent } from "./types.js";
 
 const LOCAL_DIR = path.resolve(process.cwd(), ".local-store");
 
@@ -64,6 +64,19 @@ export async function parentForToken(token: string): Promise<Parent | null> {
 export async function issueToken(parentId: string): Promise<string> {
   const token = crypto.randomBytes(24).toString("base64url");
   await setJSON(`token/${hashToken(token)}`, { parentId, at: new Date().toISOString() });
+  return token;
+}
+
+/** Family page link token -> access record. Only the hash is stored. */
+export async function familyForToken(token: string): Promise<FamilyAccess | null> {
+  if (!token || token.length < 20) return null;
+  return getJSON<FamilyAccess>(`famtoken/${hashToken(token)}`);
+}
+
+export async function issueFamilyToken(parentId: string, role: FamilyRole, label: string): Promise<string> {
+  const token = crypto.randomBytes(24).toString("base64url");
+  const a: FamilyAccess = { parentId, role, label, at: new Date().toISOString() };
+  await setJSON(`famtoken/${hashToken(token)}`, a);
   return token;
 }
 

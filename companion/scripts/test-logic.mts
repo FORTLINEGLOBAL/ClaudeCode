@@ -219,4 +219,72 @@ await t("sos email", async () => {
   }
 });
 
+// 14. family page: weekly activity counts days and check-ins, never content
+await t("family activity", async () => {
+  const { weeklyActivity, familyView, familyAlerts } = await import("../src/family.js");
+  const p = parent({ tz: "America/New_York", codeWord: "banana" });
+  const m = (role: "parent" | "companion", at: string, kind = "chat") => ({ id: at + role, role, text: "secret words", at, kind }) as any;
+  const now = new Date("2026-10-07T18:00:00Z");   // Wed 7 Oct, 14:00 in New York
+  const log = [
+    m("companion", "2026-10-05T14:00:00Z", "checkin"), m("parent", "2026-10-05T15:00:00Z"),          // Mon: answered
+    m("companion", "2026-10-06T14:00:00Z", "checkin"),                                                // Tue
+    m("parent", "2026-10-07T03:30:00Z"),   // 23:30 Tuesday in New York: answers Tuesday's check-in
+    m("companion", "2026-10-07T14:00:00Z", "checkin"),                                                // Wed: waiting
+  ];
+  const a = weeklyActivity(p, log, now);
+  assert.equal(a.days.length, 7);
+  assert.equal(a.days.at(-1)!.date, "2026-10-07");
+  const by = Object.fromEntries(a.days.map((d) => [d.date, d]));
+  assert.deepEqual([by["2026-10-05"].checkin, by["2026-10-05"].messages], ["answered", 1]);
+  assert.equal(by["2026-10-06"].checkin, "answered");   // the 23:30 local message counts for Tuesday
+  assert.equal(by["2026-10-06"].messages, 1);
+  assert.equal(by["2026-10-07"].checkin, "waiting");
+  assert.equal(a.missedCheckins, 0);
+  const a2 = weeklyActivity(p, log.filter((x) => x.at !== "2026-10-07T03:30:00Z"), now);
+  assert.equal(a2.days.find((d) => d.date === "2026-10-06")!.checkin, "missed");
+  assert.equal(a2.missedCheckins, 1);
+  assert.equal(a2.lastActiveAt, "2026-10-05T15:00:00Z");
+  assert.ok(!JSON.stringify(a).includes("secret"));
+
+  const v = familyView(p);
+  assert.equal((v as any).codeWord, undefined); assert.equal(v.codeWordSet, true);
+  const al = familyAlerts([{ id: "a", parentId: p.id, kind: "sos", text: "נפלתי במטבח", at: "2026-10-06T10:00:00Z", withinCoverage: true, operatorNotified: true }], p.id);
+  assert.deepEqual(al, [{ at: "2026-10-06T10:00:00Z", withinCoverage: true, operatorNotified: true }]);
+});
+
+// 15. family API: viewer can only look; admin edits settings (not consent), adds and removes notes
+await t("family api", async () => {
+  const { default: family } = await import("../netlify/functions/family.js");
+  const { issueFamilyToken, getFacts } = await import("../src/store.js");
+  const p = parent({ id: "fam1" });
+  await saveParent(p);
+  const admin = await issueFamilyToken(p.id, "admin", "Dana");
+  const viewer = await issueFamilyToken(p.id, "viewer", "Yossi");
+  const call = (tok: string, method: string, path = "", body?: unknown) =>
+    family(new Request(`https://x.test/api/family${path}`, { method, headers: { "x-family-token": tok, "content-type": "application/json" }, body: body ? JSON.stringify(body) : undefined }), {} as any);
+
+  assert.equal((await call("nope-nope-nope-nope-nope", "GET")).status, 401);
+  const g = await (await call(viewer, "GET")).json();
+  assert.equal(g.role, "viewer"); assert.equal(g.parent.name, "רחל"); assert.equal(g.activity.days.length, 7);
+  assert.equal((await call(viewer, "PUT", "/settings", { name: "X" })).status, 403);
+
+  const bad = await call(admin, "PUT", "/settings", { emergencyNumber: "call me" });
+  assert.equal(bad.status, 400);
+  const ok = await (await call(admin, "PUT", "/settings", { checkinTime: "09:30", consent: { memory: false }, contacts: [{ name: "Dana", relation: "daughter", phone: "+1 (212) 555-0100" }] })).json();
+  assert.equal(ok.parent.checkinTime, "09:30");
+  assert.equal(ok.parent.consent.memory, true);            // consent is the parent's, not the family's
+  assert.equal(ok.parent.contacts[0].phone, "+12125550100");
+
+  const added = await (await call(admin, "POST", "/notes", { text: "נועה מגיעה ביום ראשון" })).json();
+  assert.equal(added.notes.length, 1);
+  const f = (await getFacts(p.id)).find((x) => x.source === "family")!;
+  assert.equal(f.lang, "he");
+  const removed = await (await call(admin, "DELETE", "/notes/" + f.id)).json();
+  assert.equal(removed.notes.length, 0);
+  assert.equal((await getFacts(p.id)).find((x) => x.id === f.id)!.supersededBy, "removed-by-family");
+
+  const link = await (await call(admin, "POST", "/parent-link")).json();
+  assert.match(link.link, /^https:\/\/x\.test\/#t=/);
+});
+
 console.log(`${n} test groups passed`);

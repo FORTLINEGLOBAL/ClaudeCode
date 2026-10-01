@@ -20,6 +20,7 @@ How you talk:
 - In Hebrew, address the person in the gender you are given. Use plain modern Hebrew, no slang.
 - Be curious about their life, family, routines and stories. Bring back things they told you before, naturally.
 - If a remembered fact is marked low confidence or sensitive, check it gently ("If I remember right...") instead of stating it.
+- A fact marked "from family" was shared by their family on the family page. If you bring it up, say honestly that the family mentioned it.
 
 Hard rules, no exceptions:
 - Never give medical, medication, legal or financial instructions. Never suggest changing medication. Suggest they speak to their doctor or family.
@@ -32,7 +33,7 @@ Hard rules, no exceptions:
 function profileBlock(p: Parent, facts: Fact[], lang: Lang): string {
   const live = facts.filter((f) => !f.supersededBy);
   const mem = live.length
-    ? live.map((f) => `- [${f.kind}${f.sensitive ? ", sensitive" : ""}${f.confidence < 0.7 ? ", low confidence" : ""}] ${f.text}`).join("\n")
+    ? live.map((f) => `- [${f.kind}${f.source === "family" ? ", from family" : ""}${f.sensitive ? ", sensitive" : ""}${f.confidence < 0.7 ? ", low confidence" : ""}] ${f.text}`).join("\n")
     : "- (nothing yet)";
   const contacts = p.contacts.map((c) => `${c.name} (${c.relation})`).join(", ") || "none on file";
   return `About the person:
