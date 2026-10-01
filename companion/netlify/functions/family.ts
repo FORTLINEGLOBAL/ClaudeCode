@@ -29,6 +29,7 @@ export default async (req: Request) => {
   if (req.method === "GET" && route === "") {
     return json({
       role: access.role, label: access.label,
+      companionWhatsapp: process.env.WHATSAPP_DISPLAY_NUMBER || null,
       parent: familyView(p),
       activity: weeklyActivity(p, await getChat(p.id)),
       alerts: familyAlerts(await getAlerts(), p.id),

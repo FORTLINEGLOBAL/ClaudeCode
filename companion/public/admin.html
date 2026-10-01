@@ -56,6 +56,8 @@
       </div>
       <label for="cphone">Family contact phone <span class="hint">(with country code, e.g. +12125550100)</span></label>
       <input id="cphone" type="tel">
+      <label for="wa">Parent's WhatsApp <span class="hint">(optional, with country code; then they talk on WhatsApp)</span></label>
+      <input id="wa" type="tel">
       <button type="submit">Create and get link</button>
     </form>
     <div id="result" class="out" hidden></div>
@@ -99,7 +101,7 @@
     try {
       const r = await call("POST", "parents", {
         name: $("name").value.trim(), gender: $("gender").value || undefined, lang: $("lang").value, tz: $("tz").value,
-        checkinTime: $("checkin").value, emergencyNumber: $("emergency").value.trim(), contacts: contact,
+        checkinTime: $("checkin").value, emergencyNumber: $("emergency").value.trim(), contacts: contact, whatsapp: $("wa").value.trim(),
       });
       out.innerHTML = "";
       const p = document.createElement("p"); p.textContent = "Done. Send this private link to the parent:"; out.append(p);

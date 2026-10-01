@@ -137,6 +137,9 @@
           <div><label for="s-checkin" data-t="checkin"></label><input id="s-checkin" type="time" required></div>
           <div><label for="s-emergency" data-t="emergency"></label><input id="s-emergency" class="ltr" required inputmode="tel"></div>
         </div>
+        <label for="s-whatsapp" data-t="whatsapp"></label>
+        <input id="s-whatsapp" class="ltr" inputmode="tel" placeholder="+972...">
+        <p class="muted" id="waHint" style="margin:4px 0 0"></p>
         <div class="row">
           <div><label for="s-quietStart" data-t="quietStart"></label><input id="s-quietStart" type="time" required></div>
           <div><label for="s-quietEnd" data-t="quietEnd"></label><input id="s-quietEnd" type="time" required></div>
@@ -190,6 +193,8 @@
       remSent: (t) => `נשלחה היום ב-${t}`, remAnswered: (n) => `${n} כתב/ה אחרי זה`, remNoAnswer: (n) => `${n} עוד לא כתב/ה אחרי זה`, remNotYet: "עוד לא נשלחה היום",
       digTitle: "סיכום שבועי במייל", digHint: (n) => `כל יום ראשון ב-09:00 (לפי השעון של ${n}): כמה ימים ${n} דיבר/ה, כמה הודעות, וצ'ק-אינים שנענו או לא. בלי תוכן השיחות. השאירו ריק כדי לא לקבל.`,
       digEmails: "כתובות מייל (עד 5, מופרדות בפסיק)", digLang: "שפת המייל", digTest: "שליחת מייל לדוגמה עכשיו", digSent: (to) => `נשלח ל-${to}. אם לא הגיע, בדקו בספאם.`,
+      whatsapp: "הוואטסאפ של ההורה (לא חובה)", waOff: (n) => `בלי מספר, ${n} מדבר/ת עם Companion דרך קישור הצ'אט.`,
+      waWaiting: (n, num) => `כדי להתחיל, ${n} צריך/ה לשלוח הודעה ראשונה (למשל "שלום") למספר של Companion בוואטסאפ${num ? ":" : "."}`, waOn: (n) => `מחובר: ${n} מדבר/ת עם Companion בוואטסאפ, והצ'ק-אינים והתזכורות נשלחים לשם.`,
       settingsTitle: "הגדרות", name: "שם", gender: "פנייה בעברית", genderF: "נקבה (את)", genderM: "זכר (אתה)", genderU: "לא ידוע",
       lang: "שפה", langAuto: "אוטומטי", tz: "איפה גר/ה", tzNY: "ארה\"ב, מזרח", tzCHI: "ארה\"ב, מרכז", tzDEN: "ארה\"ב, הרים", tzLA: "ארה\"ב, מערב", tzIL: "ישראל", tzUK: "בריטניה",
       checkin: "שעת צ'ק-אין יומי (לפי השעון שלו/ה)", emergency: "מספר חירום", quietStart: "שעות שקט מ-", quietEnd: "עד",
@@ -218,6 +223,8 @@
       remSent: (t) => `Sent today at ${t}`, remAnswered: (n) => `${n} wrote after it`, remNoAnswer: (n) => `${n} hasn't written since`, remNotYet: "Not sent yet today",
       digTitle: "Weekly email", digHint: (n) => `Every Sunday at 09:00 (${n}'s time): how many days ${n} talked, how many messages, and which check-ins were answered. Never the conversation. Leave empty to turn it off.`,
       digEmails: "Email addresses (up to 5, comma separated)", digLang: "Email language", digTest: "Send a sample email now", digSent: (to) => `Sent to ${to}. If it doesn't arrive, check spam.`,
+      whatsapp: "The parent's WhatsApp (optional)", waOff: (n) => `Without a number, ${n} talks to the companion through the chat link.`,
+      waWaiting: (n, num) => `To start, ${n} needs to send a first message (like "hi") to the companion's WhatsApp number${num ? ":" : "."}`, waOn: (n) => `Connected: ${n} talks to the companion on WhatsApp, and check-ins and reminders go there.`,
       settingsTitle: "Settings", name: "Name", gender: "Hebrew form of address", genderF: "Feminine (את)", genderM: "Masculine (אתה)", genderU: "Unknown",
       lang: "Language", langAuto: "Automatic", tz: "Where they live", tzNY: "US Eastern", tzCHI: "US Central", tzDEN: "US Mountain", tzLA: "US Pacific", tzIL: "Israel", tzUK: "UK",
       checkin: "Daily check-in time (their time)", emergency: "Emergency number", quietStart: "Quiet hours from", quietEnd: "until",
@@ -343,6 +350,12 @@
     $("s-name").value = p.name; $("s-gender").value = p.gender || ""; $("s-lang").value = p.lang;
     if (![...$("s-tz").options].some((o) => o.value === p.tz)) $("s-tz").append(new Option(p.tz, p.tz));
     $("s-tz").value = p.tz; $("s-checkin").value = p.checkinTime; $("s-emergency").value = p.emergencyNumber;
+    $("s-whatsapp").value = p.whatsapp.number;
+    $("waHint").replaceChildren(p.whatsapp.number ? (p.whatsapp.connected ? L.waOn(p.name) : L.waWaiting(p.name, !!data.companionWhatsapp)) : L.waOff(p.name));
+    if (p.whatsapp.number && !p.whatsapp.connected && data.companionWhatsapp) {
+      const a = document.createElement("a"); a.href = "https://wa.me/" + data.companionWhatsapp.replace(/\D/g, ""); a.textContent = data.companionWhatsapp; a.className = "ltr"; a.target = "_blank";
+      $("waHint").append(" ", a);
+    }
     $("s-quietStart").value = p.quietStart; $("s-quietEnd").value = p.quietEnd;
     $("s-code").value = ""; $("codeHint").textContent = p.codeWordSet ? L.codeSet : L.codeUnset;
     renderContacts(p.contacts, admin);
@@ -395,7 +408,7 @@
     const body = {
       name: $("s-name").value, gender: $("s-gender").value, lang: $("s-lang").value, tz: $("s-tz").value,
       checkinTime: $("s-checkin").value, quietStart: $("s-quietStart").value, quietEnd: $("s-quietEnd").value,
-      emergencyNumber: $("s-emergency").value, contacts: readContacts().filter((c) => c.name),
+      emergencyNumber: $("s-emergency").value, whatsapp: $("s-whatsapp").value, contacts: readContacts().filter((c) => c.name),
     };
     if ($("s-code").value.trim()) body.codeWord = $("s-code").value.trim();
     try { data.parent = (await api("PUT", "settings", body)).parent; render(); status($("settingsStatus"), t().saved, "ok"); }

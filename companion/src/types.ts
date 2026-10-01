@@ -32,6 +32,8 @@ export interface Parent {
   stopped: boolean;          // parent said STOP / עצור: no proactive messages
   lastCheckinDate?: string;  // local YYYY-MM-DD of the last check-in sent
   digest?: Digest;           // weekly email to the family
+  whatsapp?: string;         // digits with country code; when set, the companion talks there
+  lastInboundAt?: string;    // last WhatsApp message from the parent: opens the 24h window
   scamOffer?: { at: string; signals: string[] };   // we offered to tell the family about a suspicious message
   createdAt: string;
 }

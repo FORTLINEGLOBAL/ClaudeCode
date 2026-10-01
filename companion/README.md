@@ -1,6 +1,6 @@
 # Companion (web chat, phase 1)
 
-A warm, bilingual (Hebrew and English) companion for older parents. This is phase 1 of [the build plan](../docs/companion-build-plan.he.md): the companion core runs behind a channel interface and is used through a simple web chat. WhatsApp plugs into the same core in phase 2b.
+A warm, bilingual (Hebrew and English) companion for older parents. This is phase 1 of [the build plan](../docs/companion-build-plan.he.md): the companion core runs behind a channel interface and is used through a simple web chat. WhatsApp plugs into the same core (see below).
 
 ## What works now
 
@@ -21,12 +21,14 @@ Weekly email: on the family page, up to 5 addresses and a language. Every Sunday
 
 Scam shield (`src/scam.ts`): when the parent pastes or describes a message with a scam pattern (a code or password with a bank or urgency, money with secrecy or urgency, a prize with a link, remote-access apps, or any three warning signs), the companion answers at once with a fixed warning. The warning lists the signs and says not to click, pay or share a code, and to call back on a number they already know. It is deterministic like SOS, with no model, and links are never opened. If the family has a weekly-email address, it offers to tell them. Only a "yes" sends an email, and it lists the warning signs, never the message itself. Each case is logged for the operator; the family page's SOS list is unaffected.
 
-Not in this phase (see the plan): family logins with passkeys, the other digest categories (phase 2), WhatsApp (phase 2b), and the real speech providers, which the phase 0 voice bake-off picks.
+WhatsApp (`netlify/functions/whatsapp.ts`, `src/channel.ts`): set a parent's WhatsApp number on the family page or the admin page, and once `WHATSAPP_TOKEN` and `WHATSAPP_PHONE_NUMBER_ID` are set, the companion talks to them there: same core, same safety paths, same stored log (so the family page keeps counting). The webhook checks Meta's signature (`WHATSAPP_APP_SECRET`), ignores numbers that aren't a parent's, drops Meta's retries, and answers voice or images with "please write it". The parent writes first; that opens WhatsApp's 24-hour window for free text. Outside it, check-ins and reminders go as the approved templates in `src/templates.ts` (submit them in WhatsApp Manager under those names, in `he` and `en_US`, then set `WHATSAPP_TEMPLATES_APPROVED=1`); until then nothing is sent outside the window, and the log says so.
+
+Not in this phase (see the plan): family logins with passkeys, the other digest categories (phase 2) and the real speech providers, which the phase 0 voice bake-off picks.
 
 ## Decisions in effect
 
 - Human safety coverage: 08:00-22:00 Israel time (`COVERAGE_*`).
-- WhatsApp: Meta Cloud API directly, no Twilio. Only operator alerts use it in this phase; until Meta is set up, operator alerts go by email.
+- WhatsApp: Meta Cloud API directly, no Twilio.
 - Family digest (phase 2): every category off by default except "active this week" and missed check-ins.
 
 ## Run it

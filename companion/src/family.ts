@@ -49,7 +49,8 @@ export function weeklyActivity(p: Parent, log: Msg[], now: Date = new Date()): A
 export function familyView(p: Parent) {
   const { name, gender, lang, tz, checkinTime, quietStart, quietEnd, emergencyNumber, contacts, consent, stopped } = p;
   const digest = { emails: p.digest?.emails ?? [], lang: p.digest?.lang ?? "he" };
-  return { name, gender: gender ?? null, lang, tz, checkinTime, quietStart, quietEnd, emergencyNumber, codeWordSet: !!p.codeWord, contacts, consent, stopped, digest };
+  const whatsapp = { number: p.whatsapp ?? "", connected: !!p.lastInboundAt };
+  return { name, gender: gender ?? null, lang, tz, checkinTime, quietStart, quietEnd, emergencyNumber, codeWordSet: !!p.codeWord, contacts, consent, stopped, digest, whatsapp };
 }
 
 /** SOS alerts for the family: when, and whether a person was alerted. The words stay private. */

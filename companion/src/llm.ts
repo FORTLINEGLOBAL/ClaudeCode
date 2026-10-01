@@ -45,6 +45,16 @@ In this message, pass this on warmly and briefly, saying the family asked you to
 `;
 }
 
+/** The person's own date and time, so greetings and "this morning" fit where they live. */
+export function localTimeLine(tz: string, lang: Lang, at: Date = new Date()): string {
+  const when = new Intl.DateTimeFormat(lang === "he" ? "he-IL" : "en-US", {
+    timeZone: tz, weekday: "long", day: "numeric", month: "long", year: "numeric", hour: "2-digit", minute: "2-digit", hourCycle: "h23",
+  }).format(at);
+  const h = Number(new Intl.DateTimeFormat("en-GB", { timeZone: tz, hour: "2-digit", hourCycle: "h23" }).format(at));
+  const part = h < 5 ? "night" : h < 12 ? "morning" : h < 17 ? "afternoon" : h < 21 ? "evening" : "night";
+  return `- Their local date and time now: ${when} (${part}, time zone ${tz}). Greet and refer to the time of day accordingly.`;
+}
+
 function profileBlock(p: Parent, facts: Fact[], lang: Lang): string {
   const live = facts.filter((f) => !f.supersededBy);
   const mem = live.length
@@ -56,6 +66,7 @@ function profileBlock(p: Parent, facts: Fact[], lang: Lang): string {
 - Hebrew grammatical gender: ${p.gender === "f" ? "feminine" : p.gender === "m" ? "masculine" : "unknown, use neutral phrasing"}
 - Family contacts: ${contacts}
 - Emergency number where they live: ${p.emergencyNumber}
+${localTimeLine(p.tz, lang)}
 
 What you remember about them:
 ${mem}

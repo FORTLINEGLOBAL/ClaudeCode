@@ -43,6 +43,13 @@ async function listKeys(prefix: string): Promise<string[]> {
 export const newId = () => crypto.randomUUID();
 export const hashToken = (t: string) => crypto.createHash("sha256").update(t).digest("hex");
 
+/** True the first time a key is seen (webhook retries deliver the same message again). */
+export async function firstTime(key: string): Promise<boolean> {
+  if (await getJSON(`seen/${key}`)) return false;
+  await setJSON(`seen/${key}`, { at: new Date().toISOString() });
+  return true;
+}
+
 // ---------- parents and access links ----------
 export const getParent = (id: string) => getJSON<Parent>(`parent/${id}`);
 export const saveParent = (p: Parent) => setJSON(`parent/${p.id}`, p);

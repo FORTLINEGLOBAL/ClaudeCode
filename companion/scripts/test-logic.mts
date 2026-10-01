@@ -5,18 +5,23 @@ import fs from "node:fs";
 import os from "node:os";
 process.env.ANTHROPIC_API_KEY ||= "test-key";
 process.chdir(fs.mkdtempSync(`${os.tmpdir()}/companion-test-`));   // local store goes to a temp dir
-for (const k of ["RESEND_API_KEY", "OPERATOR_EMAIL", "ALERT_FROM_EMAIL", "COVERAGE_START", "COVERAGE_END", "COVERAGE_TZ", "COMPANION_MODEL", "COMPANION_EXTRACT_MODEL", "WHATSAPP_TOKEN", "WHATSAPP_PHONE_NUMBER_ID", "OPERATOR_WHATSAPP", "NETLIFY", "NETLIFY_SITE_ID", "NETLIFY_BLOBS_CONTEXT"]) delete process.env[k];
+for (const k of ["RESEND_API_KEY", "OPERATOR_EMAIL", "ALERT_FROM_EMAIL", "COVERAGE_START", "COVERAGE_END", "COVERAGE_TZ", "COMPANION_MODEL", "COMPANION_EXTRACT_MODEL", "WHATSAPP_TOKEN", "WHATSAPP_PHONE_NUMBER_ID", "WHATSAPP_APP_SECRET", "WHATSAPP_VERIFY_TOKEN", "WHATSAPP_TEMPLATES_APPROVED", "WHATSAPP_DISPLAY_NUMBER", "WHATSAPP_TEMPLATE", "OPERATOR_WHATSAPP", "NETLIFY", "NETLIFY_SITE_ID", "NETLIFY_BLOBS_CONTEXT"]) delete process.env[k];
 
 // Stand-in for the Anthropic API, installed before the SDK client is built. It records
 // each request so the tests can check what we send, and answers like the real API.
 const calls: any[] = [];
 const resendCalls: any[] = [];
+const waCalls: any[] = [];
 let failMain = false;   // makes the main model fail, to test the quick-model fallback
 const realFetch = globalThis.fetch;
 globalThis.fetch = (async (url: any, init?: any) => {
   if (String(url).includes("api.resend.com")) {
     resendCalls.push({ headers: init.headers, body: JSON.parse(init.body) });
     return new Response(JSON.stringify({ id: "email_test" }), { status: 200, headers: { "content-type": "application/json" } });
+  }
+  if (String(url).includes("graph.facebook.com")) {
+    waCalls.push(JSON.parse(init.body));
+    return new Response(JSON.stringify({ messages: [{ id: "wamid.out" }] }), { status: 200, headers: { "content-type": "application/json" } });
   }
   if (!String(url).includes("api.anthropic.com")) return realFetch(url, init);
   const body = JSON.parse(init.body);
@@ -457,6 +462,90 @@ await t("scam shield", async () => {
   const { familyAlerts } = await import("../src/family.js");
   assert.ok(familyAlerts(await getAlerts(), q.id).length === 1);
   delete process.env.RESEND_API_KEY;
+});
+
+// 20. WhatsApp: verified webhook, known numbers only, replies in the window, templates outside it
+await t("whatsapp", async () => {
+  const crypto = await import("node:crypto");
+  Object.assign(process.env, { WHATSAPP_TOKEN: "t", WHATSAPP_PHONE_NUMBER_ID: "123", WHATSAPP_APP_SECRET: "s3cret", WHATSAPP_VERIFY_TOKEN: "verify-me" });
+  const { default: wa } = await import("../netlify/functions/whatsapp.js");
+  const { channelFor, whatsappChannel } = await import("../src/channel.js");
+  const { checkIn } = await import("../src/companion.js");
+  const { applySettings } = await import("../src/settings.js");
+  const ctx = { waitUntil: () => {} } as any;
+
+  const ok = await wa(new Request("https://x.test/api/whatsapp?hub.mode=subscribe&hub.verify_token=verify-me&hub.challenge=42"), ctx);
+  assert.equal(await ok.text(), "42");
+  assert.equal((await wa(new Request("https://x.test/api/whatsapp?hub.mode=subscribe&hub.verify_token=nope&hub.challenge=42"), ctx)).status, 403);
+
+  const p = parent({ id: "wa1", name: "אנה", gender: "f" });
+  assert.throws(() => applySettings(p, { whatsapp: "123" }));
+  applySettings(p, { whatsapp: "+972 (50) 111-2233" });
+  assert.equal(p.whatsapp, "+972501112233");
+  await saveParent(p);
+  assert.equal(channelFor(p).name, "whatsapp");
+
+  const post = (msgs: any[], secret = "s3cret") => {
+    const raw = JSON.stringify({ object: "whatsapp_business_account", entry: [{ changes: [{ field: "messages", value: { messages: msgs } }] }] });
+    const sig = "sha256=" + crypto.createHmac("sha256", secret).update(raw).digest("hex");
+    return wa(new Request("https://x.test/api/whatsapp", { method: "POST", headers: { "x-hub-signature-256": sig, "content-type": "application/json" }, body: raw }), ctx);
+  };
+  const text = (id: string, from: string, body: string) => ({ id, from, type: "text", text: { body } });
+
+  assert.equal((await post([text("w0", "972501112233", "hi")], "wrong")).status, 401);
+  waCalls.length = 0;
+  await post([text("w1", "972509999999", "who is this")]);   // unknown number
+  assert.equal(waCalls.length, 0);
+
+  await post([text("w2", "972501112233", "מה נשמע?")]);
+  assert.equal(waCalls.length, 1);
+  assert.equal(waCalls[0].to, "972501112233"); assert.equal(waCalls[0].type, "text");
+  assert.equal(waCalls[0].text.body, "What kind of cake did you bake?");
+  const after = (await getParent(p.id))!;
+  assert.ok(after.lastInboundAt);
+  assert.equal((await getChat(p.id)).filter((m) => m.role === "parent").length, 1);
+  await post([text("w2", "972501112233", "מה נשמע?")]);   // Meta retry: ignored
+  assert.equal(waCalls.length, 1);
+
+  await post([{ id: "w3", from: "972501112233", type: "audio", audio: { id: "a" } }]);
+  assert.match(waCalls[1].text.body, /רק הודעות כתובות/);
+
+  await post([text("w4", "972501112233", "נפלתי")]);   // SOS still deterministic
+  assert.match(waCalls[2].text.body, /101|911/);
+
+  // outside the 24h window: no template approved = nothing sent; approved = the template
+  const old = { ...(await getParent(p.id))!, lastInboundAt: "2026-01-01T00:00:00Z", lastCheckinDate: undefined };
+  waCalls.length = 0;
+  await checkIn(old, whatsappChannel);
+  assert.equal(waCalls.length, 0);
+  process.env.WHATSAPP_TEMPLATES_APPROVED = "1";
+  await checkIn(old, whatsappChannel);
+  assert.equal(waCalls.length, 1);
+  assert.equal(waCalls[0].type, "template");
+  assert.equal(waCalls[0].template.name, "companion_checkin"); assert.equal(waCalls[0].template.language.code, "he");
+  assert.deepEqual(waCalls[0].template.components[0].parameters, [{ type: "text", text: "אנה" }]);
+  assert.equal((await getChat(p.id)).at(-1)!.text, "בוקר טוב אנה! מה נשמע היום? אפשר לענות כאן בהודעה.");
+
+  for (const k of ["WHATSAPP_TOKEN", "WHATSAPP_PHONE_NUMBER_ID", "WHATSAPP_APP_SECRET", "WHATSAPP_VERIFY_TOKEN", "WHATSAPP_TEMPLATES_APPROVED"]) delete process.env[k];
+  assert.equal(channelFor(p).name, "web");   // not configured: stays on the web chat
+});
+
+await t("local time in the prompt", async () => {
+  const { localTimeLine } = await import("../src/llm.js");
+  const at = new Date("2026-10-01T19:48:00Z");
+  const il = localTimeLine("Asia/Jerusalem", "he", at);
+  assert.match(il, /22:48/); assert.match(il, /night/); assert.match(il, /יום חמישי/);
+  const ny = localTimeLine("America/New_York", "en", at);
+  assert.match(ny, /15:48/); assert.match(ny, /afternoon/); assert.match(ny, /Thursday/);
+  calls.length = 0;
+  const p = parent({ id: "tz1", tz: "Asia/Jerusalem" });
+  await saveParent(p);
+  const { webChannel } = await import("../src/channel.js");
+  const r = await receive(p, "מה נשמע?", webChannel);
+  const { converse } = await import("../src/companion.js");
+  await converse(p, r.parentMsgId!, webChannel);
+  const system = JSON.stringify(calls.find((c) => !c.body.output_config?.format)!.body.system);
+  assert.match(system, /Their local date and time now: .*Asia\/Jerusalem/);
 });
 
 console.log(`${n} test groups passed`);
