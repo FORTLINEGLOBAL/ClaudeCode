@@ -12,23 +12,27 @@ function useBlobs(): boolean {
   return !!(process.env.NETLIFY || process.env.NETLIFY_BLOBS_CONTEXT || process.env.NETLIFY_SITE_ID);
 }
 
+// Strong consistency: the page polls right after a write, and the chat log is
+// read-modify-write. The default (eventual) can serve a copy up to a minute old.
+const store = () => getStore({ name: "companion", consistency: "strong" });
+
 const localPath = (key: string) => path.join(LOCAL_DIR, key.replace(/\//g, "__") + ".json");
 
 async function getJSON<T>(key: string): Promise<T | null> {
-  if (useBlobs()) return (await getStore("companion").get(key, { type: "json" })) as T | null;
+  if (useBlobs()) return (await store().get(key, { type: "json" })) as T | null;
   const f = localPath(key);
   return fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, "utf8")) : null;
 }
 
 async function setJSON(key: string, value: unknown): Promise<void> {
-  if (useBlobs()) { await getStore("companion").setJSON(key, value); return; }
+  if (useBlobs()) { await store().setJSON(key, value); return; }
   fs.mkdirSync(LOCAL_DIR, { recursive: true });
   fs.writeFileSync(localPath(key), JSON.stringify(value, null, 2));
 }
 
 async function listKeys(prefix: string): Promise<string[]> {
   if (useBlobs()) {
-    const { blobs } = await getStore("companion").list({ prefix });
+    const { blobs } = await store().list({ prefix });
     return blobs.map((b) => b.key);
   }
   if (!fs.existsSync(LOCAL_DIR)) return [];
