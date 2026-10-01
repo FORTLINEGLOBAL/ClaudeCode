@@ -530,4 +530,22 @@ await t("whatsapp", async () => {
   assert.equal(channelFor(p).name, "web");   // not configured: stays on the web chat
 });
 
+await t("local time in the prompt", async () => {
+  const { localTimeLine } = await import("../src/llm.js");
+  const at = new Date("2026-10-01T19:48:00Z");
+  const il = localTimeLine("Asia/Jerusalem", "he", at);
+  assert.match(il, /22:48/); assert.match(il, /night/); assert.match(il, /יום חמישי/);
+  const ny = localTimeLine("America/New_York", "en", at);
+  assert.match(ny, /15:48/); assert.match(ny, /afternoon/); assert.match(ny, /Thursday/);
+  calls.length = 0;
+  const p = parent({ id: "tz1", tz: "Asia/Jerusalem" });
+  await saveParent(p);
+  const { webChannel } = await import("../src/channel.js");
+  const r = await receive(p, "מה נשמע?", webChannel);
+  const { converse } = await import("../src/companion.js");
+  await converse(p, r.parentMsgId!, webChannel);
+  const system = JSON.stringify(calls.find((c) => !c.body.output_config?.format)!.body.system);
+  assert.match(system, /Their local date and time now: .*Asia\/Jerusalem/);
+});
+
 console.log(`${n} test groups passed`);
