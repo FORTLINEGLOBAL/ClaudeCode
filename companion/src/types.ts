@@ -31,10 +31,18 @@ export interface Parent {
   consent: Consent;
   stopped: boolean;          // parent said STOP / עצור: no proactive messages
   lastCheckinDate?: string;  // local YYYY-MM-DD of the last check-in sent
+  digest?: Digest;           // weekly email to the family
+  scamOffer?: { at: string; signals: string[] };   // we offered to tell the family about a suspicious message
   createdAt: string;
 }
 
-export type MsgKind = "chat" | "checkin" | "sos" | "system" | "reminder";
+export interface Digest {
+  emails: string[];          // empty = off
+  lang: Lang;
+  lastSentDate?: string;     // parent-local date it was last sent
+}
+
+export type MsgKind = "chat" | "checkin" | "sos" | "system" | "reminder" | "scam";
 
 export interface Msg {
   id: string;
@@ -85,7 +93,7 @@ export interface FamilyAccess {
 export interface Alert {
   id: string;
   parentId: string;
-  kind: "sos";
+  kind: "sos" | "scam";
   text: string;              // what the parent wrote
   at: string;
   withinCoverage: boolean;

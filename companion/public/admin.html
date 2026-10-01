@@ -67,7 +67,7 @@
     <div id="parents" class="out">Get a family page link or a new chat link for an existing parent.</div>
   </section>
 
-  <h2>SOS alerts</h2>
+  <h2>SOS and scam alerts</h2>
   <section>
     <button id="loadAlerts" type="button" style="margin-top:0">Refresh</button>
     <div id="alerts" class="out">Not loaded yet.</div>
@@ -147,7 +147,7 @@
       t.innerHTML = "<tr><th>When</th><th>Message</th><th>Your hours</th><th>You were alerted</th></tr>";
       for (const a of list) {
         const tr = t.insertRow();
-        [new Date(a.at).toLocaleString(), a.text, a.withinCoverage ? "Yes" : "No", a.operatorNotified ? "Yes" : "No"].forEach((v) => { tr.insertCell().textContent = v; });
+        [new Date(a.at).toLocaleString(), a.kind === "scam" ? "Suspected scam: " + a.text : a.text, a.withinCoverage ? "Yes" : "No", a.operatorNotified ? "Yes" : "No"].forEach((v) => { tr.insertCell().textContent = v; });
       }
       el.replaceChildren(t);
     } catch (err) { el.className = "out err"; el.textContent = err.message; }

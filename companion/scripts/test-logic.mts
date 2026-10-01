@@ -365,4 +365,98 @@ await t("reminders", async () => {
   assert.equal((await (await call(viewer, "GET", "")).json()).reminders.length, 2);
 });
 
+// 18. weekly email: Sunday 09:00 local, counts only, settings validation, test send
+await t("weekly email", async () => {
+  const { digestDue, digestWeek, digestEmail, sendDigestIfDue } = await import("../src/digest.js");
+  const { applySettings } = await import("../src/settings.js");
+  const { appendChat } = await import("../src/store.js");
+  const p = parent({ id: "dig1", name: "אנה", tz: "Asia/Jerusalem" });
+  assert.throws(() => applySettings(p, { digestEmails: "not-an-email" }));
+  assert.throws(() => applySettings(p, { digestEmails: "a@x.co,b@x.co,c@x.co,d@x.co,e@x.co,f@x.co" }));
+  applySettings(p, { digestEmails: "Dana@Example.com; forti@example.com", digestLang: "he" });
+  assert.deepEqual(p.digest!.emails, ["dana@example.com", "forti@example.com"]);
+  await saveParent(p);
+  // 2026-10-04 is a Sunday; Israel is UTC+3
+  assert.ok(!digestDue(p, new Date("2026-10-04T05:59:00Z")));   // 08:59
+  assert.ok(digestDue(p, new Date("2026-10-04T06:05:00Z")));    // 09:05
+  assert.ok(!digestDue(p, new Date("2026-10-05T06:05:00Z")));   // Monday
+  await appendChat(p.id,
+    { id: "d1", role: "companion", text: "בוקר טוב", at: "2026-09-29T07:00:00Z", kind: "checkin" },
+    { id: "d2", role: "parent", text: "סוד גדול", at: "2026-09-29T08:00:00Z", kind: "chat" },
+    { id: "d3", role: "companion", text: "בוקר טוב", at: "2026-09-30T07:00:00Z", kind: "checkin" },
+    { id: "d4", role: "companion", text: "בוקר טוב", at: "2026-10-01T07:00:00Z", kind: "checkin" },
+    { id: "d5", role: "parent", text: "היום בשוק", at: "2026-10-04T06:00:00Z", kind: "chat" },   // Sunday itself: next week
+  );
+  const week = digestWeek(p, await getChat(p.id), new Date("2026-10-04T06:05:00Z"));
+  assert.equal(week.days[0].date, "2026-09-27"); assert.equal(week.days.at(-1)!.date, "2026-10-03");
+  assert.equal(week.missedCheckins, 2);
+  const mail = digestEmail(p, week, "he");
+  assert.match(mail.text, /ימים עם שיחה: 1 מתוך 7/);
+  assert.match(mail.text, /צ'ק-אינים: 1 נענו מתוך 3/);
+  assert.match(mail.text, /להתקשר/);
+  assert.ok(!mail.text.includes("סוד") && !mail.html.includes("סוד"));
+  assert.match(mail.html, /dir="rtl"/);
+
+  process.env.RESEND_API_KEY = "re_test";
+  resendCalls.length = 0;
+  assert.equal(await sendDigestIfDue(p, new Date("2026-10-04T06:05:00Z")), true);
+  assert.equal(await sendDigestIfDue(p, new Date("2026-10-04T06:20:00Z")), false);   // once
+  assert.equal(resendCalls.length, 1);
+  assert.deepEqual(resendCalls[0].body.to, ["dana@example.com", "forti@example.com"]);
+  assert.equal(resendCalls[0].body.subject, "אנה: השבוע בקצרה");
+
+  const { default: family } = await import("../netlify/functions/family.js");
+  const { issueFamilyToken } = await import("../src/store.js");
+  const admin = await issueFamilyToken(p.id, "admin", "family");
+  const res = await family(new Request("https://x.test/api/family/digest-test", { method: "POST", headers: { "x-family-token": admin } }), {} as any);
+  assert.equal(res.status, 200);
+  assert.equal(resendCalls.length, 2);
+  delete process.env.RESEND_API_KEY;
+});
+
+// 19. scam shield: precise detection, fixed warning, family told only when the parent says yes
+await t("scam shield", async () => {
+  const { scamCheck } = await import("../src/scam.js");
+  const { webChannel } = await import("../src/channel.js");
+  for (const s of ["קיבלתי הודעה מהבנק: החשבון שלך ייחסם, שלחי את קוד האימות שקיבלת", "סבתא, זה אני הנכד. אני צריך שתעבירי לי כסף דחוף, אל תגידי לאבא",
+    "התקשרו מהבנק וביקשו שאתקין AnyDesk", "Hi grandma it's me, send money with gift cards and don't tell mom", "Your package is on hold, pay the fee at http://usps-track.info within 24 hours",
+    "זכית בפרס! היכנסי ל www.prize-il.top כדי לקבל"]) assert.ok(scamCheck(s).suspect, s);
+  for (const s of ["שילמתי לגנן היום", "הנכד שלי בא לבקר", "הלכתי לבנק להפקיד צ'ק", "I paid the electric bill today", "שכחתי את הסיסמה של הטלפון",
+    "היום יש לי תור דחוף לרופא", "I won at bridge today!", "צריך לשלם לבנק את המשכנתא", "נועה שלחה לי קישור לתמונות www.photos.com"]) assert.ok(!scamCheck(s).suspect, s);
+
+  const p = parent({ id: "scam1", name: "אנה", gender: "f" });
+  p.digest = { emails: ["dana@example.com"], lang: "he" };
+  await saveParent(p);
+  process.env.RESEND_API_KEY = "re_test"; resendCalls.length = 0;
+  const before = calls.length;
+  assert.deepEqual(await receive(p, "הודעה מהבנק: החשבון שלך ייחסם, שלחי את קוד האימות שקיבלת", webChannel), { handled: true });
+  assert.equal(calls.length, before);   // no model involved
+  let log = await getChat(p.id);
+  const warn = log.at(-1)!;
+  assert.equal(warn.kind, "scam");
+  assert.match(warn.text, /עצרי/); assert.match(warn.text, /קוד או לסיסמה/); assert.match(warn.text, /"כן" או "לא"/);
+  assert.ok(p.scamOffer);
+  assert.deepEqual(await receive(p, "כן", webChannel), { handled: true });
+  assert.equal(resendCalls.length, 1);
+  assert.deepEqual(resendCalls[0].body.to, ["dana@example.com"]);
+  assert.ok(!resendCalls[0].body.text.includes("קוד האימות שקיבלת"));   // the message itself stays private
+  assert.match((await getChat(p.id)).at(-1)!.text, /כתבתי למשפחה/);
+  assert.equal(p.scamOffer, undefined);
+  const r = await receive(p, "כן", webChannel);   // no open offer: an ordinary message
+  assert.equal(r.handled, false);
+  // no family email on file: the warning points to the primary contact instead of offering
+  const q = parent({ id: "scam2" });
+  await saveParent(q);
+  await receive(q, "Microsoft support says install AnyDesk now", webChannel);
+  assert.match((await getChat(q.id)).at(-1)!.text, /Dana \(\+12125550100\)|דנה|Dana/);
+  assert.equal(q.scamOffer, undefined);
+  // SOS still wins
+  await receive(q, "נפלתי, הבנק ביקש קוד", webChannel);
+  assert.equal((await getChat(q.id)).at(-1)!.kind, "sos");
+  // the family page lists SOS only
+  const { familyAlerts } = await import("../src/family.js");
+  assert.ok(familyAlerts(await getAlerts(), q.id).length === 1);
+  delete process.env.RESEND_API_KEY;
+});
+
 console.log(`${n} test groups passed`);

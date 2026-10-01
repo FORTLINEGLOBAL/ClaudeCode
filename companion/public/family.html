@@ -103,6 +103,20 @@
       <ul class="plain" id="reminders"></ul>
     </section>
 
+    <h2 data-t="digTitle"></h2>
+    <section>
+      <p class="muted" id="digHint" style="margin-top:0"></p>
+      <label for="digEmails" data-t="digEmails"></label>
+      <input id="digEmails" class="ltr" type="text" inputmode="email" autocomplete="off" placeholder="name@example.com, ...">
+      <label for="digLang" data-t="digLang"></label>
+      <select id="digLang"><option value="he">עברית</option><option value="en">English</option></select>
+      <div data-admin>
+        <button class="primary" id="digSave" type="button" style="margin-top:12px" data-t="save"></button>
+        <button class="link" id="digTest" type="button" data-t="digTest"></button>
+      </div>
+      <div class="status" id="digStatus"></div>
+    </section>
+
     <h2 data-t="settingsTitle"></h2>
     <section>
       <form id="settings">
@@ -174,6 +188,8 @@
       remText: "על מה להזכיר", remTime: "שעה", remBy: "מאת (יופיע בהודעה)", remDays: "ימים (בלי בחירה = כל יום)", addRem: "הוספת תזכורת",
       remAdded: "נוספה.", noRem: "אין תזכורות.", everyDay: "כל יום",
       remSent: (t) => `נשלחה היום ב-${t}`, remAnswered: (n) => `${n} כתב/ה אחרי זה`, remNoAnswer: (n) => `${n} עוד לא כתב/ה אחרי זה`, remNotYet: "עוד לא נשלחה היום",
+      digTitle: "סיכום שבועי במייל", digHint: (n) => `כל יום ראשון ב-09:00 (לפי השעון של ${n}): כמה ימים ${n} דיבר/ה, כמה הודעות, וצ'ק-אינים שנענו או לא. בלי תוכן השיחות. השאירו ריק כדי לא לקבל.`,
+      digEmails: "כתובות מייל (עד 5, מופרדות בפסיק)", digLang: "שפת המייל", digTest: "שליחת מייל לדוגמה עכשיו", digSent: (to) => `נשלח ל-${to}. אם לא הגיע, בדקו בספאם.`,
       settingsTitle: "הגדרות", name: "שם", gender: "פנייה בעברית", genderF: "נקבה (את)", genderM: "זכר (אתה)", genderU: "לא ידוע",
       lang: "שפה", langAuto: "אוטומטי", tz: "איפה גר/ה", tzNY: "ארה\"ב, מזרח", tzCHI: "ארה\"ב, מרכז", tzDEN: "ארה\"ב, הרים", tzLA: "ארה\"ב, מערב", tzIL: "ישראל", tzUK: "בריטניה",
       checkin: "שעת צ'ק-אין יומי (לפי השעון שלו/ה)", emergency: "מספר חירום", quietStart: "שעות שקט מ-", quietEnd: "עד",
@@ -200,6 +216,8 @@
       remText: "What to remind about", remTime: "Time", remBy: "From (shown in the message)", remDays: "Days (none = every day)", addRem: "Add reminder",
       remAdded: "Added.", noRem: "No reminders.", everyDay: "Every day",
       remSent: (t) => `Sent today at ${t}`, remAnswered: (n) => `${n} wrote after it`, remNoAnswer: (n) => `${n} hasn't written since`, remNotYet: "Not sent yet today",
+      digTitle: "Weekly email", digHint: (n) => `Every Sunday at 09:00 (${n}'s time): how many days ${n} talked, how many messages, and which check-ins were answered. Never the conversation. Leave empty to turn it off.`,
+      digEmails: "Email addresses (up to 5, comma separated)", digLang: "Email language", digTest: "Send a sample email now", digSent: (to) => `Sent to ${to}. If it doesn't arrive, check spam.`,
       settingsTitle: "Settings", name: "Name", gender: "Hebrew form of address", genderF: "Feminine (את)", genderM: "Masculine (אתה)", genderU: "Unknown",
       lang: "Language", langAuto: "Automatic", tz: "Where they live", tzNY: "US Eastern", tzCHI: "US Central", tzDEN: "US Mountain", tzLA: "US Pacific", tzIL: "Israel", tzUK: "UK",
       checkin: "Daily check-in time (their time)", emergency: "Emergency number", quietStart: "Quiet hours from", quietEnd: "until",
@@ -315,6 +333,12 @@
       return li;
     }) : [Object.assign(document.createElement("li"), { textContent: L.noRem, className: "muted" })]));
 
+    // Weekly email
+    $("digHint").textContent = L.digHint(p.name);
+    if (document.activeElement !== $("digEmails")) $("digEmails").value = p.digest.emails.join(", ");
+    $("digLang").value = p.digest.lang;
+    $("digEmails").disabled = $("digLang").disabled = !admin;
+
     // Settings
     $("s-name").value = p.name; $("s-gender").value = p.gender || ""; $("s-lang").value = p.lang;
     if (![...$("s-tz").options].some((o) => o.value === p.tz)) $("s-tz").append(new Option(p.tz, p.tz));
@@ -392,6 +416,20 @@
       $("remText").value = ""; document.querySelectorAll("#remDays input").forEach((i) => { i.checked = false; });
       render(); status($("remStatus"), t().remAdded, "ok");
     } catch (err) { if (err.message !== "bad") status($("remStatus"), err.message, "err"); }
+  };
+
+  const saveDigest = async () => {
+    data.parent = (await api("PUT", "settings", { digestEmails: $("digEmails").value, digestLang: $("digLang").value })).parent;
+    render();
+  };
+  $("digSave").onclick = async () => {
+    try { await saveDigest(); status($("digStatus"), t().saved, "ok"); }
+    catch (err) { if (err.message !== "bad") status($("digStatus"), err.message, "err"); }
+  };
+  $("digTest").onclick = async () => {
+    status($("digStatus"), "…");
+    try { await saveDigest(); const r = await api("POST", "digest-test"); status($("digStatus"), t().digSent(r.to.join(", ")), "ok"); }
+    catch (err) { if (err.message !== "bad") status($("digStatus"), err.message, "err"); }
   };
 
   $("newLink").onclick = async () => {
