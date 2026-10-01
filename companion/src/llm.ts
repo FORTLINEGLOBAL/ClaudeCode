@@ -149,3 +149,20 @@ ${lastParentText}`,
   });
   return res.parsed_output?.facts ?? [];
 }
+
+// ---------- operator diagnostics ----------
+export type ModelCheck = { model: string; ok: boolean; ms: number; error?: string };
+
+/** One tiny call per model, so the operator can see why replies fail. Never returns the key. */
+export async function diagnose(): Promise<ModelCheck[]> {
+  const ping: Anthropic.Beta.BetaMessageParam[] = [{ role: "user", content: "Say hi in one word." }];
+  const run = async (model: string, call: () => Promise<unknown>): Promise<ModelCheck> => {
+    const t0 = Date.now();
+    try { await call(); return { model, ok: true, ms: Date.now() - t0 }; }
+    catch (e: any) { return { model, ok: false, ms: Date.now() - t0, error: `${e?.status ?? ""} ${e?.message ?? String(e)}`.trim().slice(0, 500) }; }
+  };
+  return [
+    await run(MODEL, () => askMain("Diagnostics.", ping)),
+    await run(EXTRACT_MODEL, () => askQuick("Diagnostics.", ping)),
+  ];
+}

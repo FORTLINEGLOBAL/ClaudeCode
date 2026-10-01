@@ -66,6 +66,12 @@
     <button id="loadAlerts" type="button" style="margin-top:0">Refresh</button>
     <div id="alerts" class="out">Not loaded yet.</div>
   </section>
+
+  <h2>Check the AI connection</h2>
+  <section>
+    <button id="runDiag" type="button" style="margin-top:0">Run check</button>
+    <div id="diag" class="out">Tries each model once and shows any error.</div>
+  </section>
 </main>
 <script>
 (() => {
@@ -110,6 +116,16 @@
         [new Date(a.at).toLocaleString(), a.text, a.withinCoverage ? "Yes" : "No", a.operatorNotified ? "Yes" : "No"].forEach((v) => { tr.insertCell().textContent = v; });
       }
       el.replaceChildren(t);
+    } catch (err) { el.className = "out err"; el.textContent = err.message; }
+  });
+
+  $("runDiag").addEventListener("click", async () => {
+    const el = $("diag"); el.className = "out"; el.textContent = "Checking...";
+    try {
+      const r = await call("GET", "diag");
+      const lines = [`API key set: ${r.apiKeySet ? "yes" : "NO"}`];
+      for (const m of r.models) lines.push(`${m.model}: ${m.ok ? "OK" : "FAILED"} (${m.ms} ms)${m.error ? " " + m.error : ""}`);
+      el.textContent = lines.join("\n"); el.style.whiteSpace = "pre-wrap";
     } catch (err) { el.className = "out err"; el.textContent = err.message; }
   });
 })();

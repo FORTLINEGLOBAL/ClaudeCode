@@ -2,11 +2,13 @@
 //   POST /api/admin/parents   create a parent, returns their private chat link
 //   POST /api/admin/link      issue a new link for an existing parent
 //   GET  /api/admin/alerts    SOS alerts, newest first
+//   GET  /api/admin/diag      tries each model once and reports any error
 // The operator never sees the parent's private conversation here.
 import type { Config } from "@netlify/functions";
 import crypto from "node:crypto";
 import { getAlerts, getParent, issueToken, newId, saveParent } from "../../src/store.js";
 import { toMinutes } from "../../src/time.js";
+import { diagnose } from "../../src/llm.js";
 import type { Parent } from "../../src/types.js";
 
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body, null, 2), { status, headers: { "content-type": "application/json" } });
@@ -25,6 +27,10 @@ export default async (req: Request) => {
 
   if (req.method === "GET" && route === "alerts") {
     return json((await getAlerts()).reverse());
+  }
+
+  if (req.method === "GET" && route === "diag") {
+    return json({ apiKeySet: !!process.env.ANTHROPIC_API_KEY, models: await diagnose() });
   }
 
   if (req.method === "POST" && route === "parents") {
