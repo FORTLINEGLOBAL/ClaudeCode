@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Companion admin</title>
+<style>
+  :root { --bg: #f6f3ee; --surface: #fff; --ink: #1d1d1f; --muted: #5b5b60; --line: #ddd6cb; --accent: #1f5f8b; --sos: #b3261e; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #151517; --surface: #222226; --ink: #f2f2f2; --muted: #b5b5bb; --line: #3a3a40; --accent: #5aa9de; --sos: #ff8a80; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.5 system-ui, -apple-system, "Segoe UI", Arial, sans-serif; }
+  main { max-width: 720px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-size: 26px; margin: 0 0 16px; } h2 { font-size: 20px; margin: 32px 0 12px; }
+  section { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  label { display: block; margin: 12px 0 4px; font-weight: 600; }
+  .hint { color: var(--muted); font-size: 14px; font-weight: 400; }
+  input, select { width: 100%; font: inherit; padding: 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0 12px; }
+  button { font: inherit; font-weight: 600; margin-top: 16px; padding: 12px 20px; border: none; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+  .out { margin-top: 16px; padding: 12px; border-radius: 8px; background: var(--bg); overflow-wrap: anywhere; }
+  .err { color: var(--sos); }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; } td, th { text-align: start; padding: 8px 4px; border-bottom: 1px solid var(--line); vertical-align: top; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Companion admin</h1>
+
+  <section>
+    <label for="key">Admin key <span class="hint">(COMPANION_ADMIN_KEY in Netlify; remembered on this device)</span></label>
+    <input id="key" type="password" autocomplete="off">
+  </section>
+
+  <h2>Add a parent</h2>
+  <section>
+    <form id="create">
+      <div class="row">
+        <div><label for="name">Name</label><input id="name" required placeholder="רחל"></div>
+        <div><label for="gender">Hebrew form</label><select id="gender"><option value="f">Feminine (את)</option><option value="m">Masculine (אתה)</option><option value="">Unknown</option></select></div>
+      </div>
+      <div class="row">
+        <div><label for="lang">Language</label><select id="lang"><option value="auto">Automatic</option><option value="he">Hebrew</option><option value="en">English</option></select></div>
+        <div><label for="tz">Where they live</label><select id="tz">
+          <option value="America/New_York">US Eastern</option><option value="America/Chicago">US Central</option>
+          <option value="America/Denver">US Mountain</option><option value="America/Los_Angeles">US Pacific</option>
+          <option value="Asia/Jerusalem">Israel</option><option value="Europe/London">UK</option></select></div>
+      </div>
+      <div class="row">
+        <div><label for="checkin">Daily check-in time <span class="hint">(their time)</span></label><input id="checkin" type="time" value="10:00"></div>
+        <div><label for="emergency">Emergency number</label><input id="emergency" value="911"></div>
+      </div>
+      <div class="row">
+        <div><label for="cname">Family contact name</label><input id="cname" placeholder="Dana"></div>
+        <div><label for="crel">Relation</label><input id="crel" placeholder="daughter"></div>
+      </div>
+      <label for="cphone">Family contact phone <span class="hint">(with country code, e.g. +12125550100)</span></label>
+      <input id="cphone" type="tel">
+      <button type="submit">Create and get link</button>
+    </form>
+    <div id="result" class="out" hidden></div>
+  </section>
+
+  <h2>SOS alerts</h2>
+  <section>
+    <button id="loadAlerts" type="button" style="margin-top:0">Refresh</button>
+    <div id="alerts" class="out">Not loaded yet.</div>
+  </section>
+
+  <h2>Check the AI connection</h2>
+  <section>
+    <button id="runDiag" type="button" style="margin-top:0">Run check</button>
+    <div id="diag" class="out">Tries each model once and shows any error.</div>
+  </section>
+</main>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  try { $("key").value = localStorage.getItem("companion-admin-key") || ""; } catch {}
+  $("key").addEventListener("change", () => { try { localStorage.setItem("companion-admin-key", $("key").value.trim()); } catch {} });
+
+  async function call(method, path, body) {
+    const res = await fetch("/api/admin/" + path, { method, headers: { "content-type": "application/json", "x-admin-key": $("key").value.trim() }, body: body ? JSON.stringify(body) : undefined });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(res.status === 401 ? "The admin key is wrong." : data.error || "HTTP " + res.status);
+    return data;
+  }
+
+  $("create").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const out = $("result"); out.hidden = false; out.className = "out"; out.textContent = "Creating...";
+    const contact = $("cname").value.trim() ? [{ name: $("cname").value.trim(), relation: $("crel").value.trim() || "family", phone: $("cphone").value.trim() || undefined }] : [];
+    try {
+      const r = await call("POST", "parents", {
+        name: $("name").value.trim(), gender: $("gender").value || undefined, lang: $("lang").value, tz: $("tz").value,
+        checkinTime: $("checkin").value, emergencyNumber: $("emergency").value.trim(), contacts: contact,
+      });
+      out.innerHTML = "";
+      const p = document.createElement("p"); p.textContent = "Done. Send this private link to the parent:"; out.append(p);
+      const a = document.createElement("a"); a.href = r.link; a.textContent = r.link; a.target = "_blank"; out.append(a);
+      const b = document.createElement("button"); b.type = "button"; b.textContent = "Copy link";
+      b.onclick = () => navigator.clipboard.writeText(r.link).then(() => (b.textContent = "Copied"));
+      out.append(document.createElement("br"), b);
+    } catch (err) { out.className = "out err"; out.textContent = err.message; }
+  });
+
+  $("loadAlerts").addEventListener("click", async () => {
+    const el = $("alerts"); el.textContent = "Loading...";
+    try {
+      const list = await call("GET", "alerts");
+      if (!list.length) { el.textContent = "No alerts."; return; }
+      const t = document.createElement("table");
+      t.innerHTML = "<tr><th>When</th><th>Message</th><th>Your hours</th><th>You were alerted</th></tr>";
+      for (const a of list) {
+        const tr = t.insertRow();
+        [new Date(a.at).toLocaleString(), a.text, a.withinCoverage ? "Yes" : "No", a.operatorNotified ? "Yes" : "No"].forEach((v) => { tr.insertCell().textContent = v; });
+      }
+      el.replaceChildren(t);
+    } catch (err) { el.className = "out err"; el.textContent = err.message; }
+  });
+
+  $("runDiag").addEventListener("click", async () => {
+    const el = $("diag"); el.className = "out"; el.textContent = "Checking...";
+    try {
+      const r = await call("GET", "diag");
+      const lines = [`API key set: ${r.apiKeySet ? "yes" : "NO"}`];
+      for (const m of r.models) lines.push(`${m.model}: ${m.ok ? "OK" : "FAILED"} (${m.ms} ms)${m.error ? " " + m.error : ""}`);
+      el.textContent = lines.join("\n"); el.style.whiteSpace = "pre-wrap";
+    } catch (err) { el.className = "out err"; el.textContent = err.message; }
+  });
+})();
+</script>
+</body>
+</html>

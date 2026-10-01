@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1f5f8b">
+<title>Companion</title>
+<style>
+  :root {
+    --bg: #f6f3ee; --surface: #ffffff; --ink: #1d1d1f; --muted: #5b5b60;
+    --me: #1f5f8b; --me-ink: #ffffff; --them: #ffffff; --line: #ddd6cb;
+    --sos: #b3261e; --sos-bg: #fdecea; --focus: #f2a900;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #151517; --surface: #222226; --ink: #f2f2f2; --muted: #b5b5bb;
+      --me: #5aa9de; --me-ink: #0b1a24; --them: #2b2b30; --line: #3a3a40; --sos: #ff8a80; --sos-bg: #3a1d1b; }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body { background: var(--bg); color: var(--ink); font: 22px/1.5 "Assistant", "Rubik", system-ui, -apple-system, "Segoe UI", Arial, sans-serif; display: flex; flex-direction: column; }
+  header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface); border-block-end: 1px solid var(--line); }
+  header h1 { font-size: 24px; margin: 0; flex: 1; }
+  .pill { font: inherit; font-size: 18px; min-height: 48px; padding: 0 16px; border-radius: 24px; border: 2px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+  .pill[aria-pressed="true"] { border-color: var(--me); }
+  main { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+  .msg { max-width: 85%; padding: 12px 16px; border-radius: 20px; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .parent { align-self: flex-start; background: var(--me); color: var(--me-ink); border-end-start-radius: 6px; }
+  .companion { align-self: flex-end; background: var(--them); border: 1px solid var(--line); border-end-end-radius: 6px; }
+  .msg.sos.companion { background: var(--sos-bg); border-color: var(--sos); }
+  .msg a { color: inherit; font-weight: 700; unicode-bidi: isolate; }
+  .typing { align-self: flex-end; color: var(--muted); font-size: 18px; }
+  /* Extra room at the bottom so the host's floating badge never covers the message box. */
+  form { display: flex; gap: 8px; padding: 12px 16px calc(64px + env(safe-area-inset-bottom)); background: var(--surface); border-block-start: 1px solid var(--line); }
+  textarea { flex: 1; font: inherit; min-height: 64px; max-height: 40vh; padding: 12px; border-radius: 16px; border: 2px solid var(--line); background: var(--bg); color: var(--ink); resize: none; }
+  .round { font: inherit; width: 64px; height: 64px; flex: none; border-radius: 50%; border: none; background: var(--me); color: var(--me-ink); font-size: 28px; cursor: pointer; }
+  .round.mic[aria-pressed="true"] { background: var(--sos); color: #fff; }
+  [dir="rtl"] #sendBtn { transform: scaleX(-1); }   /* the arrow points the way text flows */
+  :focus-visible { outline: 4px solid var(--focus); outline-offset: 2px; }
+  .notice { margin: auto; padding: 24px; text-align: center; color: var(--muted); }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title">שלום</h1>
+  <button class="pill" id="langBtn" type="button">English</button>
+  <button class="pill" id="speakBtn" type="button" aria-pressed="false">🔈</button>
+</header>
+<main id="log" aria-live="polite"></main>
+<form id="form">
+  <label class="sr" for="input" id="inputLabel">הודעה</label>
+  <textarea id="input" rows="1" dir="auto"></textarea>
+  <button class="round mic" id="micBtn" type="button" aria-pressed="false" hidden>🎤</button>
+  <button class="round" id="sendBtn" type="submit">➤</button>
+</form>
+<script>
+(() => {
+  // The link carries the token after "#", so it never reaches server logs.
+  const fromHash = new URLSearchParams(location.hash.slice(1)).get("t");
+  let token = null;
+  try {
+    if (fromHash) { localStorage.setItem("companion-token", fromHash); history.replaceState(null, "", location.pathname); }
+    token = fromHash || localStorage.getItem("companion-token");
+  } catch { token = fromHash; }
+
+  const $ = (id) => document.getElementById(id);
+  const log = $("log"), input = $("input"), form = $("form");
+  const T = {
+    he: { hello: (n) => `שלום ${n}`, typing: "כותב...", placeholder: "כתוב/כתבי כאן", label: "הודעה", other: "English", speak: "הקראה", mic: "דיבור", send: "שליחה", bad: "הקישור הזה לא תקין. בקשו מהמשפחה קישור חדש.", offline: "אין חיבור. ננסה שוב בעוד רגע." },
+    en: { hello: (n) => `Hello ${n}`, typing: "Typing...", placeholder: "Write here", label: "Message", other: "עברית", speak: "Read aloud", mic: "Speak", send: "Send", bad: "This link is not valid. Please ask your family for a new one.", offline: "No connection. Trying again shortly." },
+  };
+  let state = { name: "", lang: "auto", lastLang: "he", gender: null };
+  let lastId = "", pending = false, pendingSince = 0, speak = false, timer = null;
+  try { speak = localStorage.getItem("companion-speak") === "1"; } catch {}
+
+  const lang = () => (state.lang === "auto" ? state.lastLang : state.lang);
+  function applyLang() {
+    const l = lang(), t = T[l];
+    document.documentElement.lang = l;
+    document.documentElement.dir = l === "he" ? "rtl" : "ltr";
+    $("title").textContent = t.hello(state.name);
+    $("langBtn").textContent = t.other;
+    $("speakBtn").setAttribute("aria-label", t.speak);
+    $("speakBtn").setAttribute("aria-pressed", String(speak));
+    $("speakBtn").textContent = speak ? "🔊" : "🔈";
+    $("micBtn").setAttribute("aria-label", t.mic);
+    $("sendBtn").setAttribute("aria-label", t.send);
+    $("inputLabel").textContent = t.label;
+    input.placeholder = l === "he" && state.gender ? (state.gender === "f" ? "כתבי כאן" : "כתוב כאן") : t.placeholder;
+  }
+
+  // Phone numbers (and the emergency number) become tap-to-call links.
+  function render(text) {
+    const frag = document.createDocumentFragment();
+    let last = 0;
+    for (const m of text.matchAll(/\+?\d[\d\s-]{5,15}\d|\b(?:911|112|101|100)\b/g)) {
+      frag.append(text.slice(last, m.index));
+      const a = document.createElement("a");
+      a.href = "tel:" + m[0].replace(/[\s-]/g, "");
+      a.dir = "ltr";   // keeps "+1 212..." in order inside Hebrew text
+      a.textContent = m[0];
+      frag.append(a);
+      last = m.index + m[0].length;
+    }
+    frag.append(text.slice(last));
+    return frag;
+  }
+
+  const seen = new Set();   // overlapping polls can return the same message twice
+  function add(m) {
+    if (seen.has(m.id)) return;
+    seen.add(m.id);
+    const div = document.createElement("div");
+    div.className = `msg ${m.role} ${m.kind}`;
+    div.dir = "auto";
+    div.append(render(m.text));
+    log.append(div);
+    log.scrollTop = log.scrollHeight;
+    if (speak && m.role === "companion" && "speechSynthesis" in window) {
+      const u = new SpeechSynthesisUtterance(m.text);
+      u.lang = (m.lang || lang()) === "he" ? "he-IL" : "en-US";
+      speechSynthesis.speak(u);
+    }
+  }
+
+  function setTyping(on) {
+    let el = $("typing");
+    if (on && !el) { el = document.createElement("div"); el.id = "typing"; el.className = "typing"; el.textContent = T[lang()].typing; log.append(el); log.scrollTop = log.scrollHeight; }
+    if (!on && el) el.remove();
+  }
+
+  async function api(method, body) {
+    const res = await fetch("/api/chat" + (method === "GET" && lastId ? `?after=${encodeURIComponent(lastId)}` : ""), {
+      method, headers: { "content-type": "application/json", "x-companion-token": token || "" }, body: body ? JSON.stringify(body) : undefined,
+    });
+    if (res.status === 401) { log.innerHTML = `<p class="notice">${T[lang()].bad}</p>`; form.hidden = true; throw new Error("bad token"); }
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return res.json();
+  }
+
+  async function poll() {
+    clearTimeout(timer);
+    try {
+      const r = await api("GET");
+      const first = !state.name;
+      state = { ...state, name: r.name, lang: r.lang, lastLang: r.lastLang, gender: r.gender };
+      if (first) applyLang();
+      setTyping(false);
+      for (const m of r.messages) {
+        if (m.role === "companion") pending = false;
+        add(m);
+        lastId = m.id;
+      }
+      if (pending && Date.now() - pendingSince > 90000) pending = false;   // give up waiting; slow polling still catches a late reply
+      setTyping(pending);
+    } catch (e) { if (String(e.message) === "bad token") return; }
+    // Fast while a reply is on its way, slow otherwise (to pick up the daily check-in).
+    timer = setTimeout(poll, pending ? 1500 : 20000);
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = "";
+    // The reply is written while the request is open; poll meanwhile so the
+    // parent's own message shows at once and the typing dots appear.
+    pending = true; pendingSince = Date.now();
+    poll();
+    try {
+      await api("POST", { text });
+      await poll();
+    } catch (err) {
+      if (String(err.message) === "bad token") return;
+      // A slow request can time out after the message was saved; keep polling for
+      // the reply, and only give the text back if it never reached the server.
+      await poll();
+      if (![...log.querySelectorAll(".msg.parent")].some((el) => el.textContent === text)) {
+        pending = false; setTyping(false);
+        input.value = text; alert(T[lang()].offline);
+      }
+    }
+  });
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); form.requestSubmit(); } });
+
+  $("langBtn").addEventListener("click", async () => {
+    const next = lang() === "he" ? "en" : "he";
+    state.lang = next; state.lastLang = next; applyLang();
+    try { await api("POST", { lang: next }); } catch {}
+  });
+  $("speakBtn").addEventListener("click", () => {
+    speak = !speak; try { localStorage.setItem("companion-speak", speak ? "1" : "0"); } catch {}
+    applyLang();
+  });
+
+  // Voice input: the browser's own speech recognition for now. Phase 0's voice
+  // bake-off picks the real STT/TTS providers.
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (SR) {
+    const mic = $("micBtn"); mic.hidden = false;
+    let rec = null;
+    mic.addEventListener("click", () => {
+      if (rec) { rec.stop(); return; }
+      rec = new SR(); rec.lang = lang() === "he" ? "he-IL" : "en-US"; rec.interimResults = true;
+      const before = input.value;
+      rec.onresult = (e) => { input.value = (before ? before + " " : "") + Array.from(e.results).map((r) => r[0].transcript).join(""); };
+      rec.onend = () => { rec = null; mic.setAttribute("aria-pressed", "false"); };
+      mic.setAttribute("aria-pressed", "true");
+      rec.start();
+    });
+  }
+
+  if (!token) { log.innerHTML = `<p class="notice">${T.he.bad}<br><br>${T.en.bad}</p>`; form.hidden = true; return; }
+  applyLang();
+  poll();
+})();
+</script>
+</body>
+</html>

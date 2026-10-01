@@ -1,0 +1,24 @@
+{
+  "name": "companion",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Bilingual (Hebrew/English) companion for older parents. Phase 1: web chat channel, hosted on Netlify Functions.",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "dev": "netlify dev",
+    "test": "tsx scripts/test-logic.mts",
+    "chat:local": "tsx scripts/chat-local.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0",
+    "@netlify/blobs": "^8.2.0",
+    "@netlify/functions": "^3.1.0",
+    "zod": "^4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
