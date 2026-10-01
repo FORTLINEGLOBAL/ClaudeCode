@@ -4,7 +4,7 @@ import { getStore } from "@netlify/blobs";
 import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
-import type { Alert, Fact, Msg, Parent } from "./types.js";
+import type { Alert, Fact, FamilyAccess, FamilyRole, Msg, Parent, Reminder } from "./types.js";
 
 const LOCAL_DIR = path.resolve(process.cwd(), ".local-store");
 
@@ -67,6 +67,19 @@ export async function issueToken(parentId: string): Promise<string> {
   return token;
 }
 
+/** Family page link token -> access record. Only the hash is stored. */
+export async function familyForToken(token: string): Promise<FamilyAccess | null> {
+  if (!token || token.length < 20) return null;
+  return getJSON<FamilyAccess>(`famtoken/${hashToken(token)}`);
+}
+
+export async function issueFamilyToken(parentId: string, role: FamilyRole, label: string): Promise<string> {
+  const token = crypto.randomBytes(24).toString("base64url");
+  const a: FamilyAccess = { parentId, role, label, at: new Date().toISOString() };
+  await setJSON(`famtoken/${hashToken(token)}`, a);
+  return token;
+}
+
 // ---------- chat log ----------
 const MAX_LOG = 500;
 
@@ -85,6 +98,12 @@ export async function getFacts(parentId: string): Promise<Fact[]> {
   return (await getJSON<Fact[]>(`facts/${parentId}`)) ?? [];
 }
 export const saveFacts = (parentId: string, facts: Fact[]) => setJSON(`facts/${parentId}`, facts);
+
+// ---------- reminders ----------
+export async function getReminders(parentId: string): Promise<Reminder[]> {
+  return (await getJSON<Reminder[]>(`reminders/${parentId}`)) ?? [];
+}
+export const saveReminders = (parentId: string, list: Reminder[]) => setJSON(`reminders/${parentId}`, list);
 
 // ---------- alerts (operator view) ----------
 export async function getAlerts(): Promise<Alert[]> {

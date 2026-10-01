@@ -219,4 +219,150 @@ await t("sos email", async () => {
   }
 });
 
+// 14. family page: weekly activity counts days and check-ins, never content
+await t("family activity", async () => {
+  const { weeklyActivity, familyView, familyAlerts } = await import("../src/family.js");
+  const p = parent({ tz: "America/New_York", codeWord: "banana" });
+  const m = (role: "parent" | "companion", at: string, kind = "chat") => ({ id: at + role, role, text: "secret words", at, kind }) as any;
+  const now = new Date("2026-10-07T18:00:00Z");   // Wed 7 Oct, 14:00 in New York
+  const log = [
+    m("companion", "2026-10-05T14:00:00Z", "checkin"), m("parent", "2026-10-05T15:00:00Z"),          // Mon: answered
+    m("companion", "2026-10-06T14:00:00Z", "checkin"),                                                // Tue
+    m("parent", "2026-10-07T03:30:00Z"),   // 23:30 Tuesday in New York: answers Tuesday's check-in
+    m("companion", "2026-10-07T14:00:00Z", "checkin"),                                                // Wed: waiting
+  ];
+  const a = weeklyActivity(p, log, now);
+  assert.equal(a.days.length, 7);
+  assert.equal(a.days.at(-1)!.date, "2026-10-07");
+  const by = Object.fromEntries(a.days.map((d) => [d.date, d]));
+  assert.deepEqual([by["2026-10-05"].checkin, by["2026-10-05"].messages], ["answered", 1]);
+  assert.equal(by["2026-10-06"].checkin, "answered");   // the 23:30 local message counts for Tuesday
+  assert.equal(by["2026-10-06"].messages, 1);
+  assert.equal(by["2026-10-07"].checkin, "waiting");
+  assert.equal(a.missedCheckins, 0);
+  const a2 = weeklyActivity(p, log.filter((x) => x.at !== "2026-10-07T03:30:00Z"), now);
+  assert.equal(a2.days.find((d) => d.date === "2026-10-06")!.checkin, "missed");
+  assert.equal(a2.missedCheckins, 1);
+  assert.equal(a2.lastActiveAt, "2026-10-05T15:00:00Z");
+  assert.ok(!JSON.stringify(a).includes("secret"));
+
+  const v = familyView(p);
+  assert.equal((v as any).codeWord, undefined); assert.equal(v.codeWordSet, true);
+  const al = familyAlerts([{ id: "a", parentId: p.id, kind: "sos", text: "נפלתי במטבח", at: "2026-10-06T10:00:00Z", withinCoverage: true, operatorNotified: true }], p.id);
+  assert.deepEqual(al, [{ at: "2026-10-06T10:00:00Z", withinCoverage: true, operatorNotified: true }]);
+});
+
+// 15. family API: viewer can only look; admin edits settings (not consent), adds and removes notes
+await t("family api", async () => {
+  const { default: family } = await import("../netlify/functions/family.js");
+  const { issueFamilyToken, getFacts } = await import("../src/store.js");
+  const p = parent({ id: "fam1" });
+  await saveParent(p);
+  const admin = await issueFamilyToken(p.id, "admin", "Dana");
+  const viewer = await issueFamilyToken(p.id, "viewer", "Yossi");
+  const call = (tok: string, method: string, path = "", body?: unknown) =>
+    family(new Request(`https://x.test/api/family${path}`, { method, headers: { "x-family-token": tok, "content-type": "application/json" }, body: body ? JSON.stringify(body) : undefined }), {} as any);
+
+  assert.equal((await call("nope-nope-nope-nope-nope", "GET")).status, 401);
+  const g = await (await call(viewer, "GET")).json();
+  assert.equal(g.role, "viewer"); assert.equal(g.parent.name, "רחל"); assert.equal(g.activity.days.length, 7);
+  assert.equal((await call(viewer, "PUT", "/settings", { name: "X" })).status, 403);
+
+  const bad = await call(admin, "PUT", "/settings", { emergencyNumber: "call me" });
+  assert.equal(bad.status, 400);
+  const ok = await (await call(admin, "PUT", "/settings", { checkinTime: "09:30", consent: { memory: false }, contacts: [{ name: "Dana", relation: "daughter", phone: "+1 (212) 555-0100" }] })).json();
+  assert.equal(ok.parent.checkinTime, "09:30");
+  assert.equal(ok.parent.consent.memory, true);            // consent is the parent's, not the family's
+  assert.equal(ok.parent.contacts[0].phone, "+12125550100");
+
+  const added = await (await call(admin, "POST", "/notes", { text: "נועה מגיעה ביום ראשון" })).json();
+  assert.equal(added.notes.length, 1);
+  const f = (await getFacts(p.id)).find((x) => x.source === "family")!;
+  assert.equal(f.lang, "he");
+  const removed = await (await call(admin, "DELETE", "/notes/" + f.id)).json();
+  assert.equal(removed.notes.length, 0);
+  assert.equal((await getFacts(p.id)).find((x) => x.id === f.id)!.supersededBy, "removed-by-family");
+
+  const link = await (await call(admin, "POST", "/parent-link")).json();
+  assert.match(link.link, /^https:\/\/x\.test\/#t=/);
+});
+
+// 16. a new family note is passed on in the next reply, once, then stays as memory
+await t("family note passed on", async () => {
+  const { default: family } = await import("../netlify/functions/family.js");
+  const { issueFamilyToken, getFacts } = await import("../src/store.js");
+  const { converse } = await import("../src/companion.js");
+  const { webChannel } = await import("../src/channel.js");
+  const p = parent({ id: "fam2", name: "אנה" });
+  await saveParent(p);
+  const admin = await issueFamilyToken(p.id, "admin", "Dana");
+  await family(new Request("https://x.test/api/family/notes", { method: "POST", headers: { "x-family-token": admin, "content-type": "application/json" }, body: JSON.stringify({ text: "לא לשכוח לקחת תרופות" }) }), {} as any);
+  const sys = (c: any) => JSON.stringify(c.body.system);
+  const say = async (text: string) => {
+    const r = await receive(p, text, webChannel);
+    assert.equal(r.handled, false);
+    const before = calls.length;
+    await converse(p, (r as any).parentMsgId, webChannel);
+    return calls.slice(before).find((c) => !c.body.output_config?.format)!;
+  };
+  const first = await say("מה נשמע?");
+  assert.ok(sys(first).includes("New from the family") && sys(first).includes("לא לשכוח לקחת תרופות"));
+  const note = (await getFacts(p.id)).find((f) => f.source === "family")!;
+  assert.ok(note.passedOn);
+  const second = await say("ומה עוד?");
+  assert.ok(!sys(second).includes("New from the family"));
+  assert.ok(sys(second).includes("לא לשכוח לקחת תרופות"));   // still remembered, just not news
+});
+
+// 17. reminders: due at the parent's local time on the chosen days, sent once, word for word
+await t("reminders", async () => {
+  const { reminderDue, sendDueReminders, newReminder, familyReminders } = await import("../src/reminders.js");
+  const { saveReminders, getReminders } = await import("../src/store.js");
+  const { webChannel } = await import("../src/channel.js");
+  const p = parent({ id: "rem1", tz: "Asia/Jerusalem", lang: "he" });
+  await saveParent(p);
+  assert.throws(() => newReminder({ text: "x", time: "25:00" }, "family"));
+  assert.throws(() => newReminder({ text: " ", time: "20:00" }, "family"));
+  const daily = newReminder({ text: "לקחת את הכדור של הערב", time: "20:00", by: "פורטי" }, "family");
+  const sunday = newReminder({ text: "חוג ציור", time: "9:30", days: [0] }, "family");
+  assert.equal(sunday.time, "09:30"); assert.equal(sunday.by, "family");
+  assert.deepEqual(newReminder({ text: "x", time: "08:00", days: [0, 1, 2, 3, 4, 5, 6] }, "f").days, []);
+  // 2026-10-04 is a Sunday; Israel is UTC+3 then
+  const at = (iso: string) => new Date(iso);
+  assert.ok(!reminderDue(daily, p, at("2026-10-04T16:59:00Z")));   // 19:59
+  assert.ok(reminderDue(daily, p, at("2026-10-04T17:10:00Z")));    // 20:10
+  assert.ok(!reminderDue(daily, p, at("2026-10-04T18:00:00Z")));   // 21:00, too late
+  assert.ok(reminderDue(sunday, p, at("2026-10-04T06:40:00Z")));   // Sunday 09:40
+  assert.ok(!reminderDue(sunday, p, at("2026-10-05T06:40:00Z")));  // Monday
+  await saveReminders(p.id, [daily, sunday]);
+  assert.equal(await sendDueReminders(p, webChannel, at("2026-10-04T17:05:00Z")), 1);
+  assert.equal(await sendDueReminders(p, webChannel, at("2026-10-04T17:20:00Z")), 0);   // once a day
+  const sent = (await getChat(p.id)).filter((m) => m.kind === "reminder");
+  assert.equal(sent.length, 1);
+  assert.equal(sent[0].text, "⏰ תזכורת מפורטי, לשעה 20:00\nלקחת את הכדור של הערב");
+  let view = familyReminders(await getReminders(p.id), p, await getChat(p.id), at("2026-10-04T17:30:00Z"));
+  assert.equal(view[0].answeredAfter, false); assert.ok(view[0].sentToday); assert.equal(view[1].sentToday, null);
+  const { appendChat } = await import("../src/store.js");
+  await appendChat(p.id, { id: "pm1", role: "parent", text: "לקחתי", at: "2026-10-04T17:12:00Z", kind: "chat" });
+  view = familyReminders(await getReminders(p.id), p, await getChat(p.id), at("2026-10-04T17:30:00Z"));
+  assert.equal(view[0].answeredAfter, true);
+  await saveParent({ ...p, stopped: true });
+  assert.equal(await sendDueReminders({ ...p, stopped: true }, webChannel, at("2026-10-05T17:05:00Z")), 0);   // STOP pauses reminders
+
+  const { default: family } = await import("../netlify/functions/family.js");
+  const { issueFamilyToken } = await import("../src/store.js");
+  const admin = await issueFamilyToken(p.id, "admin", "family");
+  const viewer = await issueFamilyToken(p.id, "viewer", "family");
+  const call = (tok: string, method: string, path: string, body?: unknown) =>
+    family(new Request(`https://x.test/api/family${path}`, { method, headers: { "x-family-token": tok, "content-type": "application/json" }, body: body ? JSON.stringify(body) : undefined }), {} as any);
+  assert.equal((await call(viewer, "POST", "/reminders", { text: "x", time: "10:00" })).status, 403);
+  const bad = await (await call(admin, "POST", "/reminders", { text: "x", time: "99:00" })).json();
+  assert.match(bad.errorHe, /השעה/);
+  const added = await (await call(admin, "POST", "/reminders", { text: "לשתות מים", time: "12:00" })).json();
+  assert.equal(added.reminders.length, 3);
+  const id = added.reminders[2].id;
+  assert.equal((await (await call(admin, "DELETE", "/reminders/" + id)).json()).reminders.length, 2);
+  assert.equal((await (await call(viewer, "GET", "")).json()).reminders.length, 2);
+});
+
 console.log(`${n} test groups passed`);

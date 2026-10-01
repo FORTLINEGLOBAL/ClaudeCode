@@ -13,7 +13,11 @@ A warm, bilingual (Hebrew and English) companion for older parents. This is phas
 | SOS | Fixed, deterministic text in both languages, with the emergency number and tap-to-call. Between 08:00 and 22:00 Israel time the operator gets an email (Resend) and/or WhatsApp alert, whichever is configured, and the parent is told a person is on it only when that alert actually went out. Outside those hours the parent is told to call their family contact. It never claims emergency services were called. |
 | STOP | "STOP" / "עצור" turns off messages the companion sends first; "start" / "המשך" turns them back on. |
 
-Not in this phase (see the plan): the family dashboard, digest and scam shield (phase 2), WhatsApp (phase 2b), and the real speech providers, which the phase 0 voice bake-off picks.
+Family page: `/family.html#t=...` shows the parent's week (messages per day, check-ins answered or missed, last activity), SOS times, and the settings and contacts, never the conversation. A family link is either "admin" (edits settings and contacts, adds notes the companion should know, makes a new chat link) or "viewer". Consent is shown but only the parent changes it. The admin page creates the first family link with each new parent, and lists existing parents to make more. A new family note is passed on in the companion's next message (reply or check-in), saying the family asked, and is kept as memory after that; the family page shows whether it was passed on yet.
+
+Reminders: an admin family link can set reminders (text, time in the parent's local time, optional weekdays, and who it is from). The scheduled `checkin` function sends each one word for word when due, once a day, up to 45 minutes late; STOP pauses them. The family page shows whether today's reminder went out and whether the parent wrote after it.
+
+Not in this phase (see the plan): family logins with passkeys, the digest and scam shield (phase 2), WhatsApp (phase 2b), and the real speech providers, which the phase 0 voice bake-off picks.
 
 ## Decisions in effect
 

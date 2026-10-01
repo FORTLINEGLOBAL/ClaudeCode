@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#1f5f8b">
+<title>Family page</title>
+<style>
+  :root { --bg: #f6f3ee; --surface: #fff; --ink: #1d1d1f; --muted: #5b5b60; --line: #ddd6cb; --accent: #1f5f8b; --ok: #2e7d32; --warn: #b26a00; --sos: #b3261e; --sos-bg: #fdecea; --focus: #f2a900; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #151517; --surface: #222226; --ink: #f2f2f2; --muted: #b5b5bb; --line: #3a3a40; --accent: #5aa9de; --ok: #81c784; --warn: #ffb74d; --sos: #ff8a80; --sos-bg: #3a1d1b; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.5 "Assistant", "Rubik", system-ui, -apple-system, "Segoe UI", Arial, sans-serif; }
+  header { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--surface); border-block-end: 1px solid var(--line); }
+  header h1 { font-size: 22px; margin: 0; flex: 1; }
+  main { max-width: 760px; margin: 0 auto; padding: 16px 16px 96px; }
+  h2 { font-size: 19px; margin: 28px 0 10px; }
+  section { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+  .muted { color: var(--muted); font-size: 15px; }
+  .pill { font: inherit; min-height: 40px; padding: 0 14px; border-radius: 20px; border: 2px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+  button.primary { font: inherit; font-weight: 600; padding: 10px 18px; border: none; border-radius: 8px; background: var(--accent); color: #fff; cursor: pointer; }
+  button.link { font: inherit; background: none; border: none; color: var(--accent); cursor: pointer; padding: 4px; }
+  label { display: block; margin: 12px 0 4px; font-weight: 600; }
+  input, select, textarea { width: 100%; font: inherit; padding: 9px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); }
+  textarea { min-height: 72px; resize: vertical; }
+  input:disabled, select:disabled { opacity: .75; }
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 0 12px; }
+  .week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; text-align: center; }
+  .day { border: 1px solid var(--line); border-radius: 10px; padding: 8px 2px; min-width: 0; }
+  .day .name { font-size: 13px; color: var(--muted); }
+  .day .count { font-size: 20px; font-weight: 700; }
+  .day .ci { font-size: 12px; min-height: 18px; }
+  .ci.answered { color: var(--ok); } .ci.missed { color: var(--sos); font-weight: 700; } .ci.waiting { color: var(--warn); }
+  .day.today { border-color: var(--accent); border-width: 2px; }
+  .stats { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 12px; }
+  .banner { background: var(--sos-bg); border: 1px solid var(--sos); border-radius: 10px; padding: 10px 12px; margin-bottom: 12px; }
+  ul.plain { list-style: none; margin: 0; padding: 0; }
+  ul.plain li { display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--line); }
+  ul.plain li:last-child { border-bottom: none; }
+  ul.plain li .grow { flex: 1 1 100%; overflow-wrap: anywhere; }
+  .days { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .days label { display: inline-flex; align-items: center; gap: 4px; margin: 0; font-weight: 400; border: 1px solid var(--line); border-radius: 16px; padding: 4px 10px; cursor: pointer; }
+  .days input { width: auto; margin: 0; }
+  .rem-state.ok { color: var(--ok); } .rem-state.warn { color: var(--warn); }
+  .contact { border: 1px solid var(--line); border-radius: 10px; padding: 4px 12px 12px; margin-top: 10px; }
+  .status { margin-top: 10px; min-height: 1.5em; }
+  .status.err { color: var(--sos); } .status.ok { color: var(--ok); }
+  .notice { padding: 48px 16px; text-align: center; color: var(--muted); }
+  a.tel, .ltr { direction: ltr; unicode-bidi: isolate; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title"></h1>
+  <button class="pill" id="langBtn" type="button"></button>
+</header>
+<main id="main">
+  <p class="notice" id="loading"></p>
+  <div id="content" hidden>
+    <div class="banner" id="stoppedBanner" hidden></div>
+
+    <h2 data-t="weekTitle"></h2>
+    <section>
+      <div class="week" id="week"></div>
+      <div class="stats">
+        <span id="lastActive"></span>
+        <span id="missed"></span>
+      </div>
+      <p class="muted" data-t="privacy"></p>
+    </section>
+
+    <h2 data-t="sosTitle"></h2>
+    <section><ul class="plain" id="alerts"></ul></section>
+
+    <h2 data-t="notesTitle"></h2>
+    <section>
+      <p class="muted" id="notesHint"></p>
+      <div data-admin>
+        <textarea id="noteText" maxlength="500" dir="auto"></textarea>
+        <button class="primary" id="addNote" type="button" data-t="addNote"></button>
+        <div class="status" id="noteStatus"></div>
+      </div>
+      <ul class="plain" id="notes"></ul>
+    </section>
+
+    <h2 data-t="remTitle"></h2>
+    <section>
+      <p class="muted" id="remHint" style="margin-top:0"></p>
+      <div data-admin>
+        <label for="remText" data-t="remText"></label>
+        <input id="remText" maxlength="300" dir="auto">
+        <div class="row">
+          <div><label for="remTime" data-t="remTime"></label><input id="remTime" type="time" value="20:00"></div>
+          <div><label for="remBy" data-t="remBy"></label><input id="remBy" maxlength="40" dir="auto"></div>
+        </div>
+        <label data-t="remDays"></label>
+        <div class="days" id="remDays"></div>
+        <button class="primary" id="addRem" type="button" style="margin-top:12px" data-t="addRem"></button>
+        <div class="status" id="remStatus"></div>
+      </div>
+      <ul class="plain" id="reminders"></ul>
+    </section>
+
+    <h2 data-t="settingsTitle"></h2>
+    <section>
+      <form id="settings">
+        <div class="row">
+          <div><label for="s-name" data-t="name"></label><input id="s-name" required maxlength="60"></div>
+          <div><label for="s-gender" data-t="gender"></label><select id="s-gender">
+            <option value="f" data-t="genderF"></option><option value="m" data-t="genderM"></option><option value="" data-t="genderU"></option></select></div>
+        </div>
+        <div class="row">
+          <div><label for="s-lang" data-t="lang"></label><select id="s-lang">
+            <option value="auto" data-t="langAuto"></option><option value="he">עברית</option><option value="en">English</option></select></div>
+          <div><label for="s-tz" data-t="tz"></label><select id="s-tz">
+            <option value="America/New_York" data-t="tzNY"></option><option value="America/Chicago" data-t="tzCHI"></option>
+            <option value="America/Denver" data-t="tzDEN"></option><option value="America/Los_Angeles" data-t="tzLA"></option>
+            <option value="Asia/Jerusalem" data-t="tzIL"></option><option value="Europe/London" data-t="tzUK"></option></select></div>
+        </div>
+        <div class="row">
+          <div><label for="s-checkin" data-t="checkin"></label><input id="s-checkin" type="time" required></div>
+          <div><label for="s-emergency" data-t="emergency"></label><input id="s-emergency" class="ltr" required inputmode="tel"></div>
+        </div>
+        <div class="row">
+          <div><label for="s-quietStart" data-t="quietStart"></label><input id="s-quietStart" type="time" required></div>
+          <div><label for="s-quietEnd" data-t="quietEnd"></label><input id="s-quietEnd" type="time" required></div>
+        </div>
+        <label for="s-code"><span data-t="codeWord"></span> <span class="muted" id="codeHint"></span></label>
+        <input id="s-code" maxlength="40" autocomplete="off">
+
+        <h3 style="margin:20px 0 4px;font-size:17px" data-t="contactsTitle"></h3>
+        <p class="muted" data-t="contactsHint" style="margin:0"></p>
+        <div id="contacts"></div>
+        <button class="link" id="addContact" type="button" data-admin data-t="addContact"></button>
+
+        <div data-admin><button class="primary" type="submit" style="margin-top:16px" data-t="save"></button></div>
+        <div class="status" id="settingsStatus"></div>
+      </form>
+    </section>
+
+    <h2 data-t="consentTitle"></h2>
+    <section>
+      <ul class="plain" id="consent"></ul>
+      <p class="muted" id="consentHint"></p>
+    </section>
+
+    <div data-admin>
+      <h2 data-t="linkTitle"></h2>
+      <section>
+        <p class="muted" id="linkHint" style="margin-top:0"></p>
+        <button class="primary" id="newLink" type="button" data-t="newLink"></button>
+        <div class="status" id="linkOut"></div>
+      </section>
+    </div>
+  </div>
+</main>
+<script>
+(() => {
+  const T = {
+    he: {
+      title: (n) => `${n}: דף המשפחה`, other: "English", loading: "טוען...", bad: "הקישור הזה לא תקין. בקשו קישור חדש.",
+      weekTitle: "השבוע", privacy: "אתם רואים כמה הודעות נשלחו ומתי, לא את תוכן השיחה.",
+      lastActive: (t) => `פעילות אחרונה: ${t}`, never: "עדיין אין פעילות", missed: (n) => n ? `צ'ק-אינים שלא נענו: ${n}` : "כל הצ'ק-אינים נענו",
+      ci: { answered: "✓ צ'ק-אין", missed: "✗ לא נענה", waiting: "… ממתין" },
+      stopped: (n) => `${n} ביקש/ה לעצור הודעות יזומות (STOP), ולכן הצ'ק-אין היומי מושהה. ${n} יכול/ה להפעיל מחדש בכתיבת START.`,
+      sosTitle: "התראות SOS", noSos: "אין התראות.", sosRow: (a) => `${a.when}: ${a.operatorNotified ? "הצוות קיבל התראה" : a.withinCoverage ? "לא נשלחה התראה לצוות" : "מחוץ לשעות הכיסוי (08:00-22:00 שעון ישראל)"}`,
+      notesTitle: "לספר ל-Companion", notesHint: (n) => `משהו שכדאי שה-Companion ידע, למשל "נועה מגיעה לבקר ביום ראשון". הוא ימסור את זה ל-${n} בהודעה הבאה שלו, יגיד שהמשפחה ביקשה, ואחר כך יזכור את זה.`,
+      notePending: (n) => `יימסר ל-${n} בהודעה הבאה`, notePassed: (n, d) => `נמסר ל-${n} ${d}`,
+      notesHintViewer: "דברים שהמשפחה סיפרה ל-Companion.", addNote: "הוספה", noNotes: "עדיין לא נוספו.", remove: "הסרה", noteAdded: "נוסף.",
+      remTitle: "תזכורות", remHint: (n) => `נשלחות ל-${n} בצ'אט בשעה שקבעתם (לפי השעון של ${n}), מילה במילה, עם שם מי שקבע. ה-Companion לא משנה את הנוסח.`,
+      remHintViewer: (n) => `תזכורות שנשלחות ל-${n} בשעה קבועה.`,
+      remText: "על מה להזכיר", remTime: "שעה", remBy: "מאת (יופיע בהודעה)", remDays: "ימים (בלי בחירה = כל יום)", addRem: "הוספת תזכורת",
+      remAdded: "נוספה.", noRem: "אין תזכורות.", everyDay: "כל יום",
+      remSent: (t) => `נשלחה היום ב-${t}`, remAnswered: (n) => `${n} כתב/ה אחרי זה`, remNoAnswer: (n) => `${n} עוד לא כתב/ה אחרי זה`, remNotYet: "עוד לא נשלחה היום",
+      settingsTitle: "הגדרות", name: "שם", gender: "פנייה בעברית", genderF: "נקבה (את)", genderM: "זכר (אתה)", genderU: "לא ידוע",
+      lang: "שפה", langAuto: "אוטומטי", tz: "איפה גר/ה", tzNY: "ארה\"ב, מזרח", tzCHI: "ארה\"ב, מרכז", tzDEN: "ארה\"ב, הרים", tzLA: "ארה\"ב, מערב", tzIL: "ישראל", tzUK: "בריטניה",
+      checkin: "שעת צ'ק-אין יומי (לפי השעון שלו/ה)", emergency: "מספר חירום", quietStart: "שעות שקט מ-", quietEnd: "עד",
+      codeWord: "מילת קוד ל-SOS", codeSet: "(מוגדרת. השאירו ריק כדי לא לשנות)", codeUnset: "(לא חובה)",
+      contactsTitle: "אנשי קשר", contactsHint: "הראשון ברשימה הוא איש הקשר הראשי בחירום.", cName: "שם", cRel: "קרבה", cPhone: "טלפון עם קידומת מדינה", addContact: "+ איש קשר", removeContact: "הסרת איש הקשר",
+      save: "שמירה", saved: "נשמר.", consentTitle: "הסכמות", consentHint: (n) => `רק ${n} יכול/ה לשנות את אלה.`,
+      consent: { checkins: "צ'ק-אין יומי", memory: "זיכרון בין שיחות", escalation: "התראה לצוות ולמשפחה ב-SOS" }, on: "פעיל", off: "כבוי",
+      linkTitle: "קישור הצ'אט", linkHint: (n) => `אם ${n} איבד/ה את הקישור, צרו חדש ושלחו אותו. גם הקישור הקודם ימשיך לעבוד.`, newLink: "יצירת קישור חדש", copy: "העתקה", copied: "הועתק",
+      ago: (m) => m < 1 ? "עכשיו" : m < 60 ? `לפני ${m} דקות` : m < 1440 ? `לפני ${Math.round(m / 60)} שעות` : `לפני ${Math.round(m / 1440)} ימים`,
+      locale: "he-IL",
+    },
+    en: {
+      title: (n) => `${n}: family page`, other: "עברית", loading: "Loading...", bad: "This link is not valid. Ask for a new one.",
+      weekTitle: "This week", privacy: "You see how many messages were sent and when, never what was said.",
+      lastActive: (t) => `Last active: ${t}`, never: "No activity yet", missed: (n) => n ? `Missed check-ins: ${n}` : "All check-ins answered",
+      ci: { answered: "✓ check-in", missed: "✗ missed", waiting: "… waiting" },
+      stopped: (n) => `${n} asked to stop proactive messages (STOP), so the daily check-in is paused. ${n} can turn it back on by writing START.`,
+      sosTitle: "SOS alerts", noSos: "No alerts.", sosRow: (a) => `${a.when}: ${a.operatorNotified ? "the team was alerted" : a.withinCoverage ? "the team was not alerted" : "outside coverage hours (08:00-22:00 Israel time)"}`,
+      notesTitle: "Tell the companion", notesHint: (n) => `Something the companion should know, like "Noa is visiting on Sunday". It passes it on to ${n} in its next message, says the family asked, and remembers it after that.`,
+      notePending: (n) => `Will be passed on to ${n} in the next message`, notePassed: (n, d) => `Passed on to ${n} ${d}`,
+      notesHintViewer: "Things the family told the companion.", addNote: "Add", noNotes: "None yet.", remove: "Remove", noteAdded: "Added.",
+      remTitle: "Reminders", remHint: (n) => `Sent to ${n} in the chat at the time you set (${n}'s local time), word for word, with the name of who set it. The companion doesn't rephrase it.`,
+      remHintViewer: (n) => `Reminders sent to ${n} at a set time.`,
+      remText: "What to remind about", remTime: "Time", remBy: "From (shown in the message)", remDays: "Days (none = every day)", addRem: "Add reminder",
+      remAdded: "Added.", noRem: "No reminders.", everyDay: "Every day",
+      remSent: (t) => `Sent today at ${t}`, remAnswered: (n) => `${n} wrote after it`, remNoAnswer: (n) => `${n} hasn't written since`, remNotYet: "Not sent yet today",
+      settingsTitle: "Settings", name: "Name", gender: "Hebrew form of address", genderF: "Feminine (את)", genderM: "Masculine (אתה)", genderU: "Unknown",
+      lang: "Language", langAuto: "Automatic", tz: "Where they live", tzNY: "US Eastern", tzCHI: "US Central", tzDEN: "US Mountain", tzLA: "US Pacific", tzIL: "Israel", tzUK: "UK",
+      checkin: "Daily check-in time (their time)", emergency: "Emergency number", quietStart: "Quiet hours from", quietEnd: "until",
+      codeWord: "SOS code word", codeSet: "(set; leave empty to keep it)", codeUnset: "(optional)",
+      contactsTitle: "Contacts", contactsHint: "The first one is the primary emergency contact.", cName: "Name", cRel: "Relation", cPhone: "Phone with country code", addContact: "+ Add contact", removeContact: "Remove contact",
+      save: "Save", saved: "Saved.", consentTitle: "Consent", consentHint: (n) => `Only ${n} can change these.`,
+      consent: { checkins: "Daily check-in", memory: "Memory across conversations", escalation: "Alert the team and family on SOS" }, on: "On", off: "Off",
+      linkTitle: "Chat link", linkHint: (n) => `If ${n} lost their link, make a new one and send it. The old link keeps working too.`, newLink: "Make a new link", copy: "Copy", copied: "Copied",
+      ago: (m) => m < 1 ? "just now" : m < 60 ? `${m} min ago` : m < 1440 ? `${Math.round(m / 60)} h ago` : `${Math.round(m / 1440)} days ago`,
+      locale: "en-US",
+    },
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const fromHash = new URLSearchParams(location.hash.slice(1)).get("t");
+  let token = fromHash;
+  try {
+    if (fromHash) { localStorage.setItem("companion-family-token", fromHash); history.replaceState(null, "", location.pathname); }
+    token = fromHash || localStorage.getItem("companion-family-token");
+  } catch {}
+  let lang = "he";
+  try { lang = localStorage.getItem("companion-family-lang") || (navigator.language.startsWith("he") ? "he" : "en"); } catch {}
+  let data = null;
+  const t = () => T[lang];
+
+  async function api(method, path, body) {
+    const res = await fetch("/api/family" + (path ? "/" + path : ""), {
+      method, headers: { "content-type": "application/json", "x-family-token": token || "" }, body: body ? JSON.stringify(body) : undefined,
+    });
+    const r = await res.json().catch(() => ({}));
+    if (res.status === 401) { showBad(); throw new Error("bad"); }
+    if (!res.ok) throw new Error((lang === "he" && r.errorHe) || r.error || "HTTP " + res.status);
+    return r;
+  }
+  function showBad() { $("content").hidden = true; $("loading").hidden = false; $("loading").textContent = t().bad; }
+  const status = (el, text, kind) => { el.textContent = text; el.className = "status " + (kind || ""); };
+
+  function applyLang() {
+    document.documentElement.lang = lang; document.documentElement.dir = lang === "he" ? "rtl" : "ltr";
+    $("langBtn").textContent = t().other;
+    document.querySelectorAll("[data-t]").forEach((el) => { const v = t()[el.dataset.t]; if (typeof v === "string") el.textContent = v; });
+    $("loading").textContent = t().loading;
+    if (data) render();
+  }
+
+  function render() {
+    const p = data.parent, admin = data.role === "admin", L = t();
+    $("title").textContent = L.title(p.name);
+    document.title = L.title(p.name);
+    document.querySelectorAll("[data-admin]").forEach((el) => { el.hidden = !admin; });
+    $("stoppedBanner").hidden = !p.stopped; $("stoppedBanner").textContent = L.stopped(p.name);
+
+    // Week
+    const fmtDay = new Intl.DateTimeFormat(L.locale, { weekday: "short", timeZone: "UTC" });
+    $("week").replaceChildren(...data.activity.days.map((d, i, all) => {
+      const el = document.createElement("div"); el.className = "day" + (i === all.length - 1 ? " today" : "");
+      const name = document.createElement("div"); name.className = "name"; name.textContent = fmtDay.format(new Date(d.date + "T12:00:00Z"));
+      const count = document.createElement("div"); count.className = "count"; count.textContent = d.messages;
+      const ci = document.createElement("div"); ci.className = "ci " + (d.checkin || ""); ci.textContent = d.checkin ? L.ci[d.checkin] : "";
+      el.append(name, count, ci); return el;
+    }));
+    const last = data.activity.lastActiveAt;
+    $("lastActive").textContent = last ? L.lastActive(L.ago(Math.round((Date.now() - new Date(last)) / 60000))) : L.never;
+    $("missed").textContent = L.missed(data.activity.missedCheckins);
+
+    // SOS
+    const when = (iso) => new Date(iso).toLocaleString(L.locale, { dateStyle: "medium", timeStyle: "short" });
+    $("alerts").replaceChildren(...(data.alerts.length ? data.alerts.map((a) => {
+      const li = document.createElement("li"); li.textContent = L.sosRow({ ...a, when: when(a.at) }); return li;
+    }) : [Object.assign(document.createElement("li"), { textContent: L.noSos, className: "muted" })]));
+
+    // Notes
+    $("notesHint").textContent = admin ? L.notesHint(p.name) : L.notesHintViewer;
+    $("notes").replaceChildren(...(data.notes.length ? data.notes.map((n) => {
+      const li = document.createElement("li");
+      const txt = document.createElement("span"); txt.className = "grow"; txt.dir = "auto"; txt.textContent = n.text;
+      const at = document.createElement("span"); at.className = "muted";
+      at.textContent = n.passedOn ? L.notePassed(p.name, when(n.passedOn)) : L.notePending(p.name);
+      li.append(txt, at);
+      if (admin) {
+        const rm = document.createElement("button"); rm.type = "button"; rm.className = "link"; rm.textContent = L.remove;
+        rm.onclick = async () => { try { data.notes = (await api("DELETE", "notes/" + n.id)).notes; render(); } catch (e) { status($("noteStatus"), e.message, "err"); } };
+        li.append(rm);
+      }
+      return li;
+    }) : [Object.assign(document.createElement("li"), { textContent: L.noNotes, className: "muted" })]));
+
+    // Reminders
+    $("remHint").textContent = admin ? L.remHint(p.name) : L.remHintViewer(p.name);
+    const dayName = (d) => new Intl.DateTimeFormat(L.locale, { weekday: "short", timeZone: "UTC" }).format(new Date(Date.UTC(2026, 0, 4 + d, 12)));   // Jan 4 2026 is a Sunday
+    const picked = new Set([...document.querySelectorAll("#remDays input:checked")].map((i) => +i.value));
+    $("remDays").replaceChildren(...[0, 1, 2, 3, 4, 5, 6].map((d) => {
+      const lab = document.createElement("label"); const cb = document.createElement("input");
+      cb.type = "checkbox"; cb.value = d; cb.checked = picked.has(d); lab.append(cb, dayName(d)); return lab;
+    }));
+    if (!$("remBy").value && data.label && data.label !== "family") $("remBy").value = data.label;
+    const hm = (iso) => new Date(iso).toLocaleTimeString(L.locale, { hour: "2-digit", minute: "2-digit", hourCycle: "h23", timeZone: p.tz });
+    $("reminders").replaceChildren(...(data.reminders.length ? data.reminders.map((r) => {
+      const li = document.createElement("li");
+      const txt = document.createElement("span"); txt.className = "grow"; txt.dir = "auto";
+      const b = document.createElement("strong"); b.className = "ltr"; b.textContent = r.time; txt.append(b, " · " + r.text);
+      const when = document.createElement("span"); when.className = "muted";
+      when.textContent = (r.days.length ? r.days.map(dayName).join(", ") : L.everyDay) + (r.by && r.by !== "family" ? " · " + r.by : "");
+      const st = document.createElement("span");
+      st.className = "rem-state muted" + (r.sentToday ? (r.answeredAfter ? " ok" : " warn") : "");
+      st.textContent = r.sentToday ? `${L.remSent(hm(r.sentToday))}, ${r.answeredAfter ? L.remAnswered(p.name) : L.remNoAnswer(p.name)}` : L.remNotYet;
+      li.append(txt, when, st);
+      if (admin) {
+        const rm = document.createElement("button"); rm.type = "button"; rm.className = "link"; rm.textContent = L.remove;
+        rm.onclick = async () => { try { data.reminders = (await api("DELETE", "reminders/" + r.id)).reminders; render(); } catch (e) { status($("remStatus"), e.message, "err"); } };
+        li.append(rm);
+      }
+      return li;
+    }) : [Object.assign(document.createElement("li"), { textContent: L.noRem, className: "muted" })]));
+
+    // Settings
+    $("s-name").value = p.name; $("s-gender").value = p.gender || ""; $("s-lang").value = p.lang;
+    if (![...$("s-tz").options].some((o) => o.value === p.tz)) $("s-tz").append(new Option(p.tz, p.tz));
+    $("s-tz").value = p.tz; $("s-checkin").value = p.checkinTime; $("s-emergency").value = p.emergencyNumber;
+    $("s-quietStart").value = p.quietStart; $("s-quietEnd").value = p.quietEnd;
+    $("s-code").value = ""; $("codeHint").textContent = p.codeWordSet ? L.codeSet : L.codeUnset;
+    renderContacts(p.contacts, admin);
+    document.querySelectorAll("#settings input, #settings select").forEach((el) => { el.disabled = !admin; });
+
+    // Consent
+    $("consent").replaceChildren(...Object.entries(L.consent).map(([k, label]) => {
+      const li = document.createElement("li");
+      const a = document.createElement("span"); a.className = "grow"; a.textContent = label;
+      const b = document.createElement("strong"); b.textContent = p.consent[k] ? L.on : L.off;
+      li.append(a, b); return li;
+    }));
+    $("consentHint").textContent = L.consentHint(p.name);
+    $("linkHint").textContent = L.linkHint(p.name);
+  }
+
+  function renderContacts(list, admin) {
+    const L = t();
+    $("contacts").replaceChildren(...list.map((c, i) => {
+      const box = document.createElement("div"); box.className = "contact";
+      const field = (key, label, value, cls) => {
+        const wrap = document.createElement("div");
+        const id = `c-${i}-${key}`;
+        const lab = document.createElement("label"); lab.htmlFor = id; lab.textContent = label;
+        const inp = document.createElement("input"); inp.id = id; inp.value = value || ""; inp.dataset.key = key; inp.disabled = !admin;
+        if (cls) inp.className = cls;
+        if (key === "phone") { inp.type = "tel"; inp.inputMode = "tel"; }
+        wrap.append(lab, inp); return wrap;
+      };
+      const row = document.createElement("div"); row.className = "row";
+      row.append(field("name", L.cName, c.name), field("relation", L.cRel, c.relation));
+      box.append(row, field("phone", L.cPhone, c.phone, "ltr"));
+      if (admin) {
+        const rm = document.createElement("button"); rm.type = "button"; rm.className = "link"; rm.textContent = L.removeContact;
+        rm.onclick = () => { renderContacts(readContacts().filter((_, j) => j !== i), true); };
+        box.append(rm);
+      }
+      return box;
+    }));
+  }
+  const readContacts = () => [...$("contacts").children].map((box) => {
+    const get = (k) => box.querySelector(`[data-key="${k}"]`).value.trim();
+    return { name: get("name"), relation: get("relation"), phone: get("phone") };
+  });
+
+  $("addContact").onclick = () => { const list = readContacts(); if (list.length < 5) renderContacts([...list, { name: "", relation: "" }], true); };
+
+  $("settings").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const body = {
+      name: $("s-name").value, gender: $("s-gender").value, lang: $("s-lang").value, tz: $("s-tz").value,
+      checkinTime: $("s-checkin").value, quietStart: $("s-quietStart").value, quietEnd: $("s-quietEnd").value,
+      emergencyNumber: $("s-emergency").value, contacts: readContacts().filter((c) => c.name),
+    };
+    if ($("s-code").value.trim()) body.codeWord = $("s-code").value.trim();
+    try { data.parent = (await api("PUT", "settings", body)).parent; render(); status($("settingsStatus"), t().saved, "ok"); }
+    catch (err) { if (err.message !== "bad") status($("settingsStatus"), err.message, "err"); }
+  });
+
+  $("addNote").onclick = async () => {
+    const text = $("noteText").value.trim(); if (!text) return;
+    try { data.notes = (await api("POST", "notes", { text })).notes; $("noteText").value = ""; render(); status($("noteStatus"), t().noteAdded, "ok"); }
+    catch (err) { if (err.message !== "bad") status($("noteStatus"), err.message, "err"); }
+  };
+
+  $("addRem").onclick = async () => {
+    const text = $("remText").value.trim(); if (!text) { status($("remStatus"), lang === "he" ? "צריך לכתוב על מה להזכיר." : "Write what to remind about.", "err"); return; }
+    const days = [...document.querySelectorAll("#remDays input:checked")].map((i) => +i.value);
+    try {
+      data.reminders = (await api("POST", "reminders", { text, time: $("remTime").value, by: $("remBy").value.trim(), days })).reminders;
+      $("remText").value = ""; document.querySelectorAll("#remDays input").forEach((i) => { i.checked = false; });
+      render(); status($("remStatus"), t().remAdded, "ok");
+    } catch (err) { if (err.message !== "bad") status($("remStatus"), err.message, "err"); }
+  };
+
+  $("newLink").onclick = async () => {
+    const out = $("linkOut");
+    try {
+      const { link } = await api("POST", "parent-link");
+      out.className = "status"; out.replaceChildren();
+      const a = document.createElement("a"); a.href = link; a.textContent = link; a.className = "ltr"; a.style.overflowWrap = "anywhere"; a.target = "_blank";
+      const b = document.createElement("button"); b.type = "button"; b.className = "link"; b.textContent = t().copy;
+      b.onclick = () => navigator.clipboard.writeText(link).then(() => (b.textContent = t().copied));
+      out.append(a, document.createElement("br"), b);
+    } catch (err) { if (err.message !== "bad") status(out, err.message, "err"); }
+  };
+
+  $("langBtn").onclick = () => { lang = lang === "he" ? "en" : "he"; try { localStorage.setItem("companion-family-lang", lang); } catch {} applyLang(); };
+
+  applyLang();
+  if (!token) { showBad(); return; }
+  api("GET", "").then((r) => { data = r; $("loading").hidden = true; $("content").hidden = false; render(); }).catch(() => {});
+})();
+</script>
+</body>
+</html>

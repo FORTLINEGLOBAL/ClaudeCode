@@ -1,13 +1,15 @@
 // Operator endpoints, protected by COMPANION_ADMIN_KEY.
 //   POST /api/admin/parents   create a parent, returns their private chat link
 //   POST /api/admin/link      issue a new link for an existing parent
+//   POST /api/admin/family-link  issue a family page link ({id, role, label})
+//   GET  /api/admin/parents   parents (id and name only)
 //   GET  /api/admin/alerts    SOS alerts, newest first
 //   GET  /api/admin/diag      tries each model once and reports any error
 // The operator never sees the parent's private conversation here.
 import type { Config } from "@netlify/functions";
 import crypto from "node:crypto";
-import { getAlerts, getParent, issueToken, newId, saveParent } from "../../src/store.js";
-import { toMinutes } from "../../src/time.js";
+import { getAlerts, getParent, listParents, issueFamilyToken, issueToken, newId, saveParent } from "../../src/store.js";
+import { applySettings } from "../../src/settings.js";
 import { diagnose } from "../../src/llm.js";
 import type { Parent } from "../../src/types.js";
 
@@ -29,6 +31,10 @@ export default async (req: Request) => {
     return json((await getAlerts()).reverse());
   }
 
+  if (req.method === "GET" && route === "parents") {
+    return json((await listParents()).map(({ id, name, tz, createdAt }) => ({ id, name, tz, createdAt })).sort((a, b) => a.createdAt.localeCompare(b.createdAt)));
+  }
+
   if (req.method === "GET" && route === "diag") {
     return json({ apiKeySet: !!process.env.ANTHROPIC_API_KEY, models: await diagnose() });
   }
@@ -37,30 +43,21 @@ export default async (req: Request) => {
     const b = await req.json().catch(() => ({}));
     if (!b.name) return json({ error: "name is required" }, 400);
     const p: Parent = {
-      id: newId(),
-      name: String(b.name),
-      gender: b.gender === "f" || b.gender === "m" ? b.gender : undefined,
-      lang: b.lang === "he" || b.lang === "en" ? b.lang : "auto",
-      lastLang: b.lang === "en" ? "en" : "he",
-      tz: b.tz || "America/New_York",
-      checkinTime: b.checkinTime || "10:00",
-      quietStart: b.quietStart || "21:00",
-      quietEnd: b.quietEnd || "08:00",
-      emergencyNumber: b.emergencyNumber || "911",
-      codeWord: b.codeWord || undefined,
-      contacts: Array.isArray(b.contacts) ? b.contacts : [],
+      id: newId(), name: "", lang: "auto", lastLang: b.lang === "en" ? "en" : "he",
+      tz: "America/New_York", checkinTime: "10:00", quietStart: "21:00", quietEnd: "08:00", emergencyNumber: "911",
+      contacts: [],
       consent: { checkins: b.consent?.checkins ?? true, memory: b.consent?.memory ?? true, escalation: b.consent?.escalation ?? true },
       stopped: false,
       createdAt: new Date().toISOString(),
     };
     try {
-      new Intl.DateTimeFormat("en", { timeZone: p.tz });
-      [p.checkinTime, p.quietStart, p.quietEnd].forEach(toMinutes);
+      applySettings(p, b);
     } catch (e: any) {
       return json({ error: e?.message || String(e) }, 400);
     }
     await saveParent(p);
-    return json({ id: p.id, link: linkFor(req, await issueToken(p.id)) }, 201);
+    const familyLink = `${new URL(req.url).origin}/family.html#t=${await issueFamilyToken(p.id, "admin", p.contacts[0]?.name || "family")}`;
+    return json({ id: p.id, link: linkFor(req, await issueToken(p.id)), familyLink }, 201);
   }
 
   if (req.method === "POST" && route === "link") {
@@ -68,6 +65,15 @@ export default async (req: Request) => {
     const p = b.id ? await getParent(String(b.id)) : null;
     if (!p) return json({ error: "unknown parent id" }, 404);
     return json({ id: p.id, link: linkFor(req, await issueToken(p.id)) });
+  }
+
+  if (req.method === "POST" && route === "family-link") {
+    const b = await req.json().catch(() => ({}));
+    const p = b.id ? await getParent(String(b.id)) : null;
+    if (!p) return json({ error: "unknown parent id" }, 404);
+    const role = b.role === "viewer" ? "viewer" : "admin";
+    const token = await issueFamilyToken(p.id, role, String(b.label || "family").slice(0, 60));
+    return json({ id: p.id, role, familyLink: `${new URL(req.url).origin}/family.html#t=${token}` });
   }
 
   return json({ error: "not found" }, 404);
