@@ -10,7 +10,7 @@ A warm, bilingual (Hebrew and English) companion for older parents. This is phas
 | Conversation | Claude (`claude-opus-5-5`, low effort) answers in the parent's language, keeps names as they were said, and uses the right Hebrew gender. Server-side refusal fallback is on. |
 | Memory v1 | After each reply, a cheaper model (`claude-haiku-4-5`) pulls out durable facts (life story, family, routines, recent events). Corrections create a new version and keep the old one. Sensitive or low-confidence facts are checked with the parent before being relied on. |
 | Daily check-in | Every 15 minutes the scheduler checks each parent's own local time. One check-in per day, at or after their chosen time, never in quiet hours, never after STOP or without consent. |
-| SOS | Fixed, deterministic text in both languages, with the emergency number and tap-to-call. Between 08:00 and 22:00 Israel time the operator gets a WhatsApp alert, and the parent is told a person is on it only when that alert actually went out. Outside those hours the parent is told to call their family contact. It never claims emergency services were called. |
+| SOS | Fixed, deterministic text in both languages, with the emergency number and tap-to-call. Between 08:00 and 22:00 Israel time the operator gets an email (Resend) and/or WhatsApp alert, whichever is configured, and the parent is told a person is on it only when that alert actually went out. Outside those hours the parent is told to call their family contact. It never claims emergency services were called. |
 | STOP | "STOP" / "עצור" turns off messages the companion sends first; "start" / "המשך" turns them back on. |
 
 Not in this phase (see the plan): the family dashboard, digest and scam shield (phase 2), WhatsApp (phase 2b), and the real speech providers, which the phase 0 voice bake-off picks.
@@ -18,7 +18,7 @@ Not in this phase (see the plan): the family dashboard, digest and scam shield (
 ## Decisions in effect
 
 - Human safety coverage: 08:00-22:00 Israel time (`COVERAGE_*`).
-- WhatsApp: Meta Cloud API directly, no Twilio. Only operator alerts use it in this phase.
+- WhatsApp: Meta Cloud API directly, no Twilio. Only operator alerts use it in this phase; until Meta is set up, operator alerts go by email.
 - Family digest (phase 2): every category off by default except "active this week" and missed check-ins.
 
 ## Run it

@@ -5,14 +5,19 @@ import fs from "node:fs";
 import os from "node:os";
 process.env.ANTHROPIC_API_KEY ||= "test-key";
 process.chdir(fs.mkdtempSync(`${os.tmpdir()}/companion-test-`));   // local store goes to a temp dir
-for (const k of ["COMPANION_MODEL", "COMPANION_EXTRACT_MODEL", "WHATSAPP_TOKEN", "WHATSAPP_PHONE_NUMBER_ID", "OPERATOR_WHATSAPP", "NETLIFY", "NETLIFY_SITE_ID", "NETLIFY_BLOBS_CONTEXT"]) delete process.env[k];
+for (const k of ["RESEND_API_KEY", "OPERATOR_EMAIL", "ALERT_FROM_EMAIL", "COVERAGE_START", "COVERAGE_END", "COVERAGE_TZ", "COMPANION_MODEL", "COMPANION_EXTRACT_MODEL", "WHATSAPP_TOKEN", "WHATSAPP_PHONE_NUMBER_ID", "OPERATOR_WHATSAPP", "NETLIFY", "NETLIFY_SITE_ID", "NETLIFY_BLOBS_CONTEXT"]) delete process.env[k];
 
 // Stand-in for the Anthropic API, installed before the SDK client is built. It records
 // each request so the tests can check what we send, and answers like the real API.
 const calls: any[] = [];
+const resendCalls: any[] = [];
 let failMain = false;   // makes the main model fail, to test the quick-model fallback
 const realFetch = globalThis.fetch;
 globalThis.fetch = (async (url: any, init?: any) => {
+  if (String(url).includes("api.resend.com")) {
+    resendCalls.push({ headers: init.headers, body: JSON.parse(init.body) });
+    return new Response(JSON.stringify({ id: "email_test" }), { status: 200, headers: { "content-type": "application/json" } });
+  }
   if (!String(url).includes("api.anthropic.com")) return realFetch(url, init);
   const body = JSON.parse(init.body);
   calls.push({ url: String(url), headers: init.headers, body });
@@ -193,6 +198,25 @@ await t("quick fallback", async () => {
   assert.deepEqual(made, ["claude-opus-5-5", "claude-haiku-4-5"]);   // no retries of the main model; memory deferred
   const last = (await getChat(p.id)).at(-1)!;
   assert.equal(last.role, "companion"); assert.equal(last.kind, "chat");
+});
+
+// 13. SOS inside coverage with email configured: the operator gets an email and only then is the parent told
+await t("sos email", async () => {
+  const { webChannel } = await import("../src/channel.js");
+  Object.assign(process.env, { RESEND_API_KEY: "re_test", OPERATOR_EMAIL: "ops@example.com", COVERAGE_START: "00:00", COVERAGE_END: "23:59" });
+  try {
+    const p = (await getParent("p1"))!;
+    const r = await receive(p, "נפלתי", webChannel);
+    assert.equal(r.handled, true);
+    assert.equal(resendCalls.length, 1);
+    assert.deepEqual(resendCalls[0].body.to, ["ops@example.com"]);
+    assert.match(resendCalls[0].body.subject, /^SOS: SOS from רחל/);
+    assert.match(resendCalls[0].body.text, /Dana \(daughter\) \+12125550100/);
+    assert.equal((await getAlerts()).at(-1)!.operatorNotified, true);
+    assert.match((await getChat(p.id)).at(-1)!.text, /הודעתי לצוות שלנו/);
+  } finally {
+    for (const k of ["RESEND_API_KEY", "OPERATOR_EMAIL", "COVERAGE_START", "COVERAGE_END"]) delete process.env[k];
+  }
 });
 
 console.log(`${n} test groups passed`);
