@@ -1,6 +1,8 @@
 // Alerts to the human on duty (the operator), by email (Resend) and/or WhatsApp
 // (Meta Cloud API), whichever is configured. Either way the alert is also stored
 // for /api/admin/alerts.
+import { sendEmail } from "./mail.js";
+
 const API = "https://graph.facebook.com/v21.0";
 const ALERT_TIMEOUT_MS = 4000;   // the parent is waiting on the SOS reply
 
@@ -22,26 +24,14 @@ export async function notifyOperator(text: string): Promise<boolean> {
 }
 
 async function byEmail(text: string): Promise<boolean> {
-  const key = process.env.RESEND_API_KEY, to = process.env.OPERATOR_EMAIL;
-  if (!key || !to) return false;
-  try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { authorization: `Bearer ${key}`, "content-type": "application/json" },
-      body: JSON.stringify({
-        from: process.env.ALERT_FROM_EMAIL || "Companion <onboarding@resend.dev>",
-        to: to.split(",").map((x) => x.trim()).filter(Boolean),
-        subject: `SOS: ${text.split("\n")[0].slice(0, 120)}`,
-        text,
-      }),
-      signal: AbortSignal.timeout(ALERT_TIMEOUT_MS),
-    });
-    if (!res.ok) console.error("operator email failed", res.status, await res.text());
-    return res.ok;
-  } catch (e) {
-    console.error("operator email threw", e);
-    return false;
-  }
+  const to = process.env.OPERATOR_EMAIL;
+  if (!process.env.RESEND_API_KEY || !to) return false;
+  const r = await sendEmail({
+    to: to.split(",").map((x) => x.trim()).filter(Boolean),
+    subject: `SOS: ${text.split("\n")[0].slice(0, 120)}`,
+    text, timeoutMs: ALERT_TIMEOUT_MS,
+  });
+  return r.ok;
 }
 
 async function byWhatsApp(text: string): Promise<boolean> {

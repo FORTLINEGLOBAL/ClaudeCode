@@ -31,7 +31,14 @@ export interface Parent {
   consent: Consent;
   stopped: boolean;          // parent said STOP / עצור: no proactive messages
   lastCheckinDate?: string;  // local YYYY-MM-DD of the last check-in sent
+  digest?: Digest;           // weekly email to the family
   createdAt: string;
+}
+
+export interface Digest {
+  emails: string[];          // empty = off
+  lang: Lang;
+  lastSentDate?: string;     // parent-local date it was last sent
 }
 
 export type MsgKind = "chat" | "checkin" | "sos" | "system" | "reminder";

@@ -44,5 +44,14 @@ export function applySettings(p: Parent, b: Record<string, any>): Parent {
       return { name: str(c?.name, 60), relation: str(c?.relation, 40), ...(phone ? { phone } : {}) };
     }).filter((c: Contact) => c.name);
   }
+  if ("digestEmails" in b || "digestLang" in b) {
+    const raw: unknown[] = Array.isArray(b.digestEmails) ? b.digestEmails : String(b.digestEmails ?? "").split(/[,;\s]+/);
+    const emails = [...new Set(raw.map((e) => str(e, 120).toLowerCase()).filter(Boolean))];
+    if (emails.length > 5) throw new SettingsError("Up to 5 email addresses.", "אפשר עד 5 כתובות מייל.");
+    const bad = emails.find((e) => !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e));
+    if (bad) throw new SettingsError(`"${bad}" is not an email address.`, `"${bad}" היא לא כתובת מייל תקינה.`);
+    const lang = b.digestLang === "en" ? "en" : b.digestLang === "he" ? "he" : p.digest?.lang ?? "he";
+    p.digest = { ...p.digest, emails, lang };
+  }
   return p;
 }

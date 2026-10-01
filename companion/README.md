@@ -17,7 +17,9 @@ Family page: `/family.html#t=...` shows the parent's week (messages per day, che
 
 Reminders: an admin family link can set reminders (text, time in the parent's local time, optional weekdays, and who it is from). The scheduled `checkin` function sends each one word for word when due, once a day, up to 45 minutes late; STOP pauses them. The family page shows whether today's reminder went out and whether the parent wrote after it.
 
-Not in this phase (see the plan): family logins with passkeys, the digest and scam shield (phase 2), WhatsApp (phase 2b), and the real speech providers, which the phase 0 voice bake-off picks.
+Weekly email: on the family page, up to 5 addresses and a language. Every Sunday at 09:00 in the parent's time zone the scheduled function emails the past 7 days: days with a conversation, message counts, check-ins answered or missed, last activity. Never message text. A "send a sample now" button tests it. It goes out through Resend (`RESEND_API_KEY`); to reach anyone other than the Resend account's own address, verify a domain in Resend and set `ALERT_FROM_EMAIL` to a sender on it.
+
+Not in this phase (see the plan): family logins with passkeys, the other digest categories and scam shield (phase 2), WhatsApp (phase 2b), and the real speech providers, which the phase 0 voice bake-off picks.
 
 ## Decisions in effect
 

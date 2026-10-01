@@ -5,10 +5,12 @@
 //   DELETE /api/family/notes/:id       admin: remove a note the family added
 //   POST   /api/family/reminders       admin: a reminder sent word for word at a set time ({text, time, days})
 //   DELETE /api/family/reminders/:id   admin: remove a reminder
+//   POST   /api/family/digest-test     admin: send the weekly email now, to the saved addresses
 //   POST   /api/family/parent-link     admin: a new private chat link for the parent
 // The private conversation is never returned here.
 import type { Config } from "@netlify/functions";
 import { familyForToken, getAlerts, getChat, getFacts, getParent, getReminders, issueToken, newId, saveFacts, saveParent, saveReminders } from "../../src/store.js";
+import { sendDigest } from "../../src/digest.js";
 import { MAX_REMINDERS, familyReminders, newReminder } from "../../src/reminders.js";
 import { familyAlerts, familyNotes, familyView, weeklyActivity } from "../../src/family.js";
 import { applySettings } from "../../src/settings.js";
@@ -81,6 +83,13 @@ export default async (req: Request) => {
     if (rest.length === list.length) return json({ error: "Reminder not found.", errorHe: "התזכורת לא נמצאה." }, 404);
     await saveReminders(p.id, rest);
     return json({ reminders: familyReminders(rest, p, await getChat(p.id)) });
+  }
+
+  if (req.method === "POST" && route === "digest-test") {
+    if (!p.digest?.emails.length) return json({ error: "Add an email address and save first.", errorHe: "צריך להוסיף כתובת מייל ולשמור קודם." }, 400);
+    const r = await sendDigest(p);
+    if (!r.ok) return json({ error: `The email was not sent (${r.error}).`, errorHe: `המייל לא נשלח (${r.error}).` }, 502);
+    return json({ ok: true, to: p.digest.emails });
   }
 
   if (req.method === "POST" && route === "parent-link") {

@@ -365,4 +365,53 @@ await t("reminders", async () => {
   assert.equal((await (await call(viewer, "GET", "")).json()).reminders.length, 2);
 });
 
+// 18. weekly email: Sunday 09:00 local, counts only, settings validation, test send
+await t("weekly email", async () => {
+  const { digestDue, digestWeek, digestEmail, sendDigestIfDue } = await import("../src/digest.js");
+  const { applySettings } = await import("../src/settings.js");
+  const { appendChat } = await import("../src/store.js");
+  const p = parent({ id: "dig1", name: "אנה", tz: "Asia/Jerusalem" });
+  assert.throws(() => applySettings(p, { digestEmails: "not-an-email" }));
+  assert.throws(() => applySettings(p, { digestEmails: "a@x.co,b@x.co,c@x.co,d@x.co,e@x.co,f@x.co" }));
+  applySettings(p, { digestEmails: "Dana@Example.com; forti@example.com", digestLang: "he" });
+  assert.deepEqual(p.digest!.emails, ["dana@example.com", "forti@example.com"]);
+  await saveParent(p);
+  // 2026-10-04 is a Sunday; Israel is UTC+3
+  assert.ok(!digestDue(p, new Date("2026-10-04T05:59:00Z")));   // 08:59
+  assert.ok(digestDue(p, new Date("2026-10-04T06:05:00Z")));    // 09:05
+  assert.ok(!digestDue(p, new Date("2026-10-05T06:05:00Z")));   // Monday
+  await appendChat(p.id,
+    { id: "d1", role: "companion", text: "בוקר טוב", at: "2026-09-29T07:00:00Z", kind: "checkin" },
+    { id: "d2", role: "parent", text: "סוד גדול", at: "2026-09-29T08:00:00Z", kind: "chat" },
+    { id: "d3", role: "companion", text: "בוקר טוב", at: "2026-09-30T07:00:00Z", kind: "checkin" },
+    { id: "d4", role: "companion", text: "בוקר טוב", at: "2026-10-01T07:00:00Z", kind: "checkin" },
+    { id: "d5", role: "parent", text: "היום בשוק", at: "2026-10-04T06:00:00Z", kind: "chat" },   // Sunday itself: next week
+  );
+  const week = digestWeek(p, await getChat(p.id), new Date("2026-10-04T06:05:00Z"));
+  assert.equal(week.days[0].date, "2026-09-27"); assert.equal(week.days.at(-1)!.date, "2026-10-03");
+  assert.equal(week.missedCheckins, 2);
+  const mail = digestEmail(p, week, "he");
+  assert.match(mail.text, /ימים עם שיחה: 1 מתוך 7/);
+  assert.match(mail.text, /צ'ק-אינים: 1 נענו מתוך 3/);
+  assert.match(mail.text, /להתקשר/);
+  assert.ok(!mail.text.includes("סוד") && !mail.html.includes("סוד"));
+  assert.match(mail.html, /dir="rtl"/);
+
+  process.env.RESEND_API_KEY = "re_test";
+  resendCalls.length = 0;
+  assert.equal(await sendDigestIfDue(p, new Date("2026-10-04T06:05:00Z")), true);
+  assert.equal(await sendDigestIfDue(p, new Date("2026-10-04T06:20:00Z")), false);   // once
+  assert.equal(resendCalls.length, 1);
+  assert.deepEqual(resendCalls[0].body.to, ["dana@example.com", "forti@example.com"]);
+  assert.equal(resendCalls[0].body.subject, "אנה: השבוע בקצרה");
+
+  const { default: family } = await import("../netlify/functions/family.js");
+  const { issueFamilyToken } = await import("../src/store.js");
+  const admin = await issueFamilyToken(p.id, "admin", "family");
+  const res = await family(new Request("https://x.test/api/family/digest-test", { method: "POST", headers: { "x-family-token": admin } }), {} as any);
+  assert.equal(res.status, 200);
+  assert.equal(resendCalls.length, 2);
+  delete process.env.RESEND_API_KEY;
+});
+
 console.log(`${n} test groups passed`);

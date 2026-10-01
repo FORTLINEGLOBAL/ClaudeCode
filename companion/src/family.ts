@@ -48,7 +48,8 @@ export function weeklyActivity(p: Parent, log: Msg[], now: Date = new Date()): A
 /** Settings the family page shows. Consent is shown but not changed here: only the parent decides it. */
 export function familyView(p: Parent) {
   const { name, gender, lang, tz, checkinTime, quietStart, quietEnd, emergencyNumber, contacts, consent, stopped } = p;
-  return { name, gender: gender ?? null, lang, tz, checkinTime, quietStart, quietEnd, emergencyNumber, codeWordSet: !!p.codeWord, contacts, consent, stopped };
+  const digest = { emails: p.digest?.emails ?? [], lang: p.digest?.lang ?? "he" };
+  return { name, gender: gender ?? null, lang, tz, checkinTime, quietStart, quietEnd, emergencyNumber, codeWordSet: !!p.codeWord, contacts, consent, stopped, digest };
 }
 
 /** SOS alerts for the family: when, and whether a person was alerted. The words stay private. */
