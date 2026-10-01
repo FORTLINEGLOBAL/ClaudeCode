@@ -1,14 +1,15 @@
 // WhatsApp message templates, for writing first outside the 24-hour window. Each must be
 // submitted in WhatsApp Manager under exactly this name, with these bodies, in Hebrew
 // ("he") and English ("en_US"), as Utility. The chat log records the same text.
+// The check-in is worded as a service notice: Meta reclassifies a chatty greeting as Marketing.
 import type { Lang } from "./types.js";
 
 export type TemplateName = "companion_checkin" | "companion_reminder";
 
 export const TEMPLATE_BODIES: Record<TemplateName, Record<Lang, string>> = {
   companion_checkin: {
-    he: "בוקר טוב {{1}}! מה נשמע היום? אפשר לענות כאן בהודעה.",
-    en: "Good morning {{1}}! How is your day going? You can reply right here.",
+    he: "שלום {{1}}, זו הודעת הבדיקה היומית שלך. אפשר לענות כאן כדי שנדע שהכול בסדר.",
+    en: "Hi {{1}}, this is your scheduled daily check-in. Please reply here so we know you are okay.",
   },
   companion_reminder: {
     he: "⏰ תזכורת מ{{1}} לשעה {{2}}: {{3}}. אפשר לענות כאן בהודעה.",
