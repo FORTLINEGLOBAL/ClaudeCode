@@ -1,7 +1,13 @@
-// Scheduled every 15 minutes (netlify.toml). Scheduled functions get 30 seconds,
-// so the check-ins themselves run in the background worker.
-import { dispatch } from "../../src/internal.js";
+// Scheduled every 15 minutes (netlify.toml): sends each parent's daily check-in when due.
+import { listParents } from "../../src/store.js";
+import { checkIn } from "../../src/companion.js";
+import { checkinDue } from "../../src/policy.js";
+import { webChannel } from "../../src/channel.js";
 
 export default async () => {
-  await dispatch({ kind: "checkins" });
+  for (const p of await listParents()) {
+    if (!checkinDue(p)) continue;
+    try { await checkIn(p, webChannel); }
+    catch (e) { console.error(`check-in failed for ${p.id}`, e); }
+  }
 };

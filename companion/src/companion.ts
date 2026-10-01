@@ -16,7 +16,7 @@ export type Inbound = { handled: true } | { handled: false; parentMsgId: string 
 /**
  * Fast path, run inside the request (seconds): records the parent's message and
  * answers STOP/START and SOS with fixed text. Anything that needs a model is
- * left to `converse`, which runs in the background.
+ * left to `converse`.
  */
 export async function receive(p: Parent, text: string, ch: Channel): Promise<Inbound> {
   const lang = chooseLang(text, p.lang, p.lastLang);
@@ -51,8 +51,11 @@ export async function receive(p: Parent, text: string, ch: Channel): Promise<Inb
   return { handled: false, parentMsgId: m.id };
 }
 
-/** Slow path (background): the companion's reply, then memory. */
-export async function converse(p: Parent, parentMsgId: string, ch: Channel): Promise<void> {
+/**
+ * The companion's reply, then memory. `defer` lets the web request return as soon
+ * as the reply is delivered and finish the memory step afterwards.
+ */
+export async function converse(p: Parent, parentMsgId: string, ch: Channel, defer: (work: Promise<void>) => void | Promise<void> = (w) => w): Promise<void> {
   const history = await getChat(p.id);
   const last = [...history].reverse().find((m) => m.role === "parent");
   // Per-parent serialization: if they already wrote again, the newer turn answers both.
@@ -73,12 +76,14 @@ export async function converse(p: Parent, parentMsgId: string, ch: Channel): Pro
   await ch.deliver(p, msg("companion", text, "chat", lang));
 
   if (!p.consent.memory) return;
-  try {
-    const found = await extractFacts(p, facts, last.text, text);
-    if (found.length) await saveFacts(p.id, mergeFacts(facts, found, lang));
-  } catch (e) {
-    console.error("memory extraction failed (conversation unaffected)", e);
-  }
+  await defer((async () => {
+    try {
+      const found = await extractFacts(p, facts, last.text, text);
+      if (found.length) await saveFacts(p.id, mergeFacts(facts, found, lang));
+    } catch (e) {
+      console.error("memory extraction failed (conversation unaffected)", e);
+    }
+  })());
 }
 
 /** Corrections create a new version; the old fact is kept and marked superseded. */

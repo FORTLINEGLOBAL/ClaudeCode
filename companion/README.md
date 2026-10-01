@@ -32,7 +32,7 @@ ANTHROPIC_API_KEY=... npm run chat:local -- he   # talk to it in the terminal
 ## Deploy on Netlify
 
 1. In Netlify, import this repository and set the base directory to `companion`.
-2. Add the environment variables from `.env.example`. `ANTHROPIC_API_KEY`, `COMPANION_ADMIN_KEY` and `COMPANION_INTERNAL_SECRET` are required.
+2. Add the environment variables from `.env.example`. `ANTHROPIC_API_KEY` and `COMPANION_ADMIN_KEY` are required.
 3. Create a parent and get their private link:
 
 ```bash
@@ -50,10 +50,10 @@ Send the returned `link` to the parent. The token sits after `#`, so it never re
 
 ```
 src/policy.ts      deterministic rules: language, SOS, STOP, coverage, check-in timing, fixed replies
-src/companion.ts   the core: fast path (SOS, STOP) in the request, conversation and memory in the background
+src/companion.ts   the core: SOS and STOP answered with fixed text, then the conversation and memory
 src/llm.ts         every Claude call
 src/channel.ts     the channel interface; the web chat is the first implementation
 src/store.ts       Netlify Blobs, one key prefix per parent
-netlify/functions  chat (web), turn-background (replies, check-ins), checkin (schedule), admin
+netlify/functions  chat (web, replies within the request), checkin (schedule), admin
 public/index.html  the chat page
 ```

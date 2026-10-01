@@ -1,14 +1,14 @@
 // The parent's web chat. GET returns the conversation (polled by the page),
-// POST sends a message. The access link's token identifies the parent.
-import type { Config } from "@netlify/functions";
+// POST sends a message and returns once the companion's reply is in the log.
+// The access link's token identifies the parent.
+import type { Config, Context } from "@netlify/functions";
 import { getChat, parentForToken, saveParent } from "../../src/store.js";
-import { receive } from "../../src/companion.js";
+import { converse, receive } from "../../src/companion.js";
 import { webChannel } from "../../src/channel.js";
-import { dispatch } from "../../src/internal.js";
 
 const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json", "cache-control": "no-store" } });
 
-export default async (req: Request) => {
+export default async (req: Request, context: Context) => {
   const token = req.headers.get("x-companion-token") || "";
   const p = await parentForToken(token);
   if (!p) return json({ error: "This link is not valid. Please ask your family for a new one." }, 401);
@@ -38,8 +38,9 @@ export default async (req: Request) => {
   const text = (body.text || "").trim().slice(0, 4000);
   if (!text) return json({ error: "empty message" }, 400);
   const r = await receive(p, text, webChannel);
-  if (!r.handled) await dispatch({ kind: "turn", parentId: p.id, parentMsgId: r.parentMsgId });
-  return json({ ok: true, pending: !r.handled });
+  // The reply is written inside this request; memory is finished after the response.
+  if (!r.handled) await converse(p, r.parentMsgId, webChannel, (work) => context.waitUntil(work));
+  return json({ ok: true });
 };
 
 export const config: Config = { path: "/api/chat" };

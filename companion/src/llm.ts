@@ -53,7 +53,21 @@ function toMessages(history: Msg[]): Anthropic.Beta.BetaMessageParam[] {
   return recent.map((m) => ({ role: m.role === "parent" ? "user" : "assistant", content: m.text }));
 }
 
+// Replies run inside the web request, so each call has a time budget and no retries.
+// If the main model runs out of time, a fast model answers instead.
+const MAIN_BUDGET_MS = 7000;
+const QUICK_BUDGET_MS = 4000;
+
 async function ask(system: string, messages: Anthropic.Beta.BetaMessageParam[]): Promise<string | null> {
+  try {
+    return await askMain(system, messages);
+  } catch (e) {
+    console.error("main model failed or timed out, using the quick model", e);
+    return askQuick(system, messages);
+  }
+}
+
+async function askMain(system: string, messages: Anthropic.Beta.BetaMessageParam[]): Promise<string | null> {
   const res = await client.beta.messages.create({
     model: MODEL,
     max_tokens: 16000,
@@ -65,7 +79,19 @@ async function ask(system: string, messages: Anthropic.Beta.BetaMessageParam[]):
       { type: "text", text: system },
     ],
     messages,
-  });
+  }, { timeout: MAIN_BUDGET_MS, maxRetries: 0 });
+  if (res.stop_reason === "refusal") return null;
+  const text = res.content.flatMap((b) => (b.type === "text" ? [b.text] : [])).join("").trim();
+  return text || null;
+}
+
+async function askQuick(system: string, messages: Anthropic.Beta.BetaMessageParam[]): Promise<string | null> {
+  const res = await client.messages.create({
+    model: EXTRACT_MODEL,
+    max_tokens: 1024,
+    system: `${RULES}\n\n${system}`,
+    messages: messages as Anthropic.MessageParam[],
+  }, { timeout: QUICK_BUDGET_MS, maxRetries: 0 });
   if (res.stop_reason === "refusal") return null;
   const text = res.content.flatMap((b) => (b.type === "text" ? [b.text] : [])).join("").trim();
   return text || null;

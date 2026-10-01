@@ -10,11 +10,15 @@ for (const k of ["WHATSAPP_TOKEN", "WHATSAPP_PHONE_NUMBER_ID", "OPERATOR_WHATSAP
 // Stand-in for the Anthropic API, installed before the SDK client is built. It records
 // each request so the tests can check what we send, and answers like the real API.
 const calls: any[] = [];
+let failMain = false;   // makes the main model fail, to test the quick-model fallback
 const realFetch = globalThis.fetch;
 globalThis.fetch = (async (url: any, init?: any) => {
   if (!String(url).includes("api.anthropic.com")) return realFetch(url, init);
   const body = JSON.parse(init.body);
   calls.push({ url: String(url), headers: init.headers, body });
+  if (failMain && body.model === "claude-opus-5-5") {
+    return new Response(JSON.stringify({ type: "error", error: { type: "overloaded_error", message: "test" } }), { status: 529, headers: { "content-type": "application/json" } });
+  }
   const text = body.output_config?.format
     ? JSON.stringify({ facts: [{ kind: "recent", text: "Baked a cake today", confidence: 0.9, sensitive: false, replaces: null }] })
     : "What kind of cake did you bake?";
@@ -171,6 +175,24 @@ await t("check-in", async () => {
   assert.equal(last.kind, "checkin"); assert.equal(last.lang, "he");
   assert.equal((await getParent("p1"))?.lastCheckinDate, localNow(p.tz).date);
   assert.match(calls.at(-1).body.messages.at(-1).content, /daily check-in time/);
+});
+
+
+// 12. the main model fails: the quick model answers in one try, so the page still gets a reply
+await t("quick fallback", async () => {
+  const { webChannel } = await import("../src/channel.js");
+  const { converse } = await import("../src/companion.js");
+  const p = (await getParent("p1"))!;
+  const r = await receive(p, "Tell me something nice", webChannel);
+  assert.equal(r.handled, false);
+  failMain = true;
+  const before = calls.length;
+  try { await converse(p, (r as { parentMsgId: string }).parentMsgId, webChannel, () => {}); }
+  finally { failMain = false; }
+  const made = calls.slice(before).map((c) => c.body.model);
+  assert.deepEqual(made, ["claude-opus-5-5", "claude-haiku-4-5"]);   // no retries of the main model; memory deferred
+  const last = (await getChat(p.id)).at(-1)!;
+  assert.equal(last.role, "companion"); assert.equal(last.kind, "chat");
 });
 
 console.log(`${n} test groups passed`);
