@@ -42,6 +42,8 @@ curl -X POST https://YOUR-SITE.netlify.app/api/admin/parents \
        "emergencyNumber":"911","contacts":[{"name":"Dana","relation":"daughter","phone":"+12125550100"}]}'
 ```
 
+Or open `/admin.html` on the site, enter the admin key, and fill in the form; it returns the same link and lists SOS alerts.
+
 Send the returned `link` to the parent. The token sits after `#`, so it never reaches server logs. `POST /api/admin/link` with `{"id": "..."}` issues a new link, and `GET /api/admin/alerts` lists SOS alerts. The operator endpoints never show the private conversation.
 
 ## Layout
