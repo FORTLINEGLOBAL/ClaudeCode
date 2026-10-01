@@ -5,7 +5,7 @@ import fs from "node:fs";
 import os from "node:os";
 process.env.ANTHROPIC_API_KEY ||= "test-key";
 process.chdir(fs.mkdtempSync(`${os.tmpdir()}/companion-test-`));   // local store goes to a temp dir
-for (const k of ["WHATSAPP_TOKEN", "WHATSAPP_PHONE_NUMBER_ID", "OPERATOR_WHATSAPP", "NETLIFY", "NETLIFY_SITE_ID", "NETLIFY_BLOBS_CONTEXT"]) delete process.env[k];
+for (const k of ["COMPANION_MODEL", "COMPANION_EXTRACT_MODEL", "WHATSAPP_TOKEN", "WHATSAPP_PHONE_NUMBER_ID", "OPERATOR_WHATSAPP", "NETLIFY", "NETLIFY_SITE_ID", "NETLIFY_BLOBS_CONTEXT"]) delete process.env[k];
 
 // Stand-in for the Anthropic API, installed before the SDK client is built. It records
 // each request so the tests can check what we send, and answers like the real API.
