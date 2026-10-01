@@ -9,6 +9,7 @@ import { notifyOperator } from "./operator.js";
 import { familyScamEmail, isNo, isYes, scamCheck, scamReply, type Signal } from "./scam.js";
 import { sendEmail } from "./mail.js";
 import { localNow } from "./time.js";
+import { renderTemplate, type TemplateUse } from "./templates.js";
 
 const now = () => new Date().toISOString();
 const msg = (role: Msg["role"], text: string, kind: Msg["kind"], lang?: Lang): Msg => ({ id: newId(), role, text, at: now(), kind, lang });
@@ -147,8 +148,16 @@ export function mergeFacts(facts: Fact[], found: Candidate[], lang: Lang): Fact[
 
 /** Daily check-in for one parent. The caller has already checked `checkinDue`. */
 export async function checkIn(p: Parent, ch: Channel): Promise<void> {
-  if (!ch.canSendFreeform(p)) return;   // WhatsApp outside the window will use a template (phase 2b)
   const lang: Lang = p.lang === "auto" ? p.lastLang : p.lang;
+  if (!ch.canSendFreeform(p)) {
+    // WhatsApp outside the 24h window: only the approved template, no model text.
+    if (!ch.canSendTemplate(p)) return;
+    const t: TemplateUse = { name: "companion_checkin", params: [p.name] };
+    await ch.deliver(p, msg("companion", renderTemplate(t, lang), "checkin", lang), t);
+    p.lastCheckinDate = localNow(p.tz).date;
+    await saveParent(p);
+    return;
+  }
   const facts = await getFacts(p.id);
   const fresh = freshFamilyNotes(facts).map((f) => f.id);
   const r = await checkinOrNull(p, facts, await getChat(p.id), lang);

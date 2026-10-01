@@ -44,6 +44,11 @@ export function applySettings(p: Parent, b: Record<string, any>): Parent {
       return { name: str(c?.name, 60), relation: str(c?.relation, 40), ...(phone ? { phone } : {}) };
     }).filter((c: Contact) => c.name);
   }
+  if ("whatsapp" in b) {
+    const w = str(b.whatsapp, 25).replace(/[\s()-]/g, "");
+    if (w && !/^\+?[1-9][0-9]{7,14}$/.test(w)) throw new SettingsError(`WhatsApp number "${b.whatsapp}" should include the country code, e.g. +972501234567.`, `מספר הוואטסאפ "${b.whatsapp}" צריך לכלול קידומת מדינה, למשל 972501234567+.`);
+    p.whatsapp = w ? "+" + w.replace(/^\+/, "") : undefined;
+  }
   if ("digestEmails" in b || "digestLang" in b) {
     const raw: unknown[] = Array.isArray(b.digestEmails) ? b.digestEmails : String(b.digestEmails ?? "").split(/[,;\s]+/);
     const emails = [...new Set(raw.map((e) => str(e, 120).toLowerCase()).filter(Boolean))];

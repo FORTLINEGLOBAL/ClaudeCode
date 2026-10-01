@@ -28,7 +28,7 @@ export function reminderText(r: Reminder, lang: Lang): string {
 
 /** Sends every reminder that is due now. STOP pauses reminders like any message we start. */
 export async function sendDueReminders(p: Parent, ch: Channel, at: Date = new Date()): Promise<number> {
-  if (p.stopped || !ch.canSendFreeform(p)) return 0;
+  if (p.stopped || (!ch.canSendFreeform(p) && !ch.canSendTemplate(p))) return 0;
   const list = await getReminders(p.id);
   const due = list.filter((r) => reminderDue(r, p, at));
   if (!due.length) return 0;
@@ -36,7 +36,8 @@ export async function sendDueReminders(p: Parent, ch: Channel, at: Date = new Da
   const today = localNow(p.tz, at).date;
   for (const r of due) {
     const m: Msg = { id: newId(), role: "companion", text: reminderText(r, lang), at: at.toISOString(), kind: "reminder", lang };
-    await ch.deliver(p, m);
+    const family = !r.by || r.by === "family";
+    await ch.deliver(p, m, { name: "companion_reminder", params: [family ? (lang === "he" ? "המשפחה" : "your family") : r.by, r.time, r.text] });
     r.lastSentDate = today; r.lastSentAt = m.at;
   }
   await saveReminders(p.id, list);
