@@ -12,8 +12,8 @@ export const TEMPLATE_BODIES: Record<TemplateName, Record<Lang, string>> = {
     en: "Reminder: this is your scheduled daily check-in, {{1}}. Please reply to this message to confirm.",
   },
   companion_reminder: {
-    he: "⏰ תזכורת מ{{1}} לשעה {{2}}: {{3}}. אפשר לענות כאן בהודעה.",
-    en: "⏰ A reminder from {{1}} for {{2}}: {{3}}. You can reply right here.",
+    he: "תזכורת מאת {{1}}, מתוזמנת לשעה {{2}}: {{3}}. נא להשיב להודעה זו כדי לאשר.",
+    en: "Reminder from {{1}}, scheduled for {{2}}: {{3}}. Please reply to this message to confirm.",
   },
 };
 
