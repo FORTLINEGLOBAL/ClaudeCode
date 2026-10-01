@@ -8,8 +8,8 @@ export type TemplateName = "companion_checkin" | "companion_reminder";
 
 export const TEMPLATE_BODIES: Record<TemplateName, Record<Lang, string>> = {
   companion_checkin: {
-    he: "שלום {{1}}, זו הודעת הבדיקה היומית שלך. אפשר לענות כאן כדי שנדע שהכול בסדר.",
-    en: "Hi {{1}}, this is your scheduled daily check-in. Please reply here so we know you are okay.",
+    he: "תזכורת: זו הבדיקה היומית המתוזמנת שלך, {{1}}. אפשר להשיב להודעה זו כדי לאשר.",
+    en: "Reminder: this is your scheduled daily check-in, {{1}}. Please reply to this message to confirm.",
   },
   companion_reminder: {
     he: "⏰ תזכורת מ{{1}} לשעה {{2}}: {{3}}. אפשר לענות כאן בהודעה.",

@@ -524,7 +524,7 @@ await t("whatsapp", async () => {
   assert.equal(waCalls[0].type, "template");
   assert.equal(waCalls[0].template.name, "companion_checkin"); assert.equal(waCalls[0].template.language.code, "he");
   assert.deepEqual(waCalls[0].template.components[0].parameters, [{ type: "text", text: "אנה" }]);
-  assert.equal((await getChat(p.id)).at(-1)!.text, "שלום אנה, זו הודעת הבדיקה היומית שלך. אפשר לענות כאן כדי שנדע שהכול בסדר.");
+  assert.equal((await getChat(p.id)).at(-1)!.text, "תזכורת: זו הבדיקה היומית המתוזמנת שלך, אנה. אפשר להשיב להודעה זו כדי לאשר.");
 
   for (const k of ["WHATSAPP_TOKEN", "WHATSAPP_PHONE_NUMBER_ID", "WHATSAPP_APP_SECRET", "WHATSAPP_VERIFY_TOKEN", "WHATSAPP_TEMPLATES_APPROVED"]) delete process.env[k];
   assert.equal(channelFor(p).name, "web");   // not configured: stays on the web chat
