@@ -3,13 +3,17 @@
 import type { Channel } from "./channel.js";
 import type { Fact, Lang, Msg, Parent } from "./types.js";
 import { addAlert, getChat, getFacts, newId, saveFacts, saveParent } from "./store.js";
-import { chooseLang, isSos, isStart, isStop, sosReply, startReply, stopReply, withinCoverage } from "./policy.js";
+import { chooseLang, g, isSos, isStart, isStop, sosReply, startReply, stopReply, withinCoverage } from "./policy.js";
 import { SORRY, checkinFallback, checkinOrNull, extractFacts, freshFamilyNotes, replyOrNull, type Candidate } from "./llm.js";
 import { notifyOperator } from "./operator.js";
+import { familyScamEmail, isNo, isYes, scamCheck, scamReply, type Signal } from "./scam.js";
+import { sendEmail } from "./mail.js";
 import { localNow } from "./time.js";
 
 const now = () => new Date().toISOString();
 const msg = (role: Msg["role"], text: string, kind: Msg["kind"], lang?: Lang): Msg => ({ id: newId(), role, text, at: now(), kind, lang });
+
+const OFFER_TTL_MS = 60 * 60 * 1000;   // a "yes" an hour later is about something else
 
 export type Inbound = { handled: true } | { handled: false; parentMsgId: string };
 
@@ -33,6 +37,38 @@ export async function receive(p: Parent, text: string, ch: Channel): Promise<Inb
     }
     await addAlert({ id: newId(), parentId: p.id, kind: "sos", text, at: m.at, withinCoverage: covered, operatorNotified: notified });
     await ch.deliver(p, msg("companion", sosReply(p, lang, notified), "sos", lang));
+    await saveParent(p);
+    return { handled: true };
+  }
+
+  // An answer to "shall I tell your family?" after a scam warning.
+  const offer = p.scamOffer;
+  if (offer && Date.now() - new Date(offer.at).getTime() < OFFER_TTL_MS && (isYes(text) || isNo(text))) {
+    p.scamOffer = undefined;
+    await ch.deliver(p, msg("parent", text, "scam", lang));
+    let answer: string;
+    if (isYes(text)) {
+      const mail = familyScamEmail(p, offer.signals as Signal[], p.digest?.lang ?? lang);
+      const r = await sendEmail({ to: p.digest?.emails ?? [], ...mail });
+      answer = r.ok
+        ? (lang === "he" ? "כתבתי למשפחה. הם יבדקו איתך. עד אז, לא לשלם ולא למסור שום קוד." : "I've written to your family, and they'll check with you. Until then, don't pay or share any code.")
+        : (lang === "he" ? `לא הצלחתי לשלוח למשפחה. בבקשה ${g(p, "תתקשר", "תתקשרי")} אליהם${p.contacts[0]?.phone ? ` (${p.contacts[0].name}: ${p.contacts[0].phone})` : ""}.` : `I couldn't reach your family. Please call them${p.contacts[0]?.phone ? ` (${p.contacts[0].name}: ${p.contacts[0].phone})` : ""}.`);
+    } else {
+      answer = lang === "he" ? `בסדר. אם ${g(p, "תרצה", "תרצי")}, אפשר לבדוק את זה יחד בכל רגע.` : "Okay. If you want, we can look at it together any time.";
+    }
+    await ch.deliver(p, msg("companion", answer, "scam", lang));
+    await saveParent(p);
+    return { handled: true };
+  }
+
+  const scam = scamCheck(text);
+  if (scam.suspect) {
+    const m = msg("parent", text, "scam", lang);
+    await ch.deliver(p, m);
+    const canAlert = !!p.digest?.emails.length && !!process.env.RESEND_API_KEY;
+    await ch.deliver(p, msg("companion", scamReply(p, lang, scam.signals, canAlert), "scam", lang));
+    p.scamOffer = canAlert ? { at: m.at, signals: scam.signals } : undefined;
+    await addAlert({ id: newId(), parentId: p.id, kind: "scam", text: scam.signals.join(", "), at: m.at, withinCoverage: false, operatorNotified: false });
     await saveParent(p);
     return { handled: true };
   }

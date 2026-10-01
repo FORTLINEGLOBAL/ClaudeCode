@@ -54,7 +54,7 @@ export function familyView(p: Parent) {
 
 /** SOS alerts for the family: when, and whether a person was alerted. The words stay private. */
 export function familyAlerts(alerts: Alert[], parentId: string) {
-  return alerts.filter((a) => a.parentId === parentId).reverse().slice(0, 20)
+  return alerts.filter((a) => a.parentId === parentId && a.kind === "sos").reverse().slice(0, 20)
     .map(({ at, withinCoverage, operatorNotified }) => ({ at, withinCoverage, operatorNotified }));
 }
 

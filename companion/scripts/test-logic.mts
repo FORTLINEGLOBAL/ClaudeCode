@@ -414,4 +414,49 @@ await t("weekly email", async () => {
   delete process.env.RESEND_API_KEY;
 });
 
+// 19. scam shield: precise detection, fixed warning, family told only when the parent says yes
+await t("scam shield", async () => {
+  const { scamCheck } = await import("../src/scam.js");
+  const { webChannel } = await import("../src/channel.js");
+  for (const s of ["קיבלתי הודעה מהבנק: החשבון שלך ייחסם, שלחי את קוד האימות שקיבלת", "סבתא, זה אני הנכד. אני צריך שתעבירי לי כסף דחוף, אל תגידי לאבא",
+    "התקשרו מהבנק וביקשו שאתקין AnyDesk", "Hi grandma it's me, send money with gift cards and don't tell mom", "Your package is on hold, pay the fee at http://usps-track.info within 24 hours",
+    "זכית בפרס! היכנסי ל www.prize-il.top כדי לקבל"]) assert.ok(scamCheck(s).suspect, s);
+  for (const s of ["שילמתי לגנן היום", "הנכד שלי בא לבקר", "הלכתי לבנק להפקיד צ'ק", "I paid the electric bill today", "שכחתי את הסיסמה של הטלפון",
+    "היום יש לי תור דחוף לרופא", "I won at bridge today!", "צריך לשלם לבנק את המשכנתא", "נועה שלחה לי קישור לתמונות www.photos.com"]) assert.ok(!scamCheck(s).suspect, s);
+
+  const p = parent({ id: "scam1", name: "אנה", gender: "f" });
+  p.digest = { emails: ["dana@example.com"], lang: "he" };
+  await saveParent(p);
+  process.env.RESEND_API_KEY = "re_test"; resendCalls.length = 0;
+  const before = calls.length;
+  assert.deepEqual(await receive(p, "הודעה מהבנק: החשבון שלך ייחסם, שלחי את קוד האימות שקיבלת", webChannel), { handled: true });
+  assert.equal(calls.length, before);   // no model involved
+  let log = await getChat(p.id);
+  const warn = log.at(-1)!;
+  assert.equal(warn.kind, "scam");
+  assert.match(warn.text, /עצרי/); assert.match(warn.text, /קוד או לסיסמה/); assert.match(warn.text, /"כן" או "לא"/);
+  assert.ok(p.scamOffer);
+  assert.deepEqual(await receive(p, "כן", webChannel), { handled: true });
+  assert.equal(resendCalls.length, 1);
+  assert.deepEqual(resendCalls[0].body.to, ["dana@example.com"]);
+  assert.ok(!resendCalls[0].body.text.includes("קוד האימות שקיבלת"));   // the message itself stays private
+  assert.match((await getChat(p.id)).at(-1)!.text, /כתבתי למשפחה/);
+  assert.equal(p.scamOffer, undefined);
+  const r = await receive(p, "כן", webChannel);   // no open offer: an ordinary message
+  assert.equal(r.handled, false);
+  // no family email on file: the warning points to the primary contact instead of offering
+  const q = parent({ id: "scam2" });
+  await saveParent(q);
+  await receive(q, "Microsoft support says install AnyDesk now", webChannel);
+  assert.match((await getChat(q.id)).at(-1)!.text, /Dana \(\+12125550100\)|דנה|Dana/);
+  assert.equal(q.scamOffer, undefined);
+  // SOS still wins
+  await receive(q, "נפלתי, הבנק ביקש קוד", webChannel);
+  assert.equal((await getChat(q.id)).at(-1)!.kind, "sos");
+  // the family page lists SOS only
+  const { familyAlerts } = await import("../src/family.js");
+  assert.ok(familyAlerts(await getAlerts(), q.id).length === 1);
+  delete process.env.RESEND_API_KEY;
+});
+
 console.log(`${n} test groups passed`);

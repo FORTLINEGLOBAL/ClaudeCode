@@ -19,7 +19,9 @@ Reminders: an admin family link can set reminders (text, time in the parent's lo
 
 Weekly email: on the family page, up to 5 addresses and a language. Every Sunday at 09:00 in the parent's time zone the scheduled function emails the past 7 days: days with a conversation, message counts, check-ins answered or missed, last activity. Never message text. A "send a sample now" button tests it. It goes out through Resend (`RESEND_API_KEY`); to reach anyone other than the Resend account's own address, verify a domain in Resend and set `ALERT_FROM_EMAIL` to a sender on it.
 
-Not in this phase (see the plan): family logins with passkeys, the other digest categories and scam shield (phase 2), WhatsApp (phase 2b), and the real speech providers, which the phase 0 voice bake-off picks.
+Scam shield (`src/scam.ts`): when the parent pastes or describes a message with a scam pattern (a code or password with a bank or urgency, money with secrecy or urgency, a prize with a link, remote-access apps, or any three warning signs), the companion answers at once with a fixed warning. The warning lists the signs and says not to click, pay or share a code, and to call back on a number they already know. It is deterministic like SOS, with no model, and links are never opened. If the family has a weekly-email address, it offers to tell them. Only a "yes" sends an email, and it lists the warning signs, never the message itself. Each case is logged for the operator; the family page's SOS list is unaffected.
+
+Not in this phase (see the plan): family logins with passkeys, the other digest categories (phase 2), WhatsApp (phase 2b), and the real speech providers, which the phase 0 voice bake-off picks.
 
 ## Decisions in effect
 
