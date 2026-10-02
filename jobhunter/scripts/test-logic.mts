@@ -180,4 +180,72 @@ const job = (id: string): Job => ({ id, title: "VP Sales", company: "Acme", loca
   assert.deepEqual(harvest([], "funding"), [], "nothing attempted is not a failure");
 }
 
+// 13. Search parsing: the people hunters return nothing the moment this misreads a page,
+// and "no such people" must never look like "the page was declined".
+{
+  const { parseSearchHtml } = await import("../src/sources/search.js");
+  const FORM = '<form><input name="q" value="x"></form>';
+
+  // Classic markup, with DuckDuckGo's uddg= redirect wrapper around the real URL.
+  const classic = FORM + `<div class="result"><a class="result__a" href="//duckduckgo.com/l/?uddg=${encodeURIComponent("https://linkedin.com/in/jane-doe")}">Jane Doe - VP EMEA</a><div class="result__snippet">Leads EMEA</div></div>`;
+  const a = parseSearchHtml(classic);
+  assert.equal(a.verdict, "ok");
+  assert.equal(a.results[0].url, "https://linkedin.com/in/jane-doe", "must unwrap the redirect to the real profile");
+  assert.equal(a.results[0].snippet, "Leads EMEA");
+
+  // Newer markup: a different row class and a plain heading link.
+  const modern = FORM + '<div class="web-result"><h2><a href="https://linkedin.com/in/sam-lee">Sam Lee - CRO</a></h2></div>';
+  const b = parseSearchHtml(modern);
+  assert.equal(b.verdict, "ok", "a markup change must not silently empty the hunters");
+  assert.equal(b.results[0].url, "https://linkedin.com/in/sam-lee");
+
+  // A genuine no-match page still carries the search form.
+  assert.equal(parseSearchHtml(FORM + "<p>No results.</p>").verdict, "empty");
+
+  // Being declined is a different thing entirely, and must be distinguishable.
+  assert.equal(parseSearchHtml("<html><body>Please solve this CAPTCHA to continue</body></html>").verdict, "blocked");
+  assert.equal(parseSearchHtml("<html><body>unusual traffic from your network</body></html>").verdict, "blocked");
+
+  // Something else altogether is neither empty nor blocked.
+  assert.equal(parseSearchHtml("<html><body>nothing familiar here</body></html>").verdict, "unrecognised");
+
+  // Duplicate URLs across rows collapse to one.
+  const dupe = FORM + '<div class="result"><a class="result__a" href="https://x.com/a">A</a></div><div class="result"><a class="result__a" href="https://x.com/a">A again</a></div>';
+  assert.equal(parseSearchHtml(dupe).results.length, 1);
+}
+
+// 14. The prospecting funnel names where a company dropped out.
+{
+  const { prospectSummary } = await import("../src/hunters/people.js");
+  const out = prospectSummary([
+    { company: "Arcee", candidates: 0, picked: 0, drafted: 0, stopped: "no LinkedIn profiles found by search" },
+    { company: "Factory", candidates: 0, picked: 0, drafted: 0, stopped: "no LinkedIn profiles found by search" },
+    { company: "Tabby", candidates: 4, picked: 2, drafted: 2 },
+  ]);
+  assert.match(out, /3 companies prospected: 4 candidates found, 2 picked, 2 drafted/);
+  assert.match(out, /2x no LinkedIn profiles found by search/, "a repeated stall must be counted, not listed twice");
+  assert.equal(prospectSummary([]), "no companies were prospected");
+}
+
+// 15. Funding radar hygiene: only a handful of companies get prospected per run, so a
+// nameless entry or a duplicate of one already queued is budget thrown away.
+// Both came out of a real scan: "Arcee" + "Arcee AI", and an unnamed founder's startup.
+{
+  const { isUnprospectable, companyKey } = await import("../src/hunters/emerging.js");
+
+  for (const junk of ["Unnamed ex-HiSilicon chip chief's startup", "undisclosed startup", "Stealth mode company", "A stealth AI company", ""]) {
+    assert.ok(isUnprospectable(junk), `${junk || "(empty)"} cannot be prospected`);
+  }
+  for (const real of ["Arcee AI", "Tabby", "RedotPay", "Delos Data", "Factory"]) {
+    assert.equal(isUnprospectable(real), false, `${real} is a real target`);
+  }
+
+  assert.equal(companyKey("Arcee"), companyKey("Arcee AI"), "the same raise reported twice is one company");
+  assert.equal(companyKey("Delos Data"), companyKey("Delos Data, Inc."));
+  assert.equal(companyKey("Together"), companyKey("Together Labs"));
+  // Genuinely different companies must stay apart.
+  assert.notEqual(companyKey("Arcee"), companyKey("Arcade"));
+  assert.notEqual(companyKey("Factory"), companyKey("Factorial"));
+}
+
 console.log("all logic tests passed");

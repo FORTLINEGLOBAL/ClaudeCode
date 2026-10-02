@@ -3,6 +3,8 @@ import { huntEmerging } from "./hunters/emerging.js";
 import { huntBigLabs } from "./hunters/biglabs.js";
 import { buildDigest } from "./digest.js";
 import { startTrace, endTrace, traceSummary } from "./sources/http.js";
+import { startSearchTrace, endSearchTrace, searchSummary } from "./sources/search.js";
+import { startProspectTrace, endProspectTrace, prospectSummary } from "./hunters/people.js";
 import type { State } from "./store.js";
 
 // Runs all hunters. Returns the digest text when there is something new.
@@ -16,11 +18,15 @@ export async function runScan(state: State, opts: { force?: boolean } = {}): Pro
     try { return await p; } catch (e: any) { errors.push(`${name}: ${e?.message || e}`); return fallback; }
   };
   startTrace();
+  startSearchTrace();
+  startProspectTrace();
   const started = Date.now();
   const jobs = await safe("jobs", huntJobs(state), []);
   const emerging = await safe("emerging", huntEmerging(state), { companies: [], contacts: [] });
   const big = await safe("biglabs", huntBigLabs(state), { jobs: [], contacts: [] });
   const notes = endTrace();
+  const searches = endSearchTrace();
+  const prospects = endProspectTrace();
   const elapsed = Math.round((Date.now() - started) / 1000);
 
   const allJobs = [...jobs, ...big.jobs];
@@ -32,6 +38,7 @@ export async function runScan(state: State, opts: { force?: boolean } = {}): Pro
     fetches: notes.length, fetchesOk: notes.filter((n) => n.ok).length,
     jobs: allJobs.length, contacts: contacts.length, companies: emerging.companies.length,
     trace: traceSummary(notes), errors: errors.join(" | "),
+    search: searchSummary(searches), prospect: prospectSummary(prospects),
   };
 
   if (empty && !opts.force) return "";
@@ -42,6 +49,8 @@ export async function runScan(state: State, opts: { force?: boolean } = {}): Pro
       `Scan finished in ${elapsed}s. Nothing new.`,
       `Fetches: ${ok}/${notes.length} succeeded.`,
       notes.length ? traceSummary(notes) : "No fetches were made at all — that points at a code path, not the network.",
+      searches.length ? `Search: ${searchSummary(searches)}` : "",
+      prospects.length ? prospectSummary(prospects) : "",
       errors.length ? `Hunter errors: ${errors.join(" | ")}` : "",
       ok === 0 && notes.length ? "Every source failed. This is not an empty market, it is a broken feed." : "",
     ].filter(Boolean).join("\n\n");
@@ -56,6 +65,8 @@ export async function runScan(state: State, opts: { force?: boolean } = {}): Pro
     tally,
     emerging.companies.length ? `Funding radar: ${emerging.companies.map((c) => `${c.name} ($${Math.round((c.raisedUSD || 0) / 1e6)}M, ${c.hq})`).join(", ")}` : "",
     errors.length ? `Source errors: ${errors.join(" | ")}` : "",
+    // Companies found but nothing drafted is the interesting failure: say where it stopped.
+    !contacts.length && prospects.length ? `Why no DMs — ${prospectSummary(prospects)}\nSearch: ${searchSummary(searches)}` : "",
   ].filter(Boolean).join("\n");
   return buildDigest(state, allJobs, contacts, header);
 }
