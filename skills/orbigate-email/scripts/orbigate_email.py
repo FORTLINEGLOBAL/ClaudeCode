@@ -175,7 +175,7 @@ def _build(to, subject, body, cc=None, bcc=None, html=False, attach=None, header
     for k, v in (headers or {}).items():
         msg[k] = v
     inner = body if html else _text_to_html(body)
-    plain = re.sub(r"<[^>]+>", "", re.sub(r"(?i)<br\s*/?>|</p>", "\n", inner))
+    plain = re.sub(r"<[^>]+>", "", re.sub(r"(?i)<br\s*/?>", "\n", re.sub(r"(?i)</p>", "\n\n", inner)))
     msg.set_content(htmllib.unescape(plain).strip())
     msg.add_alternative(f"<html><body>{inner}{_signature()}</body></html>", subtype="html")
     for path in attach or []:
